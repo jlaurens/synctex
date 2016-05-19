@@ -1,0 +1,2 @@
+# synctex
+Synchronization for TeX
