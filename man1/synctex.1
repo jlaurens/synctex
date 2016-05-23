@@ -1,0 +1,34 @@
+.Dd 06/26/2013     \" DATE 
+.Dt synctex 1      \" Program name and manual section number 
+.Sh NAME
+.Nm synctex
+.Nd command line client tool to support the Synchronize TeXnology available in recent TeX engines.
+.Sh SYNOPSIS
+.Nm
+\fIcommand\fP [\fIoptions\fP] [\fIargs\fP]
+.Sh OVERVIEW
+The Synchronization TeXnology is a feature of recent TeX engines.
+It allows to synchronize between input and output,
+which means to navigate from the source document to the typeset material
+and vice versa.
+.Pp
+Run `synctex help' to access the built-in tool documentation.
+.Sh SEE ALSO 
+.\" List links in ascending order by section, alphabetically within a section.
+.\" Please do not reference files that do not exist without filing a bug report
+.Xr synctex 5 
+.Xr tex 1
+.Sh AUTHOR
+The Synchronize TeXnology is essentially due to Jerome Laurens,
+with useful suggestions by some well known actors of the TeX world.
+.\" .Sh BUGS              \" Document known, unremedied bugs 
+.Sh HISTORY           \" Document history if command behaves in a unique manner
+This document has never been updated.
+.\" nroff -man synctex.1 | less
+.\"groff -man -Tascii synctex.1 | less
+.\"To convert a man page to plain pre-formatted text (e.g for spell checking) use:
+.\"nroff -man synctex.1 | col -b > synctex.1.txt
+.\"To convert it to Postscript (for printing or further conversion to pdf) use:
+.\"groff -man -Tps synctex.1 > synctex.1.ps
+.\"To convert the man page to html use:
+.\"man2html synctex.1
