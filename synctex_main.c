@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 {
 	int arg_index = 1;
 	printf("This is SyncTeX command line utility, version " SYNCTEX_CLI_VERSION_STRING "\n");
-	if(arg_index<argc) {
+    if(arg_index<argc) {
 		if(0==strcmp("help",argv[arg_index])) {
 			if(++arg_index<argc) {
 				if(0==strcmp("view",argv[arg_index])) {
@@ -152,7 +152,6 @@ int main(int argc, char *argv[])
 	synctex_help("Missing options");
 	return 0;
 }
-
 static void synctex_usage(const char * error,va_list ap) {
 	if(error) {
 		fprintf(stderr,"SyncTeX ERROR: ");

@@ -94,10 +94,6 @@ Thu Jun 19 09:39:21 UTC 2008
 #include "synctex_parser.h"
 #include "synctex_parser_utils.h"
 
-/*  These are the possible extensions of the synctex file */
-const char * synctex_suffix = ".synctex";
-const char * synctex_suffix_gz = ".gz";
-
 /*  each synctex node has a class */
 typedef struct __synctex_class_t _synctex_class_t;
 typedef _synctex_class_t * synctex_class_t;
@@ -267,7 +263,8 @@ static void _synctex_free_leaf(synctex_node_t node) {
 	return;
 }
 #	ifdef	__SYNCTEX_WORK__
-#		include "/usr/include/zlib.h"
+#		include <zlib.h>
+//#		include "/usr/include/zlib.h"
 #	else
 #		include <zlib.h>
 #	endif

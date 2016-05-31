@@ -41,6 +41,7 @@ authorization from the copyright holder.
 
 /*  In this file, we find all the functions that may depend on the operating system. */
 
+
 #include <synctex_parser_utils.h>
 #include <stdlib.h>
 #include <string.h>
@@ -69,6 +70,10 @@ authorization from the copyright holder.
 #include <windows.h>
 #include <shlwapi.h> /* Use shlwapi.lib */
 #endif
+
+/*  These are the possible extensions of the synctex file */
+const char * synctex_suffix = ".synctex";
+const char * synctex_suffix_gz = ".gz";
 
 void *_synctex_malloc(size_t size) {
 	void * ptr = malloc(size);
