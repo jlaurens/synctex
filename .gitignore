@@ -26,3 +26,7 @@ synctex.test
 synctex.pc.in
 
 synctex.h
+
+DerivedData/*
+
+*xcodeproj*

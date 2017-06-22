@@ -44,11 +44,12 @@ authorization from the copyright holder.
  *  The problem mainly comes from file name management: path separator, encoding...
  */
 
-#	define synctex_bool_t int
-#	define synctex_YES -1
+typedef int synctex_bool_t;
+#	define synctex_YES (0==0)
+#	define synctex_NO (0==1)
+
 #	define synctex_ADD_QUOTES -1
 #	define synctex_COMPRESS -1
-#	define synctex_NO 0
 #	define synctex_DONT_ADD_QUOTES 0
 #	define synctex_DONT_COMPRESS 0
 
@@ -84,6 +85,10 @@ extern "C" {
 /*  This custom malloc functions initializes to 0 the newly allocated memory.
  *  There is no bzero function on windows. */
 void *_synctex_malloc(size_t size);
+
+/*  To balance _synctex_malloc.
+ *  ptr might be NULL.   */
+void _synctex_free(void * ptr);
 
 /*  This is used to log some informational message to the standard error stream.
  *  On Windows, the stderr stream is not exposed and another method is used.
