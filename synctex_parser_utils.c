@@ -41,7 +41,6 @@ authorization from the copyright holder.
 
 /*  In this file, we find all the functions that may depend on the operating system. */
 
-
 #include <synctex_parser_utils.h>
 #include <stdlib.h>
 #include <string.h>
@@ -71,17 +70,18 @@ authorization from the copyright holder.
 #include <shlwapi.h> /* Use shlwapi.lib */
 #endif
 
-/*  These are the possible extensions of the synctex file */
-const char * synctex_suffix = ".synctex";
-const char * synctex_suffix_gz = ".gz";
-
 void *_synctex_malloc(size_t size) {
-	void * ptr = malloc(size);
-	if(ptr) {
-/*  There used to be a switch to use bzero because it is more secure. JL */
-		memset(ptr,0, size);
-	}
-	return (void *)ptr;
+    void * ptr = malloc(size);
+    if(ptr) {
+        memset(ptr,0, size);
+    }
+    return (void *)ptr;
+}
+
+void _synctex_free(void * ptr) {
+    if (ptr) {
+        free(ptr);
+    }
 }
 
 int _synctex_error(const char * reason,...) {
@@ -255,8 +255,8 @@ const char * _synctex_last_path_component(const char * name) {
 }
 
 int _synctex_copy_with_quoting_last_path_component(const char * src, char ** dest_ref, size_t size) {
-  const char * lpc;
   if(src && dest_ref) {
+      const char * lpc;
 #		define dest (*dest_ref)
 		dest = NULL;	/*	Default behavior: no change and sucess. */
 		lpc = _synctex_last_path_component(src);
@@ -401,7 +401,6 @@ int _synctex_get_name(const char * output, const char * build_directory, char **
 				if(NULL == (dir_name = (char *)malloc(size+1))) {
 					_synctex_error("!  _synctex_get_name: Memory problem");
 					free(core_name);
-					dir_name = NULL;
 					return -1;
 				}
 				if(dir_name != strncpy(dir_name,output,size)) {
@@ -502,6 +501,17 @@ int _synctex_get_name(const char * output, const char * build_directory, char **
 #			undef CLEAN_AND_REMOVE
             /* set up the returned values */
             * synctex_name_ref = synctex_name;
+            /* synctex_name won't always end in .gz, even when compressed. */
+            FILE * F = fopen(synctex_name, "r");
+            if (F != NULL) {
+                if (!feof(F)
+                && 31 == fgetc(F)
+                && !feof(F)
+                && 139 == fgetc(F)) {
+                    io_mode = synctex_compress_mode_gz;
+                }
+                fclose(F);
+            }
             * io_mode_ref = io_mode;
 			return 0;
 		}
