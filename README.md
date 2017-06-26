@@ -2,9 +2,10 @@
 
 Synchronization for TeX
 
-This is a partial clone of synctexdir in the TeXLive svn repository.
-The focus is on the client code for synchronization between text editor and pdf viewer.
-Instructions below are given to build the synctex command line tool on various operating systems.
+This is a partial clone of synctexdir in the TeXLive svn repository, see the online [TeXLive repository](http://www.tug.org/svn/texlive/trunk/Build/source/texk/web2c/synctexdir/).
+
+The focus here is on the client side code for synchronization between text editor and pdf viewer.
+Instructions below are given to build the `synctex` command line tool on possibly various operating systems.
 
 ## Clone
 Clone the git repository 
