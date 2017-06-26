@@ -1,16 +1,15 @@
 /*
- Copyright (c) 2008, 2009, 2010 , 2011 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
  
- This file is part of the SyncTeX package.
+ This file is part of the __SyncTeX__ package.
  
- Latest Revision: Tue Jun 14 08:23:30 UTC 2011
+ [//]: # (Latest Revision: Thu Mar  9 21:26:27 UTC 2017)
+ [//]: # (Version: 1.19)
  
- Version: 1.19
+ See `synctex_parser_readme.md` for more details
  
- See synctex_parser_readme.txt for more details
+ ## License
  
- License:
- --------
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
  files (the "Software"), to deal in the Software without
@@ -37,20 +36,16 @@
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
  
- Acknowledgments:
- ----------------
- The author received useful remarks from the pdfTeX developers, especially Hahn The Thanh,
- and significant help from XeTeX developer Jonathan Kew
+ ## Acknowledgments:
  
- Nota Bene:
- ----------
- If you include or use a significant part of the synctex package into a software,
- I would appreciate to be listed as contributor and see "SyncTeX" highlighted.
+ The author received useful remarks from the __pdfTeX__ developers, especially Hahn The Thanh,
+ and significant help from __XeTeX__ developer Jonathan Kew.
  
- Version 1
- Thu Jun 19 09:39:21 UTC 2008
+ ## Nota Bene:
  
- */
+ If you include or use a significant part of the __SyncTeX__ package into a software,
+ I would appreciate to be listed as contributor and see "__SyncTeX__" highlighted.
+*/
 
 #ifndef __SYNCTEX_PARSER__
 #   define __SYNCTEX_PARSER__

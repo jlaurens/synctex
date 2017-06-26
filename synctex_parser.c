@@ -107,13 +107,9 @@
 #endif
 
 #include "synctex_parser_private.h"
-
 SYNCTEX_INLINE static int _synctex_abs(int x) {
     return x>0? x: -x;
 }
-/*  These are the possible extensions of the synctex file */
-const char * synctex_suffix = ".synctex";
-const char * synctex_suffix_gz = ".gz";
 
 typedef synctex_node_p(*synctex_node_new_f)(synctex_scanner_p);
 typedef void(*synctex_node_fld_f)(synctex_node_p);
@@ -337,7 +333,6 @@ void synctex_node_free(synctex_node_p node) {
 #       pragma mark -
 #       pragma mark Tree SETGET
 #   endif
-
 #if SYNCTEX_DEBUG > 1000
 #define DEFINE_SYNCTEX_TREE_HAS(WHAT)\
 static synctex_bool_t _synctex_tree_has_##WHAT(synctex_node_p node) {\
@@ -463,7 +458,7 @@ static void _synctex_free_leaf(synctex_node_p node) {
     }
     return;
 }
-#	ifdef	__SYNCTEX_WORK__
+#	ifdef	__SYNCTEX_ZLIB__
 #		include "/usr/include/zlib.h"
 #	else
 #		include <zlib.h>

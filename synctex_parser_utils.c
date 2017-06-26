@@ -3,10 +3,10 @@ Copyright (c) 2008, 2009, 2010 , 2011 jerome DOT laurens AT u-bourgogne DOT fr
 
 This file is part of the SyncTeX package.
 
-Latest Revision: Tue Jun 14 08:23:30 UTC 2011
-
-Version: 1.18
-
+Latest Revision: Thu Mar  9 21:26:27 UTC 2017
+ 
+Version: 1.19
+ 
 See synctex_parser_readme.txt for more details
 
 License:
@@ -69,6 +69,10 @@ authorization from the copyright holder.
 #include <windows.h>
 #include <shlwapi.h> /* Use shlwapi.lib */
 #endif
+
+/*  These are the possible extensions of the synctex file */
+const char * synctex_suffix = ".synctex";
+const char * synctex_suffix_gz = ".gz";
 
 void *_synctex_malloc(size_t size) {
     void * ptr = malloc(size);
