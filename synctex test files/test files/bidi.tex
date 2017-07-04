@@ -1,0 +1,21 @@
+\documentclass{minimal}
+\usepackage{bidi}
+\begin{document}
+This is typeset by \textsf{bidi} package, \bidiversion, \bididate.
+\setRTL%
+Anyone who reads Old and Middle English literary texts will be familiar with the mid-brown volumes of the EETS, with the symbol of Alfred's jewel embossed on the front cover.
+\setLTR%Noticetheblanklinebefore\setLTR
+Anyone who reads Old and Middle English literary texts will be familiar with the mid-brown volumes of the EETS, with the symbol of Alfred's jewel embossed on the front cover.
+\begin{RTL}
+Anyone who reads Old and Middle English \RLE{Short RTL text} literary texts will be familiar
+ with the mid-brown volumes of the EETS \hbox{1 2 3}, with the symbol
+ of Alfred's jewel embossed on the front cover.
+\begin{LTR}
+Anyone who reads Old and Middle English \RLE{Short RTL text} literary texts will be familiar
+ with the mid-brown volumes of the EETS \hbox{1 2 3}, with the symbol
+ of Alfred's jewel embossed on the front cover.
+\end{LTR}
+And we are still typesetting RTL.
+\end{RTL}
+
+\end{document}

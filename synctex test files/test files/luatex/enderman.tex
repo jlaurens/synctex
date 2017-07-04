@@ -1,0 +1,266 @@
+% Enderman
+% Author: István Szántai (szantaii)
+\documentclass[tikz]{standalone}
+%%%<
+\usepackage{verbatim}
+%%%>
+\begin{comment}
+:Title: Enderman
+:Tags: Random;3D;LuaTeX;Games;Fun
+:Author: István Szántai
+:Slug: enderman
+
+Endermen are mysterious creepy creatures in the game Minecraft.
+Staring at them can trigger an attack, so be careful with this code.
+
+http://minecraft.gamepedia.com/Enderman
+
+Lua was chosen for easier programming, so LuaLaTeX is required.
+tikz‑3dplot is used for 3d visualization.
+
+http://sidenote.hu/2014/07/20/drawing-an-enderman-in-latex/
+\end{comment}
+\usepackage{luacode}
+\usepackage{tikz-3dplot}
+
+\definecolor{endermanblack}{HTML}{000000}
+\definecolor{endermangray}{HTML}{161616}
+%\definecolor{endermanpurple}{HTML}{CC00FA}
+%\definecolor{endermanlightpurple}{HTML}{E079FA}
+\definecolor{endermanpurple}{HTML}{FF9EFF}
+\definecolor{endermanlightpurple}{HTML}{FFC9FF}
+\definecolor{particlecolor}{HTML}{DF4AF8}
+
+\begin{luacode*}
+    function draw_coordinate_system()
+        tex.sprint("\\draw[white!50!gray,thick,->] (0,0,0) -- " ..
+            "(3,0,0) node[text=white!50!gray,anchor=north east]{$x$};")
+        tex.sprint("\\draw[white!50!gray,thick,->] (0,0,0) -- " ..
+            "(0,3,0) node[text=white!50!gray,anchor=west]{$y$};")
+        tex.sprint("\\draw[white!50!gray,thick,->] (0,0,0) -- " ..
+            "(0,0,3) node[text=white!50!gray,anchor=south]{$z$};")
+    end
+    
+    function matrix_scalar_multiplication(matrix, scalar)
+        local rows = #matrix
+        local cols = #matrix[1]
+        local tmp_matrix = {}
+        
+        for i = 1, rows do
+            tmp_matrix[i] = {}
+            for j = 1, cols do
+                tmp_matrix[i][j] = matrix[i][j] * scalar
+            end
+        end
+        
+        return tmp_matrix
+    end
+    
+    function shift_coordinates(matrix, array)
+        local matrix_rows = #matrix
+        local matrix_cols = #matrix[1]
+        local array_length = #array
+        local tmp_matrix = {}
+        
+        if matrix_cols == array_length then
+            for i = 1, matrix_rows do
+                tmp_matrix[i] = {}
+                for j = 1, matrix_cols do
+                    tmp_matrix[i][j] = matrix[i][j] + array[j]
+                end
+            end
+            
+            return tmp_matrix
+        else
+            return nil
+        end
+    end
+    
+    function tikzcube(x, y, z, color)
+        local side_1 = {{1, 1, -1},
+            {-1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1}}
+        local side_2 = {{-1, 1, -1},
+            {-1, 1, 1},
+            {-1, -1, 1},
+            {-1, -1, -1}}
+        local side_3 = {{-1, -1, -1},
+            {1, -1, -1},
+            {1, -1, 1},
+            {-1, -1, 1}}
+        local side_4 = {{1, 1, -1},
+            {-1, 1, -1},
+            {-1, 1, 1},
+            {1, 1, 1}}
+        local side_5 = {{1, -1, -1},
+            {1, 1, -1},
+            {1, 1, 1},
+            {1, -1, 1}}
+        local side_6 = {{1, 1, 1},
+            {-1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1}}
+        local cube_sides = {side_1, side_2, side_3, side_4, side_5, side_6}
+        local tex_cube = ""
+        
+        for i = 1, #cube_sides do
+            tex_cube = tex_cube ..
+                "\\draw[ultra thin, fill=" .. color .. "] "
+            
+            local current_side = matrix_scalar_multiplication(cube_sides[i],
+                0.5)
+            current_side = shift_coordinates(current_side, {x, y, z})
+            
+            local current_side_rows = #current_side
+            local current_side_cols = #current_side[1]
+            
+            for j = 1, current_side_rows do
+                for k = 1, current_side_cols do
+                    if k == 1 then
+                        tex_cube = tex_cube .. "("
+                    end
+                    
+                    tex_cube = tex_cube .. current_side[j][k]
+                    
+                    if k ~= current_side_cols then
+                        tex_cube = tex_cube .. ", "
+                    else
+                        tex_cube = tex_cube .. ") -- "
+                    end
+                end
+            end
+            
+            tex_cube = tex_cube .. "cycle;"
+            
+        end
+        
+        tex.sprint(tex_cube)
+    end
+    
+    function draw_head(x_pos, y_pos, z_pos)
+        local color
+        for x = x_pos, x_pos + 7, 1 do
+            for y = y_pos, y_pos + 7, 1 do
+                for z = z_pos, z_pos + 6, 1 do
+                    if (x == x_pos or x == x_pos + 7 or
+                        y == y_pos or y == y_pos + 7 or
+                        z == z_pos or z == z_pos + 6) and
+                        not (x == x_pos + 7 and y > y_pos
+                            and y < y_pos + 7 and z == z_pos) then
+                        
+                        if x == x_pos + 7 and
+                            (y == y_pos or y == y_pos + 2 or
+                            y == y_pos + 5 or y == y_pos + 7) and
+                            z == z_pos + 2 then
+                            
+                            tikzcube(x, y, z, "endermanlightpurple")
+                        elseif x == x_pos + 7 and
+                            (y == y_pos + 1 or y == y_pos + 6) and
+                            z == z_pos + 2 then
+                            
+                            tikzcube(x, y, z, "endermanpurple")
+                        else
+                            if math.random(0, 8) < 6 then
+                                color = "endermangray"
+                            else
+                                color = "endermanblack"
+                            end
+                            tikzcube(x, y, z, color)
+                        end
+                    end
+                end
+            end
+        end
+    end
+    
+    function draw_bodypart(x_pos, y_pos, z_pos, x_length, y_length, z_length)
+        local color
+        for x = x_pos, x_pos + x_length - 1, 1 do
+            for y = y_pos, y_pos + y_length - 1, 1 do
+                for z = z_pos, z_pos + z_length - 1, 1 do
+                    if x == x_pos or x == x_pos + x_length - 1 or
+                        y == y_pos or y == y_pos + y_length - 1 or
+                        z == z_pos or z == z_pos + z_length - 1 then
+                        
+                        if math.random(0, 8) < 6 then
+                            color = "endermangray"
+                        else
+                            color = "endermanblack"
+                        end
+                        tikzcube(x, y, z, color)
+                    end
+                end
+            end
+        end
+    end
+    
+    function draw_particles(x_min, x_max, y_min, y_max, z_min, z_max)
+        local x
+        local y
+        local z
+        local black_amount
+        local particle_size
+        local particle_scale
+        local particle_count = math.random(30, 40)
+        local particle
+        
+        for i = 1, particle_count, 1 do
+            
+            x = math.random(x_min, x_max)
+            y = math.random(y_min, y_max)
+            z = math.random(z_min, z_max)
+            
+            particle_size = math.random(1, 8)
+            particle_scale = math.random(20, 100) / 100
+            black_amount = math.random(0, 25)
+            
+            tex.sprint("\\tdplottransformmainscreen{" .. x .. "}{" .. y ..
+                "}{" .. z .. "}")
+            for i = 0, particle_size - 1, 1 do
+                for j = 0, particle_size - 1, 1 do
+                    if math.random(0, 1) == 0 and
+                        ((i ~= 0 and j ~= 0) and
+                        (i ~= particle_size - 1 and j ~= 0) and
+                        (j ~= particle_size - 1 and i ~= 0) and
+                        (i ~= particle_size - 1 and j ~= particle_size - 1))
+                            then
+                        
+                        particle = "\\filldraw[black!" .. black_amount ..
+                            "!particlecolor, tdplot_screen_coords] (" ..
+                            i * particle_scale * 0.25 .. "+\\tdplotresx, " ..
+                            j * particle_scale * 0.25 .. "+\\tdplotresy) " ..
+                            "rectangle +(" .. particle_scale .. "*0.25, " ..
+                            particle_scale .. "*0.25);"
+                        
+                        tex.sprint(particle)
+                    end
+                end
+            end
+        end
+    end
+    
+    function draw_enderman(x_rotation, z_rotation)
+        tex.sprint("\\tdplotsetmaincoords{" .. x_rotation .. "}{" ..
+            z_rotation .. "}")
+        tex.sprint("\\begin{tikzpicture}[tdplot_main_coords]")
+        
+        math.randomseed(os.time())
+        
+        draw_bodypart(3, -2, -30, 2, 2, 30) -- right arm
+        draw_bodypart(3, 1, -42, 2, 2, 30) -- right leg
+        draw_bodypart(3, 5, -42, 2, 2, 30) -- left leg
+        draw_bodypart(2, 0, -12, 4, 8, 12) -- body
+        draw_bodypart(3, 8, -30, 2, 2, 30)-- left arm
+        draw_head(0, 0, 0) -- head
+        
+        draw_particles(-10, 10, -10, 10, -44, 10)
+        -- draw_coordinate_system()
+        
+        tex.sprint("\\end{tikzpicture}")
+    end
+\end{luacode*}
+
+\begin{document}
+\luadirect{draw_enderman(70, 130)}
+\end{document}

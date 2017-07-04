@@ -65,7 +65,7 @@ This is the command line interface to the synctex_parser.c.
 #       define _ISOC99_SOURCE /* to get the fmax() prototype */
 #   endif
 
-#   ifdef __SYNCTEX_WORK__
+#   ifdef SYNCTEX_WORK
 #       include <synctex_parser_c-auto.h>
 /*      for inline && HAVE_xxx */
 #   else
@@ -395,7 +395,7 @@ int synctex_view_proceed(synctex_view_params_t * Ps) {
 	scanner = synctex_scanner_new_with_output_file(Ps->output,Ps->directory,1);
 	if(scanner && synctex_display_query(scanner,Ps->input,Ps->line,Ps->column,Ps->page)) {
 		synctex_node_p node = NULL;
-		if((node = synctex_next_result(scanner)) != NULL) {
+		if((node = synctex_scanner_next_result(scanner)) != NULL) {
 			/* filtering the command */
 			if(Ps->viewer && strlen(Ps->viewer)) {
 				char * viewer = Ps->viewer;
@@ -510,7 +510,7 @@ int synctex_view_proceed(synctex_view_params_t * Ps) {
 							Ps->offset,
 							(Ps->middle?Ps->middle:""),
 							(Ps->after?Ps->after:""));
-				} while((node = synctex_next_result(scanner)) != NULL);
+				} while((node = synctex_scanner_next_result(scanner)) != NULL);
 				puts("SyncTeX result end");
 			}
 		}
@@ -683,7 +683,7 @@ int synctex_edit_proceed(synctex_edit_params_t * Ps) {
 	if(synctex_edit_query(scanner,Ps->page,Ps->x,Ps->y)) {
 		synctex_node_p node = NULL;
 		const char * input = NULL;
-		if(NULL != (node = synctex_next_result(scanner))
+		if(NULL != (node = synctex_scanner_next_result(scanner))
 				&& NULL != (input = synctex_scanner_get_name(scanner,synctex_node_tag(node)))) {
 			/* filtering the command */
 			if(Ps->editor && strlen(Ps->editor)) {
@@ -773,7 +773,7 @@ int synctex_edit_proceed(synctex_edit_params_t * Ps) {
 							synctex_node_column(node),
 							Ps->offset,
 							(Ps->context?Ps->context:""));
-				} while((node = synctex_next_result(scanner)) != NULL);
+				} while((node = synctex_scanner_next_result(scanner)) != NULL);
 				puts("SyncTeX result end");
 			}
 		}

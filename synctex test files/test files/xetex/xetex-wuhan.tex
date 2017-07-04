@@ -1,0 +1,745 @@
+%!TEX TS-program = xetex
+%!TEX encoding = UTF-8 Unicode
+% typeset from command line with
+%   xetex -papersize=512,384 xetex-wuhan
+% to get correct-sized media
+
+\TeXXeTstate=1
+\hoffset=-1in
+\voffset=-1in
+\newdimen\width \width=512bp
+\newdimen\height \height=384bp
+
+\def\plainoutput{\shipout\vbox to \height{\hrule\vss
+ \hbox to \width{\vrule \hfil
+  \vbox to \height {\makeheadline \pagebody \makefootline \vfil}\hfil\vrule}\vss\hrule}
+ \advancepageno \ifnum 
+ \outputpenalty >-20000 \else \dosupereject \fi}
+
+\def\={\output={\partialslideout}\vfill\eject \output={\plainoutput}}
+\def\partialslideout{\setbox\savepage=\vbox{\unvcopy255\unskip}\plainoutput
+ \global\output={\plainoutput}\unvbox\savepage}
+\newbox\savepage
+
+\let\=\relax % comment out this to get progressively-revealed slides
+
+\raggedbottom
+\frenchspacing
+
+\vsize=0.91\height
+\dimen0=\smallskipamount
+\parskip=\dimen0
+\rightskip=0pt plus 2in
+\hyphenpenalty=1000
+\catcode`\_=12
+
+\def\fontfam{Brioso Pro}
+
+\font\A="\fontfam/S=18:color=000066;mapping=tex-text" at 36pt
+\font\B="\fontfam/S=14:color=660000;mapping=tex-text" at 24pt
+\font\C="\fontfam/S=11:mapping=tex-text" at 20pt
+\font\Cw="\fontfam/S=11:color=FFFFFF;mapping=tex-text" at 20pt
+\font\D="\fontfam/S=9" at 16pt
+\font\E="\fontfam/S=5.5:mapping=tex-text" at 11pt
+\font\Ew="\fontfam/S=14:color=FFFFFF;mapping=tex-text" at 11pt
+\font\EwOrd="\fontfam/S=14:color=FFFFFF;mapping=tex-text;+ordn" at 11pt
+\font\it="\fontfam/S=9/I:mapping=tex-text" at 16pt
+\font\verbfont="Andale Mono WT J:color=000066" at 13pt
+
+\def\slide#1{\vfill\eject
+  \line{\hss \special{x:rulecolor=000066}\vrule height 30pt width \width\special{x:rulecolor}\hss}
+  \vskip-26pt\line{\Cw \runheadtext\hfil}
+  \vskip16pt\line{\B #1\hfil}}
+
+\def\item{\par\kern\smallskipamount
+  \C \noindent \hbox to \parindent{\hfil • }\hangindent\parindent \hangafter1 }
+\def\subitem{\par\D \noindent \hbox to 2\parindent{\hfil • }\hangindent2\parindent \hangafter1 }
+
+% adjust the TeX and LaTeX logos to look better in Adobe Garamond Pro / Brioso Pro
+\def\TeX{\leavevmode$\smash{\hbox{T\kern-.1667em\lower.5ex\hbox{E}\kern-.125em X}}$}
+\def\LaTeX{\leavevmode$\smash{\hbox{L\raise.4ex\hbox{\kern-.25em
+   \special{x:gsave}\special{x:scale .72 .72}A\special{x:grestore}\kern-.3333em}\TeX}}$}
+
+% define the XeTeX logo
+\def\reflect#1{{\setbox0=\hbox{#1}\rlap{\kern0.5\wd0
+  \special{x:gsave}\special{x:scale -1 1}}\box0 \special{x:grestore}}}
+\def\XeTeX{\leavevmode$\smash{\hbox{X\lower.5ex
+  \hbox{\kern-.125em\reflect{E}}\kern-.1667em \TeX}}$}
+
+\def\TeXgX{\leavevmode$\smash{\hbox{\TeX
+  \lower.5ex\hbox{\kern-.15em G}\kern-.1667em X}}$}
+
+% for literal text
+\catcode`\|=\active
+\def|{\begingroup\def\do##1{\catcode`##1=12 }\dospecials \verbatim}
+\def\verbatim#1|{\verbfont #1\endgroup}
+
+\def\red{\aftergroup\resetcolor
+  \special{color push rgb 0.4 0.0 0.0}}
+\def\green{\aftergroup\resetcolor
+  \special{color push rgb 0.0 0.4 0.0}}
+\def\resetcolor{\special{color pop}}
+\catcode`\•=\active \def•#1•{{\red #1}}
+\catcode`\«=\active \def«#1»{{\green #1}}
+
+
+\footline={%
+  \vbox to 0pt{\vss\line{\hss \special{x:rulecolor=000066}\vrule height 15pt width \width\special{x:rulecolor}\hss}
+   \vskip-29pt\line{\Ew TUG2005 Conference
+   \hfil Wuhan, China, August 2005}\vskip-9pt}}
+
+\vglue1in
+\special{x:gsave}
+\special{x:colorshadow(2,-2),0.8,00006666}
+\centerline{\A \XeTeX: the Multilingual Lion}
+\special{x:grestore}
+\medskip
+\centerline{\B \TeX\ meets Unicode and smart fonts}
+\bigskip
+\bigskip
+\centerline{\D Jonathan Kew}
+\smallskip
+\centerline{\D SIL International}
+\bigskip
+\centerline{\E August 23, 2005}
+
+\font\T="TeXLogo:color=000099" at 125pt
+\vbox to 0pt{\kern-1.2in
+\special{x:gsave}
+\special{x:colorshadow(2,-2),0.8,00006666}
+\rightline{\T A\kern.5in}
+\special{x:grestore}
+\vss}
+\vbox to 0pt{\kern-1.25in
+\leftline{\kern.5in\XeTeXpicfile "unicode-book.jpg" width 1.3in}
+\vss}
+
+\def\section#1{\def\runheadtext{#1}}
+\section{An introduction to \XeTeX}
+
+\slide{What is \XeTeX?}
+\item \TeX\ typesetting engine
+\subitem including e-\TeX\ extensions
+\=
+\item Supporting the Unicode character set
+\subitem inherently multilingual/multiscript typesetting system
+\subitem greatly simplifies language support at macro level
+\=
+\item Using modern font technologies
+\subitem TrueType, OpenType (all fonts supported by platform)
+\=
+\item With “smart rendering” support
+\subitem Apple Advanced Typography
+\subitem OpenType Layout features
+\subitem for typographic features and complex scripts
+
+\section{Unicode support}
+
+\slide{Multilingual typesetting with \TeX}
+\item Text input
+\subitem escape sequences for non-ASCII characters
+\subitem multiple 8-bit and double-byte codepages
+\subitem use of active characters
+\subitem preprocessors for complex scripts 
+\=
+\item Font support
+\subitem fonts limited to 256 glyphs
+\subitem custom-encoded fonts with specific glyph sets
+\subitem many different font encodings in use
+\=
+\item All tied together via complex \TeX\ macros
+\subitem difficult to understand and extend
+\subitem difficult to integrate with other packages
+
+\slide{Traditional \TeX\ input conventions}
+\item Input text is ASCII (or 8-bit codepage)
+\bigskip
+\font\example="Gentium:color=660000;mapping=tex-text" at 20pt
+\font\dn="Devanagari MT:color=660000" at 20pt
+\halign{\hfil#\hfil\kern20pt&\hfil\example#\hfil\kern20pt&\it#\hfil\cr
+\noalign{\hrule\smallskip}
+\it Source text&\it Typeset output&\it Notes\cr
+\noalign{\smallskip\hrule\smallskip}
+|\'{a}|&á&typical accent command\cr
+|\c{c}|&ç\cr
+|\aa|&å\cr
+|---|&---&ligature in typical \TeX\ fonts\cr
+|$\alpha$|&α&math mode symbol\cr
+|{\dn acchaa}|&\char32$\smash{\hbox{\dn अच्छा}}$\char32&using custom preprocessor\cr
+}
+
+\slide{Typesetting Unicode text with \XeTeX}
+\item Accented characters
+\subitem many more than in any legacy codepage
+\bigskip
+\line{\hfil
+\vtop{\obeylines\parindent0pt\hsize=.6\hsize
+|\halign{#\hfil\quad&|
+| #\hfil\cr|
+|dan&    dan\cr|
+|dubok&  dubok\cr|
+|džabe&  đak\cr|
+|džin&   džabe\cr|
+|Džin&   džin\cr|
+|đak&    Džin\cr|
+|Evropa& Evropa\cr}|
+}\hfil
+\vtop{\hsize=.4\hsize
+\font\txt="Gentium:color=660000" at 20pt \txt
+\halign{#\hfil\quad&#\hfil\cr
+dan&    dan\cr
+dubok&  dubok\cr
+džabe&  đak\cr
+džin&   džabe\cr
+Džin&   džin\cr
+đak&    Džin\cr
+Evropa& Evropa\cr}
+}\hfil}
+
+\slide{Typesetting Unicode text with \XeTeX}
+\item CJK ideographs
+\subitem they’re just more characters, no special effort required
+\font\han="STSong:color=660000" at 24pt
+\bigskip
+\line{\hfil
+\vtop{\obeylines\parindent0pt\hsize=.7\hsize
+|\font\han="STSong" at 16pt|
+|\font\rom="Gentium" at 8pt|
+|\def\hc#1#2{\vtop{\hbox{\han #1}|
+| \hbox{\kern10pt\rom #2}}}|
+|\vtop{\hc{書く}{ka-ku}|
+| \hc{最も}{motto-mo}|
+| \hc{最後}{sai-go}|
+| \hc{働く}{hatara-ku}|
+| \hc{海}{umi}}|}\hfil
+\vtop{\hsize=.3\hsize
+\font\rom="Gentium:color=006600" at 16pt
+\def\hc#1#2{\vtop{\hbox{\han #1}
+ \hbox{\kern10pt\rom #2}}}
+\vtop{\hc{書く}{ka-ku}
+ \hc{最も}{motto-mo}
+ \hc{最後}{sai-go}
+ \hc{働く}{hatara-ku}
+ \hc{海}{umi}}
+}\hfil}
+
+\slide{Typesetting Unicode text with \XeTeX}
+\item Complex scripts
+\subitem just simple character data in the source file
+
+\line{\vtop{\hsize=0.6\hsize \obeylines%
+|\c 1|
+|\s ‭دنيا ‭جي ‭پيدائش|
+|\p|
+|\v ‭1 ‭شروعات ‭۾ ‭خدا ‭زمين ‭۽|
+|‭آسمان ‭کي ‭پيدا ‭ڪيو. ‭|
+|\v ‭2 ‭ان ‭وقت ‭زمين ‭بي​ترتيب|
+|‭۽ ‭ويران ‭هئي. ‭اونهي ‭سمنڊ|
+|جو ‭مٿاڇرو ‭اوندهہ ‭سان ‭ڍڪيل ‭هو|
+|‭۽ ‭پاڻئَ ‭جي ‭مٿان ‭خدا|
+|جي ‭روح ‭ڦيرا ‭پئي ‭ڪي|
+|\v ‭3 ‭تڏهن ‭خدا ‭حڪم ‭ڏنو ‭تہ ‭”روشني|
+|‭ٿئي.“ ‭سو ‭روشني ‭ٿي ‭پيئي. ‭|
+}\hfil
+\vtop{\hsize=0.35\hsize \rightskip=0pt
+\font\sfont="Geeza Pro Bold" at 14pt
+\font\txfont="Scheherazade-AAT:Alternate forms=Sindhi meem" at 15pt \txfont
+\font\cfont="Geeza Pro Bold" at 32pt
+\font\vfont="Scheherazade" at 11pt
+\baselineskip=16pt \lineskiplimit=-10pt
+\line{\hfil \special{x:gsave}\special{x:scale 1.25 1.25}\special{x:textcolor=660000}}\nointerlineskip
+\centerline{\sfont دنيا جي پيدائش}
+\smallskip
+\def\v #1 {\leavevmode\raise3pt\hbox{\vfont #1}\kern2pt}
+\setbox0=\hbox{\cfont ١\kern2pt}
+\noindent\beginR\hangindent-\wd0 \hangafter -2
+\setbox0=\hbox{\kern-\wd0\lower1.1\baselineskip\box0}\dp0=0pt \box0
+\v ١ شروعات ۾ خدا زمين ۽ آسمان کي پيدا ڪيو. 
+\v ٢ ان وقت زمين بي​ترتيب ۽ ويران هئي. اونهي سمنڊ
+جو مٿاڇرو اوندهہ سان ڍڪيل هو ۽ پاڻئَ جي مٿان خدا
+جي روح ڦيرا پئي ڪي
+\v ٣ تڏهن خدا حڪم ڏنو تہ ”روشني ٿئي.“ سو روشني ٿي پيئي. 
+}\special{x:grestore}\special{x:textcolor}}
+
+\slide{Typesetting Unicode text with \XeTeX}
+\item Vertical text \special{x:textcolorpush}\special{x:textcolor=888888}(not fully supported)\special{x:textcolorpop}
+\font\mon="Code2000:script=mong;color=660000" at 18pt
+
+\line{\vtop{\hsize=0.8\hsize \obeylines%
+|\font\mon="Code2000:script=mong" at 18pt|
+|\setbox0=\vbox{|
+| \hsize=3.6in \baselineskip=20pt|
+| \parindent=-12pt \leftskip=12pt|
+|\revpar \mon|
+|ᠥᠪᠥᠷ ᠮᠣᠩᠭᠣᠯ ᠤᠨ ᠡᠯ᠎ᠡ ᠴᠢᠭᠤᠯᠭᠠᠨ ᠤ ᠨᠡᠷᠡᠰ ᠦᠨ ᠢᠷᠡᠯᠲᠡ|
+|ᠥᠪᠥᠷ ᠮᠣᠩᠭᠣᠯ ᠤᠨ ᠡᠯ᠎ᠡ ᠴᠢᠭᠤᠯᠭᠠᠨ ᠤ ᠨᠡᠷᠡᠰ ᠦᠨ ᠢᠷᠡᠯᠲᠡ|
+|ᠥᠪᠥᠷ ᠮᠣᠩᠭᠣᠯ ᠤᠨ ᠡᠯ᠎ᠡ ᠴᠢᠭᠤᠯᠭᠠᠨ ᠤ ᠨᠡᠷᠡᠰ ᠦᠨ ᠢᠷᠡᠯᠲᠡ|
+|ᠥᠪᠥᠷ ᠮᠣᠩᠭᠣᠯ ᠤᠨ ᠡᠯ᠎ᠡ ᠴᠢᠭᠤᠯᠭᠠᠨ ᠤ ᠨᠡᠷᠡᠰ ᠦᠨ ᠢᠷᠡᠯᠲᠡ|
+|\par}|
+|\special{x:gsave}\special{x:rotate -90}|
+|\vskip-\ht0 \box0 \special{x:grestore}|
+}\kern10pt\vtop{\kern-30pt
+% macro to reverse the order of the lines in a paragraph
+\def\revpar{\setbox0=\vbox\bgroup
+  \let\savepar=\par \let\par=\endrevpar}
+\def\endrevpar{\savepar \global\setbox1=\vbox{}
+  \loop \skip255=\lastskip \unskip
+  \count255=\lastpenalty \unpenalty \setbox0=\lastbox
+    \ifhbox0 \global\setbox1=\vbox{\unvbox1
+    \penalty\count255 \vskip\skip255 \box0}
+      \repeat \egroup \unvbox1 }
+\setbox0=\vbox{
+ \hsize=3.6in \baselineskip=20pt \lineskiplimit=-1000pt
+ \parindent=-12pt \leftskip=12pt \rightskip=0pt
+ \tolerance=1000 \hbadness=1000
+ \revpar \mon
+ ᠥᠪᠥᠷ ᠮᠣᠩᠭᠣᠯ ᠤᠨ ᠡᠯ᠎ᠡ ᠴᠢᠭᠤᠯᠭᠠᠨ ᠤ ᠨᠡᠷᠡᠰ ᠦᠨ ᠢᠷᠡᠯᠲᠡ
+ ᠥᠪᠥᠷ ᠮᠣᠩᠭᠣᠯ ᠤᠨ ᠡᠯ᠎ᠡ ᠴᠢᠭᠤᠯᠭᠠᠨ ᠤ ᠨᠡᠷᠡᠰ ᠦᠨ ᠢᠷᠡᠯᠲᠡ
+ ᠥᠪᠥᠷ ᠮᠣᠩᠭᠣᠯ ᠤᠨ ᠡᠯ᠎ᠡ ᠴᠢᠭᠤᠯᠭᠠᠨ ᠤ ᠨᠡᠷᠡᠰ ᠦᠨ ᠢᠷᠡᠯᠲᠡ
+ ᠥᠪᠥᠷ ᠮᠣᠩᠭᠣᠯ ᠤᠨ ᠡᠯ᠎ᠡ ᠴᠢᠭᠤᠯᠭᠠᠨ ᠤ ᠨᠡᠷᠡᠰ ᠦᠨ ᠢᠷᠡᠯᠲᠡ
+ \par}
+\special{x:gsave}\special{x:rotate -90}
+\vskip-\ht0
+\dimen0=\ht0 \ht0=\wd0 \wd0=\dimen0 \box0
+\special{x:grestore}
+}\hss}
+
+\slide{A cleaner multilingual solution}
+\item All required characters directly represented
+\subitem no need for “escape sequences” to access characters not included in the current codepage
+\subitem no need to switch between codepages according to the language/script being typeset 
+\subitem characters rendered via standard access codes
+\=
+\item Character/glyph model and modern font rendering technologies
+\subitem encoded text represents characters, not glyphs
+\subitem complex script behavior separated from the encoded text data,
+handled through standard “smart font” technologies
+
+\section{Extending \TeX\ to process Unicode}
+
+\slide{Character codes}
+\font\simpchin="STHeiti:color=660000;Text Spacing=Monospaced Text" at 13.0pt
+\item Basic character codes are 16-bit
+\subitem representing Unicode in the UTF-16 encoding form
+\subitem (except when using legacy custom-encoded fonts)
+\=
+\item Extended \TeX\ primitives
+\subitem |\char|, |\chardef| accept numbers up to 65,536
+\subitem 4-digit hex notation using |^^^^abcd|\hfil\break\indent
+ |\char"5609^^^^6167|\ \ =\ \ {\simpchin \char"5609^^^^6167}
+\=
+\item What about Unicode characters beyond Plane 0?
+\subitem handled using surrogates (UTF-16 representation)
+\subitem adequate for rendering
+\subitem does not allow full per-character programmability
+
+\slide{Extended \TeX\ code tables}
+\item Per-character code tables |\catcode|, |\lccode|, |\uccode|, |\sfcode| enlarged
+\subitem “plain \XeTeX” format initializes these tables based on Unicode character set
+\font\smp="Gentium:color=660000" at 18pt
+\subitem |\lowercase{DŽIN}|\hfil\break\indent{\smp\lowercase{DŽIN}}
+\subitem |\uppercase{Esi eyama klɔ míaƒe nuvɔwo ɖa vɔ la}|\hfil\break\indent{\smp\uppercase{Esi eyama klɔ míaƒe nuvɔwo ɖa vɔ la}}
+\subitem |\catcode`王=\active \def王{...}|
+
+\slide{Input encodings}
+\item By default, input read as Unicode (UTF-8 or UTF-16)
+\subitem encoding form automatically detected
+\=
+\item Non-Unicode input text
+\subitem legacy codepages supported via ICU converters
+\subitem set codepage of current input file:\hfil\break
+|\XeTeXinputencoding "|{\it charset-name}|"|
+\subitem set initial codepage for newly-opened input files:\hfil\break
+|\XeTeXdefaultencoding "|{\it charset-name}|"|
+
+\slide{Hyphenation patterns}
+\item Extended for 16-bit characters
+\=
+\item Standard hyphenation files are encoding-specific
+\subitem modified to load correctly under \XeTeX
+\=
+\item Simple hyphenation for scripts such as Devanagari
+\subitem text is simple character data, no macros, active chars, etc.
+\medskip
+\vbox{\parindent=2\parindent\obeylines%
+|% break before or after any independent vowel|
+|1अ1|
+|1आ1|
+|1इ1|
+|% break after any dependent vowel, but never before|
+|2ा1|
+|2ि1|}
+
+\section{Font support in \XeTeX}
+
+\slide{Host platform fonts}
+\item Use any font installed on the host computer
+\item |\font| command extended to accept “real” font names
+\=
+\item |\font\rm="Trebuchet MS" at 16pt \rm Hello World!|
+\subitem {\font\rm="Trebuchet MS:color=660000" at 16pt \rm Hello World!}
+\item |\font\it="Times Italic" at 16pt \it Hello World!|
+\subitem {\font\it="Times Italic:color=660000" at 16pt \it Hello World!}
+\item |\font\ch="Apple Chancery" at 16pt \ch Hello World!|
+\subitem {\font\ch="Apple Chancery:color=660000" at 16pt \ch Hello World!}
+\item |\font\heiti="STHeiti" at 16pt \heiti 你好，武汉!|
+\subitem {\font\heiti="STHeiti:color=660000" at 16pt \heiti 你好，武汉!}
+\=
+\item No TFM files, etc., required to use new fonts!
+
+\slide{Output device support}
+\item Output driver uses the same fonts as the typesetting engine
+\subitem no font name mapping files required
+\=
+\item Generate PDF as default output
+\subitem there is actually an “extended DVI” (|.xdv|) intermediate
+\item Fonts automatically embedded and subsetted
+
+\slide{Support for traditional \TeX\ fonts}
+\item TFM files still supported
+\subitem required for math fonts to provide precise metrics
+\subitem implies non-Unicode data, using character codes 0…255 only
+\=
+\item PDF back-end supports Type 1 fonts
+\subitem uses |.pfb| files in the texmf tree, just like dvips
+\subitem no support for bitmap fonts
+\subitem currently no |.vf| support
+
+\slide{Font mappings}
+\item Traditional \TeX\ keyboarding practices
+\subitem typical input:\hfil\break
+ |``\TeX''---a typesetting system|
+\subitem generates: {\red ``\TeX''---a typesetting system}
+\=
+\item Font mapping for compatibility\hfil\break
+{\obeylines%
+|; TECkit mapping for TeX input conventions|
+|U+002D U+002D        <> U+2013 ; -- -> en dash|
+|U+002D U+002D U+002D <> U+2014 ; --- -> em dash|
+|U+0027         <>  U+2019 ; ' -> right single quote|
+|U+0027 U+0027  <>  U+201D ; '' -> right double quote|
+|U+0022          >  U+201D ; " -> right double quote|
+}
+\medskip
+\subitem generates: {\red “\TeX”—a typesetting system}
+\subitem the “font mapping” is associated with a specific \TeX\ font identifier
+
+\slide{More fun with font mappings}
+\bigskip
+\line{\vbox{\hsize=.6\hsize
+{\obeylines%
+|\def\SampleText{Unicode -|
+|    это уникальный|
+| код для любого символа,\\|
+| независимо от платформы,\\|
+| независимо от программы,\\|
+| независимо от языка.}|
+|«\font\gen="Gentium"»|
+|\gen\SampleText|
+|\bigskip|
+|•\font\gentrans="Gentium:•|
+|  •mapping=cyr-lat-iso9"•|
+|\gentrans\SampleText|
+}}\hss
+\vbox{\hsize=.4\hsize
+\leftskip=\rightskip \parindent=0pt \parfillskip=0pt \def\\{\break}
+\def\SampleText{Unicode -
+    это уникальный
+ код для любого символа,\\
+ независимо от платформы,\\
+ независимо от программы,\\
+ независимо от языка.\par}
+\font\gen="Gentium:color=006600" at 13pt
+\gen\SampleText
+\bigskip
+\font\gentrans="Gentium:color=660000;
+  mapping=cyr-lat-iso9" at 13pt
+\gentrans\SampleText
+}}
+
+\section{Typographic features}
+
+\slide{AAT font features}
+{
+\let\DoSpecials=\dospecials \def\dospecials{\DoSpecials \relax \catcode32=10 }
+\item Custom AAT features accessed via |\font| command
+\item |\font\x="Apple Chancery" at 16pt \x The quick brown fox jumps over the lazy dog.|
+\subitem {\font\x="Apple Chancery:color=660000;Smart Swashes=!Line Initial Swashes,!Line Final Swashes" at 16pt \x The quick brown fox jumps over the lazy dog.}
+\=
+\item |\font\x="Apple Chancery:Letter Case=Small Caps;Design Complexity=Simple Design Level" at 16pt \x The quick…|
+\subitem {\font\x="Apple Chancery:Letter Case=Small Caps;Design Complexity=Simple Design Level;color=660000;Smart Swashes=!Line Initial Swashes,!Line Final Swashes" at 16pt \x The quick brown fox jumps over the lazy dog.}
+\=
+\item |\font\x="Apple Chancery:Design Complexity=Flourishes Set A" at 16pt \x The quick brown fox jumps over…|
+\subitem {\font\x="Apple Chancery:Design Complexity=Flourishes Set A;color=660000;Smart Swashes=!Line Initial Swashes,!Line Final Swashes" at 16pt \x The quick brown fox jumps over the lazy dog.}
+}
+
+\slide{OpenType: language and script}
+\item Fonts may support multiple languages with differing behavior
+{\obeylines
+|\font\Doulos="Doulos SIL/ICU"|
+|\font\DoulosViet="Doulos SIL/ICU•:language=VIT•"|}
+
+\font\Doulos="Doulos SIL/ICU" at 22pt
+\font\DoulosViet="Doulos SIL/ICU:language=VIT" at 22pt
+\line{\let\p=\par\hfil\vtop{\hsize=.45\hsize\lineskip=-7pt\Doulos
+\obeylines \parindent=0pt \leftskip=0pt plus 1in \rightskip=\leftskip \parfillskip=0pt
+Unicode cung c•ấ•p một con s•ố• duy nh•ấ•t cho m•ỗ•i ký tự\p}\hfil
+\vtop{\hsize=.45\hsize\lineskip=-7pt\DoulosViet
+\obeylines \parindent=0pt \leftskip=0pt plus 1in \rightskip=\leftskip \parfillskip=0pt
+Unicode cung c•ấ•p một con s•ố• duy nh•ấ•t cho m•ỗ•i ký tự\p}\hfil}
+
+\=
+\bigskip
+
+{\obeylines
+|\font\Brioso="Brioso Pro"|
+|\font\BriosoTrk="Brioso Pro•:language=TRK•"|}
+\smallskip
+\font\Brioso="Brioso Pro/S=12" at 24pt
+\font\BriosoTrk="Brioso Pro/S=12:language=TRK" at 24pt
+\line{\let\p=\par\hfil\vtop{\hsize=.45\hsize\Brioso
+ \parindent=0pt \leftskip=0pt plus 1in \rightskip=\leftskip \parfillskip=0pt
+… gelen •fi•rmaları … tara•fı•ndan …\p}\hfil
+\vtop{\hsize=.45\hsize\BriosoTrk
+ \parindent=0pt \leftskip=0pt plus 1in \rightskip=\leftskip \parfillskip=0pt
+… gelen •fi•rmaları … tara•fı•ndan …\p}\hfil}
+
+\slide{OpenType: language and script}
+\item Complex Asian scripts require specific “shaping engines”
+\item With no “script tag”, only default Latin features applied
+\vadjust{\medskip}\hfil\break |\font\x="Code2000" \x العربي हिन्दी |\hfil\break\indent
+{\font\x="Code2000:color=660000" at 20pt \x العربي हिन्दी}
+\=
+\medskip
+\item Must load the font with the appropriate shaping engine
+\vadjust{\medskip}\hfil\break |\font\x="Code2000:script=arab" \x العربي|\hfil\break\indent
+{\font\x="Code2000:script=arab;color=660000" at 20pt \x العربي}
+\vadjust{\bigskip}
+\hfil\break |\font\x="Code2000:script=deva" \x हिन्दी|\hfil\break\indent
+{\font\x="Code2000:script=deva;color=660000" at 20pt \x हिन्दी}
+
+\slide{OpenType: optional features}
+\item Font specification may include feature tags
+\subitem |\font\x="Brioso Pro" \x Hello World! 0123456789|\hfil\break\indent
+{\font\x="Brioso Pro:color=660000" at 24pt \x Hello World! 0123456789}
+\subitem |\font\x="Brioso Pro:+smcp"|\hfil\break\indent
+{\font\x="Brioso Pro:+smcp;color=660000" at 24pt \x Hello World! 0123456789}
+\subitem |\font\x="Brioso Pro:+sups"|\hfil\break\indent
+{\font\x="Brioso Pro:+sups;color=660000" at 24pt \x Hello World! 0123456789}
+\subitem |\font\x="Brioso Pro Italic:+onum"|\hfil\break\indent
+{\font\x="Brioso Pro Italic:+onum;color=660000" at 24pt \x Hello World! 0123456789}
+\subitem |\font\x="Brioso Pro Italic:+swsh,+zero"|\hfil\break\indent
+{\font\x="Brioso Pro Italic:+swsh,+zero;color=660000" at 24pt \x Hello World! 0123456789}
+
+\slide{OpenType: optical sizing}
+
+\item OpenType optical families automatically choose correct face for the size used
+\subitem Brioso Pro at 7, 10, 18, 24pt sizes:\hfil\break
+{\font\x="Brioso Pro:color=660000" at 7pt \x seven}
+{\font\x="Brioso Pro:color=660000" at 10pt \x ten}
+{\font\x="Brioso Pro:color=660000" at 18pt \x eighteen}
+{\font\x="Brioso Pro:color=660000" at 24pt \x twenty-four}
+\=
+\item Can override with |/S=| modifier on font name
+\subitem showing different optical sizes using the same “at size”
+\subitem{\font\x="Brioso Pro/S=7:color=660000" at 24pt \x \hbox to 2in{|Brioso Pro/S=7|\hfil}Brioso Pro Caption}
+\subitem{\font\x="Brioso Pro/S=10:color=660000" at 24pt \x \hbox to 2in{|Brioso Pro/S=10|\hfil}Brioso Pro Text}
+\subitem{\font\x="Brioso Pro/S=18:color=660000" at 24pt \x \hbox to 2in{|Brioso Pro/S=18|\hfil}Brioso Pro Subhead}
+\subitem{\font\x="Brioso Pro/S=24:color=660000" at 24pt \x \hbox to 2in{|Brioso Pro/S=24|\hfil}Brioso Pro Display}
+
+\section{Asian-language linebreaking}
+
+\slide{Line-break positions}
+
+\font\simpchin="STHeiti:color=660000;Text Spacing=Monospaced Text" at 13.0pt
+%\font\thai="Thonburi:color=660000" at 16pt
+\item Line breaking without word spaces
+\subitem \TeX\ normally breaks lines at “glue” arising from spaces
+\subitem Chinese, Japanese, Thai, etc. do not use word spaces
+\iffalse
+\subitem {\rightskip0pt \hfuzz\maxdimen\thai โดยพื้นฐานแล้ว, คอมพิวเตอร์จะเกี่ยวข้องกับเรื่องของตัวเลข. คอมพิวเตอร์จัดเก็บตัวอักษรและอักขระอื่นๆ โดยการกำหนดหมายเลขให้สำหรับแต่ละตัว. ก่อนหน้าที่๊ Unicode จะถูกสร้างขึ้น, ได้มีระบบ encoding อยู่หลายร้อยระบบสำหรับการกำหนดหมายเลขเหล่านี้.\par}
+\=
+\item Use ICU line-break: |\XeTeXlinebreaklocale "th"|
+\XeTeXlinebreaklocale "th"
+\XeTeXlinebreakskip 0pt plus 2pt
+\subitem {\rightskip0pt \thai โดยพื้นฐานแล้ว, คอมพิวเตอร์จะเกี่ยวข้องกับเรื่องของตัวเลข. คอมพิวเตอร์จัดเก็บตัวอักษรและอักขระอื่นๆ โดยการกำหนดหมายเลขให้สำหรับแต่ละตัว. ก่อนหน้าที่๊ Unicode จะถูกสร้างขึ้น, ได้มีระบบ encoding อยู่หลายร้อยระบบสำหรับการกำหนดหมายเลขเหล่านี้.\par}
+\else
+\subitem {\baselineskip=16pt
+\simpchin\rightskip=0pt\hfuzz\maxdimen 基本上，计算机只是处理数字。它们指定一个数字，来储存字母或其他字符。在创造Unicode之前，有数百种指定这些数字的编码系统。没有一个编码可以包含足够的字符：\par}
+\=
+\item Use ICU line-break algorithm
+\subitem find permitted line-break locations according to a specific locale
+\subitem |\XeTeXlinebreaklocale "zh"|\vadjust{\vskip2pt}
+\XeTeXlinebreaklocale "zh"
+\hfil\break {\baselineskip=16pt
+\simpchin\rightskip=0pt plus 1fil 基本上，计算机只是处理数字。它们指定一个数字，来储存字母或其他字符。在创造Unicode之前，有数百种指定这些数字的编码系统。没有一个编码可以包含足够的字符：\par}
+\fi
+\XeTeXlinebreaklocale ""
+
+\slide{Justification}
+
+\item Text without spaces is difficult for \TeX\ to justify
+\item Ragged-right setting is one solution
+\XeTeXlinebreaklocale "zh"
+\subitem {\baselineskip=16pt
+\simpchin\rightskip=20pt plus 1fil 基本上，计算机只是处理数字。它们指定一个数字，来储存字母或其他字符。在创造Unicode之前，有数百种指定这些数字的编码系统。没有一个编码可以包含足够的字符：\par}
+\=
+\item Alternatively, use |\XeTeXlinebreakskip| to introduce glue at each potential break
+\XeTeXlinebreakskip 0pt plus 2pt
+\subitem {\baselineskip=16pt
+\simpchin\rightskip=20pt 基本上，计算机只是处理数字。它们指定一个数字，来储存字母或其他字符。在创造Unicode之前，有数百种指定这些数字的编码系统。没有一个编码可以包含足够的字符：\par}
+\=
+\item Could also use non-monospaced Latin characters
+\font\simpchin="STHeiti:color=660000" at 13.0pt
+\XeTeXlinebreakskip 0pt plus 2pt
+\subitem {\baselineskip=16pt
+\simpchin\rightskip=20pt 基本上，计算机只是处理数字。它们指定一个数字，来储存字母或其他字符。在创造Unicode之前，有数百种指定这些数字的编码系统。没有一个编码可以包含足够的字符：\par}
+\XeTeXlinebreaklocale ""
+
+\section{Built-in graphics support}
+
+\slide{QuickTime image support}
+\item Many graphic file formats directly supported
+\subitem TIFF, JPEG, PNG, BMP, PICT, GIF, TGA, Photoshop, …
+\subitem |\setbox0=\hbox{\XeTeXpicfile "mypic.jpg"}|
+\=
+\item Optional keywords to modify image
+\subitem scaled, xscaled, yscaled, width, height, rotated
+\smallskip
+\centerline{\hbox{\XeTeXpicfile "unicode-book.jpg" scaled 100}\qquad
+ \hbox{\XeTeXpicfile "unicode-book.jpg" scaled 100 xscaled 2000}\qquad
+ \hbox{\XeTeXpicfile "unicode-book.jpg" scaled 100 rotated 90}}
+\=
+\item Image width and height available to \TeX\ engine
+\item Can use via \LaTeX\ and Con\TeX t commands
+
+\slide{PDF documents}
+\item Beware: QuickTime graphic importer accepts PDF
+\subitem but renders as raster image at screen resolution!
+\item Use alternative command for true PDF inclusion
+\subitem |\XeTeXpdffile "xetex-intro-slides.pdf" page 1|\hfil\break| scaled 400|
+\smallskip
+\centerline{\setbox0=\vbox{\hbox{\XeTeXpdffile "xetex-wuhan.pdf" page 1 scaled 400}}%
+  \wd0=205bp \ht0=154bp \box0}
+
+\section{\LaTeX\ and Con\TeX t support}
+
+\slide{fontspec.sty by Will Robertson}
+\item Simple specification of native OS X fonts in \LaTeX
+\item Integrates \XeTeX\ font access with \LaTeX\ commands
+\subitem setting the default document fonts\hfil\break
+\vbox{\parindent=0pt \hsize=.9\hsize \obeylines%
+|\usepackage{fontspec}|
+|\setromanfont{Adobe Garamond Pro}|
+|\setmonofont[Scale=0.8]{Andale Mono}|}
+\medskip
+\=
+\subitem on-the-fly font and feature changes\hfil\break
+\vbox{\parindent=0pt \hsize=.9\hsize \obeylines%
+|Welcome to Wuhan,|
+|{\addfontfeature{LetterCase=SmallCaps}China}|}\hfil\vadjust{\medskip}\break
+\indent {\red Welcome to Wuhan,
+\font\x="Brioso Pro/S=9:+smcp" at 18pt \x China}\hfil\vadjust{\smallskip}\break
+\vbox{\parindent=0pt \hsize=.9\hsize \obeylines%
+|August 25{\addfontfeature{VerticalPosition=Superior}th}|\kern-20pt}\hfil\vadjust{\medskip}\break
+\indent {\red August 25\font\x="Brioso Pro/S=9:+sups" at 18pt \x th}
+
+
+\slide{xunicode.sty by Ross Moore}
+\item Support for standard \LaTeX\ input of many special characters when using Unicode fonts
+\subitem accent commands, named characters, etc., mapped to Unicode values for font access
+\subitem does not handle dashes, quotes (use |tex-text| font mapping)
+\item Allows many non-Unicode \LaTeX\ documents to be processed using Unicode fonts
+
+\slide{Using Con\TeX t with \XeTeX}
+
+\item Reportedly works fairly readily, but not pre-configured “out of the box”
+\subitem see |http://www.contextgarden.net/XeTeX|
+\=
+\item Use \XeTeX\ font names and features in Con\TeX t typescripts and other font definitions
+\subitem see |http://www.contextgarden.net/Fonts_in_XeTeX|
+\bigskip
+\line{\hfil
+\vtop{\obeylines\parindent20pt\hsize=.6\hsize
+|\definedfont["Hoefler Text:|
+\quad|mapping=tex-text;|
+\quad|Style Options=Engraved Text;|
+\quad|Letter Case=All Capitals;|
+\quad|color=229966" at 32pt]|
+|Big Title|
+}\hfil
+\vtop{\hsize=.4\hsize
+\font\bigtitle="Hoefler Text:Letter Case=All Capitals;
+  Style Options=Engraved Text;color=229966" at 32pt
+\vskip24pt
+\bigtitle Big Title
+}\hfil}
+
+\section{Status and future directions}
+
+\slide{What might be next for \XeTeX?}
+\item Ongoing bug-fixes and minor features
+\=
+\item Enhanced PDF back-end
+\subitem leverage improved PDF support in Mac OS X 10.4
+\subitem new |xdv2pdf| driver based on |dvipdfmx|
+\subitem integration with pdf\TeX\ output routine
+\=
+\item True Unicode math support
+\subitem requires extensions to |\mathchar| etc., and underlying structures
+\subitem also requires extended (at least 16-bit) font metric format
+\font\gen="Gentium" at 17pt
+\subitem may be possible to make use of code from $\smash{\hbox{\gen Ω}}$
+\=
+\item \XeTeX\ for non-Mac OS platforms
+\subitem working towards integration with \TeX\ Live sources
+
+\slide{Questions… and answers?}
+\item Contact information
+\subitem |mailto:jonathan_kew@sil.org|
+\item \XeTeX\ web site and mailing list
+\subitem |http://scripts.sil.org/xetex|
+\subitem |http://tug.org/mailman/listinfo/xetex|
+\subitem |svn://scripts.sil.org/xetex/TRUNK|
+
+\catcode"200C=\active \def^^^^200c{\kern1sp}
+\vbox to 0pt{\kern30pt
+\special{x:gsave}
+\special{x:colorshadow(2,-2),0.8,00006666}
+\rightline{\T A}
+\special{x:grestore}
+\vss}
+\vbox to 0pt{\kern24pt
+\baselineskip=17pt \lineskiplimit=-1000pt \hsize=.8\hsize \rightskip=0pt
+\XeTeXlinebreaklocale "th_TH"
+\font\ethiopic="Code2000:color=660000" at 14pt
+\font\arabic="Geeza Pro:color=006600" at 14pt
+\font\chinese="STKaiti:color=000066" at 14pt
+\font\latin="Gentium:color=333300" at 14pt
+\font\georgian="Code2000:color=003333" at 14pt
+\font\greek="Gentium:color=330033" at 14pt
+\font\hebrew="Lucida Grande:color=660000" at 14pt
+\font\hindi="Sanskrit 2003:script=deva;color=006600" at 14pt
+\font\japanese="Hiragino Mincho Pro W3:color=000066" at 14pt
+\font\korean="AppleMyungjo Regular:color=333300" at 14pt
+\font\farsi="Geeza Pro:color=003333" at 14pt
+\font\cyrillic="Gentium:color=330033" at 14pt
+\font\thai="Thonburi:color=006600" at 14pt
+\ethiopic ዩኒኮድ ምንድን ነው?
+\beginR \arabic ما هي الشفرة الموحدة "يونِكود"؟\endR\ 
+\chinese 什麽是Unicode(統一碼/標準萬國碼)?
+\latin Što je Unicode?
+\georgian რა არის უნიკოდი?
+\greek Τί εἶναι τὸ Unicode;
+\beginR\hebrew ‏מה זה יוניקוד?\endR\ 
+\hindi यूनिकोड क्या है?
+\latin Hvað er Unicode?
+\japanese ユニコードとは何か？
+\korean 유니코드에 대해?
+\beginR \farsi يونی‌کُد چيست؟\endR\ 
+\cyrillic Что такое Unicode?
+\thai Unicode คืออะไร?
+\ethiopic ዩኒኮድ እንታይ ኢዩ?
+\par\vss}
+
+\bye

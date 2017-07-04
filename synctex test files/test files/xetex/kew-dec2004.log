@@ -1,0 +1,34 @@
+This is XeTeX, Version 3.14159265-2.6-0.99997 (TeX Live 2017) (preloaded format=xetex 2017.4.23)  23 APR 2017 11:00
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**kew-dec2004.tex
+(./kew-dec2004.tex
+\front=\box16
+
+! Unable to load picture or PDF file 'john1.jpg'.
+<to be read again> 
+                   \hss 
+l.13 ...TeXpicfile "john1.jpg" width .9\hsize \hss
+                                                  }
+? q
+OK, entering \batchmode...
+\text=\box17
+\back=\box18
+! Unable to load picture or PDF file 'wbtlogo.jpg'.
+<to be read again> 
+                   \hss 
+\centerline #1->\line {\hss #1\hss 
+                                   }
+l.93 ...ne{\XeTeXpicfile "wbtlogo.jpg" scaled 750}
+                                                  
+The requested image couldn't be read because
+it was not a recognized image format.
+
+\greeting=\box19
+Unknown feature `Smart Swashes=!Line Final Swashes,!Line Initial Swashes' in fo
+nt `Hoefler Text Black Italic'.
+Unknown feature `Smart Swashes=!Line Final Swashes,!Line Initial Swashes' in fo
+nt `Hoefler Text Black Italic'.
+ [1] )
+Output written on kew-dec2004.pdf (1 page).

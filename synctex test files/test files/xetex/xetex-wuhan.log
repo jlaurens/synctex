@@ -1,0 +1,16 @@
+This is XeTeX, Version 3.14159265-2.6-0.99997 (TeX Live 2017) (preloaded format=xetex 2017.4.23)  23 APR 2017 10:58
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**xetex-wuhan.tex
+(./xetex-wuhan.tex
+\width=\dimen16
+\height=\dimen17
+\savepage=\box16
+
+! Font \A="Brioso Pro/S=18:color=000066;mapping=tex-text" at 36.0pt not loadabl
+e: Metric (TFM) file or installed font not found.
+l.38 ...=18:color=000066;mapping=tex-text" at 36pt
+                                                  
+? x
+No pages of output.

@@ -1,0 +1,50 @@
+% lualatex hello-lualatex.tex
+\documentclass{ltjsarticle}
+\usepackage{luatexja-fontspec}
+\usepackage{luacode}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{moreverb}
+
+\title{日本語UTF-8で\LaTeX : Lua\LaTeX}
+\author{bellbind}
+\date{2012年8月10日}
+
+\begin{document}
+\maketitle
+
+{Lua\TeX}\footnote{\url{http://www.luatex.org/}}は、
+{\TeX}拡張をプログラミング言語Lua\footnote{\url{http://www.lua.org/}}で
+記述できるようにしたものです。
+ディストリビューションtexlive 2012\footnote{\url{http://www.tug.org/texlive/}}
+に標準で含まれており、
+日本語文書でも利用可能です。
+
+{Lua\LaTeX}での日本語文書用プリアンブルは以下のとおり。
+
+\begin{lstlisting}[frame=single]
+\documentclass{ltjsarticle}
+\usepackage{luatexja-fontspec}
+\end{lstlisting}
+
+あとはtexファイルの文章をUTF-8で記述して、{\tt lualatex}コマンドで
+コンパイルすれば直接PDFが出来上がります。
+
+\begin{lstlisting}[frame=shadowbox]
+lualatex foo.tex
+\end{lstlisting}
+
+ちなみにLua{\LaTeX}では、texソース中に、
+Luaスクリプトを以下のように埋め込むことができます。
+
+\begin{lstlisting}[frame=single]
+\usepackage{luacode}
+
+\luaexec{
+tex.print("こんにちは{\\LaTeX}")
+}
+\end{lstlisting}
+
+スクリプトコード中のバックスラッシュの扱いには注意が必要です。
+
+\end{document}

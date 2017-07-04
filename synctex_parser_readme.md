@@ -15,7 +15,8 @@ This file is part of the __SyncTeX__ package.
 		
 		`synctex_node_t` has become `synctex_node_p`.
 		
-	* supplemental argument is `synctex_display_query`
+	* supplemental argument in `synctex_display_query`
+	* rename `synctex_next_result` to `synctex_scanner_next_result`
 	* additional `synctex_parser_private.h` header where 
 	more API are exposed. Advanced usage (eg parallel synchronizations).
 
@@ -178,8 +179,8 @@ TeX and friends are not concerned by these changes.
   Now, forward synchronization prefers nodes inside an hbox with as many acceptable spots as possible.
   This is achieved with the notion of mean line and node weight.
 	- Adding support for the new file naming convention with './'
-	    - function synctex_ignore_leading_dot_slash_in_path replaces synctex_ignore_leading_dot_slash
-	    - function _synctex_is_equivalent_file_name is more permissive
+	    - function `synctex_ignore_leading_dot_slash_in_path replaces` `synctex_ignore_leading_dot_slash`
+	    - function `_synctex_is_equivalent_file_name` is more permissive
   Previously, the function synctex_scanner_get_tag would give an answer only when
   the given file name was EXACTLY one of the file names listed in the synctex file.
   The we added some changes accepting for example 'foo.tex' instead of './foo.tex'.
@@ -188,10 +189,12 @@ TeX and friends are not concerned by these changes.
   then we try to match the base names. If there is only one match of the base names,
   then it is taken as a match for the whole names.
   The base name is defined as following:
-      ./foo => foo
+  
+      `./foo => foo
       /my///.////foo => foo
       /foo => /foo
-      /my//.foo => /my//.foo
+      /my//.foo => /my//.foo`
+      
 * 1.17: Tue Mar 13 10:10:03 UTC 2012
 	- minor changes, no version changes
 	- syntax man pages are fixed as suggested by M. Shimata
@@ -203,7 +206,7 @@ TeX and friends are not concerned by these changes.
 	- cosmetic changes: uniform indentation
 	- suppression of warnings, mainly long/int ones. In short, zlib likes ints when size_t likes longs.
 	- CLI synctex tool can build out of TeXLive (modulo appropriate options passed to the compiler)
-* 1.19: Thu Mar  9 21:26:27 UTC 2017
+* 1.19: Mon Jul  3 20:03:56 UTC 2017
 	- the nested sheets patch was not a good solution.
   It has been moved from the parser to the engine.
   See the `synctex.c` source file for detailed explanations.

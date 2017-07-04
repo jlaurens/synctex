@@ -1,0 +1,92 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2017/dev) (preloaded format=pdftex 2017.3.9)  31 MAR 2017 12:59
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**forminform0.tex
+(./forminform0.tex
+Underfull \hbox (badness 10000) detected at line 4
+$\tensy f\tenrm 1\tensy g$
+
+\hbox(7.5+2.5)x15.25879
+.\mathon
+.\tensy f
+.\tenrm 1
+.\tensy g
+.\mathoff
+
+
+Underfull \hbox (badness 10000) detected at line 6
+$\tensy f$\tenrm 2:$\teni <$\tenrm F1:[]$\teni >\tensy g$
+
+\hbox(7.5+2.5)x152.58789
+.\mathon
+.\tensy f
+.\mathoff
+.\tenrm 2
+.\tenrm :
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 8
+\tenrm ZZ
+
+\hbox(6.83331+0.0)x15.25879
+.\tenrm Z
+.\tenrm Z
+
+
+Overfull \hbox (62.89783pt too wide) detected at line 8
+[]$\tensy f$\tenrm 3:$\teni <$\tenrm F2:[]$\teni >\tensy g$|
+
+\hbox(7.5+2.5)x152.58789
+.\hbox(6.83331+0.0)x15.25879
+..\tenrm Z
+..\tenrm Z
+.\mathon
+.\tensy f
+.\mathoff
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 10
+\tenrm YY
+
+\hbox(6.83331+0.0)x15.25879
+.\tenrm Y
+.\tenrm Y
+
+
+Overfull \hbox (62.89783pt too wide) detected at line 10
+[]$\tensy f$\tenrm 4:$\teni <$\tenrm F2:[]$\teni >\tensy g$|
+
+\hbox(7.5+2.5)x152.58789
+.\hbox(6.83331+0.0)x15.25879
+..\tenrm Y
+..\tenrm Y
+.\mathon
+.\tensy f
+.\mathoff
+.\tenrm 4
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 12
+\tenrm XX
+
+\hbox(6.83331+0.0)x15.25879
+.\tenrm X
+.\tenrm X
+
+[1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+[2] [3] )</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
+0.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb>
+Output written on forminform0.pdf (3 pages, 38640 bytes).
+PDF statistics:
+ 38 PDF objects out of 1000 (max. 8388607)
+ 23 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 37 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,28 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdftex 2017.6.23)  26 JUN 2017 10:46
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**problem.tex
+(./problem.tex
+Overfull \hbox (8.18832pt too wide) in paragraph at lines 4--10
+\tenrm AAAA [] BBBBBBBBBBBBBBBBBBB Lorem|
+
+\hbox(6.83331+0.0)x469.75499, glue set - 1.0
+.\tenrm A
+.\tenrm A
+.\tenrm A
+.\tenrm A
+.\glue 3.33333 plus 1.66498 minus 1.11221
+.etc.
+
+[1{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+[1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1]
+[1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] [1] )</usr/local/texlive/20
+17/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+Output written on problem.pdf (33 pages, 96750 bytes).
+PDF statistics:
+ 116 PDF objects out of 1000 (max. 8388607)
+ 78 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 7 words of extra memory for PDF output out of 10000 (max. 10000000)
+
