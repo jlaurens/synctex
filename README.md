@@ -40,8 +40,7 @@ You end with 3 sources : `synctex_main.c`, `synctex_parser.c`, `synctex_parser_u
 
 ### Setup project
 
-- add `-D__SYNCTEX_WORK__` as other C flag
-- also add `-D__SYNCTEX_ZLIB__` as other C flag on systems prior to Sierra
+- add `-DSYNCTEX_WORK` as other C flag (or `SYNCTEX_WORK` preprocessor macro)
 - set Always Search User Path build setting to YES
 - in the build phase pane, link to libz1.2.5.tbd (or similar)
 
