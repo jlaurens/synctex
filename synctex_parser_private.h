@@ -163,35 +163,30 @@ extern "C" {
         /* All */
         synctex_tree_s_parent_idx       =  1,
         synctex_tree_sp_child_idx       =  2,
-        synctex_tree_spc_target_idx     =  3,
-        synctex_tree_spc_left_idx       =  3,
-        synctex_tree_spcl_right_idx     =  4,
-        synctex_tree_spclr_up_idx       =  5,
-        synctex_tree_spclru_last_idx    =  6,
-        synctex_tree_spclrul_vbox_max   =  7,
+        synctex_tree_spc_friend_idx     =  3,
+        synctex_tree_spcf_last_idx      =  4,
+        synctex_tree_spcfl_vbox_max     =  5,
         /* hbox supplement */
-        synctex_tree_spclrul_next_hbox_idx  =  7,
-        synctex_tree_spclruln_hbox_max      =  8,
+        synctex_tree_spcfl_next_hbox_idx  =  5,
+        synctex_tree_spcfln_hbox_max      =  6,
         /* hbox proxy supplement */
-        synctex_tree_spclruln_target_idx        =  8,
-        synctex_tree_spclrulnt_proxy_hbox_max   =  9,
+        synctex_tree_spcfln_target_idx        =  6,
+        synctex_tree_spcflnt_proxy_hbox_max   =  7,
         /* vbox proxy supplement */
-        synctex_tree_spclrul_target_idx         =  7,
-        synctex_tree_spclrult_proxy_vbox_max    =  8,
+        synctex_tree_spcfl_target_idx         =  5,
+        synctex_tree_spcflt_proxy_vbox_max    =  6,
         /*  spf supplement*/
-        synctex_tree_sp_left_idx    =  2,
-        synctex_tree_spl_right_idx  =  3,
-        synctex_tree_splr_up_idx    =  4,
-        synctex_tree_splru_max      =  5,
+        synctex_tree_sp_friend_idx  =  2,
+        synctex_tree_spf_max        =  3,
         /*  box boundary supplement */
-        synctex_tree_splru_arg_sibling_idx   =  5,
-        synctex_tree_splrua_max              =  6,
+        synctex_tree_spf_arg_sibling_idx   =  3,
+        synctex_tree_spfa_max              =  4,
         /*  proxy supplement */
-        synctex_tree_splru_target_idx    =  5,
-        synctex_tree_splrut_proxy_max    =  6,
+        synctex_tree_spf_target_idx    =  3,
+        synctex_tree_spft_proxy_max    =  4,
         /*  last proxy supplement */
-        synctex_tree_splrua_target_idx      =  6,
-        synctex_tree_splruat_proxy_last_max =  7,
+        synctex_tree_spfa_target_idx      =  4,
+        synctex_tree_spfat_proxy_last_max =  5,
         /* sheet supplement */
         synctex_tree_s_child_idx        =  1,
         synctex_tree_sc_next_hbox_idx   =  2,
@@ -200,6 +195,7 @@ extern "C" {
         synctex_tree_sc_target_idx      =  2,
         synctex_tree_sct_form_max       =  3,
         /* spct */
+        synctex_tree_spc_target_idx     =  3,
         synctex_tree_spct_handle_max    =  4,
     };
     
