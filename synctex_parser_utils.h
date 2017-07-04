@@ -3,9 +3,9 @@ Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
 
 This file is part of the SyncTeX package.
 
-Latest Revision: Thu Mar  9 21:26:27 UTC 2017
+Latest Revision: Fri Jun 23 15:31:41 UTC 2017
 
- Version: 1.19
+Version: 1.19
 
 See synctex_parser_readme.txt for more details
 

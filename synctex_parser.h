@@ -96,7 +96,7 @@ extern "C" {
     /*  This is the designated method to delete a synctex scanner object.
      *  Frees all the memory, you must call it when you are finished with the scanner.
      */
-    void synctex_scanner_free(synctex_scanner_p scanner);
+    int synctex_scanner_free(synctex_scanner_p scanner);
     
     /*  Send this message to force the scanner to parse the contents of the synctex output file.
      *  Nothing is performed if the file was already parsed.
@@ -116,19 +116,24 @@ extern "C" {
     
     typedef struct synctex_node_t synctex_node_s;
     typedef synctex_node_s * synctex_node_p;
+    /*  reminder that the argument must not be NULL */
+    typedef synctex_node_p synctex_non_null_node_p;
     
     /*  The main entry points.
      *  Given the file name, a line and a column number, synctex_display_query returns the number of nodes
      *  satisfying the contrain. Use code like
      *
-     *      if(synctex_display_query(scanner,name,line,column)>0) {
-     *         synctex_node_s node;
-     *         while((node = synctex_next_result(scanner))) {
+     *      if(synctex_display_query(scanner,name,line,column,page_hint)>0) {
+     *         synctex_node_p node;
+     *         while((node = synctex_scanner_next_result(scanner))) {
      *             // do something with node
      *             ...
      *         }
      *     }
      *
+     *  Please notice that since version 1.19,
+     *  there is a new argument page_hint.
+     *  The results in pages closer to page_hint are given first.
      *  For example, one can
      * - highlight each resulting node in the output, using synctex_node_h and synctex_node_v
      * - highlight all the rectangles enclosing those nodes, using synctex_box_... functions
@@ -139,7 +144,7 @@ extern "C" {
      *
      *     if(synctex_edit_query(scanner,page,h,v)>0) {
      *         synctex_node_p node;
-     *         while(node = synctex_next_result(scanner)) {
+     *         while(node = synctex_scanner_next_result(scanner)) {
      *             // do something with node
      *             ...
      *         }
@@ -151,7 +156,9 @@ extern "C" {
      *
      *  page is 1 based
      *  h and v are coordinates in 72 dpi unit, relative to the top left corner of the page.
-     *  If you make a new query, the result of the previous one is discarded.
+     *  If you make a new query, the result of the previous one is discarded. If you need to make more than one query
+     *  in parallel, use the iterator API exposed in
+     *  the synctex_parser_private.h header.
      *  If one of this function returns a non positive integer,
      *  it means that an error occurred.
      *
@@ -169,8 +176,8 @@ extern "C" {
      */
     synctex_status_t synctex_display_query(synctex_scanner_p scanner,const char *  name,int line,int column, int page_hint);
     synctex_status_t synctex_edit_query(synctex_scanner_p scanner,int page,float h,float v);
-    synctex_node_p synctex_next_result(synctex_scanner_p scanner);
-    synctex_status_t synctex_reset_result(synctex_scanner_p scanner);
+    synctex_node_p synctex_scanner_next_result(synctex_scanner_p scanner);
+    synctex_status_t synctex_scanner_reset_result(synctex_scanner_p scanner);
     
     /*  Display all the information contained in the scanner object.
      *  If the records are too numerous, only the first ones are displayed.
@@ -258,7 +265,7 @@ extern "C" {
     
     /*  These are the types of the synctex nodes */
     typedef enum {
-        synctex_node_type_none,
+        synctex_node_type_none = 0,
         synctex_node_type_input,
         synctex_node_type_sheet,
         synctex_node_type_form,
@@ -274,10 +281,10 @@ extern "C" {
         synctex_node_type_boundary,
         synctex_node_type_box_bdry,
         synctex_node_type_proxy,
-        synctex_node_type_last_proxy,
-        synctex_node_type_vbox_proxy,
-        synctex_node_type_hbox_proxy,
-        synctex_node_type_result,
+        synctex_node_type_proxy_last,
+        synctex_node_type_proxy_vbox,
+        synctex_node_type_proxy_hbox,
+        synctex_node_type_handle,
         synctex_node_number_of_types
     } synctex_node_type_t;
     /*  synctex_node_type gives the type of a given node,

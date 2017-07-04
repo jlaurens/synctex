@@ -78,8 +78,8 @@ This is the command line interface to the synctex_parser.c.
 #   include <string.h>
 #   include <stdarg.h>
 #   include <math.h>
-#   include <synctex_parser.h>
-#   include <synctex_parser_utils.h>
+#   include "synctex_parser.h"
+#   include "synctex_parser_utils.h"
 
 /*  The code below uses strlcat and strlcpy, which avoids security warnings with some compilers.
     However, if these are not available we simply use the old, unchecked versions;
@@ -154,6 +154,7 @@ int main(int argc, char *argv[])
 	synctex_help("Missing options");
 	return 0;
 }
+
 static void synctex_usage(const char * error,va_list ap) {
 	if(error) {
 		fprintf(stderr,"SyncTeX ERROR: ");

@@ -3,7 +3,7 @@
  
  This file is part of the SyncTeX package.
  
- Latest Revision: Tue Jun 14 08:23:30 UTC 2011
+ Latest Revision: Fri Jun 23 15:31:41 UTC 2017
  
  Version: 1.19
  
@@ -172,10 +172,10 @@ extern "C" {
         synctex_tree_spcfln_hbox_max        =  6,
         /* hbox proxy supplement */
         synctex_tree_spcfln_target_idx          =  6,
-        synctex_tree_spcflnt_hbox_proxy_max     =  7,
+        synctex_tree_spcflnt_proxy_hbox_max     =  7,
         /* vbox proxy supplement */
         synctex_tree_spcfl_target_idx       =  5,
-        synctex_tree_spcflt_vbox_proxy_max  =  6,
+        synctex_tree_spcflt_proxy_vbox_max  =  6,
         /*  spf supplement*/
         synctex_tree_sp_friend_idx      =  2,
         synctex_tree_spf_max            =  3,
@@ -187,7 +187,7 @@ extern "C" {
         synctex_tree_spft_proxy_max     =  5,
         /*  last proxy supplement */
         synctex_tree_spfa_target_idx        =  4,
-        synctex_tree_spfat_last_proxy_max   =  5,
+        synctex_tree_spfat_proxy_last_max   =  5,
         /* sheet supplement */
         synctex_tree_s_child_idx        =  1,
         synctex_tree_sc_next_hbox_idx   =  2,
@@ -196,7 +196,7 @@ extern "C" {
         synctex_tree_sc_target_idx      =  2,
         synctex_tree_sct_form_max       =  3,
         /* spct */
-        synctex_tree_spct_result_max    =  4,
+        synctex_tree_spct_handle_max    =  4,
     };
     
     enum {
@@ -273,42 +273,15 @@ extern "C" {
     synctex_charindex_t synctex_node_charindex(synctex_node_p node);
     typedef synctex_charindex_t synctex_lineindex_t;
     synctex_lineindex_t synctex_node_lineindex(synctex_node_p node);
+    synctex_node_p synctex_scanner_handle(synctex_scanner_p scanner);
 #       define SYNCTEX_DECLARE_CHARINDEX \
-synctex_charindex_t char_index;\
-synctex_lineindex_t line_index;
-#       define SYNCTEX_CHARINDEX(NODE) (NODE->char_index)
-#       define SYNCTEX_LINEINDEX(NODE) (NODE->line_index)
-#       define SYNCTEX_PRINT_CHARINDEX_FMT "#%i"
-#       define SYNCTEX_PRINT_CHARINDEX_WHAT ,SYNCTEX_CHARINDEX(node)
-#       define SYNCTEX_PRINT_CHARINDEX\
-            printf(SYNCTEX_PRINT_CHARINDEX_FMT SYNCTEX_PRINT_CHARINDEX_WHAT)
-#       define SYNCTEX_PRINT_LINEINDEX_FMT "L#%i"
-#       define SYNCTEX_PRINT_LINEINDEX_WHAT ,SYNCTEX_LINEINDEX(node)
-#       define SYNCTEX_PRINT_LINEINDEX\
-            printf(SYNCTEX_PRINT_LINEINDEX_FMT SYNCTEX_PRINT_LINEINDEX_WHAT)
-#       define SYNCTEX_PRINT_CHARINDEX_NL\
-            printf(SYNCTEX_PRINT_CHARINDEX_FMT "\n" SYNCTEX_PRINT_CHARINDEX_WHAT)
-#       define SYNCTEX_PRINT_LINEINDEX_NL\
-            printf(SYNCTEX_PRINT_CHARINDEX_FMT "\n"SYNCTEX_PRINT_LINEINDEX_WHAT)
-#       define SYNCTEX_DECLARE_CHAR_OFFSET synctex_charindex_t charindex_offset
-#       define SYNCTEX_IMPLEMENT_CHARINDEX(NODE,CORRECTION)\
-NODE->char_index = (synctex_charindex_t)(scanner->charindex_offset+SYNCTEX_CUR-SYNCTEX_START+(CORRECTION)); \
-NODE->line_index = scanner->line_number
+            synctex_charindex_t char_index;\
+            synctex_lineindex_t line_index;
+#       define SYNCTEX_DECLARE_CHAR_OFFSET \
+            synctex_charindex_t charindex_offset;
 #   else
 #       define SYNCTEX_DECLARE_CHARINDEX
-#       define SYNCTEX_CHARINDEX(NODE) 0
-#       define SYNCTEX_LINEINDEX(NODE) 0
-#       define SYNCTEX_PRINT_CHARINDEX_FMT
-#       define SYNCTEX_PRINT_CHARINDEX_WHAT
-#       define SYNCTEX_PRINT_CHARINDEX
-#       define SYNCTEX_PRINT_CHARINDEX
-#       define SYNCTEX_PRINT_LINEINDEX_FMT
-#       define SYNCTEX_PRINT_LINEINDEX_WHAT
-#       define SYNCTEX_PRINT_LINEINDEX
-#       define SYNCTEX_PRINT_CHARINDEX_NL printf("\n")
-#       define SYNCTEX_PRINT_LINEINDEX_NL printf("\n")
 #       define SYNCTEX_DECLARE_CHAR_OFFSET
-#       define SYNCTEX_IMPLEMENT_CHARINDEX(NODE,CORRECTION)
 #   endif
     struct synctex_node_t {
         SYNCTEX_DECLARE_CHARINDEX
@@ -404,24 +377,30 @@ _Pragma("clang diagnostic ignored \"-Wformat-extra-args\"")
 #define __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS
 #endif
     
-#   define SYNCTEX_TEST_BODY(condition, desc, ...) \
+#   define SYNCTEX_TEST_BODY(counter, condition, desc, ...) \
     do {				\
         __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \
         if (!(condition)) {		\
+            ++counter;  \
             printf("**** Test failed: %s\nfile %s\nfunction %s\nline %i\n",#condition,__FILE__,__FUNCTION__,__LINE__); \
             printf((desc), ##__VA_ARGS__); \
         }				\
         __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS \
     } while(0)
         
-#   define SYNCTEX_TEST_PARAMETER(condition) SYNCTEX_TEST_BODY((condition), "Invalid parameter not satisfying: %s", #condition)
+#   define SYNCTEX_TEST_PARAMETER(counter, condition) SYNCTEX_TEST_BODY(counter, (condition), "Invalid parameter not satisfying: %s", #condition)
     
     int synctex_test_input(synctex_scanner_p scanner);
     int synctex_test_proxy(synctex_scanner_p scanner);
     int synctex_test_tree(synctex_scanner_p scanner);
     int synctex_test_page(synctex_scanner_p scanner);
-    int synctex_test_result(synctex_scanner_p scanner);
+    int synctex_test_handle(synctex_scanner_p scanner);
     int synctex_test_display_query(synctex_scanner_p scanner);
+    int synctex_test_charindex();
+    int synctex_test_sheet_1();
+    int synctex_test_sheet_2();
+    int synctex_test_sheet_3();
+    int synctex_test_form();
 #endif
 
 #ifdef __cplusplus

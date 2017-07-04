@@ -13,6 +13,7 @@ synctex_parser_version.txt
 synctex_parser_utils.c
 synctex_parser_utils.h
 synctex_parser_local.h
+synctex_parser_private.h
 synctex_parser.h
 synctex_parser.c
 
