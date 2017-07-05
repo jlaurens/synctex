@@ -9,16 +9,18 @@ This file is part of the __SyncTeX__ package.
 
 * Changes in version `1.19`
 	* more consistent type naming convention
-		* _s suffix for struct's
-		* _p suffix for pointers
-		* _t suffix for standard types
+		* `_s` suffix for struct's
+		* `_p` suffix for pointers
+		* `_t` suffix for standard types
+		* `_f` suffix for functions...
 		
-		`synctex_node_t` has become `synctex_node_p`.
+		thus `synctex_node_t` has become `synctex_node_p`.
 		
-	* supplemental argument in `synctex_display_query`
+	* supplemental argument in `synctex_display_query`. Set `page_hint` to the currently displayed pdf page number (0 based). If this info is not available, set `page_hint` to 0, it corresponds to the old behaviour.
 	* rename `synctex_next_result` to `synctex_scanner_next_result`
 	* additional `synctex_parser_private.h` header where 
-	more API are exposed. Advanced usage (eg parallel synchronizations).
+	more API are exposed. For an advanced usage only (eg parallel synchronizations).
+	* `SYNCTEX_NO_UPDATER` preprocessor macro to deactivate some code useless to frontends.
 
 ## What is it ?
 
