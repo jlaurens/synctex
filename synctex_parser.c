@@ -7186,6 +7186,7 @@ synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner,const 
                                 /*  Order this node first */
                                 __synctex_tree_set_sibling(sibling,result);
                                 result = sibling;
+                                best_match = match;
                             } else /*if (match>best_match)*/ {
                                 __synctex_tree_set_sibling(sibling,__synctex_tree_sibling(result));
                                 __synctex_tree_set_sibling(result,sibling);

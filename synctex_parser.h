@@ -199,7 +199,7 @@ extern "C" {
     
     /*  Managing the input file names.
      *  Given a tag, synctex_scanner_get_name will return the corresponding file name.
-     *  Conversely, given a file name, synctex_scanner_get_tag will retur, the corresponding tag.
+     *  Conversely, given a file name, synctex_scanner_get_tag will return, the corresponding tag.
      *  The file name must be the very same as understood by TeX.
      *  For example, if you \input myDir/foo.tex, the file name is myDir/foo.tex.
      *  No automatic path expansion is performed.
@@ -229,9 +229,9 @@ extern "C" {
      *  parent, child and sibling are standard names for tree nodes.
      *  The parent is one level higher, the child is one level deeper,
      *  and the sibling is at the same level.
-     *  The sheet of a node is the first ancestor, it is of type sheet.
+     *  The sheet of a node is the topmost ancestor, it is of type sheet.
      *  A node and its sibling have the same parent.
-     *  A node is the parent of its child.
+     *  A node is the parent of its children.
      *  A node is either the child of its parent,
      *  or belongs to the sibling chain of its parent's child.
      *  The next node is either the child, the sibling or the parent's sibling,
