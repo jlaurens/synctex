@@ -1,0 +1,9 @@
+# SyncTeX test
+## domain:
+edit synchronization, from output to source.
+## condition:
+One location in the output file pertainig to many overlapping boxes. Sometimes TeX is asked to create bigger boxes than absolutely necessary.
+## problem:
+Given a location in an output file, which line should we synchronize to ?
+## answer:
+Choose the hbox with the smallest area, then find the closest child within it. This node will give the source and line.

@@ -4618,6 +4618,7 @@ static synctex_status_t _synctex_make_hbox_contain_box(synctex_node_p node,synct
 #   define SYNCTEX_CHAR_FORM_REF    'f'
 #   define SYNCTEX_CHAR_BOUNDARY    'x'
 #   define SYNCTEX_CHAR_CHARACTER   'c'
+#   define SYNCTEX_CHAR_COMMENT     '%'
 
 #   define SYNCTEX_RETURN(STATUS) return STATUS;
 
@@ -4993,6 +4994,14 @@ main_loop:
             if (form || sheet) {
                 goto content_loop;
             }
+            try_input = synctex_YES;
+            goto main_loop;
+        } else if (SYNCTEX_START_SCAN(ANCHOR)) {
+#	ifdef SYNCTEX_NOTHING
+#       pragma mark + SCAN COMMENT
+#   endif
+            ++SYNCTEX_CUR;
+            _synctex_next_line(scanner);
             try_input = synctex_YES;
             goto main_loop;
         } else if (try_input) {
@@ -6282,36 +6291,30 @@ int synctex_node_hbox_v(synctex_node_p node) {
 /**
  *  The width of an hbox, corrected with contents.
  *  - parameter node: an hbox node, 0 if node is not an hbox or an hbox proxy.
- *  - note: recursive call when node is an hbox proxy.
  *  - returns: an integer.
  *  - author: JL
  */
 int synctex_node_hbox_width(synctex_node_p node) {
-    switch(synctex_node_type(node)) {
-        case synctex_node_type_hbox:
-            return _synctex_data_width_V(node);
-        case synctex_node_type_proxy_hbox:
-            return synctex_node_hbox_width(_synctex_tree_target(node));
-        default:
-            return 0;
+    synctex_node_p target = _synctex_tree_target(node);
+    if (target) {
+        node = target;
     }
+    return synctex_node_type(node) == synctex_node_type_hbox?
+    _synctex_data_width_V(node): 0;
 }
 /**
  *  The height of an hbox, corrected with contents.
  *  - parameter node: an hbox node.
  *  - returns: an integer, 0 if node is not an hbox or an hbox proxy.
- *  - note: recursive call when node is an hbox proxy.
  *  - author: JL
  */
 int synctex_node_hbox_height(synctex_node_p node) {
-    switch(synctex_node_type(node)) {
-        case synctex_node_type_hbox:
-            return _synctex_data_height_V(node);
-        case synctex_node_type_proxy_hbox:
-            return synctex_node_hbox_height(_synctex_tree_target(node));
-        default:
-            return 0;
+    synctex_node_p target = _synctex_tree_target(node);
+    if (target) {
+        node = target;
     }
+    return synctex_node_type(node) == synctex_node_type_hbox?
+    _synctex_data_height_V(node): 0;
 }
 /**
  *  The depth of an hbox, corrected with contents.
@@ -6321,14 +6324,12 @@ int synctex_node_hbox_height(synctex_node_p node) {
  *  - author: JL
  */
 int synctex_node_hbox_depth(synctex_node_p node) {
-    switch(synctex_node_type(node)) {
-        case synctex_node_type_hbox:
-            return _synctex_data_depth_V(node);
-        case synctex_node_type_proxy_hbox:
-            return synctex_node_hbox_depth(_synctex_tree_target(node));
-        default:
-            return 0;
+    synctex_node_p target = _synctex_tree_target(node);
+    if (target) {
+        node = target;
     }
+    return synctex_node_type(node) == synctex_node_type_hbox?
+    _synctex_data_depth_V(node): 0;
 }
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
@@ -6548,13 +6549,17 @@ static synctex_node_p _synctex_node_box_visible(synctex_node_p node) {
         while (_synctex_node_is_box(N = _synctex_tree_parent(node))) {
             if (_synctex_abs(mean-synctex_node_mean_line(node))>1) {
                 return node;
-            } else if (synctex_node_width(node)>1500000) {
-                return node;
-            } else if (synctex_node_height(node)+synctex_node_depth(node)>1500000) {
-                return node;
+            } else {
+                int bound = 1500000/(node->class->scanner->pre_magnification/1000);
+                if (synctex_node_width(node)>bound) {
+                    return node;
+                } else if (synctex_node_height(node)+synctex_node_depth(node)>bound) {
+                    return node;
+                }
             }
             node = N;
         }
+        return node;
     }
     return NULL;
 }
@@ -7485,23 +7490,23 @@ static synctex_nd_s _synctex_point_v_ordered_distance_v2
     return nd;
 }
 /**
- *  The smallest is the one with the smallest area.
+ *  The best is the one with the smallest area.
  *  The area is width*height where width and height may be big.
- *  So there is a real risk of overflow.
+ *  So there is a real risk of overflow if we stick with ints.
  */
 SYNCTEX_INLINE static synctex_node_p _synctex_smallest_container_v2(synctex_node_p node, synctex_node_p other_node) {
-    int total_height, other_total_height;
+    long total_height, other_total_height;
     unsigned long area, other_area;
-    int width = synctex_node_hbox_width(node);
-    int other_width = synctex_node_hbox_width(other_node);
+    long width = synctex_node_hbox_width(node);
+    long other_width = synctex_node_hbox_width(other_node);
     if (width<0) {
         width = -width;
     }
     if (other_width<0) {
         other_width = -other_width;
     }
-    total_height = _synctex_abs(_synctex_data_depth(node)) + _synctex_abs(_synctex_data_height(node));
-    other_total_height = _synctex_abs(_synctex_data_depth(other_node)) + _synctex_abs(_synctex_data_height(other_node));
+    total_height = _synctex_abs(synctex_node_hbox_depth(node)) + _synctex_abs(synctex_node_hbox_height(node));
+    other_total_height = _synctex_abs(synctex_node_hbox_depth(other_node)) + _synctex_abs(synctex_node_hbox_height(other_node));
     area = total_height*width;
     other_area = other_total_height*other_width;
     if (area<other_area) {
@@ -8030,6 +8035,7 @@ SYNCTEX_INLINE static synctex_nd_lr_s _synctex_eq_get_closest_children_in_box_v2
     return nds;
 }
 
+#ifndef SYNCTEX_NO_UPDATER
 
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
@@ -8066,16 +8072,22 @@ static int _synctex_updater_print(synctex_updater_p updater, const char * format
     }
     return result;
 }
-
+/**
+ *  gzvprintf is not available until OSX 10.10
+ */
 static int _synctex_updater_print_gz(synctex_updater_p updater, const char * format, ...) {
     int result = 0;
     if (updater) {
+        char * buffer;
         va_list va;
         va_start(va, format);
-        result = gzvprintf(updater->file.as_gzFile,
-                           format,
-                           va);
+        if (vasprintf(&buffer, format, va) < 0) {
+            _synctex_error("Out of memory...");
+        } else if ((result = (int)strlen(buffer))) {
+            result = gzwrite(updater->file.as_gzFile, buffer, (unsigned)result);
+        }
         va_end(va);
+        free(buffer);
     }
     return result;
 }
@@ -8177,11 +8189,13 @@ void synctex_updater_free(synctex_updater_p updater){
     printf("... done.\n");
     return;
 }
+#endif
+
+#if defined(SYNCTEX_TESTING)
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
 #       pragma mark Testers
 #   endif
-#if defined(SYNCTEX_TESTING)
 static int _synctex_input_copy_name(synctex_node_p input, char * name) {
     char * copy = _synctex_malloc(strlen(name)+1);
     memcpy(copy,name,strlen(name)+1);

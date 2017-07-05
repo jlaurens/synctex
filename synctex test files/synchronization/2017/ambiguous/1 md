@@ -1,0 +1,9 @@
+# SyncTeX test
+## domain:
+display synchronization, from source to output.
+## condition:
+One input line contributes to many horizontal boxes.
+## problem:
+Given a line number in an input source, which horizontal box should we synchronize to ?
+## answer:
+Choose the box with the maximum number of children with the given line number and the given source.
