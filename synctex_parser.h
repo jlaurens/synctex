@@ -375,7 +375,7 @@ extern "C" {
     float synctex_node_box_visible_width(synctex_node_p node);
     float synctex_node_box_visible_height(synctex_node_p node);
     float synctex_node_box_visible_depth(synctex_node_p node);
-    
+#ifndef SYNCTEX_NO_UPDATER
     /*  The main synctex updater object.
      *  This object is used to append information to the synctex file.
      *  Its implementation is considered private.
@@ -398,6 +398,7 @@ extern "C" {
     
     /*  You MUST free the updater, once everything is properly appended */
     void synctex_updater_free(synctex_updater_p updater);
+#endif
     
 #ifdef __cplusplus
 }
