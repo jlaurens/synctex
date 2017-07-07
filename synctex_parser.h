@@ -219,6 +219,10 @@ extern "C" {
      *  it was obtained from output by setting the proper file extension.
      */
     const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag);
+    /**
+     *  Convenient shortcut. Return NULL in case or error.
+     */
+    const char * synctex_node_get_name(synctex_node_p node);
     int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
     synctex_node_p synctex_scanner_input(synctex_scanner_p scanner);
     synctex_node_p synctex_scanner_input_with_tag(synctex_scanner_p scanner,int tag);

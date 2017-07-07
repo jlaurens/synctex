@@ -264,6 +264,16 @@ struct synctex_class_t {
     synctex_vispector_p vispector;
 };
 
+/**
+ *  Nota bene: naming convention.
+ *  For static API, when the name contains proxy, it applies to proxies.
+ *  When the name contains noxy, it applies to non proxies only.
+ *  When the name contains node, weel it depends...
+ */
+
+typedef synctex_node_p synctex_proxy_p;
+typedef synctex_node_p synctex_noxy_p;
+
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
 #       pragma mark Abstract OBJECTS and METHODS
@@ -962,10 +972,8 @@ static synctex_ss_s _synctex_decode_string(synctex_scanner_p scanner);
 
 /**
  *  The next macros are used to access the node data info
- *  SYNCTEX_DATA(node) points to the first synctex integer or pointer data of node
- *  SYNCTEX_DATA(node)[index] is the information at index
- *  for example, the page of a sheet is stored in SYNCTEX_DATA(sheet)[_synctex_data_page_idx]
- *  - parameter NODE: of type synctex_node_p
+ *  through the class modelator integer fields.
+  *  - parameter NODE: of type synctex_node_p
  */
 #   define SYNCTEX_DATA(NODE) ((*((((NODE)->class))->info))(NODE))
 #if defined SYNCTEX_DEBUG > 1000
@@ -6011,6 +6019,12 @@ const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag) {
     }
     return NULL;
 }
+const char * synctex_node_get_name(synctex_node_p node) {
+    if (node) {
+        return synctex_scanner_get_name(node->class->scanner,_synctex_data_tag(node));
+    }
+    return NULL;
+}
 
 static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
 static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name) {
@@ -6119,33 +6133,25 @@ const char * synctex_scanner_get_synctex(synctex_scanner_p scanner) {
 #       pragma mark -
 #       pragma mark Public node attributes
 #   endif
+
 #   define SYNCTEX_DEFINE_NODE_HVWHD(WHAT) \
 int synctex_node_##WHAT(synctex_node_p node) { \
-    if (node && node->class->inspector->WHAT) { \
-        return node->class->inspector->WHAT(node); \
-    } else { \
-        return 0; \
-    } \
+    return (node && node->class->inspector->WHAT)? \
+        node->class->inspector->WHAT(node): 0; \
 }
 #   define SYNCTEX_DEFINE_PROXY_HV(WHAT) \
-static int _synctex_proxy_##WHAT(synctex_node_p proxy) { \
+static int _synctex_proxy_##WHAT(synctex_proxy_p proxy) { \
     synctex_node_p target = _synctex_tree_target(proxy); \
     if (target) { \
         return _synctex_data_##WHAT(proxy)+synctex_node_##WHAT(target); \
-    } else if (proxy) { \
-        return _synctex_data_##WHAT(proxy); \
     } else { \
-        return 0; \
+        return proxy? _synctex_data_##WHAT(proxy): 0; \
     } \
 }
 #define SYNCTEX_DEFINE_PROXY_TLCWVD(WHAT) \
-static int _synctex_proxy_##WHAT(synctex_node_p proxy) { \
+static int _synctex_proxy_##WHAT(synctex_proxy_p proxy) { \
     synctex_node_p target = _synctex_tree_target(proxy); \
-    if (target) { \
-        return synctex_node_##WHAT(target); \
-    } else { \
-        return 0; \
-    } \
+    return target? synctex_node_##WHAT(target): 0; \
 }
 
 /**
@@ -6188,10 +6194,40 @@ synctex_visible_range_s synctex_node_h_visible_range(synctex_node_p node) {
 
 SYNCTEX_INLINE static synctex_bool_t _synctex_node_is_box(synctex_node_p node) {
     return node &&
-             (node->class->type == synctex_node_type_hbox
-             || node->class->type == synctex_node_type_void_hbox
-             || node->class->type == synctex_node_type_vbox
-             || node->class->type == synctex_node_type_void_vbox);
+    (node->class->type == synctex_node_type_hbox
+     || node->class->type == synctex_node_type_void_hbox
+     || node->class->type == synctex_node_type_vbox
+     || node->class->type == synctex_node_type_void_vbox
+     || _synctex_node_is_box(_synctex_tree_target(node)));
+}
+
+/**
+ *  Whether the argument is a handle.
+ *  - parameter NODE: of type synctex_node_p
+ *  - returns: yorn
+ */
+
+SYNCTEX_INLINE static synctex_bool_t _synctex_node_is_handle(synctex_node_p node) {
+    return node &&
+    (node->class->type == synctex_node_type_handle);
+}
+
+SYNCTEX_INLINE static synctex_node_p _synctex_node_or_handle_target(synctex_node_p node) {
+    return _synctex_node_is_handle(node)?
+    _synctex_tree_target(node):node;
+}
+
+/**
+ *  Whether the argument is an hbox.
+ *  - parameter NODE: of type synctex_node_p
+ *  - returns: yorn
+ */
+
+SYNCTEX_INLINE static synctex_bool_t _synctex_node_is_hbox(synctex_node_p node) {
+    return node &&
+    (node->class->type == synctex_node_type_hbox
+     || node->class->type == synctex_node_type_void_hbox
+     || _synctex_node_is_hbox(_synctex_tree_target(node)));
 }
 
 /**
@@ -6336,32 +6372,32 @@ int synctex_node_hbox_depth(synctex_node_p node) {
 #       pragma mark Public node visible attributes
 #   endif
 
-#define SYNCTEX_VISIBLE_SIZE(s) \
+#define SYNCTEX_VISIBLE_SIZE(node,s) \
 (s)*node->class->scanner->unit
-#define SYNCTEX_VISIBLE_DISTANCE_h(d) \
+#define SYNCTEX_VISIBLE_DISTANCE_h(node,d) \
 ((d)*node->class->scanner->unit+node->class->scanner->x_offset)
-#define SYNCTEX_VISIBLE_DISTANCE_v(d) \
+#define SYNCTEX_VISIBLE_DISTANCE_v(node,d) \
 ((d)*node->class->scanner->unit+node->class->scanner->y_offset)
 static float __synctex_node_visible_h(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_DISTANCE_h(synctex_node_h(node));
+    return SYNCTEX_VISIBLE_DISTANCE_h(node,synctex_node_h(node));
 }
 static float __synctex_node_visible_v(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_DISTANCE_v(synctex_node_v(node));
+    return SYNCTEX_VISIBLE_DISTANCE_v(node,synctex_node_v(node));
 }
 static float __synctex_node_visible_width(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_SIZE(synctex_node_width(node));
+    return SYNCTEX_VISIBLE_SIZE(node,synctex_node_width(node));
 }
 static float __synctex_node_visible_height(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_SIZE(synctex_node_height(node));
+    return SYNCTEX_VISIBLE_SIZE(node,synctex_node_height(node));
 }
 static float __synctex_node_visible_depth(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_SIZE(synctex_node_depth(node));
+    return SYNCTEX_VISIBLE_SIZE(node,synctex_node_depth(node));
 }
 static float __synctex_proxy_visible_h(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_DISTANCE_h(synctex_node_h(node));
+    return SYNCTEX_VISIBLE_DISTANCE_h(node,synctex_node_h(node));
 }
 static float __synctex_proxy_visible_v(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_DISTANCE_v(synctex_node_v(node));
+    return SYNCTEX_VISIBLE_DISTANCE_v(node,synctex_node_v(node));
 }
 static float __synctex_proxy_visible_width(synctex_node_p node) {
     synctex_node_p target = _synctex_tree_target(node);
@@ -6375,32 +6411,32 @@ static float __synctex_proxy_visible_depth(synctex_node_p node) {
     synctex_node_p target = _synctex_tree_target(node);
     return __synctex_node_visible_depth(target);
 }
-static float __synctex_kern_visible_h(synctex_node_p node) {
-    int h = _synctex_data_h(node);
-    int width = _synctex_data_width(node);
-    return SYNCTEX_VISIBLE_DISTANCE_h(width>0?h-width:h);
+static float __synctex_kern_visible_h(synctex_noxy_p noxy) {
+    int h = _synctex_data_h(noxy);
+    int width = _synctex_data_width(noxy);
+    return SYNCTEX_VISIBLE_DISTANCE_h(noxy, width>0?h-width:h);
 }
-static float __synctex_kern_visible_width(synctex_node_p node) {
-    int width = _synctex_data_width(node);
-    return SYNCTEX_VISIBLE_SIZE(width>0?width:-width);
+static float __synctex_kern_visible_width(synctex_noxy_p noxy) {
+    int width = _synctex_data_width(noxy);
+    return SYNCTEX_VISIBLE_SIZE(noxy, width>0?width:-width);
 }
-static float __synctex_rule_visible_h(synctex_node_p node) {
-    int h = _synctex_data_h(node);
-    int width = _synctex_data_width(node);
-    return SYNCTEX_VISIBLE_DISTANCE_h(width>0?h:h-width);
+static float __synctex_rule_visible_h(synctex_noxy_p noxy) {
+    int h = _synctex_data_h(noxy);
+    int width = _synctex_data_width(noxy);
+    return SYNCTEX_VISIBLE_DISTANCE_h(noxy, width>0?h:h-width);
 }
-static float __synctex_rule_visible_width(synctex_node_p node) {
-    int width = _synctex_data_width(node);
-    return SYNCTEX_VISIBLE_SIZE(width>0?width:-width);
+static float __synctex_rule_visible_width(synctex_noxy_p noxy) {
+    int width = _synctex_data_width(noxy);
+    return SYNCTEX_VISIBLE_SIZE(noxy, width>0?width:-width);
 }
-static float __synctex_rule_visible_v(synctex_node_p node) {
-    return __synctex_node_visible_v(node);
+static float __synctex_rule_visible_v(synctex_noxy_p noxy) {
+    return __synctex_node_visible_v(noxy);
 }
-static float __synctex_rule_visible_height(synctex_node_p node) {
-    return __synctex_node_visible_height(node);
+static float __synctex_rule_visible_height(synctex_noxy_p noxy) {
+    return __synctex_node_visible_height(noxy);
 }
-static float __synctex_rule_visible_depth(synctex_node_p node) {
-    return __synctex_node_visible_depth(node);
+static float __synctex_rule_visible_depth(synctex_noxy_p noxy) {
+    return __synctex_node_visible_depth(noxy);
 }
 
 /**
@@ -6536,32 +6572,44 @@ SYNCTEX_INLINE static synctex_box_s _synctex_data_box_V(synctex_node_p node) {
 /**
  *  The higher box node in the parent hierarchy which mean line number is the one of node ±1.
  *  - parameter node: a node.
- *  - returns: a box node.
+ *  - returns: a (proxy to a) box node.
  *  - author: JL
  */
 static synctex_node_p _synctex_node_box_visible(synctex_node_p node) {
-    synctex_node_p N = _synctex_tree_target(node);
-    if (N) {
-        node = N;
-    }
-    if (_synctex_node_is_box(node) || _synctex_node_is_box(node = _synctex_tree_parent(node))) {
-        int mean = synctex_node_mean_line(node);
-        while (_synctex_node_is_box(N = _synctex_tree_parent(node))) {
-            if (_synctex_abs(mean-synctex_node_mean_line(node))>1) {
-                return node;
-            } else {
-                int bound = 1500000/(node->class->scanner->pre_magnification/1000);
-                if (synctex_node_width(node)>bound) {
-                    return node;
-                } else if (synctex_node_height(node)+synctex_node_depth(node)>bound) {
-                    return node;
+    int mean = 0;
+    int bound = 1500000/(node->class->scanner->pre_magnification/1000);
+    synctex_node_p parent = NULL;
+    /*  get the first enclosing parent
+     *  then get the highest enclosing parent with the same mean line ±1 */
+    node = _synctex_node_or_handle_target(node);
+    if (!_synctex_node_is_box(node)) {
+        if ((parent = _synctex_tree_parent(node))) {
+            node = parent;
+        } else if ((node = _synctex_tree_target(node))) {
+            if (!_synctex_node_is_box(node)) {
+                if ((parent = _synctex_tree_parent(node))) {
+                    node = parent;
+                } else {
+                    return NULL;
                 }
             }
-            node = N;
         }
-        return node;
     }
-    return NULL;
+    parent = node;
+    mean = synctex_node_mean_line(node);
+    while ((parent = _synctex_tree_parent(parent))) {
+        if (_synctex_node_is_hbox(parent)) {
+            if (_synctex_abs(mean-synctex_node_mean_line(parent))>1) {
+                return node;
+            } else if (synctex_node_width(parent)>bound) {
+                return parent;
+            } else if (synctex_node_height(parent)+synctex_node_depth(parent)>bound) {
+                return parent;
+            }
+            node = parent;
+        }
+    }
+    return node;
 }
 /**
  *  The horizontal location of the first box enclosing node, in page coordinates.
@@ -6570,7 +6618,7 @@ static synctex_node_p _synctex_node_box_visible(synctex_node_p node) {
  *  - author: JL
  */
 float synctex_node_box_visible_h(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_DISTANCE_h(_synctex_node_h_V(_synctex_node_box_visible(node)));
+    return SYNCTEX_VISIBLE_DISTANCE_h(node,_synctex_node_h_V(_synctex_node_box_visible(node)));
 }
 /**
  *  The vertical location of the first box enclosing node, in page coordinates.
@@ -6579,7 +6627,7 @@ float synctex_node_box_visible_h(synctex_node_p node) {
  *  - author: JL
  */
 float synctex_node_box_visible_v(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_DISTANCE_v(_synctex_node_v_V(_synctex_node_box_visible(node)));
+    return SYNCTEX_VISIBLE_DISTANCE_v(node,_synctex_node_v_V(_synctex_node_box_visible(node)));
 }
 /**
  *  The width of the first box enclosing node, in page coordinates.
@@ -6588,7 +6636,7 @@ float synctex_node_box_visible_v(synctex_node_p node) {
  *  - author: JL
  */
 float synctex_node_box_visible_width(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_SIZE(_synctex_node_width_V(_synctex_node_box_visible(node)));
+    return SYNCTEX_VISIBLE_SIZE(node,_synctex_node_width_V(_synctex_node_box_visible(node)));
 }
 /**
  *  The height of the first box enclosing node, in page coordinates.
@@ -6597,7 +6645,7 @@ float synctex_node_box_visible_width(synctex_node_p node) {
  *  - author: JL
  */
 float synctex_node_box_visible_height(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_SIZE(_synctex_node_height_V(_synctex_node_box_visible(node)));
+    return SYNCTEX_VISIBLE_SIZE(node,_synctex_node_height_V(_synctex_node_box_visible(node)));
 }
 /**
  *  The depth of the first box enclosing node, in page coordinates.
@@ -6606,7 +6654,7 @@ float synctex_node_box_visible_height(synctex_node_p node) {
  *  - author: JL
  */
 float synctex_node_box_visible_depth(synctex_node_p node) {
-    return SYNCTEX_VISIBLE_SIZE(_synctex_node_depth_V(_synctex_node_box_visible(node)));
+    return SYNCTEX_VISIBLE_SIZE(node,_synctex_node_depth_V(_synctex_node_box_visible(node)));
 }
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
@@ -6696,7 +6744,8 @@ int synctex_node_mean_line(synctex_node_p node) {
     if (target) {
         node = target;
     }
-    return node?(synctex_node_type(node)==synctex_node_type_hbox?_synctex_data_mean_line(node):_synctex_data_line(node)):-1;
+    return _synctex_data_has_mean_line(node)?
+    _synctex_data_mean_line(node):_synctex_data_line(node);
 }
 /**
  *  The weight of the node.

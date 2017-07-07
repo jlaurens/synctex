@@ -84,10 +84,10 @@ void _synctex_free(void * ptr) {
     }
 }
 
-int _synctex_error(const char * reason,...) {
-	va_list arg;
+#   include <syslog.h>
+
+int _synctex_log(int level, const char * prompt, const char * reason,va_list arg) {
 	int result;
-	va_start (arg, reason);
 #	ifdef SYNCTEX_RECENT_WINDOWS
 	{/*	This code is contributed by William Blum.
         As it does not work on some older computers,
@@ -99,21 +99,55 @@ int _synctex_error(const char * reason,...) {
         JL.*/
 		char *buff;
 		size_t len;
-		OutputDebugStringA("SyncTeX ERROR: ");
+		OutputDebugStringA(prompt);
 		len = _vscprintf(reason, arg) + 1;
 		buff = (char*)malloc( len * sizeof(char) );
-		result = vsprintf(buff, reason, arg) +strlen("SyncTeX ERROR: ");
+		result = vsprintf(buff, reason, arg) +strlen(prompt);
 		OutputDebugStringA(buff);
 		OutputDebugStringA("\n");
 		free(buff);
 	}
+#   elif SYNCTEX_USE_SYSLOG
+    char * buffer1 = NULL;
+    char * buffer2 = NULL;
+    openlog ("SyncTeX", LOG_CONS | LOG_PID | LOG_PERROR | LOG_NDELAY, LOG_LOCAL0);
+    if (vasprintf(&buffer1,reason,arg)>=0
+        && asprintf(&buffer2,"%s%s",prompt, buffer1)>=0) {
+        syslog (level, "%s", buffer2);
+        result = (int)strlen(buffer2);
+    } else {
+        syslog (level, "%s",prompt);
+        vsyslog(level,reason,arg);
+        result = (int)strlen(prompt);
+    }
+    free(buffer1);
+    free(buffer2);
+    closelog();
 #   else
-	result = fprintf(stderr,"SyncTeX ERROR: ");
-	result += vfprintf(stderr, reason, arg);
-	result += fprintf(stderr,"\n");
+    FILE * where = level == LOG_ERR? stderr: stdout;
+    result = fputs(prompt,where);
+    result += vfprintf(where, reason, arg);
+    result += fprintf(where,"\n");
 #   endif
-	va_end (arg);
 	return result;
+}
+
+int _synctex_error(const char * reason,...) {
+    va_list arg;
+    int result;
+    va_start (arg, reason);
+    result = _synctex_log(LOG_ERR, "! SyncTeX Error : ", reason, arg);
+    va_end (arg);
+    return result;
+}
+
+int _synctex_debug(const char * reason,...) {
+    va_list arg;
+    int result;
+    va_start (arg, reason);
+    result = _synctex_log(LOG_DEBUG, "! SyncTeX Error : ", reason, arg);
+    va_end (arg);
+    return result;
 }
 
 /*  strip the last extension of the given string, this string is modified! */
