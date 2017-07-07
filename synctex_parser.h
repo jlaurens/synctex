@@ -56,68 +56,93 @@ extern "C" {
     
 #   define SYNCTEX_VERSION_STRING "1.19"
     
-    /*  The main synctex object is a scanner
+    /*  The main synctex object is a scanner.
      *  Its implementation is considered private.
      *  The basic workflow is
-     * - create a "synctex scanner" with the contents of a file
-     * - perform actions on that scanner like display or edit queries
-     * - free the scanner when the work is done
+     *  -   create a "synctex scanner" with the contents of a file
+     *  -   perform actions on that scanner like
+        synctex_display_query or synctex_edit_query below.
+     *  -   perform actions on nodes returned by the scanner
+     *  - free the scanner when the work is done
      */
     typedef struct synctex_scanner_t synctex_scanner_s;
     typedef synctex_scanner_s * synctex_scanner_p;
     
-    /*  This is the designated method to create a new synctex scanner object.
-     *  output is the pdf/dvi/xdv file associated to the synctex file.
-     *  If necessary, it can be the tex file that originated the synctex file
-     *  but this might cause problems if the \jobname has a custom value.
-     *  Despite this method can accept a relative path in practice,
-     *  you should only pass a full path name.
-     *  The path should be encoded by the underlying file system,
-     *  assuming that it is based on 8 bits characters, including UTF8,
-     *  not 16 bits nor 32 bits.
-     *  The last file extension is removed and replaced by the proper extension.
-     *  Then the private method _synctex_scanner_new_with_contents_of_file is called.
-     *  NULL is returned in case of an error or non existent file.
-     *  Once you have a scanner, use the synctex_display_query and synctex_edit_query below.
-     *	The new "build_directory" argument is available since version 1.5.
-     *	It is the directory where all the auxiliary stuff is created.
-     *	Sometimes, the synctex output file and the pdf, dvi or xdv files are not created in the same directory.
-     *	This is the case in MikTeX (I will include this into TeX Live).
-     *	This directory path can be nil, it will be ignored then.
-     *	It can be either absolute or relative to the directory of the output pdf (dvi or xdv) file.
-     *	If no synctex file is found in the same directory as the output file, then we try to find one in the build directory.
-     *  Please note that this new "build_directory" is provided as a convenient argument but should not be used.
-     *  In fact, this is implempented as a work around of a bug in MikTeX where the synctex file does not follow the pdf file.
-     *  The new "parse" argument is available since version 1.5. In general, use 1.
-     *  Use 0 only if you do not want to parse the content but just check the existence.
+    /**
+     *  This is the designated method to create
+     *  a new synctex scanner object.
+     *  - argument output: the pdf/dvi/xdv file associated
+     *      to the synctex file.
+     *      If necessary, it can be the tex file that
+     *      originated the synctex file but this might cause
+     *      problems if the \jobname has a custom value.
+     *      Despite this method can accept a relative path
+     *      in practice, you should only pass full paths.
+     *      The path should be encoded by the underlying
+     *      file system, assuming that it is based on
+     *      8 bits characters, including UTF8,
+     *      not 16 bits nor 32 bits.
+     *      The last file extension is removed and
+     *      replaced by the proper extension,
+     *      either synctex or synctex.gz.
+     *  - argument build_directory: It is the directory where
+     *      all the auxiliary stuff is created.
+     *      If no synctex file is found in the same directory
+     *      as the output file, then we try to find one in
+     *      this build directory.
+     *      It is the directory where all the auxiliary
+     *      stuff is created. Sometimes, the synctex output
+     *      file and the pdf, dvi or xdv files are not 
+     *      created in the same location. See MikTeX.
+     *      This directory path can be NULL,
+     *      it will be ignored then.
+     *      It can be either absolute or relative to the
+     *      directory of the output pdf (dvi or xdv) file.
+     *      Please note that this new argument is provided
+     *      as a convenience but should not be used.
+     *      Available since version 1.5.
+     *  - argument parse: In general, use 1.
+     *      Use 0 only if you do not want to parse the
+     *      content but just check for existence.
+     *      Available since version 1.5
+     *   - resturn: a scanner. NULL is returned in case
+     *      of an error or non existent file.
      */
     synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, const char * build_directory, int parse);
     
-    /*  This is the designated method to delete a synctex scanner object.
+    /**
+     *  Designated method to delete a synctex scanner object,
+     *  including all its internal resources.
      *  Frees all the memory, you must call it when you are finished with the scanner.
+     *  - argument scanner: a scanner.
+     *  - returns: an integer used for testing purposes.
      */
     int synctex_scanner_free(synctex_scanner_p scanner);
     
-    /*  Send this message to force the scanner to parse the contents of the synctex output file.
+    /**
+     *  Send this message to force the scanner to
+     *  parse the contents of the synctex output file.
      *  Nothing is performed if the file was already parsed.
-     *  In each query below, this message is sent, but if you need to access information more directly,
-     *  you must be sure that the parsing did occur.
+     *  In each query below, this message is sent,
+     *  but if you need to access information more directly,
+     *  you must ensure that the parsing did occur.
      *  Usage:
      *		if((my_scanner = synctex_scanner_parse(my_scanner))) {
      *			continue with my_scanner...
      *		} else {
      *			there was a problem
      *		}
+     *  - returns: the argument on success.
+     *      On failure, frees scanner and returns NULL.
      */
     synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner);
     
     /*  synctex_node_p is the type for all synctex nodes.
-     *  The synctex file is parsed into a tree of nodes, either sheet, boxes, math nodes... */
+     *  Its implementation is considered private.
+     *  The synctex file is parsed into a tree of nodes, either sheet, form, boxes, math nodes... */
     
     typedef struct synctex_node_t synctex_node_s;
     typedef synctex_node_s * synctex_node_p;
-    /*  reminder that the argument must not be NULL */
-    typedef synctex_node_p synctex_non_null_node_p;
     
     /*  The main entry points.
      *  Given the file name, a line and a column number, synctex_display_query returns the number of nodes
@@ -135,8 +160,8 @@ extern "C" {
      *  there is a new argument page_hint.
      *  The results in pages closer to page_hint are given first.
      *  For example, one can
-     * - highlight each resulting node in the output, using synctex_node_h and synctex_node_v
-     * - highlight all the rectangles enclosing those nodes, using synctex_box_... functions
+     * - highlight each resulting node in the output, using synctex_node_visible_h and synctex_node_visible_v
+     * - highlight all the rectangles enclosing those nodes, using synctex_node_box_visible_... functions
      * - highlight just the character using that information
      *
      *  Given the page and the position in the page, synctex_edit_query returns the number of nodes
@@ -159,13 +184,13 @@ extern "C" {
      *  If you make a new query, the result of the previous one is discarded. If you need to make more than one query
      *  in parallel, use the iterator API exposed in
      *  the synctex_parser_private.h header.
-     *  If one of this function returns a non positive integer,
+     *  If one of this function returns a negative integer,
      *  it means that an error occurred.
      *
      *  Both methods are conservative, in the sense that matching is weak.
      *  If the exact column number is not found, there will be an answer with the whole line.
      *
-     *  Sumatra-PDF, Skim, iTeXMac2 and Texworks are examples of open source software that use this library.
+     *  Sumatra-PDF, Skim, iTeXMac2, TeXShop and Texworks are examples of open source software that use this library.
      *  You can browse their code for a concrete implementation.
      */
     typedef long synctex_status_t;
@@ -223,17 +248,55 @@ extern "C" {
      *  Convenient shortcut. Return NULL in case or error.
      */
     const char * synctex_node_get_name(synctex_node_p node);
+
     int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
+
     synctex_node_p synctex_scanner_input(synctex_scanner_p scanner);
     synctex_node_p synctex_scanner_input_with_tag(synctex_scanner_p scanner,int tag);
     const char * synctex_scanner_get_output(synctex_scanner_p scanner);
     const char * synctex_scanner_get_synctex(synctex_scanner_p scanner);
     
+    /**
+     *  The horizontal and vertical location.,
+     *  the width, height and depth
+     *  of a box enclosing node.
+     *  The enclosing box is computed as follows
+     *  1) get the first hbox in the parent linked list
+     *  starting at node.
+     *  If there is none, simply return the parent of node.
+     *  2) compute the mean line number
+     *  3) scans up the tree for the higher hbox with
+     *  the same mean line number, ±1 eventually
+     *  All dimensions are given in page coordinates
+     *  as opposite to TeX coordinates.
+     *  The visible dimensions are bigger than real ones
+     *  to compensate 0 width boxes or nodes intentionnaly
+     *  put outside the box (using \kern for example).
+     *  - parameter node: a node.
+     *  - returns: a float.
+     *  - author: JL
+     */
+    float synctex_node_box_visible_h(synctex_node_p node);
+    float synctex_node_box_visible_v(synctex_node_p node);
+    float synctex_node_box_visible_width(synctex_node_p node);
+    float synctex_node_box_visible_height(synctex_node_p node);
+    float synctex_node_box_visible_depth(synctex_node_p node);
+
+    /*  Given a node, access to its tag, line and column.
+     *  The line and column numbers are 1 based.
+     *  The latter is not yet fully supported in TeX, the default implementation returns 0 which means the whole line.
+     *  When the tag is known, the scanner of the node will give the corresponding file name.
+     *  When the tag is known, the scanner of the node will give the name.
+     */
+    int synctex_node_tag(synctex_node_p node);
+    int synctex_node_line(synctex_node_p node);
+    int synctex_node_column(synctex_node_p node);
+    
     /*  Browsing the nodes
      *  parent, child and sibling are standard names for tree nodes.
      *  The parent is one level higher, the child is one level deeper,
      *  and the sibling is at the same level.
-     *  The sheet of a node is the topmost ancestor, it is of type sheet.
+     *  The sheet or of a node is the topmost ancestor, it is of type sheet.
      *  A node and its sibling have the same parent.
      *  A node is the parent of its children.
      *  A node is either the child of its parent,
@@ -262,65 +325,25 @@ extern "C" {
     synctex_node_p synctex_node_arg_sibling(synctex_node_p node);
     synctex_node_p synctex_node_next(synctex_node_p node);
     
+    /**
+     *  Top level entry points.
+     *  The scanner owns a list of sheet siblings and
+     *  a list of form siblings.
+     *  Sheets or forms have one child which is a box:
+     *  theri contents.
+     *  - argument page: 1 based sheet page number.
+     *  - argument tag: 1 based form tag number.
+     */
     synctex_node_p synctex_sheet(synctex_scanner_p scanner,int page);
     synctex_node_p synctex_sheet_content(synctex_scanner_p scanner,int page);
     synctex_node_p synctex_form(synctex_scanner_p scanner,int tag);
     synctex_node_p synctex_form_content(synctex_scanner_p scanner,int tag);
     
-    /*  These are the types of the synctex nodes */
-    typedef enum {
-        synctex_node_type_none = 0,
-        synctex_node_type_input,
-        synctex_node_type_sheet,
-        synctex_node_type_form,
-        synctex_node_type_ref,
-        synctex_node_type_vbox,
-        synctex_node_type_void_vbox,
-        synctex_node_type_hbox,
-        synctex_node_type_void_hbox,
-        synctex_node_type_kern,
-        synctex_node_type_glue,
-        synctex_node_type_rule,
-        synctex_node_type_math,
-        synctex_node_type_boundary,
-        synctex_node_type_box_bdry,
-        synctex_node_type_proxy,
-        synctex_node_type_proxy_last,
-        synctex_node_type_proxy_vbox,
-        synctex_node_type_proxy_hbox,
-        synctex_node_type_handle,
-        synctex_node_number_of_types
-    } synctex_node_type_t;
-    /*  synctex_node_type gives the type of a given node,
-     *  synctex_node_isa gives the same information as a human readable text. */
-    synctex_node_type_t synctex_node_type(synctex_node_p node);
-    synctex_node_type_t synctex_node_target_type(synctex_node_p node);
-    const char * synctex_node_isa(synctex_node_p node);
-    
     /*  This is primarily used for debugging purpose.
      *  The second one logs information for the node and recursively displays information for its next node */
     void synctex_node_log(synctex_node_p node);
     void synctex_node_display(synctex_node_p node);
-    /**
-     *  Scanner display switcher getter.
-     *  If the switcher is 0, synctex_node_display is disabled.
-     *  If the switcher is <0, synctex_node_display has no limit.
-     *  If the switcher is >0, only the first switcher (as number) nodes are displayed.
-     *  - parameter: a scanner
-     *  - returns: an integer
-     */
-    int synctex_scanner_display_switcher(synctex_scanner_p scanR);
-    void synctex_scanner_set_display_switcher(synctex_scanner_p scanR, int switcher);
-    /*  Given a node, access to its tag, line and column.
-     *  The line and column numbers are 1 based.
-     *  The latter is not yet fully supported in TeX, the default implementation returns 0 which means the whole line.
-     *  When the tag is known, the scanner of the node will give the corresponding file name.
-     *  When the tag is known, the scanner of the node will give the name.
-     */
-    int synctex_node_tag(synctex_node_p node);
-    int synctex_node_line(synctex_node_p node);
-    int synctex_node_column(synctex_node_p node);
-    
+
     /*  In order to enhance forward synchronization,
      *  non void horizontal boxes have supplemental cached information.
      *  The mean line is the average of the line numbers of the included nodes.
@@ -369,16 +392,6 @@ extern "C" {
         float length;
     } synctex_visible_range_s;
     synctex_visible_range_s synctex_node_h_visible_range(synctex_node_p node);
-    /*  For all nodes, visible dimensions of the enclosing box.
-     *  A box is enclosing itself.
-     *  The visible dimensions are bigger than real ones to compensate 0 width boxes
-     *  that do contain nodes.
-     */
-    float synctex_node_box_visible_h(synctex_node_p node);
-    float synctex_node_box_visible_v(synctex_node_p node);
-    float synctex_node_box_visible_width(synctex_node_p node);
-    float synctex_node_box_visible_height(synctex_node_p node);
-    float synctex_node_box_visible_depth(synctex_node_p node);
 #ifndef SYNCTEX_NO_UPDATER
     /*  The main synctex updater object.
      *  This object is used to append information to the synctex file.

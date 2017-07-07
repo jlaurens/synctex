@@ -47,6 +47,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+    /*  Reminder that the argument must not be NULL */
+    typedef synctex_node_p synctex_non_null_node_p;
+
     /*  Each node of the tree, except the scanner itself belongs to a class.
      *  The class object is just a struct declaring the owning scanner
      *  This is a pointer to the scanner as root of the tree.
@@ -308,6 +311,39 @@ extern "C" {
     } synctex_box_s;
     
     typedef synctex_box_s * synctex_box_p;
+    /**
+     *  These are the types of the synctex nodes.
+     *  No need to use them but the compiler needs them.
+     */
+    typedef enum {
+        synctex_node_type_none = 0,
+        synctex_node_type_input,
+        synctex_node_type_sheet,
+        synctex_node_type_form,
+        synctex_node_type_ref,
+        synctex_node_type_vbox,
+        synctex_node_type_void_vbox,
+        synctex_node_type_hbox,
+        synctex_node_type_void_hbox,
+        synctex_node_type_kern,
+        synctex_node_type_glue,
+        synctex_node_type_rule,
+        synctex_node_type_math,
+        synctex_node_type_boundary,
+        synctex_node_type_box_bdry,
+        synctex_node_type_proxy,
+        synctex_node_type_proxy_last,
+        synctex_node_type_proxy_vbox,
+        synctex_node_type_proxy_hbox,
+        synctex_node_type_handle,
+        synctex_node_number_of_types
+    } synctex_node_type_t;
+    /*  synctex_node_type gives the type of a given node,
+     *  synctex_node_isa gives the same information as a human readable text. */
+    synctex_node_type_t synctex_node_type(synctex_node_p node);
+    const char * synctex_node_isa(synctex_node_p node);
+    
+    synctex_node_type_t synctex_node_target_type(synctex_node_p node);
 
     synctex_node_type_t synctex_node_type(synctex_node_p node);
     const char * synctex_node_isa(synctex_node_p node);
@@ -346,6 +382,17 @@ extern "C" {
     
     synctex_scanner_p synctex_scanner_new();
     synctex_node_p synctex_node_new(synctex_scanner_p scanner,synctex_node_type_t type);
+
+    /**
+     *  Scanner display switcher getter.
+     *  If the switcher is 0, synctex_node_display is disabled.
+     *  If the switcher is <0, synctex_node_display has no limit.
+     *  If the switcher is >0, only the first switcher (as number) nodes are displayed.
+     *  - parameter: a scanner
+     *  - returns: an integer
+     */
+    int synctex_scanner_display_switcher(synctex_scanner_p scanR);
+    void synctex_scanner_set_display_switcher(synctex_scanner_p scanR, int switcher);
 
     typedef struct synctex_iterator_t synctex_iterator_s;
     typedef synctex_iterator_s * synctex_iterator_p;

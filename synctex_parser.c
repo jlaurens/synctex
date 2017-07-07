@@ -106,7 +106,7 @@
 #include <locale.h>
 #endif
 
-#include "synctex_parser_private.h"
+#include "synctex_parser_advanced.h"
 
 SYNCTEX_INLINE static int _synctex_abs(int x) {
     return x>0? x: -x;
@@ -6782,6 +6782,7 @@ int synctex_node_child_count(synctex_node_p node) {
  *  The sheet of the scanner with a given page number.
  *  - parameter scanner: a scanner.
  *  - parameter page: a 1 based page number.
+ *      If page == 0, returns the first sheet.
  *  - returns: a sheet or NULL.
  *  - author: JL
  */
@@ -6794,6 +6795,9 @@ synctex_node_p synctex_sheet(synctex_scanner_p scanner,int page) {
             }
             sheet = __synctex_tree_sibling(sheet);
         }
+        if (page == 0) {
+            return scanner->sheet;
+        }
     }
     return NULL;
 }
@@ -6801,8 +6805,8 @@ synctex_node_p synctex_sheet(synctex_scanner_p scanner,int page) {
  *  The form of the scanner with a given tag.
  *  - parameter scanner: a scanner.
  *  - parameter tag: an integer identifier.
+ *      If tag == 0, returns the first form.
  *  - returns: a form.
- *  - note: use this to create a form instead of _synctex_new_form.
  *  - author: JL
  */
 synctex_node_p synctex_form(synctex_scanner_p scanner,int tag) {
@@ -6813,6 +6817,9 @@ synctex_node_p synctex_form(synctex_scanner_p scanner,int tag) {
                 return form;
             }
             form = __synctex_tree_sibling(form);
+        }
+        if (tag == 0) {
+            return scanner->form;
         }
     }
     return NULL;
