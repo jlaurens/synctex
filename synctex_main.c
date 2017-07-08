@@ -78,7 +78,7 @@ This is the command line interface to the synctex_parser.c.
 #   include <string.h>
 #   include <stdarg.h>
 #   include <math.h>
-#   include "synctex_parser.h"
+#   include "synctex_parser_advanced.h"
 #   include "synctex_parser_utils.h"
 
 /*  The code below uses strlcat and strlcpy, which avoids security warnings with some compilers.

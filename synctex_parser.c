@@ -6570,8 +6570,16 @@ SYNCTEX_INLINE static synctex_box_s _synctex_data_box_V(synctex_node_p node) {
 }
 
 /**
- *  The higher box node in the parent hierarchy which mean line number is the one of node ±1.
- *  - parameter node: a node.
+ *  The higher box node in the parent hierarchy which
+ *  mean line number is the one of node ±1.
+ *  This enclosing box is computed as follows
+ *  1) get the first hbox in the parent linked list
+ *  starting at node.
+ *  If there is none, simply return the parent of node.
+ *  2) compute the mean line number
+ *  3) scans up the tree for the higher hbox with
+ *  the same mean line number, ±1 eventually
+*  - parameter node: a node.
  *  - returns: a (proxy to a) box node.
  *  - author: JL
  */

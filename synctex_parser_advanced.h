@@ -313,7 +313,21 @@ extern "C" {
     typedef synctex_box_s * synctex_box_p;
     /**
      *  These are the types of the synctex nodes.
-     *  No need to use them but the compiler needs them.
+     *  No need to use them but the compiler needs them here.
+     *  There are 3 kinds of nodes.
+     *  - primary nodes
+     *  - proxies
+     *  - handles
+     *  Primary nodes are created at parse time
+     *  of the synctex file.
+     *  Proxies are used to support pdf forms.
+     *  The ref primary nodes are replaced by a tree
+     *  of proxy nodes which duplicate the tree of primary
+     *  nodes available in the refered form.
+     *  Roughly speaking, the primary nodes of the form
+     *  know what to display, the proxy nodes know where.
+     *  Handles are used in queries. They point to either
+     *  primary nodes or proxies.
      */
     typedef enum {
         synctex_node_type_none = 0,
@@ -354,16 +368,12 @@ extern "C" {
     /*  Given a node, access to the location in the synctex file where it is defined.
      */
 
-    int synctex_node_tag(synctex_node_p node);
-    int synctex_node_line(synctex_node_p node);
-    int synctex_node_column(synctex_node_p node);
     int synctex_node_form_tag(synctex_node_p node);
     
     int synctex_node_mean_line(synctex_node_p node);
     int synctex_node_weight(synctex_node_p node);
     int synctex_node_child_count(synctex_node_p node);
-    int synctex_node_sheet_page(synctex_node_p node);
-
+    
     int synctex_node_h(synctex_node_p node);
     int synctex_node_v(synctex_node_p node);
     int synctex_node_width(synctex_node_p node);
@@ -394,16 +404,85 @@ extern "C" {
     int synctex_scanner_display_switcher(synctex_scanner_p scanR);
     void synctex_scanner_set_display_switcher(synctex_scanner_p scanR, int switcher);
 
+    /**
+     *  Iterator is the structure used to traverse
+     *  the answer to client queries.
+     *  First answers are the best matches, according
+     *  to criteria explained below.
+     *  Next answers are not ordered.
+     *  Objects are handles to nodes in the synctex node tree.
+     */
     typedef struct synctex_iterator_t synctex_iterator_s;
     typedef synctex_iterator_s * synctex_iterator_p;
+
+    /**
+     *  Designated creator for a display query, id est,
+     *  forward navigation from source to output.
+     */
     synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner,const char *  name,int line,int column, int page_hint);
+    /**
+     *  Designated creator for an  edit query, id est,
+     *  backward navigation from output to source.
+     */
     synctex_iterator_p synctex_iterator_new_edit(synctex_scanner_p scanner,int page,float h,float v);
+    /**
+     *  Free all the resources.
+     *  - argument iterator: the object to free...
+     */
     void synctex_iterator_free(synctex_iterator_p iterator);
+    /**
+     *  Wether the iterator actually points to an object.
+     *  - argument iterator: the object to iterate on...
+     */
     synctex_bool_t synctex_iterator_has_next(synctex_iterator_p iterator);
+    /**
+     *  Returns the pointed object and advance the cursor
+     *  to the next object. Returns NULL and does nothing
+     *  if the end has already been reached.
+     *  - argument iterator: the object to iterate on...
+     */
     synctex_node_p synctex_iterator_next(synctex_iterator_p iterator);
+    /**
+     *  Reset the cursor position to the first result.
+     *  - argument iterator: the object to iterate on...
+     */
     int synctex_iterator_reset(synctex_iterator_p iterator);
+    /**
+     *  Reset the number of objects left for traversal.
+     *  - argument iterator: the object to iterate on...
+     */
     int synctex_iterator_count(synctex_iterator_p iterator);
 
+    typedef struct {
+        float location;
+        float length;
+    } synctex_visible_range_s;
+    synctex_visible_range_s synctex_node_h_visible_range(synctex_node_p node);
+#ifndef SYNCTEX_NO_UPDATER
+    /*  The main synctex updater object.
+     *  This object is used to append information to the synctex file.
+     *  Its implementation is considered private.
+     *  It is used by the synctex command line tool to take into account modifications
+     *  that could occur while postprocessing files by dvipdf like filters.
+     */
+    typedef struct synctex_updater_t synctex_updater_s;
+    typedef synctex_updater_s * synctex_updater_p;
+    
+    /*  Designated initializer.
+     *  Once you are done with your whole job,
+     *  free the updater */
+    synctex_updater_p synctex_updater_new_with_output_file(const char * output, const char * directory);
+    
+    /*  Use the next functions to append records to the synctex file,
+     *  no consistency tests made on the arguments */
+    void synctex_updater_append_magnification(synctex_updater_p updater, char *  magnification);
+    void synctex_updater_append_x_offset(synctex_updater_p updater, char *  x_offset);
+    void synctex_updater_append_y_offset(synctex_updater_p updater, char *  y_offset);
+    
+    /*  You MUST free the updater, once everything is properly appended */
+    void synctex_updater_free(synctex_updater_p updater);
+#endif
+    
 #if defined(SYNCTEX_DEBUG)
 #   include "assert.h"
 #   define SYNCTEX_ASSERT assert

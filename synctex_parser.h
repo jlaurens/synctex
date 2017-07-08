@@ -204,23 +204,95 @@ extern "C" {
     synctex_node_p synctex_scanner_next_result(synctex_scanner_p scanner);
     synctex_status_t synctex_scanner_reset_result(synctex_scanner_p scanner);
     
-    /*  Display all the information contained in the scanner object.
+    /**
+     *  The horizontal and vertical location,
+     *  the width, height and depth of a box enclosing node.
+     *  All dimensions are given in page coordinates
+     *  as opposite to TeX coordinates.
+     *  The origin is at the top left corner of the page.
+     *  Code example for Qt5:
+     *  (from TeXworks source TWSynchronize.cpp)
+     *  QRectF nodeRect(synctex_node_box_visible_h(node),
+     *      synctex_node_box_visible_v(node) - 
+     *          synctex_node_box_visible_height(node),
+     *      synctex_node_box_visible_width(node),
+     *      synctex_node_box_visible_height(node) + 
+     *          synctex_node_box_visible_depth(node));
+     *  Code example for Cocoa:
+     *  NSRect bounds = [pdfPage
+     *      boundsForBox:kPDFDisplayBoxMediaBox];
+     *  NSRect nodeRect = NSMakeRect(
+     *      synctex_node_box_visible_h(node),
+     *      NSMaxY(bounds)-synctex_node_box_visible_v(node) +
+     *          synctex_node_box_visible_height(node),
+     *      synctex_node_box_visible_width(node),
+     *      synctex_node_box_visible_height(node) +
+     *          synctex_node_box_visible_depth(node)
+     *      );
+     *  The visible dimensions are bigger than real ones
+     *  to compensate 0 width boxes or nodes intentionnaly
+     *  put outside the box (using \kern for example).
+     *  - parameter node: a node.
+     *  - returns: a float.
+     *  - author: JL
+     */
+    float synctex_node_box_visible_h(synctex_node_p node);
+    float synctex_node_box_visible_v(synctex_node_p node);
+    float synctex_node_box_visible_width(synctex_node_p node);
+    float synctex_node_box_visible_height(synctex_node_p node);
+    float synctex_node_box_visible_depth(synctex_node_p node);
+
+    /**
+     *  For quite all nodes, horizontal and vertical coordinates, and width.
+     *  All dimensions are given in page coordinates
+     *  as opposite to TeX coordinates.
+     *  The origin is at the top left corner of the page.
+     *  The visible dimensions are bigger than real ones
+     *  to compensate 0 width boxes or nodes intentionnaly
+     *  put outside the box (using \kern for example).
+     *  All nodes have coordinates, but all nodes don't
+     *  have non null size. For example, math nodes
+     *  have no width according to TeX, and in that case
+     *  synctex_node_visible_width simply returns 0.
+     *  The same holds for kern nodes that do not have
+     *  height nor depth, etc...
+     */
+    float synctex_node_visible_h(synctex_node_p node);
+    float synctex_node_visible_v(synctex_node_p node);
+    float synctex_node_visible_width(synctex_node_p node);
+    float synctex_node_visible_height(synctex_node_p node);
+    float synctex_node_visible_depth(synctex_node_p node);
+
+    /**
+     *  Given a node, access to its tag, line and column.
+     *  The line and column numbers are 1 based.
+     *  The latter is not yet fully supported in TeX,
+     *  the default implementation returns 0
+     *  which means the whole line.
+     *  synctex_node_get_name returns the path of the
+     *  TeX source file that was used to create the node.
+     *  When the tag is known, the scanner of the node
+     *  will also give that same file name, see
+     *  synctex_scanner_get_name below.
+     */
+    int synctex_node_tag(synctex_node_p node);
+    int synctex_node_line(synctex_node_p node);
+    int synctex_node_column(synctex_node_p node);
+    const char * synctex_node_get_name(synctex_node_p node);
+    
+
+    /**
+     This is the page where the node appears.
+     *  This is a 1 based index as given by TeX.
+     */
+    int synctex_node_page(synctex_node_p node);
+
+    /**
+     *  Display all the information contained in the scanner.
      *  If the records are too numerous, only the first ones are displayed.
-     *  This is mainly for informatinal purpose to help developers.
+     *  This is mainly for informational purpose to help developers.
      */
     void synctex_scanner_display(synctex_scanner_p scanner);
-    
-    /*  The x and y offset of the origin in TeX coordinates. The magnification
-     These are used by pdf viewers that want to display the real box size.
-     For example, getting the horizontal coordinates of a node would require
-     synctex_node_box_h(node)*synctex_scanner_magnification(scanner)+synctex_scanner_x_offset(scanner)
-     Getting its TeX width would simply require
-     synctex_node_box_width(node)*synctex_scanner_magnification(scanner)
-     but direct methods are available for that below.
-     */
-    int synctex_scanner_x_offset(synctex_scanner_p scanner);
-    int synctex_scanner_y_offset(synctex_scanner_p scanner);
-    float synctex_scanner_magnification(synctex_scanner_p scanner);
     
     /*  Managing the input file names.
      *  Given a tag, synctex_scanner_get_name will return the corresponding file name.
@@ -244,65 +316,40 @@ extern "C" {
      *  it was obtained from output by setting the proper file extension.
      */
     const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag);
-    /**
-     *  Convenient shortcut. Return NULL in case or error.
-     */
-    const char * synctex_node_get_name(synctex_node_p node);
-
+    
     int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
-
+    
     synctex_node_p synctex_scanner_input(synctex_scanner_p scanner);
     synctex_node_p synctex_scanner_input_with_tag(synctex_scanner_p scanner,int tag);
     const char * synctex_scanner_get_output(synctex_scanner_p scanner);
     const char * synctex_scanner_get_synctex(synctex_scanner_p scanner);
     
-    /**
-     *  The horizontal and vertical location.,
-     *  the width, height and depth
-     *  of a box enclosing node.
-     *  The enclosing box is computed as follows
-     *  1) get the first hbox in the parent linked list
-     *  starting at node.
-     *  If there is none, simply return the parent of node.
-     *  2) compute the mean line number
-     *  3) scans up the tree for the higher hbox with
-     *  the same mean line number, ±1 eventually
-     *  All dimensions are given in page coordinates
-     *  as opposite to TeX coordinates.
-     *  The visible dimensions are bigger than real ones
-     *  to compensate 0 width boxes or nodes intentionnaly
-     *  put outside the box (using \kern for example).
-     *  - parameter node: a node.
-     *  - returns: a float.
-     *  - author: JL
+    /*  The x and y offset of the origin in TeX coordinates. The magnification
+     These are used by pdf viewers that want to display the real box size.
+     For example, getting the horizontal coordinates of a node would require
+     synctex_node_box_h(node)*synctex_scanner_magnification(scanner)+synctex_scanner_x_offset(scanner)
+     Getting its TeX width would simply require
+     synctex_node_box_width(node)*synctex_scanner_magnification(scanner)
+     but direct methods are available for that below.
      */
-    float synctex_node_box_visible_h(synctex_node_p node);
-    float synctex_node_box_visible_v(synctex_node_p node);
-    float synctex_node_box_visible_width(synctex_node_p node);
-    float synctex_node_box_visible_height(synctex_node_p node);
-    float synctex_node_box_visible_depth(synctex_node_p node);
-
-    /*  Given a node, access to its tag, line and column.
-     *  The line and column numbers are 1 based.
-     *  The latter is not yet fully supported in TeX, the default implementation returns 0 which means the whole line.
-     *  When the tag is known, the scanner of the node will give the corresponding file name.
-     *  When the tag is known, the scanner of the node will give the name.
-     */
-    int synctex_node_tag(synctex_node_p node);
-    int synctex_node_line(synctex_node_p node);
-    int synctex_node_column(synctex_node_p node);
+    int synctex_scanner_x_offset(synctex_scanner_p scanner);
+    int synctex_scanner_y_offset(synctex_scanner_p scanner);
+    float synctex_scanner_magnification(synctex_scanner_p scanner);
     
-    /*  Browsing the nodes
+    /**
+     *  ## Browsing the nodes
      *  parent, child and sibling are standard names for tree nodes.
-     *  The parent is one level higher, the child is one level deeper,
+     *  The parent is one level higher,
+     *  the child is one level deeper,
      *  and the sibling is at the same level.
-     *  The sheet or of a node is the topmost ancestor, it is of type sheet.
      *  A node and its sibling have the same parent.
      *  A node is the parent of its children.
      *  A node is either the child of its parent,
      *  or belongs to the sibling chain of its parent's child.
+     *  The sheet or form of a node is the topmost ancestor,
+     *  it is of type sheet or form.
      *  The next node is either the child, the sibling or the parent's sibling,
-     *  unless the parent is a sheet.
+     *  unless the parent is a sheet, a form or NULL.
      *  This allows to navigate through all the nodes of a given sheet node:
      *
      *     synctex_node_p node = sheet;
@@ -310,9 +357,16 @@ extern "C" {
      *         // do something with node
      *     }
      *
-     *  With synctex_sheet_content, you can retrieve the sheet node given the page.
+     *  With synctex_sheet_content and synctex_form_content,
+     *  you can retrieve the sheet node given the page
+     *  or form tag.
      *  The page is 1 based, according to TeX standards.
-     *  Conversely synctex_node_parent_sheet allows to retrieve the sheet containing a given node.
+     *  Conversely synctex_node_parent_sheet or
+     *  synctex_node_parent_form allows to retrieve
+     *  the sheet or the form containing a given node.
+     *  Notice that a node is not contained in a sheet
+     *  and a form at the same time.
+     *  Some nodes are not contained in either (handles).
      */
     
     synctex_node_p synctex_node_parent(synctex_node_p node);
@@ -330,7 +384,7 @@ extern "C" {
      *  The scanner owns a list of sheet siblings and
      *  a list of form siblings.
      *  Sheets or forms have one child which is a box:
-     *  theri contents.
+     *  theie contents.
      *  - argument page: 1 based sheet page number.
      *  - argument tag: 1 based form tag number.
      */
@@ -343,19 +397,6 @@ extern "C" {
      *  The second one logs information for the node and recursively displays information for its next node */
     void synctex_node_log(synctex_node_p node);
     void synctex_node_display(synctex_node_p node);
-
-    /*  In order to enhance forward synchronization,
-     *  non void horizontal boxes have supplemental cached information.
-     *  The mean line is the average of the line numbers of the included nodes.
-     *  The child count is the number of chidren.
-     */
-    int synctex_node_mean_line(synctex_node_p node);
-    int synctex_node_child_count(synctex_node_p node);
-    
-    /*  This is the page where the node appears.
-     *  This is a 1 based index as given by TeX.
-     */
-    int synctex_node_page(synctex_node_p node);
     
     /*  For quite all nodes, horizontal, vertical coordinates, and width.
      *  These are expressed in TeX small points coordinates, with origin at the top left corner.
@@ -375,48 +416,7 @@ extern "C" {
     int synctex_node_box_width(synctex_node_p node);
     int synctex_node_box_height(synctex_node_p node);
     int synctex_node_box_depth(synctex_node_p node);
-    
-    /*  For quite all nodes, horizontal, vertical coordinates, and width.
-     *  The visible dimensions are bigger than real ones to compensate 0 width boxes
-     *  that do contain nodes.
-     *  These are expressed in page coordinates, with origin at the top left corner.
-     *  A box is enclosing itself.
-     */
-    float synctex_node_visible_h(synctex_node_p node);
-    float synctex_node_visible_v(synctex_node_p node);
-    float synctex_node_visible_width(synctex_node_p node);
-    float synctex_node_visible_height(synctex_node_p node);
-    float synctex_node_visible_depth(synctex_node_p node);
-    typedef struct {
-        float location;
-        float length;
-    } synctex_visible_range_s;
-    synctex_visible_range_s synctex_node_h_visible_range(synctex_node_p node);
-#ifndef SYNCTEX_NO_UPDATER
-    /*  The main synctex updater object.
-     *  This object is used to append information to the synctex file.
-     *  Its implementation is considered private.
-     *  It is used by the synctex command line tool to take into account modifications
-     *  that could occur while postprocessing files by dvipdf like filters.
-     */
-    typedef struct synctex_updater_t synctex_updater_s;
-    typedef synctex_updater_s * synctex_updater_p;
-    
-    /*  Designated initializer.
-     *  Once you are done with your whole job,
-     *  free the updater */
-    synctex_updater_p synctex_updater_new_with_output_file(const char * output, const char * directory);
-    
-    /*  Use the next functions to append records to the synctex file,
-     *  no consistency tests made on the arguments */
-    void synctex_updater_append_magnification(synctex_updater_p updater, char *  magnification);
-    void synctex_updater_append_x_offset(synctex_updater_p updater, char *  x_offset);
-    void synctex_updater_append_y_offset(synctex_updater_p updater, char *  y_offset);
-    
-    /*  You MUST free the updater, once everything is properly appended */
-    void synctex_updater_free(synctex_updater_p updater);
-#endif
-    
+
 #ifdef __cplusplus
 }
 #endif
