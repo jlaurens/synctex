@@ -1,16 +1,15 @@
 /*
- Copyright (c) 2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
  
- This file is part of the SyncTeX package.
+ This file is part of the __SyncTeX__ package.
  
- Latest Revision: Fri Jun 23 15:31:41 UTC 2017
+ [//]: # (Latest Revision: Fri Jul 14 16:20:41 UTC 2017)
+ [//]: # (Version: 1.19)
  
- Version: 1.19
+ See `synctex_parser_readme.md` for more details
  
- See synctex_parser_readme.txt for more details
+ ## License
  
- License:
- --------
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
  files (the "Software"), to deal in the Software without
@@ -410,7 +409,7 @@ extern "C" {
      *  First answers are the best matches, according
      *  to criteria explained below.
      *  Next answers are not ordered.
-     *  Objects are handles to nodes in the synctex node tree.
+     *  Objects are handles to nodes in the synctex node tree starting at scanner.
      */
     typedef struct synctex_iterator_t synctex_iterator_s;
     typedef synctex_iterator_s * synctex_iterator_p;
@@ -418,16 +417,33 @@ extern "C" {
     /**
      *  Designated creator for a display query, id est,
      *  forward navigation from source to output.
+     *  Returns NULL if the query has no answer.
+     *  Code example:
+     *      synctex_iterator_p iterator = NULL;
+     *      if ((iterator = synctex_iterator_new_display(...)) {
+     *      synctex_node_p node = NULL;
+     *      while((node = synctex_iterator_next_result(iterator))) {
+     *          do something with node...
+     *      }
      */
     synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner,const char *  name,int line,int column, int page_hint);
     /**
      *  Designated creator for an  edit query, id est,
      *  backward navigation from output to source.
+     *  Code example:
+     *      synctex_iterator_p iterator = NULL;
+     *      if ((iterator = synctex_iterator_new_edit(...)) {
+     *      synctex_node_p node = NULL;
+     *      while((node = synctex_iterator_next_result(iterator))) {
+     *          do something with node...
+     *      }
      */
     synctex_iterator_p synctex_iterator_new_edit(synctex_scanner_p scanner,int page,float h,float v);
     /**
      *  Free all the resources.
      *  - argument iterator: the object to free...
+     *  You should free the iterator before the scanner
+     *  owning the nodes it iterates with.
      */
     void synctex_iterator_free(synctex_iterator_p iterator);
     /**
@@ -441,23 +457,23 @@ extern "C" {
      *  if the end has already been reached.
      *  - argument iterator: the object to iterate on...
      */
-    synctex_node_p synctex_iterator_next(synctex_iterator_p iterator);
+    synctex_node_p synctex_iterator_next_result(synctex_iterator_p iterator);
     /**
      *  Reset the cursor position to the first result.
      *  - argument iterator: the object to iterate on...
      */
     int synctex_iterator_reset(synctex_iterator_p iterator);
     /**
-     *  Reset the number of objects left for traversal.
+     *  The number of objects left for traversal.
      *  - argument iterator: the object to iterate on...
      */
     int synctex_iterator_count(synctex_iterator_p iterator);
 
-    typedef struct {
-        float location;
-        float length;
-    } synctex_visible_range_s;
-    synctex_visible_range_s synctex_node_h_visible_range(synctex_node_p node);
+    /**
+     *  The target of the node, either a handle or a proxy.
+     */
+    synctex_node_p synctex_node_target(synctex_node_p node);
+    
 #ifndef SYNCTEX_NO_UPDATER
     /*  The main synctex updater object.
      *  This object is used to append information to the synctex file.

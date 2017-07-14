@@ -1,16 +1,15 @@
 /*
  Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
  
- This file is part of the SyncTeX package.
+ This file is part of the __SyncTeX__ package.
  
- Latest Revision: Fri Jun 23 15:31:41 UTC 2017
+ [//]: # (Latest Revision: Fri Jul 14 16:20:41 UTC 2017)
+ [//]: # (Version: 1.19)
  
- Version: 1.19
+ See `synctex_parser_readme.md` for more details
  
- See synctex_parser_readme.txt for more details
+ ## License
  
- License:
- --------
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
  files (the "Software"), to deal in the Software without
@@ -2603,11 +2602,18 @@ SYNCTEX_INLINE static void _synctex_node_make_friend_tlc(synctex_node_p node) {
     }
 }
 static synctex_node_p _synctex_node_set_child(synctex_node_p node, synctex_node_p new_child);
-/*  At parse time, non void box nodes have children.
+/**
+ *  The (first) child of the node, if any, NULL otherwise.
+ *  At parse time, non void box nodes have children.
+ *  All other nodes have no children.
  *  In order to support pdf forms, proxies are created
  *  to place form nodes at real locations.
- *  If form ref nodes have no children, one is created
- *  as a proxy to the box contained in the referenced form.
+ *  Ref nodes are replaced by root proxies targeting
+ *  form contents. If root proxies have no children,
+ *  they are created on the fly as proxies to the
+ *  children of the targeted box.
+ *  As such, proxies created here are targeting a
+ *  node that belongs to a form.
  *  This is the only place where child proxies are created.
  */
 synctex_node_p synctex_node_child(synctex_node_p node) {
@@ -5506,6 +5512,9 @@ _synctex_make_hbox_contain_box(parent,_synctex_data_box(child));
  *  - note: Does nothing if ref is not owned.
  *  - note: On return, ref will have no parent nor sibling.
  *      The caller is responsible for releasing ref.
+ *  - note: this is where root proxies are created.
+ *  - note: the target of the root proxy is the content
+ *      of a form.
  */
 SYNCTEX_INLINE static synctex_ns_s __synctex_replace_ref(synctex_node_p ref) {
     synctex_ns_s ns = {NULL,SYNCTEX_STATUS_OK};
@@ -6160,7 +6169,7 @@ static int _synctex_proxy_##WHAT(synctex_proxy_p proxy) { \
  *  - parameter node: a node with geometrical information.
  *  - returns: an integer.
  *  - requires: every proxy node has a target.
- *  - note: recursive call if the parameter is a proxy.
+ *  - note: recursive call if the parameter has a proxy.
  *  - author: JL
  */
 SYNCTEX_DEFINE_NODE_HVWHD(h)
@@ -6177,17 +6186,11 @@ SYNCTEX_DEFINE_PROXY_TLCWVD(width)
 SYNCTEX_DEFINE_PROXY_TLCWVD(height)
 SYNCTEX_DEFINE_PROXY_TLCWVD(depth)
 
-synctex_visible_range_s synctex_node_h_visible_range(synctex_node_p node) {
-    float h = synctex_node_h(node);
-    float w = synctex_node_width(node);
-    if (w<0) {
-        return (synctex_visible_range_s){h+w,-w};
-    } else {
-        return (synctex_visible_range_s){h,w};
-    }
-}
 /**
- *  Whether the argument is a box.
+ *  Whether the argument is a box,
+ *  either vertical or horizontal,
+ *  either void or not,
+ *  or a proxy to such a box.
  *  - parameter NODE: of type synctex_node_p
  *  - returns: yorn
  */
@@ -6203,6 +6206,8 @@ SYNCTEX_INLINE static synctex_bool_t _synctex_node_is_box(synctex_node_p node) {
 
 /**
  *  Whether the argument is a handle.
+ *  Handles are similar to proxies because they have a target.
+ *  They are used for query results.
  *  - parameter NODE: of type synctex_node_p
  *  - returns: yorn
  */
@@ -6211,6 +6216,13 @@ SYNCTEX_INLINE static synctex_bool_t _synctex_node_is_handle(synctex_node_p node
     return node &&
     (node->class->type == synctex_node_type_handle);
 }
+
+/**
+ *  Resolves handle indirection.
+ *  - parameter node: of type synctex_node_p
+ *  - returns: node if it is not a handle,
+ *  its target otherwise.
+ */
 
 SYNCTEX_INLINE static synctex_node_p _synctex_node_or_handle_target(synctex_node_p node) {
     return _synctex_node_is_handle(node)?
@@ -6584,37 +6596,39 @@ SYNCTEX_INLINE static synctex_box_s _synctex_data_box_V(synctex_node_p node) {
  *  - author: JL
  */
 static synctex_node_p _synctex_node_box_visible(synctex_node_p node) {
-    int mean = 0;
-    int bound = 1500000/(node->class->scanner->pre_magnification/1000);
-    synctex_node_p parent = NULL;
-    /*  get the first enclosing parent
-     *  then get the highest enclosing parent with the same mean line ±1 */
-    node = _synctex_node_or_handle_target(node);
-    if (!_synctex_node_is_box(node)) {
-        if ((parent = _synctex_tree_parent(node))) {
-            node = parent;
-        } else if ((node = _synctex_tree_target(node))) {
-            if (!_synctex_node_is_box(node)) {
-                if ((parent = _synctex_tree_parent(node))) {
-                    node = parent;
-                } else {
-                    return NULL;
+    if ((node = _synctex_node_or_handle_target(node))) {
+        int mean = 0;
+        int bound = 1500000/(node->class->scanner->pre_magnification/1000);
+        synctex_node_p parent = NULL;
+        /*  get the first enclosing parent
+         *  then get the highest enclosing parent with the same mean line ±1 */
+        node = _synctex_node_or_handle_target(node);
+        if (!_synctex_node_is_box(node)) {
+            if ((parent = _synctex_tree_parent(node))) {
+                node = parent;
+            } else if ((node = _synctex_tree_target(node))) {
+                if (!_synctex_node_is_box(node)) {
+                    if ((parent = _synctex_tree_parent(node))) {
+                        node = parent;
+                    } else {
+                        return NULL;
+                    }
                 }
             }
         }
-    }
-    parent = node;
-    mean = synctex_node_mean_line(node);
-    while ((parent = _synctex_tree_parent(parent))) {
-        if (_synctex_node_is_hbox(parent)) {
-            if (_synctex_abs(mean-synctex_node_mean_line(parent))>1) {
-                return node;
-            } else if (synctex_node_width(parent)>bound) {
-                return parent;
-            } else if (synctex_node_height(parent)+synctex_node_depth(parent)>bound) {
-                return parent;
+        parent = node;
+        mean = synctex_node_mean_line(node);
+        while ((parent = _synctex_tree_parent(parent))) {
+            if (_synctex_node_is_hbox(parent)) {
+                if (_synctex_abs(mean-synctex_node_mean_line(parent))>1) {
+                    return node;
+                } else if (synctex_node_width(parent)>bound) {
+                    return parent;
+                } else if (synctex_node_height(parent)+synctex_node_depth(parent)>bound) {
+                    return parent;
+                }
+                node = parent;
             }
-            node = parent;
         }
     }
     return node;
@@ -6673,39 +6687,29 @@ float synctex_node_box_visible_depth(synctex_node_p node) {
  *  The page number of the sheet enclosing node.
  *  - parameter node: a node.
  *  - returns: the page number or -1 if node does not belong to a sheet tree.
+ *  - note: a proxy target does not belong to a sheet
+ *      but a form, its page number is always -1.
+ *  - note: a handles does not belong to a sheet not a form.
+ *      its page number is -1.
  *  - author: JL
  */
 int synctex_node_page(synctex_node_p node){
-    if (node) {
-        synctex_node_p parent = _synctex_tree_parent(node);
-        if (!parent) {
-            parent = _synctex_tree_target(node);
-            while (parent) {
-                node = parent;
-                parent = _synctex_tree_parent(node);
-            }
-        } else {
-            do {
-                node = parent;
-            } while((parent = _synctex_tree_parent(node)));
-        }
-        if (synctex_node_type(node) == synctex_node_type_sheet) {
-            return _synctex_data_page(node);
-        }
+    synctex_node_p parent = NULL;
+    while((parent = _synctex_tree_parent(node))) {
+        node = parent;
+    }
+    if (synctex_node_type(node) == synctex_node_type_sheet) {
+        return _synctex_data_page(node);
     }
     return -1;
 }
-
 /**
- *  The page number of the target of the result node.
- *  - parameter node: a node.
- *  - returns: the page number or -1 if target's node does not belong to a sheet tree.
+ *  The page number of the target.
  *  - author: JL
  */
-SYNCTEX_INLINE static int _synctex_proxy_page(synctex_node_p node){
+SYNCTEX_INLINE static int _synctex_node_target_page(synctex_node_p node){
     return synctex_node_page(_synctex_tree_target(node));
 }
-
 
 #if defined (SYNCTEX_USE_CHARINDEX)
 synctex_charindex_t synctex_node_charindex(synctex_node_p node) {
@@ -6982,17 +6986,24 @@ void synctex_iterator_free(synctex_iterator_p iterator) {
     }
 }
 synctex_bool_t synctex_iterator_has_next(synctex_iterator_p iterator) {
-    return iterator->count>0;
+    return iterator?iterator->count>0:0;
 }
 int synctex_iterator_count(synctex_iterator_p iterator) {
     return iterator? iterator->count: 0;
 }
-synctex_node_p synctex_iterator_next(synctex_iterator_p iterator) {
+
+/**
+ *  The next result of the iterator.
+ *  Internally, the iterator stores handles to nodes.
+ *  Externally, it returns the targets,
+ *  such that the caller only sees nodes.
+ */
+synctex_node_p synctex_iterator_next_result(synctex_iterator_p iterator) {
     if (iterator && iterator->count>0) {
         synctex_node_p N = iterator->next;
         iterator->next = __synctex_tree_sibling(N);
         --iterator->count;
-        return N;
+        return _synctex_tree_target(N);
     }
     return NULL;
 }
@@ -7127,11 +7138,16 @@ static synctex_node_p _synctex_display_query_v2(synctex_node_p target, int tag, 
             || (line != synctex_node_line(target))) {
             continue;
         }
-        /*  We found a first match, create a result targeting that candidate */
+        /*  We found a first match, create
+         *  a result handle targeting that candidate. */
         first_handle = _synctex_new_handle_with_target(target);
         if (first_handle == NULL) {
             return first_handle;
         }
+        /*  target is either a node,
+         *  or a proxy to some node, in which case,
+         *  the target's target belongs to a form,
+         *  not a sheet. */
         page = synctex_node_page(target);
         /*  Now create all the other results  */
         while ((target = _synctex_tree_friend(target))) {
@@ -7171,7 +7187,7 @@ static synctex_node_p _synctex_display_query_v2(synctex_node_p target, int tag, 
                     page = synctex_node_page(target);
                     /*  Find a result with the same page number */;
                     do {
-                        if (_synctex_proxy_page(same_page_node) == page) {
+                        if (_synctex_node_target_page(same_page_node) == page) {
                             _synctex_tree_set_child(result,_synctex_tree_set_child(same_page_node,result));
                         } else if ((same_page_node = __synctex_tree_sibling(same_page_node))) {
                             continue;
@@ -7237,7 +7253,7 @@ synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner,const 
                          then children   */
                         int count = 1;
                         synctex_node_p next_sibling = __synctex_tree_reset_sibling(result);
-                        int best_match = abs(page_hint-_synctex_proxy_page(result));
+                        int best_match = abs(page_hint-_synctex_node_target_page(result));
                         synctex_node_p sibling;
                         int match;
                         result = _synctex_vertically_sorted_v2(result);
@@ -7245,7 +7261,7 @@ synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner,const 
                             /* What is next? Do not miss that step! */
                             next_sibling = __synctex_tree_reset_sibling(sibling);
                             sibling = _synctex_vertically_sorted_v2(sibling);
-                            match = abs(page_hint-_synctex_proxy_page(sibling));
+                            match = abs(page_hint-_synctex_node_target_page(sibling));
                             if (match<best_match) {
                                 /*  Order this node first */
                                 __synctex_tree_set_sibling(sibling,result);
@@ -7292,11 +7308,18 @@ synctex_status_t synctex_edit_query(synctex_scanner_p scanner,int page,float h,f
     }
     return SYNCTEX_STATUS_ERROR;
 }
+/**
+ *  The next result of a query.
+ */
 synctex_node_p synctex_scanner_next_result(synctex_scanner_p scanner) {
-    return scanner? synctex_iterator_next(scanner->iterator): NULL;
+    return scanner? synctex_iterator_next_result(scanner->iterator): NULL;
 }
 synctex_status_t synctex_scanner_reset_result(synctex_scanner_p scanner) {
     return scanner? synctex_iterator_reset(scanner->iterator): SYNCTEX_STATUS_ERROR;
+}
+
+synctex_node_p synctex_node_target(synctex_node_p node) {
+    return _synctex_tree_target(node);
 }
 
 #	ifdef SYNCTEX_NOTHING

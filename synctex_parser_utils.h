@@ -1,16 +1,15 @@
 /* 
-Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ 
+ This file is part of the __SyncTeX__ package.
+ 
+ [//]: # (Latest Revision: Fri Jul 14 16:20:41 UTC 2017)
+ [//]: # (Version: 1.19)
+ 
+ See `synctex_parser_readme.md` for more details
+ 
+ ## License
 
-This file is part of the SyncTeX package.
-
-Latest Revision: Fri Jun 23 15:31:41 UTC 2017
-
-Version: 1.19
-
-See synctex_parser_readme.txt for more details
-
-License:
---------
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without

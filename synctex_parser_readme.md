@@ -3,11 +3,15 @@
 This file is part of the __SyncTeX__ package.
 
 [//]: # (Version: 1.19)
-[//]: # (Date: Thu Mar 9 21:26:27 UTC 2017)
+[//]: # (Date: Fri Jul 14 16:20:41 UTC 2017)
 
 ## Important
 
 * Changes in version `1.19`
+
+	A long standing bug affecting only pdftex has been fixed by adding support to pdf forms. As a side effect, the synchronization algorithm gains in accuracy for all the engines, especially from pdf to source. Of course, there is a small cost in both memory footprint and computational time, but none is noticeable.
+	
+	Some technical changes in the API.
 	* more consistent type naming convention
 		* `_s` suffix for struct's
 		* `_p` suffix for pointers
