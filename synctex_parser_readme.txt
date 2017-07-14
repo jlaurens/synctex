@@ -1,5 +1,7 @@
 This file is part of the SyncTeX package.
 
+Please refer to synctex_parser_readme.md
+
 The Synchronization TeXnology named SyncTeX is a new feature
 of recent TeX engines designed by Jerome Laurens.
 It allows to synchronize between input and output, which means to
