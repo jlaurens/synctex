@@ -1,0 +1,16 @@
+\documentclass{minimal}
+\usepackage{pgfplots,tikz}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}
+\addplot[surf,shader=interp, mesh/rows=2]
+table[row sep=crcr, point meta=\thisrow{c}] {%
+x	y	c\\
+0	1	0\\
+0	2	1\\
+1	1	1\\
+1	2	0\\
+};
+\end{axis}
+\end{tikzpicture}%
+\end{document}

@@ -2391,7 +2391,7 @@ SYNCTEX_INLINE static synctex_node_p __synctex_new_proxy_from_ref_to(synctex_nod
         return NULL;
     }
     _synctex_data_set_h(proxy, _synctex_data_h(ref));
-    _synctex_data_set_v(proxy, _synctex_data_v(ref));
+    _synctex_data_set_v(proxy, _synctex_data_v(ref)-_synctex_data_height(to_node));
     _synctex_tree_set_target(proxy,to_node);
 #   if defined(SYNCTEX_USE_CHARINDEX)
     proxy->line_index=to_node?to_node->line_index:0;
@@ -5194,9 +5194,11 @@ content_loop:
                     synctex_node_p node = _synctex_tree_child(parent);
                     synctex_node_p sibling = NULL;
                     /*  Ignore the first node (a box_bdry) */
-                    if (node && (node = __synctex_tree_sibling(node))) {
+                    if (node && (sibling = __synctex_tree_sibling(node))) {
                         unsigned int node_weight = 0;
                         unsigned int cumulated_line_numbers = 0;
+                        _synctex_data_set_line(node, _synctex_data_line(sibling));
+                        node = sibling;
                         do {
                             if (synctex_node_type(node)==synctex_node_type_hbox) {
                                 if (_synctex_data_weight(node)) {
@@ -6752,12 +6754,19 @@ int synctex_node_column(synctex_node_p node) {
  *  - author: JL
  */
 int synctex_node_mean_line(synctex_node_p node) {
-    synctex_node_p target = _synctex_tree_target(node);
-    if (target) {
-        node = target;
+    synctex_node_p other = _synctex_tree_target(node);
+    if (other) {
+        node = other;
     }
-    return _synctex_data_has_mean_line(node)?
-    _synctex_data_mean_line(node):_synctex_data_line(node);
+    if (_synctex_data_has_mean_line(node)) {
+        return _synctex_data_mean_line(node);
+    }
+    if ((other = synctex_node_parent(node))) {
+        if (_synctex_data_has_mean_line(other)) {
+            return _synctex_data_mean_line(other);
+        }
+    }
+    return synctex_node_line(node);
 }
 /**
  *  The weight of the node.
