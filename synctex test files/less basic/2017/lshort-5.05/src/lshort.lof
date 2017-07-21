@@ -1,0 +1,30 @@
+\select@language {greek}
+\select@language {greek}
+\select@language {english}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces A Minimal \LaTeX {} File.}}{7}{figure.1.1}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Example of a Realistic Journal Article.}}{8}{figure.1.2}
+\addvspace {10\p@ }
+\select@language {french}
+\select@language {english}
+\select@language {french}
+\select@language {english}
+\select@language {german}
+\select@language {english}
+\select@language {german}
+\select@language {english}
+\select@language {french}
+\select@language {english}
+\select@language {french}
+\select@language {english}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Example \textsf {fancyhdr} Setup.}}{88}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Sample code for the \textsf {beamer} class}}{101}{figure.4.2}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Example Package.}}{123}{figure.6.1}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Layout parameters for this book.}}{131}{figure.6.2}
+\addvspace {10\p@ }

@@ -1,0 +1,1724 @@
+\indexentry{Knuth, Donald E.|hyperpage}{1}
+\indexentry{Lamport, Leslie|hyperpage}{2}
+\indexentry{Mittelbach, Frank|hyperpage}{2}
+\indexentry{WYSIWYG|hyperpage}{2}
+\indexentry{WYSIWYG|hyperpage}{3}
+\indexentry{WYSIWYG|hyperpage}{3}
+\indexentry{advantages of \LaTeX {}|hyperpage}{3}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{3}
+\indexentry{LaTeX3@\LaTeX 3|hyperpage}{4}
+\indexentry{space|hyperpage}{4}
+\indexentry{whitespace|hyperpage}{4}
+\indexentry{whitespace!at the start of a line|hyperpage}{4}
+\indexentry{reserved characters|hyperpage}{5}
+\indexentry{commands!textbackslash@\texttt  {\char '134 textbackslash}|hyperpage}{5}
+\indexentry{textbackslash@\texttt  {\hspace  *{-1.2ex}\char '134 textbackslash}|hyperpage}{5}
+\indexentry{commands|hyperpage}{5}
+\indexentry{backslash|hyperpage}{5}
+\indexentry{whitespace!after commands|hyperpage}{5}
+\indexentry{parameter|hyperpage}{5}
+\indexentry{curly braces|hyperpage}{5}
+\indexentry{optional parameters|hyperpage}{5}
+\indexentry{square brackets|hyperpage}{5}
+\indexentry{comments|hyperpage}{6}
+\indexentry{environments!\texttt  {comment}|hyperpage}{6}
+\indexentry{comment@\texttt  {comment}|hyperpage}{6}
+\indexentry{packages!verbatim@\textsf  {verbatim}|hyperpage}{6}
+\indexentry{verbatim@\textsf  {verbatim}|hyperpage}{6}
+\indexentry{structure|hyperpage}{7}
+\indexentry{package|hyperpage}{7}
+\indexentry{input file|hyperpage}{7}
+\indexentry{preamble|hyperpage}{7}
+\indexentry{extension!\texttt  {.tex}|hyperpage}{8}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{9}
+\indexentry{GhostScript|hyperpage}{9}
+\indexentry{commands!documentclass@\texttt  {\char '134 documentclass}|hyperpage}{9}
+\indexentry{documentclass@\texttt  {\hspace  *{-1.2ex}\char '134 documentclass}|hyperpage}{9}
+\indexentry{commands!documentclass@\texttt  {\char '134 documentclass}|hyperpage}{9}
+\indexentry{documentclass@\texttt  {\hspace  *{-1.2ex}\char '134 documentclass}|hyperpage}{9}
+\indexentry{option|hyperpage}{9}
+\indexentry{commands!documentclass@\texttt  {\char '134 documentclass}|hyperpage}{9}
+\indexentry{documentclass@\texttt  {\hspace  *{-1.2ex}\char '134 documentclass}|hyperpage}{9}
+\indexentry{package|hyperpage}{10}
+\indexentry{graphics|hyperpage}{10}
+\indexentry{coloured text|hyperpage}{10}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{10}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{10}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{10}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{10}
+\indexentry{article class|hyperpage}{10}
+\indexentry{proc class|hyperpage}{10}
+\indexentry{minimal class|hyperpage}{10}
+\indexentry{report class|hyperpage}{10}
+\indexentry{book class|hyperpage}{10}
+\indexentry{slides class|hyperpage}{10}
+\indexentry{document font size|hyperpage}{11}
+\indexentry{base     font size|hyperpage}{11}
+\indexentry{legal paper|hyperpage}{11}
+\indexentry{paper size|hyperpage}{11}
+\indexentry{A4 paper|hyperpage}{11}
+\indexentry{letter paper|hyperpage}{11}
+\indexentry{A5     paper|hyperpage}{11}
+\indexentry{B5 paper|hyperpage}{11}
+\indexentry{executive paper|hyperpage}{11}
+\indexentry{document title|hyperpage}{11}
+\indexentry{title|hyperpage}{11}
+\indexentry{one column|hyperpage}{11}
+\indexentry{two column|hyperpage}{11}
+\indexentry{single sided|hyperpage}{11}
+\indexentry{double sided|hyperpage}{11}
+\indexentry{packages!doc@\textsf  {doc}|hyperpage}{12}
+\indexentry{doc@\textsf  {doc}|hyperpage}{12}
+\indexentry{packages!exscale@\textsf  {exscale}|hyperpage}{12}
+\indexentry{exscale@\textsf  {exscale}|hyperpage}{12}
+\indexentry{packages!fontenc@\textsf  {fontenc}|hyperpage}{12}
+\indexentry{fontenc@\textsf  {fontenc}|hyperpage}{12}
+\indexentry{font encoding|hyperpage}{12}
+\indexentry{packages!ifthen@\textsf  {ifthen}|hyperpage}{12}
+\indexentry{ifthen@\textsf  {ifthen}|hyperpage}{12}
+\indexentry{packages!latexsym@\textsf  {latexsym}|hyperpage}{12}
+\indexentry{latexsym@\textsf  {latexsym}|hyperpage}{12}
+\indexentry{packages!makeidx@\textsf  {makeidx}|hyperpage}{12}
+\indexentry{makeidx@\textsf  {makeidx}|hyperpage}{12}
+\indexentry{packages!syntonly@\textsf  {syntonly}|hyperpage}{12}
+\indexentry{syntonly@\textsf  {syntonly}|hyperpage}{12}
+\indexentry{packages!inputenc@\textsf  {inputenc}|hyperpage}{12}
+\indexentry{inputenc@\textsf  {inputenc}|hyperpage}{12}
+\indexentry{header|hyperpage}{13}
+\indexentry{footer|hyperpage}{13}
+\indexentry{page style|hyperpage}{13}
+\indexentry{page style!plain@\texttt{plain}|hyperpage}{13}
+\indexentry{plain@\texttt{plain}|hyperpage}{13}
+\indexentry{page style!headings@\texttt{headings}|hyperpage}{13}
+\indexentry{headings@texttt{headings}|hyperpage}{13}
+\indexentry{page style!empty@\texttt{empty}|hyperpage}{13}
+\indexentry{empty@\texttt{empty}|hyperpage}{13}
+\indexentry{commands!pagestyle@\texttt  {\char '134 pagestyle}|hyperpage}{13}
+\indexentry{pagestyle@\texttt  {\hspace  *{-1.2ex}\char '134 pagestyle}|hyperpage}{13}
+\indexentry{commands!thispagestyle@\texttt  {\char '134 thispagestyle}|hyperpage}{13}
+\indexentry{thispagestyle@\texttt  {\hspace  *{-1.2ex}\char '134 thispagestyle}|hyperpage}{13}
+\indexentry{extension|hyperpage}{13}
+\indexentry{file types|hyperpage}{13}
+\indexentry{extension!\texttt  {.tex}|hyperpage}{13}
+\indexentry{extension!\texttt  {.sty}|hyperpage}{13}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{13}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{13}
+\indexentry{extension!\texttt  {.dtx}|hyperpage}{13}
+\indexentry{extension!\texttt  {.ins}|hyperpage}{14}
+\indexentry{extension!\texttt  {.cls}|hyperpage}{14}
+\indexentry{commands!documentclass@\texttt  {\char '134 documentclass}|hyperpage}{14}
+\indexentry{documentclass@\texttt  {\hspace  *{-1.2ex}\char '134 documentclass}|hyperpage}{14}
+\indexentry{extension!\texttt  {.fd}|hyperpage}{14}
+\indexentry{extension!\texttt  {.dvi}|hyperpage}{14}
+\indexentry{extension!\texttt  {.log}|hyperpage}{14}
+\indexentry{extension!\texttt  {.toc}|hyperpage}{14}
+\indexentry{extension!\texttt  {.lof}|hyperpage}{14}
+\indexentry{extension!\texttt  {.lot}|hyperpage}{14}
+\indexentry{extension!\texttt  {.aux}|hyperpage}{14}
+\indexentry{extension!\texttt  {.idx}|hyperpage}{14}
+\indexentry{extension!\texttt  {.ind}|hyperpage}{14}
+\indexentry{extension!\texttt  {.ilg}|hyperpage}{14}
+\indexentry{commands!include@\texttt  {\char '134 include}|hyperpage}{14}
+\indexentry{include@\texttt  {\hspace  *{-1.2ex}\char '134 include}|hyperpage}{14}
+\indexentry{commands!includeonly@\texttt  {\char '134 includeonly}|hyperpage}{15}
+\indexentry{includeonly@\texttt  {\hspace  *{-1.2ex}\char '134 includeonly}|hyperpage}{15}
+\indexentry{commands!include@\texttt  {\char '134 include}|hyperpage}{15}
+\indexentry{include@\texttt  {\hspace  *{-1.2ex}\char '134 include}|hyperpage}{15}
+\indexentry{commands!includeonly@\texttt  {\char '134 includeonly}|hyperpage}{15}
+\indexentry{includeonly@\texttt  {\hspace  *{-1.2ex}\char '134 includeonly}|hyperpage}{15}
+\indexentry{commands!include@\texttt  {\char '134 include}|hyperpage}{15}
+\indexentry{include@\texttt  {\hspace  *{-1.2ex}\char '134 include}|hyperpage}{15}
+\indexentry{commands!includeonly@\texttt  {\char '134 includeonly}|hyperpage}{15}
+\indexentry{includeonly@\texttt  {\hspace  *{-1.2ex}\char '134 includeonly}|hyperpage}{15}
+\indexentry{commands!input@\texttt  {\char '134 input}|hyperpage}{15}
+\indexentry{input@\texttt  {\hspace  *{-1.2ex}\char '134 input}|hyperpage}{15}
+\indexentry{packages!syntonly@\textsf  {syntonly}|hyperpage}{15}
+\indexentry{syntonly@\textsf  {syntonly}|hyperpage}{15}
+\indexentry{paragraph|hyperpage}{17}
+\indexentry{line break|hyperpage}{19}
+\indexentry{commands!\char '134 @\texttt  {\char '134 \char '134 }|hyperpage}{19}
+\indexentry{\char '134 @\texttt  {\hspace  *{-1.2ex}\char '134 \char '134 }|hyperpage}{19}
+\indexentry{commands!newline@\texttt  {\char '134 newline}|hyperpage}{19}
+\indexentry{newline@\texttt  {\hspace  *{-1.2ex}\char '134 newline}|hyperpage}{19}
+\indexentry{commands!\char '134 *@\texttt  {\char '134 \char '134 *}|hyperpage}{19}
+\indexentry{\char '134 *@\texttt  {\hspace  *{-1.2ex}\char '134 \char '134 *}|hyperpage}{19}
+\indexentry{commands!newpage@\texttt  {\char '134 newpage}|hyperpage}{19}
+\indexentry{newpage@\texttt  {\hspace  *{-1.2ex}\char '134 newpage}|hyperpage}{19}
+\indexentry{commands!linebreak@\texttt  {\char '134 linebreak}|hyperpage}{19}
+\indexentry{linebreak@\texttt  {\hspace  *{-1.2ex}\char '134 linebreak}|hyperpage}{19}
+\indexentry{commands!nolinebreak@\texttt  {\char '134 nolinebreak}|hyperpage}{19}
+\indexentry{nolinebreak@\texttt  {\hspace  *{-1.2ex}\char '134 nolinebreak}|hyperpage}{19}
+\indexentry{commands!pagebreak@\texttt  {\char '134 pagebreak}|hyperpage}{19}
+\indexentry{pagebreak@\texttt  {\hspace  *{-1.2ex}\char '134 pagebreak}|hyperpage}{19}
+\indexentry{commands!nopagebreak@\texttt  {\char '134 nopagebreak}|hyperpage}{19}
+\indexentry{nopagebreak@\texttt  {\hspace  *{-1.2ex}\char '134 nopagebreak}|hyperpage}{19}
+\indexentry{overfull hbox|hyperpage}{20}
+\indexentry{commands!sloppy@\texttt  {\char '134 sloppy}|hyperpage}{20}
+\indexentry{sloppy@\texttt  {\hspace  *{-1.2ex}\char '134 sloppy}|hyperpage}{20}
+\indexentry{underfull hbox|hyperpage}{20}
+\indexentry{commands!fussy@\texttt  {\char '134 fussy}|hyperpage}{20}
+\indexentry{fussy@\texttt  {\hspace  *{-1.2ex}\char '134 fussy}|hyperpage}{20}
+\indexentry{commands!hyphenation@\texttt  {\char '134 hyphenation}|hyperpage}{20}
+\indexentry{hyphenation@\texttt  {\hspace  *{-1.2ex}\char '134 hyphenation}|hyperpage}{20}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{20}
+\indexentry{babel@\textsf  {babel}|hyperpage}{20}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{20}
+\indexentry{babel@\textsf  {babel}|hyperpage}{20}
+\indexentry{commands!documentclass@\texttt  {\char '134 documentclass}|hyperpage}{20}
+\indexentry{documentclass@\texttt  {\hspace  *{-1.2ex}\char '134 documentclass}|hyperpage}{20}
+\indexentry{commands!-@\texttt  {\char '134 -}|hyperpage}{21}
+\indexentry{-@\texttt  {\hspace  *{-1.2ex}\char '134 -}|hyperpage}{21}
+\indexentry{commands!mbox@\texttt  {\char '134 mbox}|hyperpage}{21}
+\indexentry{mbox@\texttt  {\hspace  *{-1.2ex}\char '134 mbox}|hyperpage}{21}
+\indexentry{commands!fbox@\texttt  {\char '134 fbox}|hyperpage}{21}
+\indexentry{fbox@\texttt  {\hspace  *{-1.2ex}\char '134 fbox}|hyperpage}{21}
+\indexentry{commands!mbox@\texttt  {\char '134 mbox}|hyperpage}{21}
+\indexentry{mbox@\texttt  {\hspace  *{-1.2ex}\char '134 mbox}|hyperpage}{21}
+\indexentry{commands!today@\texttt  {\char '134 today}|hyperpage}{21}
+\indexentry{today@\texttt  {\hspace  *{-1.2ex}\char '134 today}|hyperpage}{21}
+\indexentry{commands!TeX@\texttt  {\char '134 TeX}|hyperpage}{21}
+\indexentry{TeX@\texttt  {\hspace  *{-1.2ex}\char '134 TeX}|hyperpage}{21}
+\indexentry{commands!LaTeX@\texttt  {\char '134 LaTeX}|hyperpage}{21}
+\indexentry{LaTeX@\texttt  {\hspace  *{-1.2ex}\char '134 LaTeX}|hyperpage}{21}
+\indexentry{commands!LaTeXe@\texttt  {\char '134 LaTeXe}|hyperpage}{21}
+\indexentry{LaTeXe@\texttt  {\hspace  *{-1.2ex}\char '134 LaTeXe}|hyperpage}{21}
+\indexentry{quotation marks|hyperpage}{21}
+\indexentry{""@\texttt{""}|hyperpage}{21}
+\indexentry{dash|hyperpage}{22}
+\indexentry{-|hyperpage}{22}
+\indexentry{--|hyperpage}{22}
+\indexentry{---|hyperpage}{22}
+\indexentry{-@$-$|hyperpage}{22}
+\indexentry{mathematical!minus|hyperpage}{22}
+\indexentry{hyphen|hyperpage}{22}
+\indexentry{en-dash|hyperpage}{22}
+\indexentry{em-dash|hyperpage}{22}
+\indexentry{minus sign|hyperpage}{22}
+\indexentry{URL link|hyperpage}{22}
+\indexentry{tilde|hyperpage}{22}
+\indexentry{Slash|hyperpage}{22}
+\indexentry{commands!slash@\texttt  {\char '134 slash}|hyperpage}{22}
+\indexentry{slash@\texttt  {\hspace  *{-1.2ex}\char '134 slash}|hyperpage}{22}
+\indexentry{degree symbol|hyperpage}{22}
+\indexentry{packages!textcomp@\textsf  {textcomp}|hyperpage}{23}
+\indexentry{textcomp@\textsf  {textcomp}|hyperpage}{23}
+\indexentry{commands!textdegree@\texttt  {\char '134 textdegree}|hyperpage}{23}
+\indexentry{textdegree@\texttt  {\hspace  *{-1.2ex}\char '134 textdegree}|hyperpage}{23}
+\indexentry{commands!textcelsius@\texttt  {\char '134 textcelsius}|hyperpage}{23}
+\indexentry{textcelsius@\texttt  {\hspace  *{-1.2ex}\char '134 textcelsius}|hyperpage}{23}
+\indexentry{packages!textcomp@\textsf  {textcomp}|hyperpage}{23}
+\indexentry{textcomp@\textsf  {textcomp}|hyperpage}{23}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{23}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{23}
+\indexentry{commands!texteuro@\texttt  {\char '134 texteuro}|hyperpage}{23}
+\indexentry{texteuro@\texttt  {\hspace  *{-1.2ex}\char '134 texteuro}|hyperpage}{23}
+\indexentry{packages!eurosym@\textsf  {eurosym}|hyperpage}{23}
+\indexentry{eurosym@\textsf  {eurosym}|hyperpage}{23}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{23}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{23}
+\indexentry{comma|hyperpage}{24}
+\indexentry{period|hyperpage}{24}
+\indexentry{ellipsis|hyperpage}{24}
+\indexentry{commands!ldots@\texttt  {\char '134 ldots}|hyperpage}{24}
+\indexentry{ldots@\texttt  {\hspace  *{-1.2ex}\char '134 ldots}|hyperpage}{24}
+\indexentry{...@\ldots|hyperpage}{24}
+\indexentry{ligature|hyperpage}{24}
+\indexentry{commands!mbox@\texttt  {\char '134 mbox}|hyperpage}{24}
+\indexentry{mbox@\texttt  {\hspace  *{-1.2ex}\char '134 mbox}|hyperpage}{24}
+\indexentry{accent|hyperpage}{24}
+\indexentry{special character|hyperpage}{24}
+\indexentry{international|hyperpage}{25}
+\indexentry{language|hyperpage}{25}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{25}
+\indexentry{babel@\textsf  {babel}|hyperpage}{25}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{25}
+\indexentry{babel@\textsf  {babel}|hyperpage}{25}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{25}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{25}
+\indexentry{dotless \i{} and \j|hyperpage}{25}
+\indexentry{Scandinavian letters|hyperpage}{25}
+\indexentry{ae@\ae|hyperpage}{25}
+\indexentry{umlaut|hyperpage}{25}
+\indexentry{grave|hyperpage}{25}
+\indexentry{acute|hyperpage}{25}
+\indexentry{oe@\oe|hyperpage}{25}
+\indexentry{aa@\aa|hyperpage}{25}
+\indexentry{German|hyperpage}{26}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{26}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{26}
+\indexentry{commands!selectlanguage@\texttt  {\char '134 selectlanguage}|hyperpage}{26}
+\indexentry{selectlanguage@\texttt  {\hspace  *{-1.2ex}\char '134 selectlanguage}|hyperpage}{26}
+\indexentry{packages!inputenc@\textsf  {inputenc}|hyperpage}{26}
+\indexentry{inputenc@\textsf  {inputenc}|hyperpage}{26}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{26}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{26}
+\indexentry{encodings!input!applemac@\texttt  {applemac}|hyperpage}{26}
+\indexentry{input encodings!applemac@\texttt  {applemac}|hyperpage}{26}
+\indexentry{applemac@\texttt  {applemac}|hyperpage}{26}
+\indexentry{encodings!input!macukr@\texttt  {macukr}|hyperpage}{26}
+\indexentry{input encodings!macukr@\texttt  {macukr}|hyperpage}{26}
+\indexentry{macukr@\texttt  {macukr}|hyperpage}{26}
+\indexentry{encodings!input!latin1@\texttt  {latin1}|hyperpage}{26}
+\indexentry{input encodings!latin1@\texttt  {latin1}|hyperpage}{26}
+\indexentry{latin1@\texttt  {latin1}|hyperpage}{26}
+\indexentry{encodings!input!koi8-ru@\texttt  {koi8-ru}|hyperpage}{26}
+\indexentry{input encodings!koi8-ru@\texttt  {koi8-ru}|hyperpage}{26}
+\indexentry{koi8-ru@\texttt  {koi8-ru}|hyperpage}{26}
+\indexentry{encodings!input!ansinew@\texttt  {ansinew}|hyperpage}{26}
+\indexentry{input encodings!ansinew@\texttt  {ansinew}|hyperpage}{26}
+\indexentry{ansinew@\texttt  {ansinew}|hyperpage}{26}
+\indexentry{encodings!input!cp1251@\texttt  {cp1251}|hyperpage}{26}
+\indexentry{input encodings!cp1251@\texttt  {cp1251}|hyperpage}{26}
+\indexentry{cp1251@\texttt  {cp1251}|hyperpage}{26}
+\indexentry{encodings!input!cp850@\texttt  {cp850}|hyperpage}{26}
+\indexentry{input encodings!cp850@\texttt  {cp850}|hyperpage}{26}
+\indexentry{cp850@\texttt  {cp850}|hyperpage}{26}
+\indexentry{encodings!input!cp866nav@\texttt  {cp866nav}|hyperpage}{26}
+\indexentry{input encodings!cp866nav@\texttt  {cp866nav}|hyperpage}{26}
+\indexentry{cp866nav@\texttt  {cp866nav}|hyperpage}{26}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{26}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{26}
+\indexentry{encodings!input!utf8@\texttt  {utf8}|hyperpage}{26}
+\indexentry{input encodings!utf8@\texttt  {utf8}|hyperpage}{26}
+\indexentry{utf8@\texttt  {utf8}|hyperpage}{26}
+\indexentry{encodings!input!utf8@\texttt  {utf8}|hyperpage}{26}
+\indexentry{input encodings!utf8@\texttt  {utf8}|hyperpage}{26}
+\indexentry{utf8@\texttt  {utf8}|hyperpage}{26}
+\indexentry{encodings!input!utf8@\texttt  {utf8}|hyperpage}{27}
+\indexentry{input encodings!utf8@\texttt  {utf8}|hyperpage}{27}
+\indexentry{utf8@\texttt  {utf8}|hyperpage}{27}
+\indexentry{encodings!input!utf8@\texttt  {utf8}|hyperpage}{27}
+\indexentry{input encodings!utf8@\texttt  {utf8}|hyperpage}{27}
+\indexentry{utf8@\texttt  {utf8}|hyperpage}{27}
+\indexentry{packages!inputenc@\textsf  {inputenc}|hyperpage}{27}
+\indexentry{inputenc@\textsf  {inputenc}|hyperpage}{27}
+\indexentry{packages!fontenc@\textsf  {fontenc}|hyperpage}{27}
+\indexentry{fontenc@\textsf  {fontenc}|hyperpage}{27}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{27}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{27}
+\indexentry{font encodings|hyperpage}{27}
+\indexentry{encodings!font!OT1@\texttt  {OT1}|hyperpage}{27}
+\indexentry{font encodings!OT1@\texttt  {OT1}|hyperpage}{27}
+\indexentry{OT1@\texttt  {OT1}|hyperpage}{27}
+\indexentry{encodings!font!T1@\texttt  {T1}|hyperpage}{27}
+\indexentry{font encodings!T1@\texttt  {T1}|hyperpage}{27}
+\indexentry{T1@\texttt  {T1}|hyperpage}{27}
+\indexentry{encodings!font!T2A@\texttt  {T2A}|hyperpage}{27}
+\indexentry{font encodings!T2A@\texttt  {T2A}|hyperpage}{27}
+\indexentry{T2A@\texttt  {T2A}|hyperpage}{27}
+\indexentry{encodings!font!T2B@\texttt  {T2B}|hyperpage}{27}
+\indexentry{font encodings!T2B@\texttt  {T2B}|hyperpage}{27}
+\indexentry{T2B@\texttt  {T2B}|hyperpage}{27}
+\indexentry{encodings!font!T2C@\texttt  {T2C}|hyperpage}{27}
+\indexentry{font encodings!T2C@\texttt  {T2C}|hyperpage}{27}
+\indexentry{T2C@\texttt  {T2C}|hyperpage}{27}
+\indexentry{encodings!font!X2@\texttt  {X2}|hyperpage}{27}
+\indexentry{font encodings!X2@\texttt  {X2}|hyperpage}{27}
+\indexentry{X2@\texttt  {X2}|hyperpage}{27}
+\indexentry{encodings!font!LGR@\texttt  {LGR}|hyperpage}{27}
+\indexentry{font encodings!LGR@\texttt  {LGR}|hyperpage}{27}
+\indexentry{LGR@\texttt  {LGR}|hyperpage}{27}
+\indexentry{Portuguese|hyperpage}{27}
+\indexentry{Portugu\^es|hyperpage}{27}
+\indexentry{brazilian|hyperpage}{28}
+\indexentry{French|hyperpage}{28}
+\indexentry{packages!frenchb@\textsf  {frenchb}|hyperpage}{29}
+\indexentry{frenchb@\textsf  {frenchb}|hyperpage}{29}
+\indexentry{packages!numprint@\textsf  {numprint}|hyperpage}{29}
+\indexentry{numprint@\textsf  {numprint}|hyperpage}{29}
+\indexentry{commands!nombre@\texttt  {\char '134 nombre}|hyperpage}{29}
+\indexentry{nombre@\texttt  {\hspace  *{-1.2ex}\char '134 nombre}|hyperpage}{29}
+\indexentry{German|hyperpage}{29}
+\indexentry{Deutsch|hyperpage}{29}
+\indexentry{commands!flqq@\texttt  {\char '134 flqq}|hyperpage}{30}
+\indexentry{flqq@\texttt  {\hspace  *{-1.2ex}\char '134 flqq}|hyperpage}{30}
+\indexentry{commands!frqq@\texttt  {\char '134 frqq}|hyperpage}{30}
+\indexentry{frqq@\texttt  {\hspace  *{-1.2ex}\char '134 frqq}|hyperpage}{30}
+\indexentry{commands!flq@\texttt  {\char '134 flq}|hyperpage}{30}
+\indexentry{flq@\texttt  {\hspace  *{-1.2ex}\char '134 flq}|hyperpage}{30}
+\indexentry{commands!frq@\texttt  {\char '134 frq}|hyperpage}{30}
+\indexentry{frq@\texttt  {\hspace  *{-1.2ex}\char '134 frq}|hyperpage}{30}
+\indexentry{commands!dq@\texttt  {\char '134 dq}|hyperpage}{30}
+\indexentry{dq@\texttt  {\hspace  *{-1.2ex}\char '134 dq}|hyperpage}{30}
+\indexentry{packages!kotex@\textsf  {kotex}|hyperpage}{30}
+\indexentry{kotex@\textsf  {kotex}|hyperpage}{30}
+\indexentry{packages!oblivoir@\textsf  {oblivoir}|hyperpage}{30}
+\indexentry{oblivoir@\textsf  {oblivoir}|hyperpage}{30}
+\indexentry{packages!memoir@\textsf  {memoir}|hyperpage}{30}
+\indexentry{memoir@\textsf  {memoir}|hyperpage}{30}
+\indexentry{Greek|hyperpage}{31}
+\indexentry{Greek|hyperpage}{31}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{encodings!font!T2*@\texttt  {T2*}|hyperpage}{32}
+\indexentry{font encodings!T2*@\texttt  {T2*}|hyperpage}{32}
+\indexentry{T2*@\texttt  {T2*}|hyperpage}{32}
+\indexentry{packages!fontenc@\textsf  {fontenc}|hyperpage}{32}
+\indexentry{fontenc@\textsf  {fontenc}|hyperpage}{32}
+\indexentry{packages!inputenc@\textsf  {inputenc}|hyperpage}{32}
+\indexentry{inputenc@\textsf  {inputenc}|hyperpage}{32}
+\indexentry{packages!mathtext@\textsf  {mathtext}|hyperpage}{32}
+\indexentry{mathtext@\textsf  {mathtext}|hyperpage}{32}
+\indexentry{packages!fontenc@\textsf  {fontenc}|hyperpage}{32}
+\indexentry{fontenc@\textsf  {fontenc}|hyperpage}{32}
+\indexentry{encodings!font!T1@\texttt  {T1}|hyperpage}{32}
+\indexentry{font encodings!T1@\texttt  {T1}|hyperpage}{32}
+\indexentry{T1@\texttt  {T1}|hyperpage}{32}
+\indexentry{encodings!font!T2A@\texttt  {T2A}|hyperpage}{32}
+\indexentry{font encodings!T2A@\texttt  {T2A}|hyperpage}{32}
+\indexentry{T2A@\texttt  {T2A}|hyperpage}{32}
+\indexentry{encodings!input!koi8-ru@\texttt  {koi8-ru}|hyperpage}{32}
+\indexentry{input encodings!koi8-ru@\texttt  {koi8-ru}|hyperpage}{32}
+\indexentry{koi8-ru@\texttt  {koi8-ru}|hyperpage}{32}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{encodings!font!T2A@\texttt  {T2A}|hyperpage}{32}
+\indexentry{font encodings!T2A@\texttt  {T2A}|hyperpage}{32}
+\indexentry{T2A@\texttt  {T2A}|hyperpage}{32}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{commands!frenchspacing@\texttt  {\char '134 frenchspacing}|hyperpage}{32}
+\indexentry{frenchspacing@\texttt  {\hspace  *{-1.2ex}\char '134 frenchspacing}|hyperpage}{32}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{packages!fontenc@\textsf  {fontenc}|hyperpage}{32}
+\indexentry{fontenc@\textsf  {fontenc}|hyperpage}{32}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{babel@\textsf  {babel}|hyperpage}{32}
+\indexentry{""-@\texttt{""}\texttt{-}|hyperpage}{33}
+\indexentry{""---@\texttt{""}\texttt{-}\texttt{-}\texttt{-}|hyperpage}{33}
+\indexentry{""=@\texttt{""}\texttt{=}|hyperpage}{33}
+\indexentry{""`@\texttt{""}\texttt{`}|hyperpage}{33}
+\indexentry{""'@\texttt{""}\texttt{'}|hyperpage}{33}
+\indexentry{"">@\texttt{""}\texttt{>}|hyperpage}{33}
+\indexentry{""<@\texttt{""}\texttt{<}|hyperpage}{33}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{33}
+\indexentry{babel@\textsf  {babel}|hyperpage}{33}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{33}
+\indexentry{babel@\textsf  {babel}|hyperpage}{33}
+\indexentry{commands!Asbuk@\texttt  {\char '134 Asbuk}|hyperpage}{33}
+\indexentry{Asbuk@\texttt  {\hspace  *{-1.2ex}\char '134 Asbuk}|hyperpage}{33}
+\indexentry{commands!asbuk@\texttt  {\char '134 asbuk}|hyperpage}{33}
+\indexentry{asbuk@\texttt  {\hspace  *{-1.2ex}\char '134 asbuk}|hyperpage}{33}
+\indexentry{commands!Alph@\texttt  {\char '134 Alph}|hyperpage}{33}
+\indexentry{Alph@\texttt  {\hspace  *{-1.2ex}\char '134 Alph}|hyperpage}{33}
+\indexentry{commands!alph@\texttt  {\char '134 alph}|hyperpage}{33}
+\indexentry{alph@\texttt  {\hspace  *{-1.2ex}\char '134 alph}|hyperpage}{33}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{33}
+\indexentry{babel@\textsf  {babel}|hyperpage}{33}
+\indexentry{commands!enumBul@\texttt  {\char '134 enumBul}|hyperpage}{33}
+\indexentry{enumBul@\texttt  {\hspace  *{-1.2ex}\char '134 enumBul}|hyperpage}{33}
+\indexentry{commands!enumLat@\texttt  {\char '134 enumLat}|hyperpage}{33}
+\indexentry{enumLat@\texttt  {\hspace  *{-1.2ex}\char '134 enumLat}|hyperpage}{33}
+\indexentry{commands!enumEng@\texttt  {\char '134 enumEng}|hyperpage}{33}
+\indexentry{enumEng@\texttt  {\hspace  *{-1.2ex}\char '134 enumEng}|hyperpage}{33}
+\indexentry{commands!Alph@\texttt  {\char '134 Alph}|hyperpage}{33}
+\indexentry{Alph@\texttt  {\hspace  *{-1.2ex}\char '134 Alph}|hyperpage}{33}
+\indexentry{commands!alph@\texttt  {\char '134 alph}|hyperpage}{33}
+\indexentry{alph@\texttt  {\hspace  *{-1.2ex}\char '134 alph}|hyperpage}{33}
+\indexentry{commands!Alph@\texttt  {\char '134 Alph}|hyperpage}{33}
+\indexentry{Alph@\texttt  {\hspace  *{-1.2ex}\char '134 Alph}|hyperpage}{33}
+\indexentry{commands!alph@\texttt  {\char '134 alph}|hyperpage}{33}
+\indexentry{alph@\texttt  {\hspace  *{-1.2ex}\char '134 alph}|hyperpage}{33}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{33}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{33}
+\indexentry{packages!xalx@\textsf  {xalx}|hyperpage}{33}
+\indexentry{xalx@\textsf  {xalx}|hyperpage}{33}
+\indexentry{packages!bicig@\textsf  {bicig}|hyperpage}{34}
+\indexentry{bicig@\textsf  {bicig}|hyperpage}{34}
+\indexentry{packages!bicig@\textsf  {bicig}|hyperpage}{34}
+\indexentry{bicig@\textsf  {bicig}|hyperpage}{34}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{34}
+\indexentry{babel@\textsf  {babel}|hyperpage}{34}
+\indexentry{encodings!input!mn@\texttt  {mn}|hyperpage}{34}
+\indexentry{input encodings!mn@\texttt  {mn}|hyperpage}{34}
+\indexentry{mn@\texttt  {mn}|hyperpage}{34}
+\indexentry{encodings!input!cp1251@\texttt  {cp1251}|hyperpage}{34}
+\indexentry{input encodings!cp1251@\texttt  {cp1251}|hyperpage}{34}
+\indexentry{cp1251@\texttt  {cp1251}|hyperpage}{34}
+\indexentry{encodings!input!utf8@\texttt  {utf8}|hyperpage}{34}
+\indexentry{input encodings!utf8@\texttt  {utf8}|hyperpage}{34}
+\indexentry{utf8@\texttt  {utf8}|hyperpage}{34}
+\indexentry{packages!polyglossia@\textsf  {polyglossia}|hyperpage}{35}
+\indexentry{polyglossia@\textsf  {polyglossia}|hyperpage}{35}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{35}
+\indexentry{babel@\textsf  {babel}|hyperpage}{35}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{35}
+\indexentry{babel@\textsf  {babel}|hyperpage}{35}
+\indexentry{packages!fontspec@\textsf  {fontspec}|hyperpage}{35}
+\indexentry{fontspec@\textsf  {fontspec}|hyperpage}{35}
+\indexentry{packages!polyglossia@\textsf  {polyglossia}|hyperpage}{36}
+\indexentry{polyglossia@\textsf  {polyglossia}|hyperpage}{36}
+\indexentry{Russian|hyperpage}{36}
+\indexentry{Cyrillic|hyperpage}{36}
+\indexentry{packages!xgreek@\textsf  {xgreek}|hyperpage}{36}
+\indexentry{xgreek@\textsf  {xgreek}|hyperpage}{36}
+\indexentry{Greek|hyperpage}{36}
+\indexentry{packages!polyglossia@\textsf  {polyglossia}|hyperpage}{37}
+\indexentry{polyglossia@\textsf  {polyglossia}|hyperpage}{37}
+\indexentry{packages!bidi@\textsf  {bidi}|hyperpage}{37}
+\indexentry{bidi@\textsf  {bidi}|hyperpage}{37}
+\indexentry{packages!bidi@\textsf  {bidi}|hyperpage}{37}
+\indexentry{bidi@\textsf  {bidi}|hyperpage}{37}
+\indexentry{packages!hyperref@\textsf  {hyperref}|hyperpage}{37}
+\indexentry{hyperref@\textsf  {hyperref}|hyperpage}{37}
+\indexentry{packages!polyglossia@\textsf  {polyglossia}|hyperpage}{37}
+\indexentry{polyglossia@\textsf  {polyglossia}|hyperpage}{37}
+\indexentry{packages!bidi@\textsf  {bidi}|hyperpage}{37}
+\indexentry{bidi@\textsf  {bidi}|hyperpage}{37}
+\indexentry{packages!polyglossia@\textsf  {polyglossia}|hyperpage}{37}
+\indexentry{polyglossia@\textsf  {polyglossia}|hyperpage}{37}
+\indexentry{packages!xepersian@\textsf  {xepersian}|hyperpage}{37}
+\indexentry{xepersian@\textsf  {xepersian}|hyperpage}{37}
+\indexentry{Persian|hyperpage}{37}
+\indexentry{packages!xepersian@\textsf  {xepersian}|hyperpage}{37}
+\indexentry{xepersian@\textsf  {xepersian}|hyperpage}{37}
+\indexentry{kashida|hyperpage}{37}
+\indexentry{packages!arabxetex@\textsf  {arabxetex}|hyperpage}{37}
+\indexentry{arabxetex@\textsf  {arabxetex}|hyperpage}{37}
+\indexentry{Arabic|hyperpage}{37}
+\indexentry{Persian|hyperpage}{37}
+\indexentry{Urdu|hyperpage}{37}
+\indexentry{Sindhi|hyperpage}{37}
+\indexentry{Pashto|hyperpage}{37}
+\indexentry{Ottoman|hyperpage}{37}
+\indexentry{Turkish|hyperpage}{37}
+\indexentry{Kurdish|hyperpage}{37}
+\indexentry{Kashmiri|hyperpage}{37}
+\indexentry{Malay|hyperpage}{37}
+\indexentry{Jawi|hyperpage}{37}
+\indexentry{Uighur|hyperpage}{37}
+\indexentry{Hebrew|hyperpage}{37}
+\indexentry{packages!polyglossia@\textsf  {polyglossia}|hyperpage}{37}
+\indexentry{polyglossia@\textsf  {polyglossia}|hyperpage}{37}
+\indexentry{Chinese|hyperpage}{38}
+\indexentry{Japanese|hyperpage}{38}
+\indexentry{Korean|hyperpage}{38}
+\indexentry{packages!xeCJK@\textsf  {xeCJK}|hyperpage}{38}
+\indexentry{xeCJK@\textsf  {xeCJK}|hyperpage}{38}
+\indexentry{commands!"@@\texttt  {\char '134 "@}|hyperpage}{38}
+\indexentry{"@@\texttt  {\hspace  *{-1.2ex}\char '134 "@}|hyperpage}{38}
+\indexentry{~@ \verb.~.|hyperpage}{38}
+\indexentry{tilde@tilde ( \verb.~.)|hyperpage}{38}
+\indexentry{., space after|hyperpage}{38}
+\indexentry{commands!frenchspacing@\texttt  {\char '134 frenchspacing}|hyperpage}{38}
+\indexentry{frenchspacing@\texttt  {\hspace  *{-1.2ex}\char '134 frenchspacing}|hyperpage}{38}
+\indexentry{commands!frenchspacing@\texttt  {\char '134 frenchspacing}|hyperpage}{38}
+\indexentry{frenchspacing@\texttt  {\hspace  *{-1.2ex}\char '134 frenchspacing}|hyperpage}{38}
+\indexentry{commands!section@\texttt  {\char '134 section}|hyperpage}{39}
+\indexentry{section@\texttt  {\hspace  *{-1.2ex}\char '134 section}|hyperpage}{39}
+\indexentry{commands!subsection@\texttt  {\char '134 subsection}|hyperpage}{39}
+\indexentry{subsection@\texttt  {\hspace  *{-1.2ex}\char '134 subsection}|hyperpage}{39}
+\indexentry{commands!subsubsection@\texttt  {\char '134 subsubsection}|hyperpage}{39}
+\indexentry{subsubsection@\texttt  {\hspace  *{-1.2ex}\char '134 subsubsection}|hyperpage}{39}
+\indexentry{commands!paragraph@\texttt  {\char '134 paragraph}|hyperpage}{39}
+\indexentry{paragraph@\texttt  {\hspace  *{-1.2ex}\char '134 paragraph}|hyperpage}{39}
+\indexentry{commands!subparagraph@\texttt  {\char '134 subparagraph}|hyperpage}{39}
+\indexentry{subparagraph@\texttt  {\hspace  *{-1.2ex}\char '134 subparagraph}|hyperpage}{39}
+\indexentry{commands!part@\texttt  {\char '134 part}|hyperpage}{39}
+\indexentry{part@\texttt  {\hspace  *{-1.2ex}\char '134 part}|hyperpage}{39}
+\indexentry{commands!chapter@\texttt  {\char '134 chapter}|hyperpage}{39}
+\indexentry{chapter@\texttt  {\hspace  *{-1.2ex}\char '134 chapter}|hyperpage}{39}
+\indexentry{commands!part@\texttt  {\char '134 part}|hyperpage}{39}
+\indexentry{part@\texttt  {\hspace  *{-1.2ex}\char '134 part}|hyperpage}{39}
+\indexentry{commands!appendix@\texttt  {\char '134 appendix}|hyperpage}{39}
+\indexentry{appendix@\texttt  {\hspace  *{-1.2ex}\char '134 appendix}|hyperpage}{39}
+\indexentry{commands!tableofcontents@\texttt  {\char '134 tableofcontents}|hyperpage}{39}
+\indexentry{tableofcontents@\texttt  {\hspace  *{-1.2ex}\char '134 tableofcontents}|hyperpage}{39}
+\indexentry{table of contents|hyperpage}{39}
+\indexentry{title|hyperpage}{40}
+\indexentry{commands!maketitle@\texttt  {\char '134 maketitle}|hyperpage}{40}
+\indexentry{maketitle@\texttt  {\hspace  *{-1.2ex}\char '134 maketitle}|hyperpage}{40}
+\indexentry{commands!title@\texttt  {\char '134 title}|hyperpage}{40}
+\indexentry{title@\texttt  {\hspace  *{-1.2ex}\char '134 title}|hyperpage}{40}
+\indexentry{commands!author@\texttt  {\char '134 author}|hyperpage}{40}
+\indexentry{author@\texttt  {\hspace  *{-1.2ex}\char '134 author}|hyperpage}{40}
+\indexentry{commands!date@\texttt  {\char '134 date}|hyperpage}{40}
+\indexentry{date@\texttt  {\hspace  *{-1.2ex}\char '134 date}|hyperpage}{40}
+\indexentry{commands!author@\texttt  {\char '134 author}|hyperpage}{40}
+\indexentry{author@\texttt  {\hspace  *{-1.2ex}\char '134 author}|hyperpage}{40}
+\indexentry{commands!and@\texttt  {\char '134 and}|hyperpage}{40}
+\indexentry{and@\texttt  {\hspace  *{-1.2ex}\char '134 and}|hyperpage}{40}
+\indexentry{commands!frontmatter@\texttt  {\char '134 frontmatter}|hyperpage}{40}
+\indexentry{frontmatter@\texttt  {\hspace  *{-1.2ex}\char '134 frontmatter}|hyperpage}{40}
+\indexentry{commands!mainmatter@\texttt  {\char '134 mainmatter}|hyperpage}{40}
+\indexentry{mainmatter@\texttt  {\hspace  *{-1.2ex}\char '134 mainmatter}|hyperpage}{40}
+\indexentry{commands!appendix@\texttt  {\char '134 appendix}|hyperpage}{40}
+\indexentry{appendix@\texttt  {\hspace  *{-1.2ex}\char '134 appendix}|hyperpage}{40}
+\indexentry{commands!backmatter@\texttt  {\char '134 backmatter}|hyperpage}{40}
+\indexentry{backmatter@\texttt  {\hspace  *{-1.2ex}\char '134 backmatter}|hyperpage}{40}
+\indexentry{cross-references|hyperpage}{41}
+\indexentry{commands!label@\texttt  {\char '134 label}|hyperpage}{41}
+\indexentry{label@\texttt  {\hspace  *{-1.2ex}\char '134 label}|hyperpage}{41}
+\indexentry{commands!ref@\texttt  {\char '134 ref}|hyperpage}{41}
+\indexentry{ref@\texttt  {\hspace  *{-1.2ex}\char '134 ref}|hyperpage}{41}
+\indexentry{commands!pageref@\texttt  {\char '134 pageref}|hyperpage}{41}
+\indexentry{pageref@\texttt  {\hspace  *{-1.2ex}\char '134 pageref}|hyperpage}{41}
+\indexentry{commands!footnote@\texttt  {\char '134 footnote}|hyperpage}{41}
+\indexentry{footnote@\texttt  {\hspace  *{-1.2ex}\char '134 footnote}|hyperpage}{41}
+\indexentry{commands!label@\texttt  {\char '134 label}|hyperpage}{41}
+\indexentry{label@\texttt  {\hspace  *{-1.2ex}\char '134 label}|hyperpage}{41}
+\indexentry{commands!underline@\texttt  {\char '134 underline}|hyperpage}{42}
+\indexentry{underline@\texttt  {\hspace  *{-1.2ex}\char '134 underline}|hyperpage}{42}
+\indexentry{commands!emph@\texttt  {\char '134 emph}|hyperpage}{42}
+\indexentry{emph@\texttt  {\hspace  *{-1.2ex}\char '134 emph}|hyperpage}{42}
+\indexentry{commands!begin@\texttt  {\char '134 begin}|hyperpage}{42}
+\indexentry{begin@\texttt  {\hspace  *{-1.2ex}\char '134 begin}|hyperpage}{42}
+\indexentry{commands!end@\texttt  {\char '134 end}|hyperpage}{42}
+\indexentry{end@\texttt  {\hspace  *{-1.2ex}\char '134 end}|hyperpage}{42}
+\indexentry{environments!\texttt  {itemize}|hyperpage}{42}
+\indexentry{itemize@\texttt  {itemize}|hyperpage}{42}
+\indexentry{environments!\texttt  {enumerate}|hyperpage}{42}
+\indexentry{enumerate@\texttt  {enumerate}|hyperpage}{42}
+\indexentry{environments!\texttt  {description}|hyperpage}{42}
+\indexentry{description@\texttt  {description}|hyperpage}{42}
+\indexentry{commands!item@\texttt  {\char '134 item}|hyperpage}{42}
+\indexentry{item@\texttt  {\hspace  *{-1.2ex}\char '134 item}|hyperpage}{42}
+\indexentry{environments!\texttt  {flushleft}|hyperpage}{43}
+\indexentry{flushleft@\texttt  {flushleft}|hyperpage}{43}
+\indexentry{environments!\texttt  {flushright}|hyperpage}{43}
+\indexentry{flushright@\texttt  {flushright}|hyperpage}{43}
+\indexentry{right-aligned|hyperpage}{43}
+\indexentry{left   aligned|hyperpage}{43}
+\indexentry{environments!\texttt  {center}|hyperpage}{43}
+\indexentry{center@\texttt  {center}|hyperpage}{43}
+\indexentry{commands!\char '134 @\texttt  {\char '134 \char '134 }|hyperpage}{43}
+\indexentry{\char '134 @\texttt  {\hspace  *{-1.2ex}\char '134 \char '134 }|hyperpage}{43}
+\indexentry{environments!\texttt  {quote}|hyperpage}{44}
+\indexentry{quote@\texttt  {quote}|hyperpage}{44}
+\indexentry{environments!\texttt  {quotation}|hyperpage}{44}
+\indexentry{quotation@\texttt  {quotation}|hyperpage}{44}
+\indexentry{environments!\texttt  {verse}|hyperpage}{44}
+\indexentry{verse@\texttt  {verse}|hyperpage}{44}
+\indexentry{commands!\char '134 @\texttt  {\char '134 \char '134 }|hyperpage}{44}
+\indexentry{\char '134 @\texttt  {\hspace  *{-1.2ex}\char '134 \char '134 }|hyperpage}{44}
+\indexentry{environments!\texttt  {abstract}|hyperpage}{44}
+\indexentry{abstract@\texttt  {abstract}|hyperpage}{44}
+\indexentry{environments!\texttt  {abstract}|hyperpage}{44}
+\indexentry{abstract@\texttt  {abstract}|hyperpage}{44}
+\indexentry{environments!\texttt  {verbatim}|hyperpage}{45}
+\indexentry{verbatim@\texttt  {verbatim}|hyperpage}{45}
+\indexentry{commands!verb@\texttt  {\char '134 verb}|hyperpage}{45}
+\indexentry{verb@\texttt  {\hspace  *{-1.2ex}\char '134 verb}|hyperpage}{45}
+\indexentry{commands!verb@\texttt  {\char '134 verb}|hyperpage}{45}
+\indexentry{verb@\texttt  {\hspace  *{-1.2ex}\char '134 verb}|hyperpage}{45}
+\indexentry{environments!\texttt  {tabular}|hyperpage}{45}
+\indexentry{tabular@\texttt  {tabular}|hyperpage}{45}
+\indexentry{table|hyperpage}{45}
+\indexentry{commands!\char '134 @\texttt  {\char '134 \char '134 }|hyperpage}{46}
+\indexentry{\char '134 @\texttt  {\hspace  *{-1.2ex}\char '134 \char '134 }|hyperpage}{46}
+\indexentry{commands!hline@\texttt  {\char '134 hline}|hyperpage}{46}
+\indexentry{hline@\texttt  {\hspace  *{-1.2ex}\char '134 hline}|hyperpage}{46}
+\indexentry{commands!cline@\texttt  {\char '134 cline}|hyperpage}{46}
+\indexentry{cline@\texttt  {\hspace  *{-1.2ex}\char '134 cline}|hyperpage}{46}
+\indexentry{"|hyperindexformat{\@ \verb."}}{46}
+\indexentry{decimal alignment|hyperpage}{47}
+\indexentry{commands!multicolumn@\texttt  {\char '134 multicolumn}|hyperpage}{47}
+\indexentry{multicolumn@\texttt  {\hspace  *{-1.2ex}\char '134 multicolumn}|hyperpage}{47}
+\indexentry{packages!longtable@\textsf  {longtable}|hyperpage}{47}
+\indexentry{longtable@\textsf  {longtable}|hyperpage}{47}
+\indexentry{commands!arraystretch@\texttt  {\char '134 arraystretch}|hyperpage}{47}
+\indexentry{arraystretch@\texttt  {\hspace  *{-1.2ex}\char '134 arraystretch}|hyperpage}{47}
+\indexentry{commands!tabcolsep@\texttt  {\char '134 tabcolsep}|hyperpage}{47}
+\indexentry{tabcolsep@\texttt  {\hspace  *{-1.2ex}\char '134 tabcolsep}|hyperpage}{47}
+\indexentry{packages!dcolumn@\textsf  {dcolumn}|hyperpage}{47}
+\indexentry{dcolumn@\textsf  {dcolumn}|hyperpage}{47}
+\indexentry{commands!rule@\texttt  {\char '134 rule}|hyperpage}{48}
+\indexentry{rule@\texttt  {\hspace  *{-1.2ex}\char '134 rule}|hyperpage}{48}
+\indexentry{packages!booktabs@\textsf  {booktabs}|hyperpage}{48}
+\indexentry{booktabs@\textsf  {booktabs}|hyperpage}{48}
+\indexentry{floating bodies|hyperpage}{48}
+\indexentry{strut|hyperpage}{48}
+\indexentry{environments!\texttt  {figure}|hyperpage}{49}
+\indexentry{figure@\texttt  {figure}|hyperpage}{49}
+\indexentry{environments!\texttt  {table}|hyperpage}{49}
+\indexentry{table@\texttt  {table}|hyperpage}{49}
+\indexentry{placement specifier|hyperpage}{49}
+\indexentry{environments!\texttt  {table}|hyperpage}{50}
+\indexentry{table@\texttt  {table}|hyperpage}{50}
+\indexentry{environments!\texttt  {figure}|hyperpage}{50}
+\indexentry{figure@\texttt  {figure}|hyperpage}{50}
+\indexentry{commands!caption@\texttt  {\char '134 caption}|hyperpage}{50}
+\indexentry{caption@\texttt  {\hspace  *{-1.2ex}\char '134 caption}|hyperpage}{50}
+\indexentry{commands!listoffigures@\texttt  {\char '134 listoffigures}|hyperpage}{50}
+\indexentry{listoffigures@\texttt  {\hspace  *{-1.2ex}\char '134 listoffigures}|hyperpage}{50}
+\indexentry{commands!listoftables@\texttt  {\char '134 listoftables}|hyperpage}{50}
+\indexentry{listoftables@\texttt  {\hspace  *{-1.2ex}\char '134 listoftables}|hyperpage}{50}
+\indexentry{commands!label@\texttt  {\char '134 label}|hyperpage}{50}
+\indexentry{label@\texttt  {\hspace  *{-1.2ex}\char '134 label}|hyperpage}{50}
+\indexentry{commands!ref@\texttt  {\char '134 ref}|hyperpage}{50}
+\indexentry{ref@\texttt  {\hspace  *{-1.2ex}\char '134 ref}|hyperpage}{50}
+\indexentry{commands!label@\texttt  {\char '134 label}|hyperpage}{50}
+\indexentry{label@\texttt  {\hspace  *{-1.2ex}\char '134 label}|hyperpage}{50}
+\indexentry{commands!caption@\texttt  {\char '134 caption}|hyperpage}{50}
+\indexentry{caption@\texttt  {\hspace  *{-1.2ex}\char '134 caption}|hyperpage}{50}
+\indexentry{commands!clearpage@\texttt  {\char '134 clearpage}|hyperpage}{51}
+\indexentry{clearpage@\texttt  {\hspace  *{-1.2ex}\char '134 clearpage}|hyperpage}{51}
+\indexentry{commands!cleardoublepage@\texttt  {\char '134 cleardoublepage}|hyperpage}{51}
+\indexentry{cleardoublepage@\texttt  {\hspace  *{-1.2ex}\char '134 cleardoublepage}|hyperpage}{51}
+\indexentry{commands!cleardoublepage@\texttt  {\char '134 cleardoublepage}|hyperpage}{51}
+\indexentry{cleardoublepage@\texttt  {\hspace  *{-1.2ex}\char '134 cleardoublepage}|hyperpage}{51}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{51}
+\indexentry{commands!caption@\texttt  {\char '134 caption}|hyperpage}{51}
+\indexentry{caption@\texttt  {\hspace  *{-1.2ex}\char '134 caption}|hyperpage}{51}
+\indexentry{commands!section@\texttt  {\char '134 section}|hyperpage}{51}
+\indexentry{section@\texttt  {\hspace  *{-1.2ex}\char '134 section}|hyperpage}{51}
+\indexentry{commands!section@\texttt  {\char '134 section}|hyperpage}{51}
+\indexentry{section@\texttt  {\hspace  *{-1.2ex}\char '134 section}|hyperpage}{51}
+\indexentry{fragile commands|hyperpage}{51}
+\indexentry{commands!footnote@\texttt  {\char '134 footnote}|hyperpage}{51}
+\indexentry{footnote@\texttt  {\hspace  *{-1.2ex}\char '134 footnote}|hyperpage}{51}
+\indexentry{commands!phantom@\texttt  {\char '134 phantom}|hyperpage}{51}
+\indexentry{phantom@\texttt  {\hspace  *{-1.2ex}\char '134 phantom}|hyperpage}{51}
+\indexentry{commands!protect@\texttt  {\char '134 protect}|hyperpage}{51}
+\indexentry{protect@\texttt  {\hspace  *{-1.2ex}\char '134 protect}|hyperpage}{51}
+\indexentry{commands!protect@\texttt  {\char '134 protect}|hyperpage}{51}
+\indexentry{protect@\texttt  {\hspace  *{-1.2ex}\char '134 protect}|hyperpage}{51}
+\indexentry{commands!protect@\texttt  {\char '134 protect}|hyperpage}{51}
+\indexentry{protect@\texttt  {\hspace  *{-1.2ex}\char '134 protect}|hyperpage}{51}
+\indexentry{mathematics|hyperpage}{53}
+\indexentry{packages!amsmath@\textsf  {amsmath}|hyperpage}{53}
+\indexentry{amsmath@\textsf  {amsmath}|hyperpage}{53}
+\indexentry{American Mathematical Society|hyperpage}{53}
+\indexentry{packages!amsmath@\textsf  {amsmath}|hyperpage}{53}
+\indexentry{amsmath@\textsf  {amsmath}|hyperpage}{53}
+\indexentry{text style|hyperpage}{53}
+\indexentry{display style|hyperpage}{53}
+\indexentry{equation|hyperpage}{53}
+\indexentry{$@\texttt{\$}|hyperpage}{53}
+\indexentry{environments!\texttt  {equation}|hyperpage}{54}
+\indexentry{equation@\texttt  {equation}|hyperpage}{54}
+\indexentry{commands!label@\texttt  {\char '134 label}|hyperpage}{54}
+\indexentry{label@\texttt  {\hspace  *{-1.2ex}\char '134 label}|hyperpage}{54}
+\indexentry{commands!eqref@\texttt  {\char '134 eqref}|hyperpage}{54}
+\indexentry{eqref@\texttt  {\hspace  *{-1.2ex}\char '134 eqref}|hyperpage}{54}
+\indexentry{commands!tag@\texttt  {\char '134 tag}|hyperpage}{54}
+\indexentry{tag@\texttt  {\hspace  *{-1.2ex}\char '134 tag}|hyperpage}{54}
+\indexentry{environments!\texttt  {equation*}|hyperpage}{54}
+\indexentry{equation*@\texttt  {equation*}|hyperpage}{54}
+\indexentry{commands![@\texttt  {\char '134 [}|hyperpage}{54}
+\indexentry{[@\texttt  {\hspace  *{-1.2ex}\char '134 [}|hyperpage}{54}
+\indexentry{commands!]@\texttt  {\char '134 ]}|hyperpage}{54}
+\indexentry{]@\texttt  {\hspace  *{-1.2ex}\char '134 ]}|hyperpage}{54}
+\indexentry{environments!\texttt  {displaymath}|hyperpage}{54}
+\indexentry{displaymath@\texttt  {displaymath}|hyperpage}{54}
+\indexentry{equation!\textsf  {amsmath}|hyperpage}{54}
+\indexentry{equation!\LaTeX {}|hyperpage}{54}
+\indexentry{commands![@\texttt  {\char '134 [}|hyperpage}{55}
+\indexentry{[@\texttt  {\hspace  *{-1.2ex}\char '134 [}|hyperpage}{55}
+\indexentry{environments!\texttt  {equation}|hyperpage}{55}
+\indexentry{equation@\texttt  {equation}|hyperpage}{55}
+\indexentry{environments!\texttt  {equation*}|hyperpage}{55}
+\indexentry{equation*@\texttt  {equation*}|hyperpage}{55}
+\indexentry{text style|hyperpage}{55}
+\indexentry{display style|hyperpage}{55}
+\indexentry{commands!smash@\texttt  {\char '134 smash}|hyperpage}{55}
+\indexentry{smash@\texttt  {\hspace  *{-1.2ex}\char '134 smash}|hyperpage}{55}
+\indexentry{math mode|hyperpage}{55}
+\indexentry{spacing!math mode|hyperpage}{55}
+\indexentry{commands!,@\texttt  {\char '134 ,}|hyperpage}{55}
+\indexentry{,@\texttt  {\hspace  *{-1.2ex}\char '134 ,}|hyperpage}{55}
+\indexentry{commands!quad@\texttt  {\char '134 quad}|hyperpage}{55}
+\indexentry{quad@\texttt  {\hspace  *{-1.2ex}\char '134 quad}|hyperpage}{55}
+\indexentry{commands!qquad@\texttt  {\char '134 qquad}|hyperpage}{55}
+\indexentry{qquad@\texttt  {\hspace  *{-1.2ex}\char '134 qquad}|hyperpage}{55}
+\indexentry{blackboard bold|hyperpage}{56}
+\indexentry{bold symbols|hyperpage}{56}
+\indexentry{commands!mathbb@\texttt  {\char '134 mathbb}|hyperpage}{56}
+\indexentry{mathbb@\texttt  {\hspace  *{-1.2ex}\char '134 mathbb}|hyperpage}{56}
+\indexentry{packages!amssymb@\textsf  {amssymb}|hyperpage}{56}
+\indexentry{amssymb@\textsf  {amssymb}|hyperpage}{56}
+\indexentry{Greek letters|hyperpage}{56}
+\indexentry{exponent|hyperpage}{56}
+\indexentry{subscript|hyperpage}{56}
+\indexentry{superscript|hyperpage}{56}
+\indexentry{^@\verb"|hyperindexformat{\^"}}{56}
+\indexentry{_@\verb"|hyperindexformat{\_"}}{56}
+\indexentry{packages!amssymb@\textsf  {amssymb}|hyperpage}{56}
+\indexentry{amssymb@\textsf  {amssymb}|hyperpage}{56}
+\indexentry{square root|hyperpage}{57}
+\indexentry{commands!sqrt@\texttt  {\char '134 sqrt}|hyperpage}{57}
+\indexentry{sqrt@\texttt  {\hspace  *{-1.2ex}\char '134 sqrt}|hyperpage}{57}
+\indexentry{dots!three|hyperpage}{57}
+\indexentry{vertical!dots|hyperpage}{57}
+\indexentry{horizontal!dots|hyperpage}{57}
+\indexentry{dot|hyperpage}{57}
+\indexentry{commands!cdot@\texttt  {\char '134 cdot}|hyperpage}{57}
+\indexentry{cdot@\texttt  {\hspace  *{-1.2ex}\char '134 cdot}|hyperpage}{57}
+\indexentry{commands!cdots@\texttt  {\char '134 cdots}|hyperpage}{57}
+\indexentry{cdots@\texttt  {\hspace  *{-1.2ex}\char '134 cdots}|hyperpage}{57}
+\indexentry{dots|hyperpage}{57}
+\indexentry{commands!ldots@\texttt  {\char '134 ldots}|hyperpage}{57}
+\indexentry{ldots@\texttt  {\hspace  *{-1.2ex}\char '134 ldots}|hyperpage}{57}
+\indexentry{commands!vdots@\texttt  {\char '134 vdots}|hyperpage}{57}
+\indexentry{vdots@\texttt  {\hspace  *{-1.2ex}\char '134 vdots}|hyperpage}{57}
+\indexentry{commands!ddots@\texttt  {\char '134 ddots}|hyperpage}{57}
+\indexentry{ddots@\texttt  {\hspace  *{-1.2ex}\char '134 ddots}|hyperpage}{57}
+\indexentry{diagonal dots|hyperpage}{57}
+\indexentry{commands!overline@\texttt  {\char '134 overline}|hyperpage}{57}
+\indexentry{overline@\texttt  {\hspace  *{-1.2ex}\char '134 overline}|hyperpage}{57}
+\indexentry{commands!underline@\texttt  {\char '134 underline}|hyperpage}{57}
+\indexentry{underline@\texttt  {\hspace  *{-1.2ex}\char '134 underline}|hyperpage}{57}
+\indexentry{horizontal!line|hyperpage}{57}
+\indexentry{line!horizontal|hyperpage}{57}
+\indexentry{commands!overbrace@\texttt  {\char '134 overbrace}|hyperpage}{57}
+\indexentry{overbrace@\texttt  {\hspace  *{-1.2ex}\char '134 overbrace}|hyperpage}{57}
+\indexentry{commands!underbrace@\texttt  {\char '134 underbrace}|hyperpage}{57}
+\indexentry{underbrace@\texttt  {\hspace  *{-1.2ex}\char '134 underbrace}|hyperpage}{57}
+\indexentry{horizontal!brace|hyperpage}{57}
+\indexentry{brace!horizontal|hyperpage}{57}
+\indexentry{mathematical!accents|hyperpage}{57}
+\indexentry{tilde|hyperpage}{57}
+\indexentry{commands!widetilde@\texttt  {\char '134 widetilde}|hyperpage}{58}
+\indexentry{widetilde@\texttt  {\hspace  *{-1.2ex}\char '134 widetilde}|hyperpage}{58}
+\indexentry{commands!widehat@\texttt  {\char '134 widehat}|hyperpage}{58}
+\indexentry{widehat@\texttt  {\hspace  *{-1.2ex}\char '134 widehat}|hyperpage}{58}
+\indexentry{commands!hat@\texttt  {\char '134 hat}|hyperpage}{58}
+\indexentry{hat@\texttt  {\hspace  *{-1.2ex}\char '134 hat}|hyperpage}{58}
+\indexentry{commands!widehat@\texttt  {\char '134 widehat}|hyperpage}{58}
+\indexentry{widehat@\texttt  {\hspace  *{-1.2ex}\char '134 widehat}|hyperpage}{58}
+\indexentry{commands!bar@\texttt  {\char '134 bar}|hyperpage}{58}
+\indexentry{bar@\texttt  {\hspace  *{-1.2ex}\char '134 bar}|hyperpage}{58}
+\indexentry{apostrophe|hyperpage}{58}
+\indexentry{'@\verb"|hyperindexformat{\'"}}{58}
+\indexentry{prime|hyperpage}{58}
+\indexentry{vectors|hyperpage}{58}
+\indexentry{arrow symbols|hyperpage}{58}
+\indexentry{commands!vec@\texttt  {\char '134 vec}|hyperpage}{58}
+\indexentry{vec@\texttt  {\hspace  *{-1.2ex}\char '134 vec}|hyperpage}{58}
+\indexentry{commands!overrightarrow@\texttt  {\char '134 overrightarrow}|hyperpage}{58}
+\indexentry{overrightarrow@\texttt  {\hspace  *{-1.2ex}\char '134 overrightarrow}|hyperpage}{58}
+\indexentry{commands!overleftarrow@\texttt  {\char '134 overleftarrow}|hyperpage}{58}
+\indexentry{overleftarrow@\texttt  {\hspace  *{-1.2ex}\char '134 overleftarrow}|hyperpage}{58}
+\indexentry{mathematical!functions|hyperpage}{58}
+\indexentry{commands!arccos@\texttt  {\char '134 arccos}|hyperpage}{58}
+\indexentry{arccos@\texttt  {\hspace  *{-1.2ex}\char '134 arccos}|hyperpage}{58}
+\indexentry{commands!cos@\texttt  {\char '134 cos}|hyperpage}{58}
+\indexentry{cos@\texttt  {\hspace  *{-1.2ex}\char '134 cos}|hyperpage}{58}
+\indexentry{commands!csc@\texttt  {\char '134 csc}|hyperpage}{58}
+\indexentry{csc@\texttt  {\hspace  *{-1.2ex}\char '134 csc}|hyperpage}{58}
+\indexentry{commands!exp@\texttt  {\char '134 exp}|hyperpage}{58}
+\indexentry{exp@\texttt  {\hspace  *{-1.2ex}\char '134 exp}|hyperpage}{58}
+\indexentry{commands!ker@\texttt  {\char '134 ker}|hyperpage}{58}
+\indexentry{ker@\texttt  {\hspace  *{-1.2ex}\char '134 ker}|hyperpage}{58}
+\indexentry{commands!limsup@\texttt  {\char '134 limsup}|hyperpage}{58}
+\indexentry{limsup@\texttt  {\hspace  *{-1.2ex}\char '134 limsup}|hyperpage}{58}
+\indexentry{commands!arcsin@\texttt  {\char '134 arcsin}|hyperpage}{58}
+\indexentry{arcsin@\texttt  {\hspace  *{-1.2ex}\char '134 arcsin}|hyperpage}{58}
+\indexentry{commands!cosh@\texttt  {\char '134 cosh}|hyperpage}{58}
+\indexentry{cosh@\texttt  {\hspace  *{-1.2ex}\char '134 cosh}|hyperpage}{58}
+\indexentry{commands!deg@\texttt  {\char '134 deg}|hyperpage}{58}
+\indexentry{deg@\texttt  {\hspace  *{-1.2ex}\char '134 deg}|hyperpage}{58}
+\indexentry{commands!gcd@\texttt  {\char '134 gcd}|hyperpage}{58}
+\indexentry{gcd@\texttt  {\hspace  *{-1.2ex}\char '134 gcd}|hyperpage}{58}
+\indexentry{commands!lg@\texttt  {\char '134 lg}|hyperpage}{58}
+\indexentry{lg@\texttt  {\hspace  *{-1.2ex}\char '134 lg}|hyperpage}{58}
+\indexentry{commands!ln@\texttt  {\char '134 ln}|hyperpage}{58}
+\indexentry{ln@\texttt  {\hspace  *{-1.2ex}\char '134 ln}|hyperpage}{58}
+\indexentry{commands!arctan@\texttt  {\char '134 arctan}|hyperpage}{58}
+\indexentry{arctan@\texttt  {\hspace  *{-1.2ex}\char '134 arctan}|hyperpage}{58}
+\indexentry{commands!cot@\texttt  {\char '134 cot}|hyperpage}{58}
+\indexentry{cot@\texttt  {\hspace  *{-1.2ex}\char '134 cot}|hyperpage}{58}
+\indexentry{commands!det@\texttt  {\char '134 det}|hyperpage}{58}
+\indexentry{det@\texttt  {\hspace  *{-1.2ex}\char '134 det}|hyperpage}{58}
+\indexentry{commands!hom@\texttt  {\char '134 hom}|hyperpage}{58}
+\indexentry{hom@\texttt  {\hspace  *{-1.2ex}\char '134 hom}|hyperpage}{58}
+\indexentry{commands!lim@\texttt  {\char '134 lim}|hyperpage}{58}
+\indexentry{lim@\texttt  {\hspace  *{-1.2ex}\char '134 lim}|hyperpage}{58}
+\indexentry{commands!log@\texttt  {\char '134 log}|hyperpage}{58}
+\indexentry{log@\texttt  {\hspace  *{-1.2ex}\char '134 log}|hyperpage}{58}
+\indexentry{commands!arg@\texttt  {\char '134 arg}|hyperpage}{58}
+\indexentry{arg@\texttt  {\hspace  *{-1.2ex}\char '134 arg}|hyperpage}{58}
+\indexentry{commands!coth@\texttt  {\char '134 coth}|hyperpage}{58}
+\indexentry{coth@\texttt  {\hspace  *{-1.2ex}\char '134 coth}|hyperpage}{58}
+\indexentry{commands!dim@\texttt  {\char '134 dim}|hyperpage}{58}
+\indexentry{dim@\texttt  {\hspace  *{-1.2ex}\char '134 dim}|hyperpage}{58}
+\indexentry{commands!inf@\texttt  {\char '134 inf}|hyperpage}{58}
+\indexentry{inf@\texttt  {\hspace  *{-1.2ex}\char '134 inf}|hyperpage}{58}
+\indexentry{commands!liminf@\texttt  {\char '134 liminf}|hyperpage}{58}
+\indexentry{liminf@\texttt  {\hspace  *{-1.2ex}\char '134 liminf}|hyperpage}{58}
+\indexentry{commands!max@\texttt  {\char '134 max}|hyperpage}{58}
+\indexentry{max@\texttt  {\hspace  *{-1.2ex}\char '134 max}|hyperpage}{58}
+\indexentry{commands!sinh@\texttt  {\char '134 sinh}|hyperpage}{58}
+\indexentry{sinh@\texttt  {\hspace  *{-1.2ex}\char '134 sinh}|hyperpage}{58}
+\indexentry{commands!sup@\texttt  {\char '134 sup}|hyperpage}{58}
+\indexentry{sup@\texttt  {\hspace  *{-1.2ex}\char '134 sup}|hyperpage}{58}
+\indexentry{commands!tan@\texttt  {\char '134 tan}|hyperpage}{58}
+\indexentry{tan@\texttt  {\hspace  *{-1.2ex}\char '134 tan}|hyperpage}{58}
+\indexentry{commands!tanh@\texttt  {\char '134 tanh}|hyperpage}{58}
+\indexentry{tanh@\texttt  {\hspace  *{-1.2ex}\char '134 tanh}|hyperpage}{58}
+\indexentry{commands!min@\texttt  {\char '134 min}|hyperpage}{58}
+\indexentry{min@\texttt  {\hspace  *{-1.2ex}\char '134 min}|hyperpage}{58}
+\indexentry{commands!Pr@\texttt  {\char '134 Pr}|hyperpage}{58}
+\indexentry{Pr@\texttt  {\hspace  *{-1.2ex}\char '134 Pr}|hyperpage}{58}
+\indexentry{commands!sec@\texttt  {\char '134 sec}|hyperpage}{58}
+\indexentry{sec@\texttt  {\hspace  *{-1.2ex}\char '134 sec}|hyperpage}{58}
+\indexentry{commands!sin@\texttt  {\char '134 sin}|hyperpage}{58}
+\indexentry{sin@\texttt  {\hspace  *{-1.2ex}\char '134 sin}|hyperpage}{58}
+\indexentry{commands!DeclareMathOperator@\texttt  {\char '134 DeclareMathOperator}|hyperpage}{58}
+\indexentry{DeclareMathOperator@\texttt  {\hspace  *{-1.2ex}\char '134 DeclareMathOperator}|hyperpage}{58}
+\indexentry{modulo function|hyperpage}{58}
+\indexentry{commands!bmod@\texttt  {\char '134 bmod}|hyperpage}{58}
+\indexentry{bmod@\texttt  {\hspace  *{-1.2ex}\char '134 bmod}|hyperpage}{58}
+\indexentry{commands!pmod@\texttt  {\char '134 pmod}|hyperpage}{58}
+\indexentry{pmod@\texttt  {\hspace  *{-1.2ex}\char '134 pmod}|hyperpage}{58}
+\indexentry{fraction|hyperpage}{59}
+\indexentry{commands!frac@\texttt  {\char '134 frac}|hyperpage}{59}
+\indexentry{frac@\texttt  {\hspace  *{-1.2ex}\char '134 frac}|hyperpage}{59}
+\indexentry{commands!tfrac@\texttt  {\char '134 tfrac}|hyperpage}{59}
+\indexentry{tfrac@\texttt  {\hspace  *{-1.2ex}\char '134 tfrac}|hyperpage}{59}
+\indexentry{commands!dfrac@\texttt  {\char '134 dfrac}|hyperpage}{59}
+\indexentry{dfrac@\texttt  {\hspace  *{-1.2ex}\char '134 dfrac}|hyperpage}{59}
+\indexentry{commands!partial@\texttt  {\char '134 partial}|hyperpage}{59}
+\indexentry{partial@\texttt  {\hspace  *{-1.2ex}\char '134 partial}|hyperpage}{59}
+\indexentry{partial derivative|hyperpage}{59}
+\indexentry{binomial coefficient|hyperpage}{59}
+\indexentry{commands!binom@\texttt  {\char '134 binom}|hyperpage}{59}
+\indexentry{binom@\texttt  {\hspace  *{-1.2ex}\char '134 binom}|hyperpage}{59}
+\indexentry{packages!amsmath@\textsf  {amsmath}|hyperpage}{59}
+\indexentry{amsmath@\textsf  {amsmath}|hyperpage}{59}
+\indexentry{binary relations|hyperpage}{59}
+\indexentry{commands!stackrel@\texttt  {\char '134 stackrel}|hyperpage}{59}
+\indexentry{stackrel@\texttt  {\hspace  *{-1.2ex}\char '134 stackrel}|hyperpage}{59}
+\indexentry{integral operator|hyperpage}{60}
+\indexentry{commands!int@\texttt  {\char '134 int}|hyperpage}{60}
+\indexentry{int@\texttt  {\hspace  *{-1.2ex}\char '134 int}|hyperpage}{60}
+\indexentry{sum operator|hyperpage}{60}
+\indexentry{commands!sum@\texttt  {\char '134 sum}|hyperpage}{60}
+\indexentry{sum@\texttt  {\hspace  *{-1.2ex}\char '134 sum}|hyperpage}{60}
+\indexentry{product operator|hyperpage}{60}
+\indexentry{commands!prod@\texttt  {\char '134 prod}|hyperpage}{60}
+\indexentry{prod@\texttt  {\hspace  *{-1.2ex}\char '134 prod}|hyperpage}{60}
+\indexentry{packages!amsmath@\textsf  {amsmath}|hyperpage}{60}
+\indexentry{amsmath@\textsf  {amsmath}|hyperpage}{60}
+\indexentry{commands!substack@\texttt  {\char '134 substack}|hyperpage}{60}
+\indexentry{substack@\texttt  {\hspace  *{-1.2ex}\char '134 substack}|hyperpage}{60}
+\indexentry{bracketing|hyperpage}{60}
+\indexentry{delimiters|hyperpage}{60}
+\indexentry{commands!left@\texttt  {\char '134 left}|hyperpage}{60}
+\indexentry{left@\texttt  {\hspace  *{-1.2ex}\char '134 left}|hyperpage}{60}
+\indexentry{commands!right@\texttt  {\char '134 right}|hyperpage}{60}
+\indexentry{right@\texttt  {\hspace  *{-1.2ex}\char '134 right}|hyperpage}{60}
+\indexentry{commands!left@\texttt  {\char '134 left}|hyperpage}{60}
+\indexentry{left@\texttt  {\hspace  *{-1.2ex}\char '134 left}|hyperpage}{60}
+\indexentry{commands!right@\texttt  {\char '134 right}|hyperpage}{60}
+\indexentry{right@\texttt  {\hspace  *{-1.2ex}\char '134 right}|hyperpage}{60}
+\indexentry{commands!right.@\texttt  {\char '134 right.}|hyperpage}{60}
+\indexentry{right.@\texttt  {\hspace  *{-1.2ex}\char '134 right.}|hyperpage}{60}
+\indexentry{mathematical!delimiter|hyperpage}{60}
+\indexentry{commands!big@\texttt  {\char '134 big}|hyperpage}{60}
+\indexentry{big@\texttt  {\hspace  *{-1.2ex}\char '134 big}|hyperpage}{60}
+\indexentry{commands!Big@\texttt  {\char '134 Big}|hyperpage}{60}
+\indexentry{Big@\texttt  {\hspace  *{-1.2ex}\char '134 Big}|hyperpage}{60}
+\indexentry{commands!bigg@\texttt  {\char '134 bigg}|hyperpage}{60}
+\indexentry{bigg@\texttt  {\hspace  *{-1.2ex}\char '134 bigg}|hyperpage}{60}
+\indexentry{commands!Bigg@\texttt  {\char '134 Bigg}|hyperpage}{60}
+\indexentry{Bigg@\texttt  {\hspace  *{-1.2ex}\char '134 Bigg}|hyperpage}{60}
+\indexentry{long equations|hyperpage}{61}
+\indexentry{environments!\texttt  {multline}|hyperpage}{61}
+\indexentry{multline@\texttt  {multline}|hyperpage}{61}
+\indexentry{environments!\texttt  {equation}|hyperpage}{61}
+\indexentry{equation@\texttt  {equation}|hyperpage}{61}
+\indexentry{environments!\texttt  {equation*}|hyperpage}{61}
+\indexentry{equation*@\texttt  {equation*}|hyperpage}{61}
+\indexentry{environments!\texttt  {multline*}|hyperpage}{61}
+\indexentry{multline*@\texttt  {multline*}|hyperpage}{61}
+\indexentry{environments!\texttt  {IEEEeqnarray}|hyperpage}{61}
+\indexentry{IEEEeqnarray@\texttt  {IEEEeqnarray}|hyperpage}{61}
+\indexentry{environments!\texttt  {multline}|hyperpage}{61}
+\indexentry{multline@\texttt  {multline}|hyperpage}{61}
+\indexentry{environments!\texttt  {IEEEeqnarray}|hyperpage}{62}
+\indexentry{IEEEeqnarray@\texttt  {IEEEeqnarray}|hyperpage}{62}
+\indexentry{equation!multiple|hyperpage}{62}
+\indexentry{environments!\texttt  {align}|hyperpage}{62}
+\indexentry{align@\texttt  {align}|hyperpage}{62}
+\indexentry{environments!\texttt  {eqnarray}|hyperpage}{62}
+\indexentry{eqnarray@\texttt  {eqnarray}|hyperpage}{62}
+\indexentry{environments!\texttt  {IEEEeqnarray}|hyperpage}{62}
+\indexentry{IEEEeqnarray@\texttt  {IEEEeqnarray}|hyperpage}{62}
+\indexentry{environments!\texttt  {multline}|hyperpage}{63}
+\indexentry{multline@\texttt  {multline}|hyperpage}{63}
+\indexentry{environments!\texttt  {equation}|hyperpage}{63}
+\indexentry{equation@\texttt  {equation}|hyperpage}{63}
+\indexentry{commands!lefteqn@\texttt  {\char '134 lefteqn}|hyperpage}{63}
+\indexentry{lefteqn@\texttt  {\hspace  *{-1.2ex}\char '134 lefteqn}|hyperpage}{63}
+\indexentry{environments!\texttt  {IEEEeqnarray}|hyperpage}{64}
+\indexentry{IEEEeqnarray@\texttt  {IEEEeqnarray}|hyperpage}{64}
+\indexentry{environments!\texttt  {IEEEeqnarray}|hyperpage}{64}
+\indexentry{IEEEeqnarray@\texttt  {IEEEeqnarray}|hyperpage}{64}
+\indexentry{packages!IEEEtrantools@\textsf  {IEEEtrantools}|hyperpage}{64}
+\indexentry{IEEEtrantools@\textsf  {IEEEtrantools}|hyperpage}{64}
+\indexentry{environments!\texttt  {IEEEeqnarray}|hyperpage}{64}
+\indexentry{IEEEeqnarray@\texttt  {IEEEeqnarray}|hyperpage}{64}
+\indexentry{packages!IEEEtrantools@\textsf  {IEEEtrantools}|hyperpage}{64}
+\indexentry{IEEEtrantools@\textsf  {IEEEtrantools}|hyperpage}{64}
+\indexentry{commands!lefteqn@\texttt  {\char '134 lefteqn}|hyperpage}{65}
+\indexentry{lefteqn@\texttt  {\hspace  *{-1.2ex}\char '134 lefteqn}|hyperpage}{65}
+\indexentry{commands!IEEEeqnarraymulticol@\texttt  {\char '134 IEEEeqnarraymulticol}|hyperpage}{65}
+\indexentry{IEEEeqnarraymulticol@\texttt  {\hspace  *{-1.2ex}\char '134 IEEEeqnarraymulticol}|hyperpage}{65}
+\indexentry{commands!multicolumns@\texttt  {\char '134 multicolumns}|hyperpage}{65}
+\indexentry{multicolumns@\texttt  {\hspace  *{-1.2ex}\char '134 multicolumns}|hyperpage}{65}
+\indexentry{commands!quad@\texttt  {\char '134 quad}|hyperpage}{65}
+\indexentry{quad@\texttt  {\hspace  *{-1.2ex}\char '134 quad}|hyperpage}{65}
+\indexentry{commands!:@\texttt  {\char '134 :}|hyperpage}{66}
+\indexentry{:@\texttt  {\hspace  *{-1.2ex}\char '134 :}|hyperpage}{66}
+\indexentry{commands!negmedspace@\texttt  {\char '134 negmedspace}|hyperpage}{66}
+\indexentry{negmedspace@\texttt  {\hspace  *{-1.2ex}\char '134 negmedspace}|hyperpage}{66}
+\indexentry{commands!nonumber@\texttt  {\char '134 nonumber}|hyperpage}{66}
+\indexentry{nonumber@\texttt  {\hspace  *{-1.2ex}\char '134 nonumber}|hyperpage}{66}
+\indexentry{commands!IEEEnonumber@\texttt  {\char '134 IEEEnonumber}|hyperpage}{66}
+\indexentry{IEEEnonumber@\texttt  {\hspace  *{-1.2ex}\char '134 IEEEnonumber}|hyperpage}{66}
+\indexentry{commands!IEEEmulticol@\texttt  {\char '134 IEEEmulticol}|hyperpage}{66}
+\indexentry{IEEEmulticol@\texttt  {\hspace  *{-1.2ex}\char '134 IEEEmulticol}|hyperpage}{66}
+\indexentry{commands!IEEEyesnumber@\texttt  {\char '134 IEEEyesnumber}|hyperpage}{67}
+\indexentry{IEEEyesnumber@\texttt  {\hspace  *{-1.2ex}\char '134 IEEEyesnumber}|hyperpage}{67}
+\indexentry{commands!IEEEyessubnumber@\texttt  {\char '134 IEEEyessubnumber}|hyperpage}{67}
+\indexentry{IEEEyessubnumber@\texttt  {\hspace  *{-1.2ex}\char '134 IEEEyessubnumber}|hyperpage}{67}
+\indexentry{environments!\texttt  {array}|hyperpage}{67}
+\indexentry{array@\texttt  {array}|hyperpage}{67}
+\indexentry{environments!\texttt  {array}|hyperpage}{67}
+\indexentry{array@\texttt  {array}|hyperpage}{67}
+\indexentry{piecewise function|hyperpage}{67}
+\indexentry{commands!right@\texttt  {\char '134 right}|hyperpage}{67}
+\indexentry{right@\texttt  {\hspace  *{-1.2ex}\char '134 right}|hyperpage}{67}
+\indexentry{environments!\texttt  {cases}|hyperpage}{68}
+\indexentry{cases@\texttt  {cases}|hyperpage}{68}
+\indexentry{matrix|hyperpage}{68}
+\indexentry{environments!\texttt  {array}|hyperpage}{68}
+\indexentry{array@\texttt  {array}|hyperpage}{68}
+\indexentry{packages!amsmath@\textsf  {amsmath}|hyperpage}{68}
+\indexentry{amsmath@\textsf  {amsmath}|hyperpage}{68}
+\indexentry{environments!\texttt  {matrix}|hyperpage}{68}
+\indexentry{matrix@\texttt  {matrix}|hyperpage}{68}
+\indexentry{environments!\texttt  {matrix}|hyperpage}{68}
+\indexentry{matrix@\texttt  {matrix}|hyperpage}{68}
+\indexentry{environments!\texttt  {pmatrix}|hyperpage}{68}
+\indexentry{pmatrix@\texttt  {pmatrix}|hyperpage}{68}
+\indexentry{environments!\texttt  {bmatrix}|hyperpage}{68}
+\indexentry{bmatrix@\texttt  {bmatrix}|hyperpage}{68}
+\indexentry{environments!\texttt  {Bmatrix}|hyperpage}{68}
+\indexentry{Bmatrix@\texttt  {Bmatrix}|hyperpage}{68}
+\indexentry{environments!\texttt  {vmatrix}|hyperpage}{68}
+\indexentry{vmatrix@\texttt  {vmatrix}|hyperpage}{68}
+\indexentry{environments!\texttt  {Vmatrix}|hyperpage}{68}
+\indexentry{Vmatrix@\texttt  {Vmatrix}|hyperpage}{68}
+\indexentry{environments!\texttt  {array}|hyperpage}{68}
+\indexentry{array@\texttt  {array}|hyperpage}{68}
+\indexentry{math spacing|hyperpage}{68}
+\indexentry{commands!,@\texttt  {\char '134 ,}|hyperpage}{68}
+\indexentry{,@\texttt  {\hspace  *{-1.2ex}\char '134 ,}|hyperpage}{68}
+\indexentry{commands!:@\texttt  {\char '134 :}|hyperpage}{68}
+\indexentry{:@\texttt  {\hspace  *{-1.2ex}\char '134 :}|hyperpage}{68}
+\indexentry{commands!;@\texttt  {\char '134 ;}|hyperpage}{68}
+\indexentry{;@\texttt  {\hspace  *{-1.2ex}\char '134 ;}|hyperpage}{68}
+\indexentry{commands!quad@\texttt  {\char '134 quad}|hyperpage}{68}
+\indexentry{quad@\texttt  {\hspace  *{-1.2ex}\char '134 quad}|hyperpage}{68}
+\indexentry{commands!qquad@\texttt  {\char '134 qquad}|hyperpage}{68}
+\indexentry{qquad@\texttt  {\hspace  *{-1.2ex}\char '134 qquad}|hyperpage}{68}
+\indexentry{commands!quad@\texttt  {\char '134 quad}|hyperpage}{68}
+\indexentry{quad@\texttt  {\hspace  *{-1.2ex}\char '134 quad}|hyperpage}{68}
+\indexentry{commands!"!@\texttt  {\char '134 "!}|hyperpage}{68}
+\indexentry{"!@\texttt  {\hspace  *{-1.2ex}\char '134 "!}|hyperpage}{68}
+\indexentry{commands!ud@\texttt  {\char '134 ud}|hyperpage}{69}
+\indexentry{ud@\texttt  {\hspace  *{-1.2ex}\char '134 ud}|hyperpage}{69}
+\indexentry{commands!newcommand@\texttt  {\char '134 newcommand}|hyperpage}{69}
+\indexentry{newcommand@\texttt  {\hspace  *{-1.2ex}\char '134 newcommand}|hyperpage}{69}
+\indexentry{commands!!@\texttt  {\char '134 !}|hyperpage}{69}
+\indexentry{!@\texttt  {\hspace  *{-1.2ex}\char '134 !}|hyperpage}{69}
+\indexentry{packages!amsmath@\textsf  {amsmath}|hyperpage}{69}
+\indexentry{amsmath@\textsf  {amsmath}|hyperpage}{69}
+\indexentry{commands!iint@\texttt  {\char '134 iint}|hyperpage}{69}
+\indexentry{iint@\texttt  {\hspace  *{-1.2ex}\char '134 iint}|hyperpage}{69}
+\indexentry{commands!iiint@\texttt  {\char '134 iiint}|hyperpage}{69}
+\indexentry{iiint@\texttt  {\hspace  *{-1.2ex}\char '134 iiint}|hyperpage}{69}
+\indexentry{commands!iiiint@\texttt  {\char '134 iiiint}|hyperpage}{69}
+\indexentry{iiiint@\texttt  {\hspace  *{-1.2ex}\char '134 iiiint}|hyperpage}{69}
+\indexentry{commands!idotsint@\texttt  {\char '134 idotsint}|hyperpage}{69}
+\indexentry{idotsint@\texttt  {\hspace  *{-1.2ex}\char '134 idotsint}|hyperpage}{69}
+\indexentry{commands!phantom@\texttt  {\char '134 phantom}|hyperpage}{69}
+\indexentry{phantom@\texttt  {\hspace  *{-1.2ex}\char '134 phantom}|hyperpage}{69}
+\indexentry{packages!mhchem@\textsf  {mhchem}|hyperpage}{70}
+\indexentry{mhchem@\textsf  {mhchem}|hyperpage}{70}
+\indexentry{packages!amssymb@\textsf  {amssymb}|hyperpage}{70}
+\indexentry{amssymb@\textsf  {amssymb}|hyperpage}{70}
+\indexentry{packages!amsfonts@\textsf  {amsfonts}|hyperpage}{70}
+\indexentry{amsfonts@\textsf  {amsfonts}|hyperpage}{70}
+\indexentry{commands!displaystyle@\texttt  {\char '134 displaystyle}|hyperpage}{70}
+\indexentry{displaystyle@\texttt  {\hspace  *{-1.2ex}\char '134 displaystyle}|hyperpage}{70}
+\indexentry{commands!textstyle@\texttt  {\char '134 textstyle}|hyperpage}{70}
+\indexentry{textstyle@\texttt  {\hspace  *{-1.2ex}\char '134 textstyle}|hyperpage}{70}
+\indexentry{commands!scriptstyle@\texttt  {\char '134 scriptstyle}|hyperpage}{70}
+\indexentry{scriptstyle@\texttt  {\hspace  *{-1.2ex}\char '134 scriptstyle}|hyperpage}{70}
+\indexentry{commands!scriptscriptstyle@\texttt  {\char '134 scriptscriptstyle}|hyperpage}{70}
+\indexentry{scriptscriptstyle@\texttt  {\hspace  *{-1.2ex}\char '134 scriptscriptstyle}|hyperpage}{70}
+\indexentry{bold symbols|hyperpage}{70}
+\indexentry{commands!boldmath@\texttt  {\char '134 boldmath}|hyperpage}{70}
+\indexentry{boldmath@\texttt  {\hspace  *{-1.2ex}\char '134 boldmath}|hyperpage}{70}
+\indexentry{packages!amsbsy@\textsf  {amsbsy}|hyperpage}{71}
+\indexentry{amsbsy@\textsf  {amsbsy}|hyperpage}{71}
+\indexentry{packages!amsmath@\textsf  {amsmath}|hyperpage}{71}
+\indexentry{amsmath@\textsf  {amsmath}|hyperpage}{71}
+\indexentry{packages!bm@\textsf  {bm}|hyperpage}{71}
+\indexentry{bm@\textsf  {bm}|hyperpage}{71}
+\indexentry{commands!boldsymbol@\texttt  {\char '134 boldsymbol}|hyperpage}{71}
+\indexentry{boldsymbol@\texttt  {\hspace  *{-1.2ex}\char '134 boldsymbol}|hyperpage}{71}
+\indexentry{commands!newtheorem@\texttt  {\char '134 newtheorem}|hyperpage}{71}
+\indexentry{newtheorem@\texttt  {\hspace  *{-1.2ex}\char '134 newtheorem}|hyperpage}{71}
+\indexentry{commands!newtheorem@\texttt  {\char '134 newtheorem}|hyperpage}{71}
+\indexentry{newtheorem@\texttt  {\hspace  *{-1.2ex}\char '134 newtheorem}|hyperpage}{71}
+\indexentry{packages!amsthm@\textsf  {amsthm}|hyperpage}{71}
+\indexentry{amsthm@\textsf  {amsthm}|hyperpage}{71}
+\indexentry{commands!theoremstyle@\texttt  {\char '134 theoremstyle}|hyperpage}{71}
+\indexentry{theoremstyle@\texttt  {\hspace  *{-1.2ex}\char '134 theoremstyle}|hyperpage}{71}
+\indexentry{packages!ntheorem@\textsf  {ntheorem}|hyperpage}{72}
+\indexentry{ntheorem@\textsf  {ntheorem}|hyperpage}{72}
+\indexentry{packages!amsthm@\textsf  {amsthm}|hyperpage}{72}
+\indexentry{amsthm@\textsf  {amsthm}|hyperpage}{72}
+\indexentry{environments!\texttt  {proof}|hyperpage}{72}
+\indexentry{proof@\texttt  {proof}|hyperpage}{72}
+\indexentry{commands!qedhere@\texttt  {\char '134 qedhere}|hyperpage}{72}
+\indexentry{qedhere@\texttt  {\hspace  *{-1.2ex}\char '134 qedhere}|hyperpage}{72}
+\indexentry{commands!qedhere@\texttt  {\char '134 qedhere}|hyperpage}{73}
+\indexentry{qedhere@\texttt  {\hspace  *{-1.2ex}\char '134 qedhere}|hyperpage}{73}
+\indexentry{commands!qedhere@\texttt  {\char '134 qedhere}|hyperpage}{73}
+\indexentry{qedhere@\texttt  {\hspace  *{-1.2ex}\char '134 qedhere}|hyperpage}{73}
+\indexentry{packages!amssymb@\textsf  {amssymb}|hyperpage}{75}
+\indexentry{amssymb@\textsf  {amssymb}|hyperpage}{75}
+\indexentry{commands!Alpha@\texttt  {\char '134 Alpha}|hyperpage}{75}
+\indexentry{Alpha@\texttt  {\hspace  *{-1.2ex}\char '134 Alpha}|hyperpage}{75}
+\indexentry{commands!Beta@\texttt  {\char '134 Beta}|hyperpage}{75}
+\indexentry{Beta@\texttt  {\hspace  *{-1.2ex}\char '134 Beta}|hyperpage}{75}
+\indexentry{commands!not@\texttt  {\char '134 not}|hyperpage}{76}
+\indexentry{not@\texttt  {\hspace  *{-1.2ex}\char '134 not}|hyperpage}{76}
+\indexentry{packages!mathrsfs@\textsf  {mathrsfs}|hyperpage}{79}
+\indexentry{mathrsfs@\textsf  {mathrsfs}|hyperpage}{79}
+\indexentry{packages!amsfonts@\textsf  {amsfonts}|hyperpage}{79}
+\indexentry{amsfonts@\textsf  {amsfonts}|hyperpage}{79}
+\indexentry{packages!amsfonts@\textsf  {amsfonts}|hyperpage}{79}
+\indexentry{amsfonts@\textsf  {amsfonts}|hyperpage}{79}
+\indexentry{Encapsulated PostScript@Encapsulated \textsc  {PostScript}|hyperpage}{83}
+\indexentry{PostScript@\textsc  {PostScript}!Encapsulated|hyperpage}{83}
+\indexentry{graphics|hyperpage}{83}
+\indexentry{Encapsulated PostScript@Encapsulated \textsc  {PostScript}|hyperpage}{83}
+\indexentry{PostScript@\textsc  {PostScript}!Encapsulated|hyperpage}{83}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{83}
+\indexentry{packages!graphicx@\textsf  {graphicx}|hyperpage}{83}
+\indexentry{graphicx@\textsf  {graphicx}|hyperpage}{83}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{83}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{83}
+\indexentry{GhostScript|hyperpage}{83}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{84}
+\indexentry{extension!\texttt  {.dvi}|hyperpage}{84}
+\indexentry{extension!\texttt  {.eps}|hyperpage}{84}
+\indexentry{commands!includegraphics@\texttt  {\char '134 includegraphics}|hyperpage}{84}
+\indexentry{includegraphics@\texttt  {\hspace  *{-1.2ex}\char '134 includegraphics}|hyperpage}{84}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{84}
+\indexentry{bibliography|hyperpage}{85}
+\indexentry{environments!\texttt  {thebibliography}|hyperpage}{85}
+\indexentry{thebibliography@\texttt  {thebibliography}|hyperpage}{85}
+\indexentry{commands!bibitem@\texttt  {\char '134 bibitem}|hyperpage}{85}
+\indexentry{bibitem@\texttt  {\hspace  *{-1.2ex}\char '134 bibitem}|hyperpage}{85}
+\indexentry{commands!cite@\texttt  {\char '134 cite}|hyperpage}{85}
+\indexentry{cite@\texttt  {\hspace  *{-1.2ex}\char '134 cite}|hyperpage}{85}
+\indexentry{index|hyperpage}{86}
+\indexentry{makeindex   program|hyperpage}{86}
+\indexentry{makeidx package|hyperpage}{86}
+\indexentry{packages!makeidx@\textsf  {makeidx}|hyperpage}{86}
+\indexentry{makeidx@\textsf  {makeidx}|hyperpage}{86}
+\indexentry{commands!makeindex@\texttt  {\char '134 makeindex}|hyperpage}{86}
+\indexentry{makeindex@\texttt  {\hspace  *{-1.2ex}\char '134 makeindex}|hyperpage}{86}
+\indexentry{commands!index@\texttt  {\char '134 index}|hyperpage}{86}
+\indexentry{index@\texttt  {\hspace  *{-1.2ex}\char '134 index}|hyperpage}{86}
+\indexentry{extension!\texttt  {.idx}|hyperpage}{86}
+\indexentry{extension!\texttt  {.ind}|hyperpage}{86}
+\indexentry{commands!printindex@\texttt  {\char '134 printindex}|hyperpage}{87}
+\indexentry{printindex@\texttt  {\hspace  *{-1.2ex}\char '134 printindex}|hyperpage}{87}
+\indexentry{packages!showidx@\textsf  {showidx}|hyperpage}{87}
+\indexentry{showidx@\textsf  {showidx}|hyperpage}{87}
+\indexentry{commands!index@\texttt  {\char '134 index}|hyperpage}{87}
+\indexentry{index@\texttt  {\hspace  *{-1.2ex}\char '134 index}|hyperpage}{87}
+\indexentry{Word|hyperpage}{87}
+\indexentry{Word|hyperpage}{87}
+\indexentry{packages!fancyhdr@\textsf  {fancyhdr}|hyperpage}{87}
+\indexentry{fancyhdr@\textsf  {fancyhdr}|hyperpage}{87}
+\indexentry{commands!rightmark@\texttt  {\char '134 rightmark}|hyperpage}{87}
+\indexentry{rightmark@\texttt  {\hspace  *{-1.2ex}\char '134 rightmark}|hyperpage}{87}
+\indexentry{commands!leftmark@\texttt  {\char '134 leftmark}|hyperpage}{87}
+\indexentry{leftmark@\texttt  {\hspace  *{-1.2ex}\char '134 leftmark}|hyperpage}{87}
+\indexentry{packages!fancyhdr@\textsf  {fancyhdr}|hyperpage}{88}
+\indexentry{fancyhdr@\textsf  {fancyhdr}|hyperpage}{88}
+\indexentry{commands!rightmark@\texttt  {\char '134 rightmark}|hyperpage}{89}
+\indexentry{rightmark@\texttt  {\hspace  *{-1.2ex}\char '134 rightmark}|hyperpage}{89}
+\indexentry{commands!leftmark@\texttt  {\char '134 leftmark}|hyperpage}{89}
+\indexentry{leftmark@\texttt  {\hspace  *{-1.2ex}\char '134 leftmark}|hyperpage}{89}
+\indexentry{commands!chaptermark@\texttt  {\char '134 chaptermark}|hyperpage}{89}
+\indexentry{chaptermark@\texttt  {\hspace  *{-1.2ex}\char '134 chaptermark}|hyperpage}{89}
+\indexentry{commands!sectionmark@\texttt  {\char '134 sectionmark}|hyperpage}{89}
+\indexentry{sectionmark@\texttt  {\hspace  *{-1.2ex}\char '134 sectionmark}|hyperpage}{89}
+\indexentry{commands!subsectionmark@\texttt  {\char '134 subsectionmark}|hyperpage}{89}
+\indexentry{subsectionmark@\texttt  {\hspace  *{-1.2ex}\char '134 subsectionmark}|hyperpage}{89}
+\indexentry{commands!rightmark@\texttt  {\char '134 rightmark}|hyperpage}{89}
+\indexentry{rightmark@\texttt  {\hspace  *{-1.2ex}\char '134 rightmark}|hyperpage}{89}
+\indexentry{commands!leftmark@\texttt  {\char '134 leftmark}|hyperpage}{89}
+\indexentry{leftmark@\texttt  {\hspace  *{-1.2ex}\char '134 leftmark}|hyperpage}{89}
+\indexentry{commands!chaptermark@\texttt  {\char '134 chaptermark}|hyperpage}{89}
+\indexentry{chaptermark@\texttt  {\hspace  *{-1.2ex}\char '134 chaptermark}|hyperpage}{89}
+\indexentry{commands!sectionmark@\texttt  {\char '134 sectionmark}|hyperpage}{89}
+\indexentry{sectionmark@\texttt  {\hspace  *{-1.2ex}\char '134 sectionmark}|hyperpage}{89}
+\indexentry{commands!subsectionmark@\texttt  {\char '134 subsectionmark}|hyperpage}{89}
+\indexentry{subsectionmark@\texttt  {\hspace  *{-1.2ex}\char '134 subsectionmark}|hyperpage}{89}
+\indexentry{packages!fancyhdr@\textsf  {fancyhdr}|hyperpage}{89}
+\indexentry{fancyhdr@\textsf  {fancyhdr}|hyperpage}{89}
+\indexentry{environments!\texttt  {verbatim}|hyperpage}{89}
+\indexentry{verbatim@\texttt  {verbatim}|hyperpage}{89}
+\indexentry{packages!verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{packages!verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{environments!\texttt  {verbatim}|hyperpage}{89}
+\indexentry{verbatim@\texttt  {verbatim}|hyperpage}{89}
+\indexentry{environments!\texttt  {verbatim}|hyperpage}{89}
+\indexentry{verbatim@\texttt  {verbatim}|hyperpage}{89}
+\indexentry{packages!verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{packages!verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{commands!verbatiminput@\texttt  {\char '134 verbatiminput}|hyperpage}{89}
+\indexentry{verbatiminput@\texttt  {\hspace  *{-1.2ex}\char '134 verbatiminput}|hyperpage}{89}
+\indexentry{environments!\texttt  {verbatim}|hyperpage}{89}
+\indexentry{verbatim@\texttt  {verbatim}|hyperpage}{89}
+\indexentry{packages!verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{verbatim@\textsf  {verbatim}|hyperpage}{89}
+\indexentry{packages!geometry@\textsf  {geometry}|hyperpage}{89}
+\indexentry{geometry@\textsf  {geometry}|hyperpage}{89}
+\indexentry{packages!hyphenat@\textsf  {hyphenat}|hyperpage}{89}
+\indexentry{hyphenat@\textsf  {hyphenat}|hyperpage}{89}
+\indexentry{extension!\texttt  {.sty}|hyperpage}{90}
+\indexentry{extension!\texttt  {.sty}|hyperpage}{90}
+\indexentry{PDF|hyperpage}{90}
+\indexentry{hypertext|hyperpage}{90}
+\indexentry{commands!ref@\texttt  {\char '134 ref}|hyperpage}{90}
+\indexentry{ref@\texttt  {\hspace  *{-1.2ex}\char '134 ref}|hyperpage}{90}
+\indexentry{commands!pageref@\texttt  {\char '134 pageref}|hyperpage}{90}
+\indexentry{pageref@\texttt  {\hspace  *{-1.2ex}\char '134 pageref}|hyperpage}{90}
+\indexentry{Acrobat Reader|hyperpage}{91}
+\indexentry{Xpdf|hyperpage}{91}
+\indexentry{pdftex@pdf\TeX|hyperpage}{91}
+\indexentry{pdftex@pdf\LaTeX|hyperpage}{91}
+\indexentry{paper size|hyperpage}{91}
+\indexentry{packages!hyperref@\textsf  {hyperref}|hyperpage}{91}
+\indexentry{hyperref@\textsf  {hyperref}|hyperpage}{91}
+\indexentry{pdf\LaTeX |hyperpage}{92}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{92}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{92}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{92}
+\indexentry{packages!pxfonts@\textsf  {pxfonts}|hyperpage}{93}
+\indexentry{pxfonts@\textsf  {pxfonts}|hyperpage}{93}
+\indexentry{packages!txfonts@\textsf  {txfonts}|hyperpage}{93}
+\indexentry{txfonts@\textsf  {txfonts}|hyperpage}{93}
+\indexentry{packages!graphicx@\textsf  {graphicx}|hyperpage}{93}
+\indexentry{graphicx@\textsf  {graphicx}|hyperpage}{93}
+\indexentry{Encapsulated PostScript@Encapsulated \textsc  {PostScript}|hyperpage}{93}
+\indexentry{PostScript@\textsc  {PostScript}!Encapsulated|hyperpage}{93}
+\indexentry{commands!includegraphics@\texttt  {\char '134 includegraphics}|hyperpage}{93}
+\indexentry{includegraphics@\texttt  {\hspace  *{-1.2ex}\char '134 includegraphics}|hyperpage}{93}
+\indexentry{packages!graphicx@\textsf  {graphicx}|hyperpage}{93}
+\indexentry{graphicx@\textsf  {graphicx}|hyperpage}{93}
+\indexentry{metapost@\MP|hyperpage}{93}
+\indexentry{metapost@\MP|hyperpage}{93}
+\indexentry{packages!hyperref@\textsf  {hyperref}|hyperpage}{93}
+\indexentry{hyperref@\textsf  {hyperref}|hyperpage}{93}
+\indexentry{packages!hyperref@\textsf  {hyperref}|hyperpage}{94}
+\indexentry{hyperref@\textsf  {hyperref}|hyperpage}{94}
+\indexentry{packages!hyperref@\textsf  {hyperref}|hyperpage}{94}
+\indexentry{hyperref@\textsf  {hyperref}|hyperpage}{94}
+\indexentry{commands!href@\texttt  {\char '134 href}|hyperpage}{95}
+\indexentry{href@\texttt  {\hspace  *{-1.2ex}\char '134 href}|hyperpage}{95}
+\indexentry{commands!href@\texttt  {\char '134 href}|hyperpage}{95}
+\indexentry{href@\texttt  {\hspace  *{-1.2ex}\char '134 href}|hyperpage}{95}
+\indexentry{commands!href@\texttt  {\char '134 href}|hyperpage}{96}
+\indexentry{href@\texttt  {\hspace  *{-1.2ex}\char '134 href}|hyperpage}{96}
+\indexentry{commands!author@\texttt  {\char '134 author}|hyperpage}{96}
+\indexentry{author@\texttt  {\hspace  *{-1.2ex}\char '134 author}|hyperpage}{96}
+\indexentry{commands!mainmatter@\texttt  {\char '134 mainmatter}|hyperpage}{96}
+\indexentry{mainmatter@\texttt  {\hspace  *{-1.2ex}\char '134 mainmatter}|hyperpage}{96}
+\indexentry{commands!texorpdfstring@\texttt  {\char '134 texorpdfstring}|hyperpage}{97}
+\indexentry{texorpdfstring@\texttt  {\hspace  *{-1.2ex}\char '134 texorpdfstring}|hyperpage}{97}
+\indexentry{packages!hyperref@\textsf  {hyperref}|hyperpage}{97}
+\indexentry{hyperref@\textsf  {hyperref}|hyperpage}{97}
+\indexentry{commands!texorpdfstring@\texttt  {\char '134 texorpdfstring}|hyperpage}{97}
+\indexentry{texorpdfstring@\texttt  {\hspace  *{-1.2ex}\char '134 texorpdfstring}|hyperpage}{97}
+\indexentry{commands!includegraphics@\texttt  {\char '134 includegraphics}|hyperpage}{97}
+\indexentry{includegraphics@\texttt  {\hspace  *{-1.2ex}\char '134 includegraphics}|hyperpage}{97}
+\indexentry{packages!ifpdf@\textsf  {ifpdf}|hyperpage}{97}
+\indexentry{ifpdf@\textsf  {ifpdf}|hyperpage}{97}
+\indexentry{commands!ifpdf@\texttt  {\char '134 ifpdf}|hyperpage}{97}
+\indexentry{ifpdf@\texttt  {\hspace  *{-1.2ex}\char '134 ifpdf}|hyperpage}{97}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{97}
+\indexentry{packages!hyperref@\textsf  {hyperref}|hyperpage}{98}
+\indexentry{hyperref@\textsf  {hyperref}|hyperpage}{98}
+\indexentry{commands!href@\texttt  {\char '134 href}|hyperpage}{98}
+\indexentry{href@\texttt  {\hspace  *{-1.2ex}\char '134 href}|hyperpage}{98}
+\indexentry{PDF|hyperpage}{98}
+\indexentry{XeTeX@\hologo{XeTeX}|hyperpage}{98}
+\indexentry{XeLaTeX@\hologo{XeLaTeX}|hyperpage}{98}
+\indexentry{packages!fontspec@\textsf  {fontspec}|hyperpage}{99}
+\indexentry{fontspec@\textsf  {fontspec}|hyperpage}{99}
+\indexentry{packages!fontspec@\textsf  {fontspec}|hyperpage}{99}
+\indexentry{fontspec@\textsf  {fontspec}|hyperpage}{99}
+\indexentry{packages!microtype@\textsf  {microtype}|hyperpage}{100}
+\indexentry{microtype@\textsf  {microtype}|hyperpage}{100}
+\indexentry{pdf\LaTeX |hyperpage}{100}
+\indexentry{packages!beamer@\textsf  {beamer}|hyperpage}{100}
+\indexentry{beamer@\textsf  {beamer}|hyperpage}{100}
+\indexentry{packages!beamer@\textsf  {beamer}|hyperpage}{100}
+\indexentry{beamer@\textsf  {beamer}|hyperpage}{100}
+\indexentry{packages!graphicx@\textsf  {graphicx}|hyperpage}{100}
+\indexentry{graphicx@\textsf  {graphicx}|hyperpage}{100}
+\indexentry{packages!color@\textsf  {color}|hyperpage}{100}
+\indexentry{color@\textsf  {color}|hyperpage}{100}
+\indexentry{packages!hyperref@\textsf  {hyperref}|hyperpage}{100}
+\indexentry{hyperref@\textsf  {hyperref}|hyperpage}{100}
+\indexentry{pdf\LaTeX |hyperpage}{100}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{100}
+\indexentry{packages!prosper@\textsf  {prosper}|hyperpage}{100}
+\indexentry{prosper@\textsf  {prosper}|hyperpage}{100}
+\indexentry{packages!ppower4@\textsf  {ppower4}|hyperpage}{100}
+\indexentry{ppower4@\textsf  {ppower4}|hyperpage}{100}
+\indexentry{packages!beamer@\textsf  {beamer}|hyperpage}{101}
+\indexentry{beamer@\textsf  {beamer}|hyperpage}{101}
+\indexentry{packages!beamer@\textsf  {beamer}|hyperpage}{102}
+\indexentry{beamer@\textsf  {beamer}|hyperpage}{102}
+\indexentry{environments!\texttt  {frame}|hyperpage}{102}
+\indexentry{frame@\texttt  {frame}|hyperpage}{102}
+\indexentry{environments!\texttt  {frame}|hyperpage}{102}
+\indexentry{frame@\texttt  {frame}|hyperpage}{102}
+\indexentry{environments!\texttt  {block}|hyperpage}{102}
+\indexentry{block@\texttt  {block}|hyperpage}{102}
+\indexentry{environments!\texttt  {picture}|hyperpage}{105}
+\indexentry{picture@\texttt  {picture}|hyperpage}{105}
+\indexentry{environments!\texttt  {picture}|hyperpage}{105}
+\indexentry{picture@\texttt  {picture}|hyperpage}{105}
+\indexentry{commands!qbezier@\texttt  {\char '134 qbezier}|hyperpage}{105}
+\indexentry{qbezier@\texttt  {\hspace  *{-1.2ex}\char '134 qbezier}|hyperpage}{105}
+\indexentry{commands!qbezier@\texttt  {\char '134 qbezier}|hyperpage}{105}
+\indexentry{qbezier@\texttt  {\hspace  *{-1.2ex}\char '134 qbezier}|hyperpage}{105}
+\indexentry{environments!\texttt  {picture}|hyperpage}{105}
+\indexentry{picture@\texttt  {picture}|hyperpage}{105}
+\indexentry{packages!beamer@\textsf  {beamer}|hyperpage}{105}
+\indexentry{beamer@\textsf  {beamer}|hyperpage}{105}
+\indexentry{packages!pgf@\textsf  {pgf}|hyperpage}{105}
+\indexentry{pgf@\textsf  {pgf}|hyperpage}{105}
+\indexentry{packages!tikz@\textsf  {tikz}|hyperpage}{105}
+\indexentry{tikz@\textsf  {tikz}|hyperpage}{105}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{106}
+\indexentry{environments!\texttt  {picture}|hyperpage}{106}
+\indexentry{picture@\texttt  {picture}|hyperpage}{106}
+\indexentry{commands!begin@\texttt  {\char '134 begin}|hyperpage}{106}
+\indexentry{begin@\texttt  {\hspace  *{-1.2ex}\char '134 begin}|hyperpage}{106}
+\indexentry{commands!end@\texttt  {\char '134 end}|hyperpage}{106}
+\indexentry{end@\texttt  {\hspace  *{-1.2ex}\char '134 end}|hyperpage}{106}
+\indexentry{commands!begin@\texttt  {\char '134 begin}|hyperpage}{106}
+\indexentry{begin@\texttt  {\hspace  *{-1.2ex}\char '134 begin}|hyperpage}{106}
+\indexentry{commands!end@\texttt  {\char '134 end}|hyperpage}{106}
+\indexentry{end@\texttt  {\hspace  *{-1.2ex}\char '134 end}|hyperpage}{106}
+\indexentry{commands!unitlength@\texttt  {\char '134 unitlength}|hyperpage}{106}
+\indexentry{unitlength@\texttt  {\hspace  *{-1.2ex}\char '134 unitlength}|hyperpage}{106}
+\indexentry{environments!\texttt  {picture}|hyperpage}{106}
+\indexentry{picture@\texttt  {picture}|hyperpage}{106}
+\indexentry{commands!setlength@\texttt  {\char '134 setlength}|hyperpage}{106}
+\indexentry{setlength@\texttt  {\hspace  *{-1.2ex}\char '134 setlength}|hyperpage}{106}
+\indexentry{commands!unitlength@\texttt  {\char '134 unitlength}|hyperpage}{106}
+\indexentry{unitlength@\texttt  {\hspace  *{-1.2ex}\char '134 unitlength}|hyperpage}{106}
+\indexentry{commands!unitlength@\texttt  {\char '134 unitlength}|hyperpage}{106}
+\indexentry{unitlength@\texttt  {\hspace  *{-1.2ex}\char '134 unitlength}|hyperpage}{106}
+\indexentry{commands!put@\texttt  {\char '134 put}|hyperpage}{107}
+\indexentry{put@\texttt  {\hspace  *{-1.2ex}\char '134 put}|hyperpage}{107}
+\indexentry{commands!multiput@\texttt  {\char '134 multiput}|hyperpage}{107}
+\indexentry{multiput@\texttt  {\hspace  *{-1.2ex}\char '134 multiput}|hyperpage}{107}
+\indexentry{commands!qbezier@\texttt  {\char '134 qbezier}|hyperpage}{107}
+\indexentry{qbezier@\texttt  {\hspace  *{-1.2ex}\char '134 qbezier}|hyperpage}{107}
+\indexentry{commands!put@\texttt  {\char '134 put}|hyperpage}{108}
+\indexentry{put@\texttt  {\hspace  *{-1.2ex}\char '134 put}|hyperpage}{108}
+\indexentry{commands!line@\texttt  {\char '134 line}|hyperpage}{108}
+\indexentry{line@\texttt  {\hspace  *{-1.2ex}\char '134 line}|hyperpage}{108}
+\indexentry{commands!line@\texttt  {\char '134 line}|hyperpage}{108}
+\indexentry{line@\texttt  {\hspace  *{-1.2ex}\char '134 line}|hyperpage}{108}
+\indexentry{commands!unitlength@\texttt  {\char '134 unitlength}|hyperpage}{108}
+\indexentry{unitlength@\texttt  {\hspace  *{-1.2ex}\char '134 unitlength}|hyperpage}{108}
+\indexentry{commands!put@\texttt  {\char '134 put}|hyperpage}{108}
+\indexentry{put@\texttt  {\hspace  *{-1.2ex}\char '134 put}|hyperpage}{108}
+\indexentry{commands!vector@\texttt  {\char '134 vector}|hyperpage}{108}
+\indexentry{vector@\texttt  {\hspace  *{-1.2ex}\char '134 vector}|hyperpage}{108}
+\indexentry{commands!thicklines@\texttt  {\char '134 thicklines}|hyperpage}{108}
+\indexentry{thicklines@\texttt  {\hspace  *{-1.2ex}\char '134 thicklines}|hyperpage}{108}
+\indexentry{commands!put@\texttt  {\char '134 put}|hyperpage}{109}
+\indexentry{put@\texttt  {\hspace  *{-1.2ex}\char '134 put}|hyperpage}{109}
+\indexentry{commands!circle@\texttt  {\char '134 circle}|hyperpage}{109}
+\indexentry{circle@\texttt  {\hspace  *{-1.2ex}\char '134 circle}|hyperpage}{109}
+\indexentry{environments!\texttt  {picture}|hyperpage}{109}
+\indexentry{picture@\texttt  {picture}|hyperpage}{109}
+\indexentry{commands!circle*@\texttt  {\char '134 circle*}|hyperpage}{109}
+\indexentry{circle*@\texttt  {\hspace  *{-1.2ex}\char '134 circle*}|hyperpage}{109}
+\indexentry{packages!eepic@\textsf  {eepic}|hyperpage}{109}
+\indexentry{eepic@\textsf  {eepic}|hyperpage}{109}
+\indexentry{packages!pstricks@\textsf  {pstricks}|hyperpage}{109}
+\indexentry{pstricks@\textsf  {pstricks}|hyperpage}{109}
+\indexentry{environments!\texttt  {picture}|hyperpage}{109}
+\indexentry{picture@\texttt  {picture}|hyperpage}{109}
+\indexentry{environments!\texttt  {picture}|hyperpage}{110}
+\indexentry{picture@\texttt  {picture}|hyperpage}{110}
+\indexentry{commands!put@\texttt  {\char '134 put}|hyperpage}{110}
+\indexentry{put@\texttt  {\hspace  *{-1.2ex}\char '134 put}|hyperpage}{110}
+\indexentry{commands!multiput@\texttt  {\char '134 multiput}|hyperpage}{110}
+\indexentry{multiput@\texttt  {\hspace  *{-1.2ex}\char '134 multiput}|hyperpage}{110}
+\indexentry{commands!linethickness@\texttt  {\char '134 linethickness}|hyperpage}{110}
+\indexentry{linethickness@\texttt  {\hspace  *{-1.2ex}\char '134 linethickness}|hyperpage}{110}
+\indexentry{commands!multiput@\texttt  {\char '134 multiput}|hyperpage}{110}
+\indexentry{multiput@\texttt  {\hspace  *{-1.2ex}\char '134 multiput}|hyperpage}{110}
+\indexentry{commands!linethickness@\texttt  {\char '134 linethickness}|hyperpage}{111}
+\indexentry{linethickness@\texttt  {\hspace  *{-1.2ex}\char '134 linethickness}|hyperpage}{111}
+\indexentry{commands!put@\texttt  {\char '134 put}|hyperpage}{111}
+\indexentry{put@\texttt  {\hspace  *{-1.2ex}\char '134 put}|hyperpage}{111}
+\indexentry{commands!oval@\texttt  {\char '134 oval}|hyperpage}{111}
+\indexentry{oval@\texttt  {\hspace  *{-1.2ex}\char '134 oval}|hyperpage}{111}
+\indexentry{commands!put@\texttt  {\char '134 put}|hyperpage}{111}
+\indexentry{put@\texttt  {\hspace  *{-1.2ex}\char '134 put}|hyperpage}{111}
+\indexentry{commands!oval@\texttt  {\char '134 oval}|hyperpage}{111}
+\indexentry{oval@\texttt  {\hspace  *{-1.2ex}\char '134 oval}|hyperpage}{111}
+\indexentry{commands!linethickness@\texttt  {\char '134 linethickness}|hyperpage}{111}
+\indexentry{linethickness@\texttt  {\hspace  *{-1.2ex}\char '134 linethickness}|hyperpage}{111}
+\indexentry{commands!thinlines@\texttt  {\char '134 thinlines}|hyperpage}{111}
+\indexentry{thinlines@\texttt  {\hspace  *{-1.2ex}\char '134 thinlines}|hyperpage}{111}
+\indexentry{commands!thicklines@\texttt  {\char '134 thicklines}|hyperpage}{111}
+\indexentry{thicklines@\texttt  {\hspace  *{-1.2ex}\char '134 thicklines}|hyperpage}{111}
+\indexentry{commands!linethickness@\texttt  {\char '134 linethickness}|hyperpage}{111}
+\indexentry{linethickness@\texttt  {\hspace  *{-1.2ex}\char '134 linethickness}|hyperpage}{111}
+\indexentry{commands!thinlines@\texttt  {\char '134 thinlines}|hyperpage}{111}
+\indexentry{thinlines@\texttt  {\hspace  *{-1.2ex}\char '134 thinlines}|hyperpage}{111}
+\indexentry{commands!thicklines@\texttt  {\char '134 thicklines}|hyperpage}{111}
+\indexentry{thicklines@\texttt  {\hspace  *{-1.2ex}\char '134 thicklines}|hyperpage}{111}
+\indexentry{commands!newsavebox@\texttt  {\char '134 newsavebox}|hyperpage}{112}
+\indexentry{newsavebox@\texttt  {\hspace  *{-1.2ex}\char '134 newsavebox}|hyperpage}{112}
+\indexentry{commands!savebox@\texttt  {\char '134 savebox}|hyperpage}{112}
+\indexentry{savebox@\texttt  {\hspace  *{-1.2ex}\char '134 savebox}|hyperpage}{112}
+\indexentry{commands!put@\texttt  {\char '134 put}|hyperpage}{112}
+\indexentry{put@\texttt  {\hspace  *{-1.2ex}\char '134 put}|hyperpage}{112}
+\indexentry{commands!usebox@\texttt  {\char '134 usebox}|hyperpage}{112}
+\indexentry{usebox@\texttt  {\hspace  *{-1.2ex}\char '134 usebox}|hyperpage}{112}
+\indexentry{commands!foldera@\texttt  {\char '134 foldera}|hyperpage}{113}
+\indexentry{foldera@\texttt  {\hspace  *{-1.2ex}\char '134 foldera}|hyperpage}{113}
+\indexentry{commands!folderb@\texttt  {\char '134 folderb}|hyperpage}{113}
+\indexentry{folderb@\texttt  {\hspace  *{-1.2ex}\char '134 folderb}|hyperpage}{113}
+\indexentry{commands!oval@\texttt  {\char '134 oval}|hyperpage}{113}
+\indexentry{oval@\texttt  {\hspace  *{-1.2ex}\char '134 oval}|hyperpage}{113}
+\indexentry{commands!line@\texttt  {\char '134 line}|hyperpage}{113}
+\indexentry{line@\texttt  {\hspace  *{-1.2ex}\char '134 line}|hyperpage}{113}
+\indexentry{commands!linethickness@\texttt  {\char '134 linethickness}|hyperpage}{113}
+\indexentry{linethickness@\texttt  {\hspace  *{-1.2ex}\char '134 linethickness}|hyperpage}{113}
+\indexentry{commands!thinlines@\texttt  {\char '134 thinlines}|hyperpage}{113}
+\indexentry{thinlines@\texttt  {\hspace  *{-1.2ex}\char '134 thinlines}|hyperpage}{113}
+\indexentry{commands!thicklines@\texttt  {\char '134 thicklines}|hyperpage}{113}
+\indexentry{thicklines@\texttt  {\hspace  *{-1.2ex}\char '134 thicklines}|hyperpage}{113}
+\indexentry{commands!qbezier@\texttt  {\char '134 qbezier}|hyperpage}{113}
+\indexentry{qbezier@\texttt  {\hspace  *{-1.2ex}\char '134 qbezier}|hyperpage}{113}
+\indexentry{commands!begin@\texttt  {\char '134 begin}|hyperpage}{114}
+\indexentry{begin@\texttt  {\hspace  *{-1.2ex}\char '134 begin}|hyperpage}{114}
+\indexentry{packages!pgf@\textsf  {pgf}|hyperpage}{115}
+\indexentry{pgf@\textsf  {pgf}|hyperpage}{115}
+\indexentry{packages!pgf@\textsf  {pgf}|hyperpage}{115}
+\indexentry{pgf@\textsf  {pgf}|hyperpage}{115}
+\indexentry{packages!pgf@\textsf  {pgf}|hyperpage}{115}
+\indexentry{pgf@\textsf  {pgf}|hyperpage}{115}
+\indexentry{packages!tikz@\textsf  {tikz}|hyperpage}{115}
+\indexentry{tikz@\textsf  {tikz}|hyperpage}{115}
+\indexentry{environments!\texttt  {tikzpicture}|hyperpage}{115}
+\indexentry{tikzpicture@\texttt  {tikzpicture}|hyperpage}{115}
+\indexentry{packages!pgf@\textsf  {pgf}|hyperpage}{115}
+\indexentry{pgf@\textsf  {pgf}|hyperpage}{115}
+\indexentry{packages!tikz@\textsf  {tikz}|hyperpage}{116}
+\indexentry{tikz@\textsf  {tikz}|hyperpage}{116}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{116}
+\indexentry{babel@\textsf  {babel}|hyperpage}{116}
+\indexentry{packages!babel@\textsf  {babel}|hyperpage}{116}
+\indexentry{babel@\textsf  {babel}|hyperpage}{116}
+\indexentry{commands!shorthandoff@\texttt  {\char '134 shorthandoff}|hyperpage}{116}
+\indexentry{shorthandoff@\texttt  {\hspace  *{-1.2ex}\char '134 shorthandoff}|hyperpage}{116}
+\indexentry{commands!usetikzlibrary@\texttt  {\char '134 usetikzlibrary}|hyperpage}{117}
+\indexentry{usetikzlibrary@\texttt  {\hspace  *{-1.2ex}\char '134 usetikzlibrary}|hyperpage}{117}
+\indexentry{packages!pgf@\textsf  {pgf}|hyperpage}{118}
+\indexentry{pgf@\textsf  {pgf}|hyperpage}{118}
+\indexentry{packages!pgfplot@\textsf  {pgfplot}|hyperpage}{118}
+\indexentry{pgfplot@\textsf  {pgfplot}|hyperpage}{118}
+\indexentry{package|hyperpage}{119}
+\indexentry{commands!dum@\texttt  {\char '134 dum}|hyperpage}{119}
+\indexentry{dum@\texttt  {\hspace  *{-1.2ex}\char '134 dum}|hyperpage}{119}
+\indexentry{environments!\texttt  {lscommand}|hyperpage}{119}
+\indexentry{lscommand@\texttt  {lscommand}|hyperpage}{119}
+\indexentry{commands!ci@\texttt  {\char '134 ci}|hyperpage}{119}
+\indexentry{ci@\texttt  {\hspace  *{-1.2ex}\char '134 ci}|hyperpage}{119}
+\indexentry{commands!dum@\texttt  {\char '134 dum}|hyperpage}{119}
+\indexentry{dum@\texttt  {\hspace  *{-1.2ex}\char '134 dum}|hyperpage}{119}
+\indexentry{commands!dum@\texttt  {\char '134 dum}|hyperpage}{119}
+\indexentry{dum@\texttt  {\hspace  *{-1.2ex}\char '134 dum}|hyperpage}{119}
+\indexentry{commands!dum@\texttt  {\char '134 dum}|hyperpage}{119}
+\indexentry{dum@\texttt  {\hspace  *{-1.2ex}\char '134 dum}|hyperpage}{119}
+\indexentry{commands!newcommand@\texttt  {\char '134 newcommand}|hyperpage}{120}
+\indexentry{newcommand@\texttt  {\hspace  *{-1.2ex}\char '134 newcommand}|hyperpage}{120}
+\indexentry{commands!tnss@\texttt  {\char '134 tnss}|hyperpage}{120}
+\indexentry{tnss@\texttt  {\hspace  *{-1.2ex}\char '134 tnss}|hyperpage}{120}
+\indexentry{commands!renewcommand@\texttt  {\char '134 renewcommand}|hyperpage}{120}
+\indexentry{renewcommand@\texttt  {\hspace  *{-1.2ex}\char '134 renewcommand}|hyperpage}{120}
+\indexentry{commands!providecommand@\texttt  {\char '134 providecommand}|hyperpage}{121}
+\indexentry{providecommand@\texttt  {\hspace  *{-1.2ex}\char '134 providecommand}|hyperpage}{121}
+\indexentry{commands!newcommand@\texttt  {\char '134 newcommand}|hyperpage}{121}
+\indexentry{newcommand@\texttt  {\hspace  *{-1.2ex}\char '134 newcommand}|hyperpage}{121}
+\indexentry{commands!newenvironment@\texttt  {\char '134 newenvironment}|hyperpage}{121}
+\indexentry{newenvironment@\texttt  {\hspace  *{-1.2ex}\char '134 newenvironment}|hyperpage}{121}
+\indexentry{commands!newenvironment@\texttt  {\char '134 newenvironment}|hyperpage}{121}
+\indexentry{newenvironment@\texttt  {\hspace  *{-1.2ex}\char '134 newenvironment}|hyperpage}{121}
+\indexentry{commands!newenvironment@\texttt  {\char '134 newenvironment}|hyperpage}{121}
+\indexentry{newenvironment@\texttt  {\hspace  *{-1.2ex}\char '134 newenvironment}|hyperpage}{121}
+\indexentry{commands!newenvironment@\texttt  {\char '134 newenvironment}|hyperpage}{121}
+\indexentry{newenvironment@\texttt  {\hspace  *{-1.2ex}\char '134 newenvironment}|hyperpage}{121}
+\indexentry{commands!renewenvironment@\texttt  {\char '134 renewenvironment}|hyperpage}{121}
+\indexentry{renewenvironment@\texttt  {\hspace  *{-1.2ex}\char '134 renewenvironment}|hyperpage}{121}
+\indexentry{commands!newenvironment@\texttt  {\char '134 newenvironment}|hyperpage}{121}
+\indexentry{newenvironment@\texttt  {\hspace  *{-1.2ex}\char '134 newenvironment}|hyperpage}{121}
+\indexentry{commands!rule@\texttt  {\char '134 rule}|hyperpage}{121}
+\indexentry{rule@\texttt  {\hspace  *{-1.2ex}\char '134 rule}|hyperpage}{121}
+\indexentry{commands!stretch@\texttt  {\char '134 stretch}|hyperpage}{121}
+\indexentry{stretch@\texttt  {\hspace  *{-1.2ex}\char '134 stretch}|hyperpage}{121}
+\indexentry{commands!hspace@\texttt  {\char '134 hspace}|hyperpage}{121}
+\indexentry{hspace@\texttt  {\hspace  *{-1.2ex}\char '134 hspace}|hyperpage}{121}
+\indexentry{commands!ignorespaces@\texttt  {\char '134 ignorespaces}|hyperpage}{121}
+\indexentry{ignorespaces@\texttt  {\hspace  *{-1.2ex}\char '134 ignorespaces}|hyperpage}{121}
+\indexentry{commands!ignorespacesafterend@\texttt  {\char '134 ignorespacesafterend}|hyperpage}{122}
+\indexentry{ignorespacesafterend@\texttt  {\hspace  *{-1.2ex}\char '134 ignorespacesafterend}|hyperpage}{122}
+\indexentry{commands!ignorespaces@\texttt  {\char '134 ignorespaces}|hyperpage}{122}
+\indexentry{ignorespaces@\texttt  {\hspace  *{-1.2ex}\char '134 ignorespaces}|hyperpage}{122}
+\indexentry{commands!usepackage@\texttt  {\char '134 usepackage}|hyperpage}{123}
+\indexentry{usepackage@\texttt  {\hspace  *{-1.2ex}\char '134 usepackage}|hyperpage}{123}
+\indexentry{commands!ProvidesPackage@\texttt  {\char '134 ProvidesPackage}|hyperpage}{123}
+\indexentry{ProvidesPackage@\texttt  {\hspace  *{-1.2ex}\char '134 ProvidesPackage}|hyperpage}{123}
+\indexentry{font|hyperpage}{123}
+\indexentry{font size|hyperpage}{123}
+\indexentry{curly braces|hyperpage}{124}
+\indexentry{grouping|hyperpage}{124}
+\indexentry{commands!par@\texttt  {\char '134 par}|hyperpage}{124}
+\indexentry{par@\texttt  {\hspace  *{-1.2ex}\char '134 par}|hyperpage}{124}
+\indexentry{font!textrm@\texttt  {\char '134 textrm}|hyperpage}{124}
+\indexentry{textrm@\texttt  {\hspace  *{-1.2ex}\char '134 textrm}|hyperpage}{124}
+\indexentry{roman|hyperpage}{124}
+\indexentry{font!textsf@\texttt  {\char '134 textsf}|hyperpage}{124}
+\indexentry{textsf@\texttt  {\hspace  *{-1.2ex}\char '134 textsf}|hyperpage}{124}
+\indexentry{sans serif|hyperpage}{124}
+\indexentry{font!texttt@\texttt  {\char '134 texttt}|hyperpage}{124}
+\indexentry{texttt@\texttt  {\hspace  *{-1.2ex}\char '134 texttt}|hyperpage}{124}
+\indexentry{font!textmd@\texttt  {\char '134 textmd}|hyperpage}{124}
+\indexentry{textmd@\texttt  {\hspace  *{-1.2ex}\char '134 textmd}|hyperpage}{124}
+\indexentry{font!textbf@\texttt  {\char '134 textbf}|hyperpage}{124}
+\indexentry{textbf@\texttt  {\hspace  *{-1.2ex}\char '134 textbf}|hyperpage}{124}
+\indexentry{bold face|hyperpage}{124}
+\indexentry{font!textup@\texttt  {\char '134 textup}|hyperpage}{124}
+\indexentry{textup@\texttt  {\hspace  *{-1.2ex}\char '134 textup}|hyperpage}{124}
+\indexentry{upright|hyperpage}{124}
+\indexentry{font!textit@\texttt  {\char '134 textit}|hyperpage}{124}
+\indexentry{textit@\texttt  {\hspace  *{-1.2ex}\char '134 textit}|hyperpage}{124}
+\indexentry{italic|hyperpage}{124}
+\indexentry{font!textsl@\texttt  {\char '134 textsl}|hyperpage}{124}
+\indexentry{textsl@\texttt  {\hspace  *{-1.2ex}\char '134 textsl}|hyperpage}{124}
+\indexentry{slanted|hyperpage}{124}
+\indexentry{font!textsc@\texttt  {\char '134 textsc}|hyperpage}{124}
+\indexentry{textsc@\texttt  {\hspace  *{-1.2ex}\char '134 textsc}|hyperpage}{124}
+\indexentry{Small Caps|hyperpage}{124}
+\indexentry{commands!emph@\texttt  {\char '134 emph}|hyperpage}{124}
+\indexentry{emph@\texttt  {\hspace  *{-1.2ex}\char '134 emph}|hyperpage}{124}
+\indexentry{font!textnormal@\texttt  {\char '134 textnormal}|hyperpage}{124}
+\indexentry{textnormal@\texttt  {\hspace  *{-1.2ex}\char '134 textnormal}|hyperpage}{124}
+\indexentry{font size|hyperpage}{124}
+\indexentry{font!tiny@\texttt  {\char '134 tiny}|hyperpage}{124}
+\indexentry{tiny@\texttt  {\hspace  *{-1.2ex}\char '134 tiny}|hyperpage}{124}
+\indexentry{font!scriptsize@\texttt  {\char '134 scriptsize}|hyperpage}{124}
+\indexentry{scriptsize@\texttt  {\hspace  *{-1.2ex}\char '134 scriptsize}|hyperpage}{124}
+\indexentry{font!footnotesize@\texttt  {\char '134 footnotesize}|hyperpage}{124}
+\indexentry{footnotesize@\texttt  {\hspace  *{-1.2ex}\char '134 footnotesize}|hyperpage}{124}
+\indexentry{font!small@\texttt  {\char '134 small}|hyperpage}{124}
+\indexentry{small@\texttt  {\hspace  *{-1.2ex}\char '134 small}|hyperpage}{124}
+\indexentry{font!normalsize@\texttt  {\char '134 normalsize}|hyperpage}{124}
+\indexentry{normalsize@\texttt  {\hspace  *{-1.2ex}\char '134 normalsize}|hyperpage}{124}
+\indexentry{font!large@\texttt  {\char '134 large}|hyperpage}{124}
+\indexentry{large@\texttt  {\hspace  *{-1.2ex}\char '134 large}|hyperpage}{124}
+\indexentry{font!Large@\texttt  {\char '134 Large}|hyperpage}{124}
+\indexentry{Large@\texttt  {\hspace  *{-1.2ex}\char '134 Large}|hyperpage}{124}
+\indexentry{font!LARGE@\texttt  {\char '134 LARGE}|hyperpage}{124}
+\indexentry{LARGE@\texttt  {\hspace  *{-1.2ex}\char '134 LARGE}|hyperpage}{124}
+\indexentry{font!huge@\texttt  {\char '134 huge}|hyperpage}{124}
+\indexentry{huge@\texttt  {\hspace  *{-1.2ex}\char '134 huge}|hyperpage}{124}
+\indexentry{font!Huge@\texttt  {\char '134 Huge}|hyperpage}{124}
+\indexentry{Huge@\texttt  {\hspace  *{-1.2ex}\char '134 Huge}|hyperpage}{124}
+\indexentry{font!mathrm@\texttt  {\char '134 mathrm}|hyperpage}{125}
+\indexentry{mathrm@\texttt  {\hspace  *{-1.2ex}\char '134 mathrm}|hyperpage}{125}
+\indexentry{font!mathbf@\texttt  {\char '134 mathbf}|hyperpage}{125}
+\indexentry{mathbf@\texttt  {\hspace  *{-1.2ex}\char '134 mathbf}|hyperpage}{125}
+\indexentry{font!mathsf@\texttt  {\char '134 mathsf}|hyperpage}{125}
+\indexentry{mathsf@\texttt  {\hspace  *{-1.2ex}\char '134 mathsf}|hyperpage}{125}
+\indexentry{font!mathtt@\texttt  {\char '134 mathtt}|hyperpage}{125}
+\indexentry{mathtt@\texttt  {\hspace  *{-1.2ex}\char '134 mathtt}|hyperpage}{125}
+\indexentry{font!mathit@\texttt  {\char '134 mathit}|hyperpage}{125}
+\indexentry{mathit@\texttt  {\hspace  *{-1.2ex}\char '134 mathit}|hyperpage}{125}
+\indexentry{font!mathcal@\texttt  {\char '134 mathcal}|hyperpage}{125}
+\indexentry{mathcal@\texttt  {\hspace  *{-1.2ex}\char '134 mathcal}|hyperpage}{125}
+\indexentry{font!mathnormal@\texttt  {\char '134 mathnormal}|hyperpage}{125}
+\indexentry{mathnormal@\texttt  {\hspace  *{-1.2ex}\char '134 mathnormal}|hyperpage}{125}
+\indexentry{commands!emph@\texttt  {\char '134 emph}|hyperpage}{126}
+\indexentry{emph@\texttt  {\hspace  *{-1.2ex}\char '134 emph}|hyperpage}{126}
+\indexentry{line spacing|hyperpage}{127}
+\indexentry{commands!linespread@\texttt  {\char '134 linespread}|hyperpage}{127}
+\indexentry{linespread@\texttt  {\hspace  *{-1.2ex}\char '134 linespread}|hyperpage}{127}
+\indexentry{double line spacing|hyperpage}{127}
+\indexentry{commands!linespread@\texttt  {\char '134 linespread}|hyperpage}{127}
+\indexentry{linespread@\texttt  {\hspace  *{-1.2ex}\char '134 linespread}|hyperpage}{127}
+\indexentry{commands!setlength@\texttt  {\char '134 setlength}|hyperpage}{128}
+\indexentry{setlength@\texttt  {\hspace  *{-1.2ex}\char '134 setlength}|hyperpage}{128}
+\indexentry{commands!parindent@\texttt  {\char '134 parindent}|hyperpage}{128}
+\indexentry{parindent@\texttt  {\hspace  *{-1.2ex}\char '134 parindent}|hyperpage}{128}
+\indexentry{commands!parskip@\texttt  {\char '134 parskip}|hyperpage}{128}
+\indexentry{parskip@\texttt  {\hspace  *{-1.2ex}\char '134 parskip}|hyperpage}{128}
+\indexentry{commands!indent@\texttt  {\char '134 indent}|hyperpage}{128}
+\indexentry{indent@\texttt  {\hspace  *{-1.2ex}\char '134 indent}|hyperpage}{128}
+\indexentry{packages!indentfirst@\textsf  {indentfirst}|hyperpage}{128}
+\indexentry{indentfirst@\textsf  {indentfirst}|hyperpage}{128}
+\indexentry{commands!noindent@\texttt  {\char '134 noindent}|hyperpage}{129}
+\indexentry{noindent@\texttt  {\hspace  *{-1.2ex}\char '134 noindent}|hyperpage}{129}
+\indexentry{horizontal!space|hyperpage}{129}
+\indexentry{commands!hspace@\texttt  {\char '134 hspace}|hyperpage}{129}
+\indexentry{hspace@\texttt  {\hspace  *{-1.2ex}\char '134 hspace}|hyperpage}{129}
+\indexentry{units|hyperpage}{129}
+\indexentry{dimensions|hyperpage}{129}
+\indexentry{commands!stretch@\texttt  {\char '134 stretch}|hyperpage}{129}
+\indexentry{stretch@\texttt  {\hspace  *{-1.2ex}\char '134 stretch}|hyperpage}{129}
+\indexentry{units|hyperpage}{130}
+\indexentry{commands!vspace@\texttt  {\char '134 vspace}|hyperpage}{130}
+\indexentry{vspace@\texttt  {\hspace  *{-1.2ex}\char '134 vspace}|hyperpage}{130}
+\indexentry{vertical space|hyperpage}{130}
+\indexentry{commands!\char '134 @\texttt  {\char '134 \char '134 }|hyperpage}{130}
+\indexentry{\char '134 @\texttt  {\hspace  *{-1.2ex}\char '134 \char '134 }|hyperpage}{130}
+\indexentry{commands!bigskip@\texttt  {\char '134 bigskip}|hyperpage}{130}
+\indexentry{bigskip@\texttt  {\hspace  *{-1.2ex}\char '134 bigskip}|hyperpage}{130}
+\indexentry{commands!smallskip@\texttt  {\char '134 smallskip}|hyperpage}{130}
+\indexentry{smallskip@\texttt  {\hspace  *{-1.2ex}\char '134 smallskip}|hyperpage}{130}
+\indexentry{page layout|hyperpage}{130}
+\indexentry{paper size|hyperpage}{130}
+\indexentry{margins|hyperpage}{130}
+\indexentry{packages!layouts@\textsf  {layouts}|hyperpage}{131}
+\indexentry{layouts@\textsf  {layouts}|hyperpage}{131}
+\indexentry{commands!footskip@\texttt  {\char '134 footskip}|hyperpage}{131}
+\indexentry{footskip@\texttt  {\hspace  *{-1.2ex}\char '134 footskip}|hyperpage}{131}
+\indexentry{commands!headheight@\texttt  {\char '134 headheight}|hyperpage}{131}
+\indexentry{headheight@\texttt  {\hspace  *{-1.2ex}\char '134 headheight}|hyperpage}{131}
+\indexentry{commands!headsep@\texttt  {\char '134 headsep}|hyperpage}{131}
+\indexentry{headsep@\texttt  {\hspace  *{-1.2ex}\char '134 headsep}|hyperpage}{131}
+\indexentry{commands!marginparpush@\texttt  {\char '134 marginparpush}|hyperpage}{131}
+\indexentry{marginparpush@\texttt  {\hspace  *{-1.2ex}\char '134 marginparpush}|hyperpage}{131}
+\indexentry{commands!marginparsep@\texttt  {\char '134 marginparsep}|hyperpage}{131}
+\indexentry{marginparsep@\texttt  {\hspace  *{-1.2ex}\char '134 marginparsep}|hyperpage}{131}
+\indexentry{commands!marginparwidth@\texttt  {\char '134 marginparwidth}|hyperpage}{131}
+\indexentry{marginparwidth@\texttt  {\hspace  *{-1.2ex}\char '134 marginparwidth}|hyperpage}{131}
+\indexentry{commands!oddsidemargin@\texttt  {\char '134 oddsidemargin}|hyperpage}{131}
+\indexentry{oddsidemargin@\texttt  {\hspace  *{-1.2ex}\char '134 oddsidemargin}|hyperpage}{131}
+\indexentry{commands!paperheight@\texttt  {\char '134 paperheight}|hyperpage}{131}
+\indexentry{paperheight@\texttt  {\hspace  *{-1.2ex}\char '134 paperheight}|hyperpage}{131}
+\indexentry{commands!paperwidth@\texttt  {\char '134 paperwidth}|hyperpage}{131}
+\indexentry{paperwidth@\texttt  {\hspace  *{-1.2ex}\char '134 paperwidth}|hyperpage}{131}
+\indexentry{commands!textheight@\texttt  {\char '134 textheight}|hyperpage}{131}
+\indexentry{textheight@\texttt  {\hspace  *{-1.2ex}\char '134 textheight}|hyperpage}{131}
+\indexentry{commands!textwidth@\texttt  {\char '134 textwidth}|hyperpage}{131}
+\indexentry{textwidth@\texttt  {\hspace  *{-1.2ex}\char '134 textwidth}|hyperpage}{131}
+\indexentry{commands!topmargin@\texttt  {\char '134 topmargin}|hyperpage}{131}
+\indexentry{topmargin@\texttt  {\hspace  *{-1.2ex}\char '134 topmargin}|hyperpage}{131}
+\indexentry{packages!layout@\textsf  {layout}|hyperpage}{132}
+\indexentry{layout@\textsf  {layout}|hyperpage}{132}
+\indexentry{commands!setlength@\texttt  {\char '134 setlength}|hyperpage}{132}
+\indexentry{setlength@\texttt  {\hspace  *{-1.2ex}\char '134 setlength}|hyperpage}{132}
+\indexentry{commands!addtolength@\texttt  {\char '134 addtolength}|hyperpage}{132}
+\indexentry{addtolength@\texttt  {\hspace  *{-1.2ex}\char '134 addtolength}|hyperpage}{132}
+\indexentry{commands!setlength@\texttt  {\char '134 setlength}|hyperpage}{132}
+\indexentry{setlength@\texttt  {\hspace  *{-1.2ex}\char '134 setlength}|hyperpage}{132}
+\indexentry{packages!calc@\textsf  {calc}|hyperpage}{132}
+\indexentry{calc@\textsf  {calc}|hyperpage}{132}
+\indexentry{commands!setlength@\texttt  {\char '134 setlength}|hyperpage}{132}
+\indexentry{setlength@\texttt  {\hspace  *{-1.2ex}\char '134 setlength}|hyperpage}{132}
+\indexentry{commands!settoheight@\texttt  {\char '134 settoheight}|hyperpage}{133}
+\indexentry{settoheight@\texttt  {\hspace  *{-1.2ex}\char '134 settoheight}|hyperpage}{133}
+\indexentry{commands!settodepth@\texttt  {\char '134 settodepth}|hyperpage}{133}
+\indexentry{settodepth@\texttt  {\hspace  *{-1.2ex}\char '134 settodepth}|hyperpage}{133}
+\indexentry{commands!settowidth@\texttt  {\char '134 settowidth}|hyperpage}{133}
+\indexentry{settowidth@\texttt  {\hspace  *{-1.2ex}\char '134 settowidth}|hyperpage}{133}
+\indexentry{environments!\texttt  {tabular}|hyperpage}{134}
+\indexentry{tabular@\texttt  {tabular}|hyperpage}{134}
+\indexentry{commands!includegraphics@\texttt  {\char '134 includegraphics}|hyperpage}{134}
+\indexentry{includegraphics@\texttt  {\hspace  *{-1.2ex}\char '134 includegraphics}|hyperpage}{134}
+\indexentry{commands!parbox@\texttt  {\char '134 parbox}|hyperpage}{134}
+\indexentry{parbox@\texttt  {\hspace  *{-1.2ex}\char '134 parbox}|hyperpage}{134}
+\indexentry{environments!\texttt  {minipage}|hyperpage}{134}
+\indexentry{minipage@\texttt  {minipage}|hyperpage}{134}
+\indexentry{environments!\texttt  {minipage}|hyperpage}{134}
+\indexentry{minipage@\texttt  {minipage}|hyperpage}{134}
+\indexentry{environments!\texttt  {minipage}|hyperpage}{134}
+\indexentry{minipage@\texttt  {minipage}|hyperpage}{134}
+\indexentry{commands!parbox@\texttt  {\char '134 parbox}|hyperpage}{134}
+\indexentry{parbox@\texttt  {\hspace  *{-1.2ex}\char '134 parbox}|hyperpage}{134}
+\indexentry{environments!\texttt  {parbox}|hyperpage}{134}
+\indexentry{parbox@\texttt  {parbox}|hyperpage}{134}
+\indexentry{environments!\texttt  {minipage}|hyperpage}{134}
+\indexentry{minipage@\texttt  {minipage}|hyperpage}{134}
+\indexentry{commands!parbox@\texttt  {\char '134 parbox}|hyperpage}{134}
+\indexentry{parbox@\texttt  {\hspace  *{-1.2ex}\char '134 parbox}|hyperpage}{134}
+\indexentry{commands!mbox@\texttt  {\char '134 mbox}|hyperpage}{134}
+\indexentry{mbox@\texttt  {\hspace  *{-1.2ex}\char '134 mbox}|hyperpage}{134}
+\indexentry{commands!makebox@\texttt  {\char '134 makebox}|hyperpage}{134}
+\indexentry{makebox@\texttt  {\hspace  *{-1.2ex}\char '134 makebox}|hyperpage}{134}
+\indexentry{commands!width@\texttt  {\char '134 width}|hyperpage}{134}
+\indexentry{width@\texttt  {\hspace  *{-1.2ex}\char '134 width}|hyperpage}{134}
+\indexentry{commands!height@\texttt  {\char '134 height}|hyperpage}{134}
+\indexentry{height@\texttt  {\hspace  *{-1.2ex}\char '134 height}|hyperpage}{134}
+\indexentry{commands!depth@\texttt  {\char '134 depth}|hyperpage}{134}
+\indexentry{depth@\texttt  {\hspace  *{-1.2ex}\char '134 depth}|hyperpage}{134}
+\indexentry{commands!totalheight@\texttt  {\char '134 totalheight}|hyperpage}{134}
+\indexentry{totalheight@\texttt  {\hspace  *{-1.2ex}\char '134 totalheight}|hyperpage}{134}
+\indexentry{commands!framebox@\texttt  {\char '134 framebox}|hyperpage}{134}
+\indexentry{framebox@\texttt  {\hspace  *{-1.2ex}\char '134 framebox}|hyperpage}{134}
+\indexentry{commands!makebox@\texttt  {\char '134 makebox}|hyperpage}{134}
+\indexentry{makebox@\texttt  {\hspace  *{-1.2ex}\char '134 makebox}|hyperpage}{134}
+\indexentry{commands!makebox@\texttt  {\char '134 makebox}|hyperpage}{134}
+\indexentry{makebox@\texttt  {\hspace  *{-1.2ex}\char '134 makebox}|hyperpage}{134}
+\indexentry{commands!framebox@\texttt  {\char '134 framebox}|hyperpage}{134}
+\indexentry{framebox@\texttt  {\hspace  *{-1.2ex}\char '134 framebox}|hyperpage}{134}
+\indexentry{commands!raisebox@\texttt  {\char '134 raisebox}|hyperpage}{135}
+\indexentry{raisebox@\texttt  {\hspace  *{-1.2ex}\char '134 raisebox}|hyperpage}{135}
+\indexentry{commands!width@\texttt  {\char '134 width}|hyperpage}{135}
+\indexentry{width@\texttt  {\hspace  *{-1.2ex}\char '134 width}|hyperpage}{135}
+\indexentry{commands!height@\texttt  {\char '134 height}|hyperpage}{135}
+\indexentry{height@\texttt  {\hspace  *{-1.2ex}\char '134 height}|hyperpage}{135}
+\indexentry{commands!depth@\texttt  {\char '134 depth}|hyperpage}{135}
+\indexentry{depth@\texttt  {\hspace  *{-1.2ex}\char '134 depth}|hyperpage}{135}
+\indexentry{commands!totalheight@\texttt  {\char '134 totalheight}|hyperpage}{135}
+\indexentry{totalheight@\texttt  {\hspace  *{-1.2ex}\char '134 totalheight}|hyperpage}{135}
+\indexentry{commands!rule@\texttt  {\char '134 rule}|hyperpage}{135}
+\indexentry{rule@\texttt  {\hspace  *{-1.2ex}\char '134 rule}|hyperpage}{135}
+\indexentry{commands!rule@\texttt  {\char '134 rule}|hyperpage}{136}
+\indexentry{rule@\texttt  {\hspace  *{-1.2ex}\char '134 rule}|hyperpage}{136}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{137}
+\indexentry{MacTeX|hyperpage}{138}
+\indexentry{MacTeX|hyperpage}{138}
+\indexentry{MacTeX|hyperpage}{138}
+\indexentry{PDFView|hyperpage}{138}
+\indexentry{MiKTeX@MiK\TeX|hyperpage}{138}
+\indexentry{TeXnicCenter|hyperpage}{139}
+\indexentry{Encapsulated PostScript@Encapsulated \textsc  {PostScript}|hyperpage}{139}
+\indexentry{PostScript@\textsc  {PostScript}!Encapsulated|hyperpage}{139}
+\indexentry{GhostScript|hyperpage}{139}
+\indexentry{GhostView|hyperpage}{139}
+\indexentry{Gimp|hyperpage}{139}
+\indexentry{PostScript@\textsc  {PostScript}|hyperpage}{140}

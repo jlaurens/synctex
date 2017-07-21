@@ -60,7 +60,7 @@
 #define SYNCTEX_OS2 1
 #endif
 
-#ifdef _WIN32_WINNT_WINXP
+#if defined(_WIN32)
 #define SYNCTEX_RECENT_WINDOWS 1
 #endif
 
@@ -83,7 +83,9 @@ void _synctex_free(void * ptr) {
     }
 }
 
+#if !defined(_WIN32)
 #   include <syslog.h>
+#endif
 
 int _synctex_log(int level, const char * prompt, const char * reason,va_list arg) {
 	int result;
@@ -135,7 +137,11 @@ int _synctex_error(const char * reason,...) {
     va_list arg;
     int result;
     va_start (arg, reason);
+#if defined(SYNCTEX_RECENT_WINDOWS) /* LOG_ERR is not used */
+    result = _synctex_log(0, "! SyncTeX Error : ", reason, arg);
+#else
     result = _synctex_log(LOG_ERR, "! SyncTeX Error : ", reason, arg);
+#endif
     va_end (arg);
     return result;
 }
@@ -144,7 +150,11 @@ int _synctex_debug(const char * reason,...) {
     va_list arg;
     int result;
     va_start (arg, reason);
+#if defined(SYNCTEX_RECENT_WINDOWS) /* LOG_DEBUG is not used */
+    result = _synctex_log(0, "! SyncTeX Error : ", reason, arg);
+#else
     result = _synctex_log(LOG_DEBUG, "! SyncTeX Error : ", reason, arg);
+#endif
     va_end (arg);
     return result;
 }

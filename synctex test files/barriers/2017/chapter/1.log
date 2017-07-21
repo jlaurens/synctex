@@ -1,0 +1,67 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/dev) (preloaded format=pdflatex 2017.7.21)  21 JUL 2017 15:31
+entering extended mode
+ \write18 enabled.
+ %&-line parsing enabled.
+**1.tex
+(./1.tex
+LaTeX2e <2017-04-15>
+Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
+(/Volumes/Users/texlive/trunk/Master/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2014/09/29 v1.4h Standard LaTeX document class
+(/Volumes/Users/texlive/trunk/Master/texmf-dist/tex/latex/base/bk10.clo
+File: bk10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(./1.aux)
+\openout1 = `1.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+
+Chapter 1.
+[1
+
+
+{/Volumes/Users/texlive/trunk/Master/texmf-dist/fonts/map/pdftex/updmap/pdftex.
+map}] [2] [3] (./1.aux) ) 
+Here is how much of TeX's memory you used:
+ 232 strings out of 493009
+ 2486 string characters out of 6127757
+ 53795 words of memory out of 5000000
+ 3862 multiletter control sequences out of 15000+600000
+ 4906 words of font info for 18 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 23i,4n,17p,123b,143s stack positions out of 5000i,500n,10000p,200000b,80000s
+</Volumes/Users/texlive/trunk/Master/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmbx12.pfb></Volumes/Users/texlive/trunk/Master/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Volumes/Users/texlive/trunk/Mas
+ter/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb>
+Output written on 1.pdf (3 pages, 33678 bytes).
+PDF statistics:
+ 26 PDF objects out of 1000 (max. 8388607)
+ 17 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

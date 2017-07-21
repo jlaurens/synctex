@@ -60,8 +60,6 @@ This file is named "synctex_main.c".
 This is the command line interface to the synctex_parser.c.
 */
 
-#   define SYNCTEX_CLI_VERSION_STRING "1.4"
-
 #   ifdef __linux__
 #       define _ISOC99_SOURCE /* to get the fmax() prototype */
 #   endif
