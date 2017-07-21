@@ -50,7 +50,7 @@
 #ifndef __SYNCTEX_PARSER__
 #   define __SYNCTEX_PARSER__
 
-#include "synctex-version.h"
+#include "synctex_version.h"
 
 #ifdef __cplusplus
 extern "C" {
