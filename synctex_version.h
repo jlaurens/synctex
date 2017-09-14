@@ -54,6 +54,6 @@ I would appreciate to be listed as contributor and see "__SyncTeX__" highlighted
 
 #   define SYNCTEX_VERSION_STRING "1.20"
 
-#   define SYNCTEX_CLI_VERSION_STRING "1.4"
+#   define SYNCTEX_CLI_VERSION_STRING "1.5"
 
 #endif

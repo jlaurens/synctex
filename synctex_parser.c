@@ -96,6 +96,7 @@
 #   endif
 
 #include <stdlib.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -125,12 +126,11 @@ typedef char *(*synctex_node_str_f)(synctex_node_p);
  *  Each nodes has a class, it is therefore called an object.
  *  Each class has a unique scanner.
  *  Each class has a type which is a unique identifier.
- *  Each class has a node mask which identifies node's attributes.
- *  Each class has an info mask which info's attributes.
  *  The class points to various methods,
  *  each of them vary amongst objects.
- *  The navigator records the offsets of the tree members getters.
- *  The modelator records the offsets of the data members getters, relative to the last navigator getter.
+ *  Each class has a data model which stores node's attributes.
+ *  Each class has an tree model which stores children and parent.
+ *  Inspectors give access to data and tree elements.
  */
 
 /*  8 fields + size: spcflnat */
@@ -265,9 +265,9 @@ struct synctex_class_t {
 
 /**
  *  Nota bene: naming convention.
- *  For static API, when the name contains proxy, it applies to proxies.
- *  When the name contains noxy, it applies to non proxies only.
- *  When the name contains node, weel it depends...
+ *  For static API, when the name contains "proxy", it applies to proxies.
+ *  When the name contains "noxy", it applies to non proxies only.
+ *  When the name contains "node", well it depends...
  */
 
 typedef synctex_node_p synctex_proxy_p;
@@ -6771,7 +6771,7 @@ SYNCTEX_INLINE static synctex_box_s _synctex_data_box_V(synctex_node_p node) {
 static synctex_node_p _synctex_node_box_visible(synctex_node_p node) {
     if ((node = _synctex_node_or_handle_target(node))) {
         int mean = 0;
-        int bound = 1500000/(node->class->scanner->pre_magnification/1000);
+        int bound = 1500000/(node->class->scanner->pre_magnification/1000.0);
         synctex_node_p parent = NULL;
         /*  get the first enclosing parent
          *  then get the highest enclosing parent with the same mean line ±1 */
