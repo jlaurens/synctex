@@ -1,3 +1,8 @@
+The 2017 branch is the stable branch this year, it is synchronized with the TeXLive svn repository.
+The 2017-1.20 branch is a working branch.
+
+See synctex_version.h to see the latest version of synctex and of the parser.
+
 # SyncTeX
 
 Synchronization for TeX
