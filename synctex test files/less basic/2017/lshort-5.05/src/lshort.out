@@ -1,0 +1,149 @@
+\BOOKMARK [0][-]{title.0}{Title Page}{}% 1
+\BOOKMARK [0][-]{chapter*.1}{Thank you!}{}% 2
+\BOOKMARK [0][-]{chapter*.2}{Preface}{}% 3
+\BOOKMARK [0][-]{chapter.1}{Things You Need to Know}{}% 4
+\BOOKMARK [1][-]{section.1.1}{The Name of the Game}{chapter.1}% 5
+\BOOKMARK [2][-]{subsection.1.1.1}{TeX}{section.1.1}% 6
+\BOOKMARK [2][-]{subsection.1.1.2}{LaTeX}{section.1.1}% 7
+\BOOKMARK [1][-]{section.1.2}{Basics}{chapter.1}% 8
+\BOOKMARK [2][-]{subsection.1.2.1}{Author, Book Designer, and Typesetter}{section.1.2}% 9
+\BOOKMARK [2][-]{subsection.1.2.2}{Layout Design}{section.1.2}% 10
+\BOOKMARK [2][-]{subsection.1.2.3}{Advantages and Disadvantages}{section.1.2}% 11
+\BOOKMARK [1][-]{section.1.3}{LaTeX Input Files}{chapter.1}% 12
+\BOOKMARK [2][-]{subsection.1.3.1}{Spaces}{section.1.3}% 13
+\BOOKMARK [2][-]{subsection.1.3.2}{Special Characters}{section.1.3}% 14
+\BOOKMARK [2][-]{subsection.1.3.3}{LaTeX Commands}{section.1.3}% 15
+\BOOKMARK [2][-]{subsection.1.3.4}{Comments}{section.1.3}% 16
+\BOOKMARK [1][-]{section.1.4}{Input File Structure}{chapter.1}% 17
+\BOOKMARK [1][-]{section.1.5}{A Typical Command Line Session}{chapter.1}% 18
+\BOOKMARK [1][-]{section.1.6}{The Layout of the Document}{chapter.1}% 19
+\BOOKMARK [2][-]{subsection.1.6.1}{Document Classes}{section.1.6}% 20
+\BOOKMARK [2][-]{subsection.1.6.2}{Packages}{section.1.6}% 21
+\BOOKMARK [2][-]{subsection.1.6.3}{Page Styles}{section.1.6}% 22
+\BOOKMARK [1][-]{section.1.7}{Files You Might Encounter}{chapter.1}% 23
+\BOOKMARK [1][-]{section.1.8}{Big Projects}{chapter.1}% 24
+\BOOKMARK [0][-]{chapter.2}{Typesetting Text}{}% 25
+\BOOKMARK [1][-]{section.2.1}{The Structure of Text and Language}{chapter.2}% 26
+\BOOKMARK [1][-]{section.2.2}{Line Breaking and Page Breaking}{chapter.2}% 27
+\BOOKMARK [2][-]{subsection.2.2.1}{Justified Paragraphs}{section.2.2}% 28
+\BOOKMARK [2][-]{subsection.2.2.2}{Hyphenation}{section.2.2}% 29
+\BOOKMARK [1][-]{section.2.3}{Ready-Made Strings}{chapter.2}% 30
+\BOOKMARK [1][-]{section.2.4}{Special Characters and Symbols}{chapter.2}% 31
+\BOOKMARK [2][-]{subsection.2.4.1}{Quotation Marks}{section.2.4}% 32
+\BOOKMARK [2][-]{subsection.2.4.2}{Dashes and Hyphens}{section.2.4}% 33
+\BOOKMARK [2][-]{subsection.2.4.3}{Tilde \(\176\)}{section.2.4}% 34
+\BOOKMARK [2][-]{subsection.2.4.4}{Slash \(/\)}{section.2.4}% 35
+\BOOKMARK [2][-]{subsection.2.4.5}{Degree Symbol }{section.2.4}% 36
+\BOOKMARK [2][-]{subsection.2.4.6}{The Euro Currency Symbol }{section.2.4}% 37
+\BOOKMARK [2][-]{subsection.2.4.7}{Ellipsis \(...\)}{section.2.4}% 38
+\BOOKMARK [2][-]{subsection.2.4.8}{Ligatures}{section.2.4}% 39
+\BOOKMARK [2][-]{subsection.2.4.9}{Accents and Special Characters}{section.2.4}% 40
+\BOOKMARK [1][-]{section.2.5}{International Language Support}{chapter.2}% 41
+\BOOKMARK [2][-]{subsection.2.5.1}{Support for Portuguese}{section.2.5}% 42
+\BOOKMARK [2][-]{subsection.2.5.2}{Support for French}{section.2.5}% 43
+\BOOKMARK [2][-]{subsection.2.5.3}{Support for German}{section.2.5}% 44
+\BOOKMARK [2][-]{subsection.2.5.4}{Support for Korean}{section.2.5}% 45
+\BOOKMARK [2][-]{subsection.2.5.5}{Writing in Greek}{section.2.5}% 46
+\BOOKMARK [2][-]{subsection.2.5.6}{Support for Cyrillic}{section.2.5}% 47
+\BOOKMARK [2][-]{subsection.2.5.7}{Support for Mongolian}{section.2.5}% 48
+\BOOKMARK [2][-]{subsection.2.5.8}{The Unicode option}{section.2.5}% 49
+\BOOKMARK [1][-]{section.2.6}{The Space Between Words}{chapter.2}% 50
+\BOOKMARK [1][-]{section.2.7}{Titles, Chapters, and Sections}{chapter.2}% 51
+\BOOKMARK [1][-]{section.2.8}{Cross References}{chapter.2}% 52
+\BOOKMARK [1][-]{section.2.9}{Footnotes}{chapter.2}% 53
+\BOOKMARK [1][-]{section.2.10}{Emphasized Words}{chapter.2}% 54
+\BOOKMARK [1][-]{section.2.11}{Environments}{chapter.2}% 55
+\BOOKMARK [2][-]{subsection.2.11.1}{Itemize, Enumerate, and Description}{section.2.11}% 56
+\BOOKMARK [2][-]{subsection.2.11.2}{Flushleft, Flushright, and Center}{section.2.11}% 57
+\BOOKMARK [2][-]{subsection.2.11.3}{Quote, Quotation, and Verse}{section.2.11}% 58
+\BOOKMARK [2][-]{subsection.2.11.4}{Abstract}{section.2.11}% 59
+\BOOKMARK [2][-]{subsection.2.11.5}{Printing Verbatim}{section.2.11}% 60
+\BOOKMARK [2][-]{subsection.2.11.6}{Tabular}{section.2.11}% 61
+\BOOKMARK [1][-]{section.2.12}{Floating Bodies}{chapter.2}% 62
+\BOOKMARK [1][-]{section.2.13}{Protecting Fragile Commands}{chapter.2}% 63
+\BOOKMARK [0][-]{chapter.3}{Typesetting Mathematical Formulae}{}% 64
+\BOOKMARK [1][-]{section.3.1}{The AMS-LaTeX bundle}{chapter.3}% 65
+\BOOKMARK [1][-]{section.3.2}{Single Equations}{chapter.3}% 66
+\BOOKMARK [2][-]{subsection.3.2.1}{Math Mode}{section.3.2}% 67
+\BOOKMARK [1][-]{section.3.3}{Building Blocks of a Mathematical Formula}{chapter.3}% 68
+\BOOKMARK [1][-]{section.3.4}{Single Equations that are Too Long: multline}{chapter.3}% 69
+\BOOKMARK [1][-]{section.3.5}{Multiple Equations}{chapter.3}% 70
+\BOOKMARK [2][-]{subsection.3.5.1}{Problems with Traditional Commands}{section.3.5}% 71
+\BOOKMARK [2][-]{subsection.3.5.2}{IEEEeqnarray Environment}{section.3.5}% 72
+\BOOKMARK [2][-]{subsection.3.5.3}{Common Usage}{section.3.5}% 73
+\BOOKMARK [1][-]{section.3.6}{Arrays and Matrices}{chapter.3}% 74
+\BOOKMARK [1][-]{section.3.7}{Spacing in Math Mode}{chapter.3}% 75
+\BOOKMARK [2][-]{subsection.3.7.1}{Phantoms}{section.3.7}% 76
+\BOOKMARK [1][-]{section.3.8}{Fiddling with the Math Fonts}{chapter.3}% 77
+\BOOKMARK [2][-]{subsection.3.8.1}{Bold Symbols}{section.3.8}% 78
+\BOOKMARK [1][-]{section.3.9}{Theorems, Lemmas, ... }{chapter.3}% 79
+\BOOKMARK [2][-]{subsection.3.9.1}{Proofs and End-of-Proof Symbol}{section.3.9}% 80
+\BOOKMARK [1][-]{section.3.10}{List of Mathematical Symbols}{chapter.3}% 81
+\BOOKMARK [0][-]{chapter.4}{Specialities}{}% 82
+\BOOKMARK [1][-]{section.4.1}{Including Encapsulated PostScript}{chapter.4}% 83
+\BOOKMARK [1][-]{section.4.2}{Bibliography}{chapter.4}% 84
+\BOOKMARK [1][-]{section.4.3}{Indexing}{chapter.4}% 85
+\BOOKMARK [1][-]{section.4.4}{Fancy Headers}{chapter.4}% 86
+\BOOKMARK [1][-]{section.4.5}{The Verbatim Package}{chapter.4}% 87
+\BOOKMARK [1][-]{section.4.6}{Installing Extra Packages}{chapter.4}% 88
+\BOOKMARK [1][-]{section.4.7}{Working with pdfLaTeX}{chapter.4}% 89
+\BOOKMARK [2][-]{subsection.4.7.1}{PDF Documents for the Web}{section.4.7}% 90
+\BOOKMARK [2][-]{subsection.4.7.2}{The Fonts}{section.4.7}% 91
+\BOOKMARK [2][-]{subsection.4.7.3}{Using Graphics}{section.4.7}% 92
+\BOOKMARK [2][-]{subsection.4.7.4}{Hypertext Links}{section.4.7}% 93
+\BOOKMARK [2][-]{subsection.4.7.5}{Problems with Links}{section.4.7}% 94
+\BOOKMARK [2][-]{subsection.4.7.6}{Problems with Bookmarks}{section.4.7}% 95
+\BOOKMARK [2][-]{subsection.4.7.7}{Source Compatibility Between LaTeX and pdfLaTeX}{section.4.7}% 96
+\BOOKMARK [1][-]{section.4.8}{Working with XeLaTeX}{chapter.4}% 97
+\BOOKMARK [2][-]{subsection.4.8.1}{The Fonts}{section.4.8}% 98
+\BOOKMARK [2][-]{subsection.4.8.2}{Compatibility Between XeLaTeX and pdfLaTeX}{section.4.8}% 99
+\BOOKMARK [1][-]{section.4.9}{Creating Presentations}{chapter.4}% 100
+\BOOKMARK [0][-]{chapter.5}{Producing Mathematical Graphics}{}% 101
+\BOOKMARK [1][-]{section.5.1}{Overview}{chapter.5}% 102
+\BOOKMARK [1][-]{section.5.2}{The picture Environment}{chapter.5}% 103
+\BOOKMARK [2][-]{subsection.5.2.1}{Basic Commands}{section.5.2}% 104
+\BOOKMARK [2][-]{subsection.5.2.2}{Line Segments}{section.5.2}% 105
+\BOOKMARK [2][-]{subsection.5.2.3}{Arrows}{section.5.2}% 106
+\BOOKMARK [2][-]{subsection.5.2.4}{Circles}{section.5.2}% 107
+\BOOKMARK [2][-]{subsection.5.2.5}{Text and Formulas}{section.5.2}% 108
+\BOOKMARK [2][-]{subsection.5.2.6}{\134multiput and \134linethickness}{section.5.2}% 109
+\BOOKMARK [2][-]{subsection.5.2.7}{Ovals}{section.5.2}% 110
+\BOOKMARK [2][-]{subsection.5.2.8}{Multiple Use of Predefined Picture Boxes}{section.5.2}% 111
+\BOOKMARK [2][-]{subsection.5.2.9}{Quadratic B\351zier Curves}{section.5.2}% 112
+\BOOKMARK [2][-]{subsection.5.2.10}{Catenary}{section.5.2}% 113
+\BOOKMARK [2][-]{subsection.5.2.11}{Rapidity in the Special Theory of Relativity}{section.5.2}% 114
+\BOOKMARK [1][-]{section.5.3}{The PGF and TikZ Graphics Packages}{chapter.5}% 115
+\BOOKMARK [0][-]{chapter.6}{Customising LaTeX}{}% 116
+\BOOKMARK [1][-]{section.6.1}{New Commands, Environments and Packages}{chapter.6}% 117
+\BOOKMARK [2][-]{subsection.6.1.1}{New Commands}{section.6.1}% 118
+\BOOKMARK [2][-]{subsection.6.1.2}{New Environments}{section.6.1}% 119
+\BOOKMARK [2][-]{subsection.6.1.3}{Extra Space}{section.6.1}% 120
+\BOOKMARK [2][-]{subsection.6.1.4}{Commandline LaTeX}{section.6.1}% 121
+\BOOKMARK [2][-]{subsection.6.1.5}{Your Own Package}{section.6.1}% 122
+\BOOKMARK [1][-]{section.6.2}{Fonts and Sizes}{chapter.6}% 123
+\BOOKMARK [2][-]{subsection.6.2.1}{Font Changing Commands}{section.6.2}% 124
+\BOOKMARK [2][-]{subsection.6.2.2}{Danger, Will Robinson, Danger}{section.6.2}% 125
+\BOOKMARK [2][-]{subsection.6.2.3}{Advice}{section.6.2}% 126
+\BOOKMARK [1][-]{section.6.3}{Spacing}{chapter.6}% 127
+\BOOKMARK [2][-]{subsection.6.3.1}{Line Spacing}{section.6.3}% 128
+\BOOKMARK [2][-]{subsection.6.3.2}{Paragraph Formatting}{section.6.3}% 129
+\BOOKMARK [2][-]{subsection.6.3.3}{Horizontal Space}{section.6.3}% 130
+\BOOKMARK [2][-]{subsection.6.3.4}{Vertical Space}{section.6.3}% 131
+\BOOKMARK [1][-]{section.6.4}{Page Layout}{chapter.6}% 132
+\BOOKMARK [1][-]{section.6.5}{More Fun With Lengths}{chapter.6}% 133
+\BOOKMARK [1][-]{section.6.6}{Boxes}{chapter.6}% 134
+\BOOKMARK [1][-]{section.6.7}{Rules}{chapter.6}% 135
+\BOOKMARK [0][-]{appendix.A}{Installing LaTeX}{}% 136
+\BOOKMARK [1][-]{section.A.1}{What to Install}{appendix.A}% 137
+\BOOKMARK [1][-]{section.A.2}{Cross Platform Editor}{appendix.A}% 138
+\BOOKMARK [1][-]{section.A.3}{TeX on Mac OS X}{appendix.A}% 139
+\BOOKMARK [2][-]{subsection.A.3.1}{TeX Distribution}{section.A.3}% 140
+\BOOKMARK [2][-]{subsection.A.3.2}{OSX TeX Editor}{section.A.3}% 141
+\BOOKMARK [2][-]{subsection.A.3.3}{Treat yourself to PDFView}{section.A.3}% 142
+\BOOKMARK [1][-]{section.A.4}{TeX on Windows}{appendix.A}% 143
+\BOOKMARK [2][-]{subsection.A.4.1}{Getting TeX}{section.A.4}% 144
+\BOOKMARK [2][-]{subsection.A.4.2}{A LaTeX editor}{section.A.4}% 145
+\BOOKMARK [2][-]{subsection.A.4.3}{Document Preview}{section.A.4}% 146
+\BOOKMARK [2][-]{subsection.A.4.4}{Working with graphics}{section.A.4}% 147
+\BOOKMARK [1][-]{section.A.5}{TeX on Linux}{appendix.A}% 148
+\BOOKMARK [0][-]{appendix*.13}{Bibliography}{}% 149
