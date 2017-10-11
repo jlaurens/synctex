@@ -3,8 +3,8 @@
  
  This file is part of the __SyncTeX__ package.
  
- [//]: # (Latest Revision: Fri Jul 14 16:20:41 UTC 2017)
- [//]: # (Version: 1.19)
+ [//]: # (Latest Revision: Wed Oct 11 19:19:08 UTC 2017)
+ [//]: # (Version: 1.20)
  
  See `synctex_parser_readme.md` for more details
  
@@ -59,7 +59,7 @@
  *  \file synctex_parser.c
  *  \brief SyncTeX file parser and controller.
  *  - author: Jérôme LAURENS
- *  \version 1.19
+ *  \version 1.20
  *  \date Mon Apr 24 07:08:56 UTC 2017
  *
  *  Reads and parse *.synctex[.gz] files,
