@@ -106,6 +106,13 @@
 #include <locale.h>
 #endif
 
+/* Mark unused paramters, so that there will be no compile warnings. */
+#ifdef __DARWIN_UNIX03
+#define UNUSED(x) _Pragma(unused(x))
+#else
+#define UNUSED(x) (void)(x);
+#endif
+
 #include "synctex_parser_advanced.h"
 
 SYNCTEX_INLINE static int _synctex_abs(int x) {
@@ -198,9 +205,7 @@ typedef struct synctex_tlcpector_t {
 } synctex_tlcpector_s;
 typedef const synctex_tlcpector_s * synctex_tlcpector_p;
 static int _synctex_int_none(synctex_node_p node) {
-#	ifdef __DARWIN_UNIX03
-#       pragma unused(node)
-#   endif
+    UNUSED(node)
     return 0;
 }
 static const synctex_tlcpector_s synctex_tlcpector_none = {
@@ -234,9 +239,7 @@ typedef struct synctex_vispector_t {
     synctex_float_getter_f depth;
 } synctex_vispector_s;
 static float _synctex_float_none(synctex_node_p node) {
-#	ifdef __DARWIN_UNIX03
-#       pragma unused(node)
-#   endif
+    UNUSED(node)
     return 0;
 }
 static const synctex_vispector_s synctex_vispector_none = {
@@ -7394,9 +7397,7 @@ static synctex_node_p _synctex_display_query_v2(synctex_node_p target, int tag, 
     return first_handle;
 }
 synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner,const char * name,int line,int column, int page_hint) {
-#	ifdef __DARWIN_UNIX03
-#       pragma unused(column)
-#   endif
+    UNUSED(column)
     if (scanner) {
         int tag = synctex_scanner_get_tag(scanner,name);/* parse if necessary */
         int max_line = 0;
@@ -8168,6 +8169,7 @@ SYNCTEX_INLINE static synctex_nd_lr_s __synctex_eq_get_closest_children_in_hbox_
 }
 #endif
 SYNCTEX_INLINE static synctex_nd_lr_s __synctex_eq_get_closest_children_in_vbox_v2(synctex_point_p hitP, synctex_node_p nodeP) {
+    UNUSED(nodeP)
     synctex_nd_lr_s nds = {SYNCTEX_ND_0,SYNCTEX_ND_0};
     synctex_nd_s nd = SYNCTEX_ND_0;
     if ((nd.node = synctex_node_child(nd.node))) {
