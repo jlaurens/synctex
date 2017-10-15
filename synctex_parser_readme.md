@@ -11,6 +11,8 @@ This file is part of the __SyncTeX__ package.
 
 	* Remove a `\` character from the name ot 2 test files.
 	* Change variable name `class` to `class_` because the former is a reserved keyword in C++.
+	* Adding a more portable unused variable management.
+	* Various cosmetic changes in the source code, including explicit declaration of `void` in forward function declaration.
 	
 
 * Changes in version `1.20`

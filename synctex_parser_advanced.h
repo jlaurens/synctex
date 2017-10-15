@@ -388,7 +388,7 @@ extern "C" {
     int synctex_node_hbox_height(synctex_node_p node);
     int synctex_node_hbox_depth(synctex_node_p node);
     
-    synctex_scanner_p synctex_scanner_new();
+    synctex_scanner_p synctex_scanner_new(void);
     synctex_node_p synctex_node_new(synctex_scanner_p scanner,synctex_node_type_t type);
 
     /**
