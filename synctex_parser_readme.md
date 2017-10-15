@@ -2,14 +2,20 @@
 
 This file is part of the __SyncTeX__ package.
 
-[//]: # (Version: 1.20)
-[//]: # (Date: Fri Jul 14 16:20:41 UTC 2017)
+[//]: # (Version: 1.21)
+[//]: # (Date: Sun Oct 15 15:09:55 UTC 2017)
 
 ## Important
 
+* Changes in version `1.21`
+
+	* Remove a `\` character from the name ot 2 test files.
+	* Change variable name `class` to `class_` because the former is a reserved keyword in C++.
+	
+
 * Changes in version `1.20`
 
-    One bug fixed in some initialization and different syntax to make some compilers happy.
+	One bug fixed in some initialization and different syntax to make some compilers happy.
 
 * Changes in version `1.19`
 

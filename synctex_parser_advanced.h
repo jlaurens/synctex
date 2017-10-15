@@ -3,8 +3,8 @@
  
  This file is part of the __SyncTeX__ package.
  
- [//]: # (Latest Revision: Fri Jul 14 16:20:41 UTC 2017)
- [//]: # (Version: 1.20)
+ [//]: # (Latest Revision: Sun Oct 15 15:09:55 UTC 2017)
+ [//]: # (Version: 1.21)
  
  See `synctex_parser_readme.md` for more details
  
@@ -287,7 +287,7 @@ extern "C" {
 #   endif
     struct synctex_node_t {
         SYNCTEX_DECLARE_CHARINDEX
-        synctex_class_p class;
+        synctex_class_p class_;
 #ifdef DEBUG
         synctex_data_u data[22];
 #else
