@@ -245,6 +245,9 @@ extern "C" {
         synctex_data_proxy_h_idx    =  0,
         synctex_data_proxy_v_idx    =  1,
         synctex_data_proxy_hv_max   =  2,
+        /* handle */
+        synctex_data_handle_w_idx   =  0,
+        synctex_data_handle_w_max   =  1,
     };
 
     /*  each synctex node has a class */

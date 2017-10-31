@@ -176,26 +176,6 @@ typedef struct synctex_data_model_t {
     int size;
 } synctex_data_model_s;
 
-static const synctex_data_model_s synctex_data_model_none = {
-    -1, /* tag */
-    -1, /* line */
-    -1, /* column */
-    -1, /* h */
-    -1, /* v */
-    -1, /* width */
-    -1, /* height */
-    -1, /* depth */
-    -1, /* mean_line */
-    -1, /* weight */
-    -1, /* h_V */
-    -1, /* v_V */
-    -1, /* width_V */
-    -1, /* height_V */
-    -1, /* depth_V */
-    -1, /* name */
-    -1, /* page */
-    0   /* size */
-};
 typedef const synctex_data_model_s * synctex_data_model_p;
 
 typedef int (*synctex_int_getter_f)(synctex_node_p);
@@ -2207,7 +2187,7 @@ static synctex_class_s synctex_class_proxy_vbox = {
     &synctex_tree_model_proxy_vbox, /*  tree model */
     &synctex_data_model_proxy,      /*  data model */
     &synctex_tlcpector_proxy,       /*  tlcpector */
-    &synctex_inspector_proxy_box,       /*  inspector */
+    &synctex_inspector_proxy_box,   /*  inspector */
     &synctex_vispector_proxy_box,   /*  vispector */
 };
 
@@ -2340,10 +2320,31 @@ static const synctex_tree_model_s synctex_tree_model_handle = {
     synctex_tree_spct_handle_max
 };
 
+static const synctex_data_model_s synctex_data_model_handle = {
+    -1, /* tag */
+    -1, /* line */
+    -1, /* column */
+    -1, /* h */
+    -1, /* v */
+    -1, /* width */
+    -1, /* height */
+    -1, /* depth */
+    -1, /* mean_line */
+    synctex_data_handle_w_idx, /* weight */
+    -1, /* h_V */
+    -1, /* v_V */
+    -1, /* width_V */
+    -1, /* height_V */
+    -1, /* depth_V */
+    -1, /* name */
+    -1, /* page */
+    synctex_data_handle_w_max
+};
+
 typedef struct {
     SYNCTEX_DECLARE_CHARINDEX
     synctex_class_p class_;
-    synctex_data_u data[synctex_tree_spct_handle_max+0];
+    synctex_data_u data[synctex_tree_spct_handle_max+synctex_data_handle_w_max];
 } synctex_node_handle_s;
 
 /*  handle node creator */
@@ -2362,7 +2363,7 @@ static synctex_class_s synctex_class_handle = {
     &_synctex_display_handle,   /*  display */
     &_synctex_abstract_handle,  /*  abstract */
     &synctex_tree_model_handle, /*  tree model */
-    &synctex_data_model_none,   /*  data model */
+    &synctex_data_model_handle, /*  data model */
     &synctex_tlcpector_proxy,   /*  tlcpector */
     &synctex_inspector_proxy_box,   /*  inspector */
     &synctex_vispector_proxy_box,   /*  vispector */
@@ -3750,9 +3751,10 @@ static char * _synctex_abstract_handle(synctex_node_p node) {
 static void _synctex_display_handle(synctex_node_p node) {
     if (node) {
         synctex_node_p N = _synctex_tree_target(node);
-        printf("%s%s:->%s\n",
+        printf("%s%s(%i):->%s\n",
                node->class_->scanner->display_prompt,
                synctex_node_isa(node),
+               _synctex_data_weight(N),
                _synctex_node_abstract(N));
         _synctex_display_child(node);
         _synctex_display_sibling(node);
@@ -7061,41 +7063,93 @@ SYNCTEX_INLINE static synctex_node_p _synctex_scanner_friend(synctex_scanner_p s
 SYNCTEX_INLINE static synctex_bool_t _synctex_nodes_are_friend(synctex_node_p left, synctex_node_p right) {
     return synctex_node_tag(left) == synctex_node_tag(right) && synctex_node_line(left) == synctex_node_line(right);
 }
-SYNCTEX_INLINE static synctex_node_p _synctex_vertically_sorted_v2(synctex_node_p sibling) {
-    synctex_node_p child = NULL;
-    synctex_node_p best_child = sibling;
-    synctex_node_p next_child = _synctex_tree_reset_child(best_child);
-    synctex_node_p target = _synctex_tree_target(best_child);
-    synctex_node_p parent = _synctex_tree_parent(target);
-    unsigned int best_count = 0;
-    unsigned int count = 0;
-    synctex_node_p N = _synctex_tree_child(parent);
+/**
+ *  The sibling argument is a parent/child list of nodes of the same page.
+ */
+typedef struct {
+    int count;
+    synctex_node_p node;
+} synctex_counted_node_s;
+
+SYNCTEX_INLINE static synctex_counted_node_s _synctex_vertically_sorted_v2(synctex_node_p sibling) {
+    /* Clean the weights of the parents */
+    synctex_counted_node_s result = {0, NULL};
+    synctex_node_p h = NULL;
+    synctex_node_p next_h = NULL;
+    synctex_node_p parent = NULL;
+    int weight = 0;
+    synctex_node_p N = NULL;
+    h = sibling;
     do {
-        if (_synctex_nodes_are_friend(N,best_child)) {
-            ++best_count;
+        N = _synctex_tree_target(h);
+        parent = _synctex_tree_parent(N);
+        _synctex_data_set_weight(parent, 0);
+    } while((h = _synctex_tree_child(h)));
+    /* Compute the weights of the nodes */
+    h = sibling;
+    do {
+        N = _synctex_tree_target(h);
+        parent = _synctex_tree_parent(N);
+        weight = _synctex_data_weight(parent);
+        if (weight==0) {
+            N = _synctex_tree_child(parent);
+            do {
+                if (_synctex_nodes_are_friend(N,sibling)) {
+                    ++ weight;
+                }
+            } while ((N = __synctex_tree_sibling(N)));
+            _synctex_data_set_weight(h,weight);
+            _synctex_data_set_weight(parent,weight);
         }
-    } while ((N = __synctex_tree_sibling(N)));
-    /*  Navigate through the other children */
-    while ((child = next_child)) {
-        next_child = _synctex_tree_reset_child(child);
-        target = _synctex_tree_target(child);
-        parent = _synctex_tree_parent(target);
-        count = 0;
-        N = _synctex_tree_child(parent);
-        do {
-            if (_synctex_nodes_are_friend(N,best_child)) {
-                ++count;
-            }
-        } while ((N = __synctex_tree_sibling(N)));
-        if (count>best_count) {
-            best_count = count;
-            synctex_node_free(best_child);
-            best_child = child;
+    } while((h = _synctex_tree_child(h)));
+    /* Order handle nodes according to the weight */
+    h = _synctex_tree_reset_child(sibling);
+    result.node = sibling;
+    weight = 0;
+    while((h)) {
+        N = result.node;
+        if (_synctex_data_weight(h)>_synctex_data_weight(N)) {
+            next_h = _synctex_tree_set_child(h,N);
+            result.node = h;
+        } else if (_synctex_data_weight(h) == 0) {
+            ++ weight;
+            next_h = _synctex_tree_reset_child(h);
+            synctex_node_free(h);
         } else {
-            synctex_node_free(child);
+            synctex_node_p next_N = NULL;
+            while((next_N = _synctex_tree_child(N))) {
+                N = next_N;
+                if (_synctex_data_weight(h)<_synctex_data_weight(next_N)) {
+                    continue;
+                }
+                break;
+            }
+            next_h = _synctex_tree_set_child(h,_synctex_tree_set_child(N,h));
         }
+        h = next_h;
+    };
+    h = result.node;
+    weight = 0;
+    do {
+        ++weight;
+    } while((h = _synctex_tree_child(h)));
+    result.count = 1;
+    h = result.node;
+    while((next_h = _synctex_tree_child(h))) {
+        if (_synctex_data_weight(next_h)==0) {
+            _synctex_tree_reset_child(h);
+            weight = 1;
+            h = next_h;
+            while((h = _synctex_tree_child(h))) {
+                ++weight;
+            }
+            synctex_node_free(next_h);
+            break;
+        }
+        ++result.count;
+        h = next_h;
     }
-    return best_child;
+    return result;
 }
 
 SYNCTEX_INLINE static synctex_bool_t _synctex_point_in_box_v2(synctex_point_p hitP, synctex_node_p node);
@@ -7149,8 +7203,12 @@ static synctex_nd_s _synctex_eq_closest_child_v2(synctex_point_p hitP, synctex_n
 #       pragma mark Queries
 #   endif
 
+/**
+ *  iterator for a deep first tree traversal.
+ */
 struct synctex_iterator_t {
     synctex_node_p seed;
+    synctex_node_p top;
     synctex_node_p next;
     int count0;
     int count;
@@ -7159,7 +7217,7 @@ struct synctex_iterator_t {
 SYNCTEX_INLINE static synctex_iterator_p _synctex_iterator_new(synctex_node_p result, int count) {
     synctex_iterator_p iterator;
     if ((iterator = _synctex_malloc(sizeof(synctex_iterator_s)))) {
-        iterator->seed = iterator->next = result;
+        iterator->seed = iterator->top = iterator->next = result;
         iterator->count0 = iterator->count = count;
     }
     return iterator;
@@ -7187,7 +7245,9 @@ int synctex_iterator_count(synctex_iterator_p iterator) {
 synctex_node_p synctex_iterator_next_result(synctex_iterator_p iterator) {
     if (iterator && iterator->count>0) {
         synctex_node_p N = iterator->next;
-        iterator->next = __synctex_tree_sibling(N);
+        if(!(iterator->next = _synctex_tree_child(N))) {
+            iterator->next = iterator->top = __synctex_tree_sibling(iterator->top);
+        }
         --iterator->count;
         return _synctex_tree_target(N);
     }
@@ -7195,7 +7255,7 @@ synctex_node_p synctex_iterator_next_result(synctex_iterator_p iterator) {
 }
 int synctex_iterator_reset(synctex_iterator_p iterator) {
     if (iterator) {
-        iterator->next = iterator->seed;
+        iterator->next = iterator->top = iterator->seed;
         return iterator->count = iterator->count0;
     }
     return 0;
@@ -7380,6 +7440,7 @@ static synctex_node_p _synctex_display_query_v2(synctex_node_p target, int tag, 
                     /*  Find a result with the same page number */;
                     do {
                         if (_synctex_node_target_page(same_page_node) == page) {
+                            /* Insert result between same_page_node and its child */
                             _synctex_tree_set_child(result,_synctex_tree_set_child(same_page_node,result));
                         } else if ((same_page_node = __synctex_tree_sibling(same_page_node))) {
                             continue;
@@ -7436,34 +7497,34 @@ synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner,const 
                      *  Then reorder the nodes to put first the one which fits best.
                      *  The idea is to count the number of nodes
                      *  with the same tag and line number in the parents
-                     *  and choose the one with the biggest count.
+                     *  and choose the ones with the biggest count.
                      */
                     if (result) {
-                        /*  navigate through siblings,
-                         then children   */
-                        int count = 1;
+                        /*  navigate through siblings, then children   */
                         synctex_node_p next_sibling = __synctex_tree_reset_sibling(result);
                         int best_match = abs(page_hint-_synctex_node_target_page(result));
                         synctex_node_p sibling;
                         int match;
-                        result = _synctex_vertically_sorted_v2(result);
+                        synctex_counted_node_s cn = _synctex_vertically_sorted_v2(result);
+                        int count = cn.count;
+                        result = cn.node;
                         while((sibling = next_sibling)) {
                             /* What is next? Do not miss that step! */
                             next_sibling = __synctex_tree_reset_sibling(sibling);
-                            sibling = _synctex_vertically_sorted_v2(sibling);
+                            cn = _synctex_vertically_sorted_v2(sibling);
+                            count += cn.count;
+                            sibling = cn.node;
                             match = abs(page_hint-_synctex_node_target_page(sibling));
                             if (match<best_match) {
                                 /*  Order this node first */
                                 __synctex_tree_set_sibling(sibling,result);
                                 result = sibling;
                                 best_match = match;
-                            } else /*if (match>best_match)*/ {
+                            } else /*if (match>=best_match)*/ {
                                 __synctex_tree_set_sibling(sibling,__synctex_tree_sibling(result));
                                 __synctex_tree_set_sibling(result,sibling);
                             }
-                            ++count;
                         }
-                        /*  Now order first the result closest to the page hint */
                         return _synctex_iterator_new(result,count);
                     }
                 }
