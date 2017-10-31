@@ -82,19 +82,20 @@
 #   include "synctex_parser_utils.h"
 
 /*  The code below uses strlcat and strlcpy, which avoids security warnings with some compilers.
- However, if these are not available we simply use the old, unchecked versions;
- this is OK because all the uses in this code are working with a buffer that's been
- allocated based on measuring the strings involved. */
-#   ifndef HAVE_STRLCAT
-#       define strlcat(dst, src, size) strcat((dst), (src))
-#   endif
-#   ifndef HAVE_STRLCPY
-#       define strlcpy(dst, src, size) strcpy((dst), (src))
-#   endif
-#   ifndef HAVE_FMAX
-#       define fmax my_fmax
+    However, if these are not available we simply use the old, unchecked versions;
+    this is OK because all the uses in this code are working with a buffer that's been
+    allocated based on measuring the strings involved.
+ */
+#ifndef HAVE_STRLCAT
+#   define strlcat(dst, src, size) strcat((dst), (src))
+#endif
+#ifndef HAVE_STRLCPY
+#   define strlcpy(dst, src, size) strcpy((dst), (src))
+#endif
+#ifndef HAVE_FMAX
+#   define fmax my_fmax
 inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
-#   endif
+#endif
 
 #ifdef WIN32
 #   define snprintf _snprintf
@@ -162,12 +163,12 @@ static void synctex_usage(const char * error,va_list ap) {
         fprintf(stderr,"\n");
     }
     fprintf((error?stderr:stdout),
-            "usage: synctex <subcommand> [options] [args]\n"
-            "Synchronize TeXnology command-line client, version " SYNCTEX_VERSION_STRING "\n\n"
-            "The Synchronization TeXnology by Jérôme Laurens is a rather new feature of recent TeX engines.\n"
-            "It allows to synchronize between input and output, which means to\n"
-            "navigate from the source document to the typeset material and vice versa.\n\n"
-            );
+        "usage: synctex <subcommand> [options] [args]\n"
+        "Synchronize TeXnology command-line client, version " SYNCTEX_VERSION_STRING "\n\n"
+        "The Synchronization TeXnology by Jérôme Laurens is a rather new feature of recent TeX engines.\n"
+        "It allows to synchronize between input and output, which means to\n"
+        "navigate from the source document to the typeset material and vice versa.\n\n"
+    );
     return;
 }
 
@@ -177,14 +178,14 @@ void synctex_help(const char * error,...) {
     synctex_usage(error, v);
     va_end(v);
     fprintf((error?stderr:stdout),
-            "Available subcommands:\n"
-            "   view     to perform forwards synchronization\n"
-            "   edit     to perform backwards synchronization\n"
-            "   update   to update a synctex file after a dvi/xdv to pdf filter\n"
-            "   help     this help\n\n"
-            "Type 'synctex help <subcommand>' for help on a specific subcommand.\n"
-            "There is also an undocumented test subcommand.\n"
-            );
+        "Available subcommands:\n"
+        "   view     to perform forwards synchronization\n"
+        "   edit     to perform backwards synchronization\n"
+        "   update   to update a synctex file after a dvi/xdv to pdf filter\n"
+        "   help     this help\n\n"
+        "Type 'synctex help <subcommand>' for help on a specific subcommand.\n"
+        "There is also an undocumented test subcommand.\n"
+    );
     return;
 }
 
@@ -194,68 +195,68 @@ void synctex_help_view(const char * error,...) {
     synctex_usage(error, v);
     va_end(v);
     fputs("synctex view: forwards or direct synchronization,\n"
-          "command sent by the editor to view the output corresponding to the position under the mouse\n"
-          "\n"
-          "usage: synctex view -i line:column:[page_hint:]input -o output [-d directory] [-x viewer-command] [-h before/offset:middle/after]\n"
-          "\n"
-          "-i line:column:[page_hint:]input\n"
-          "       specify the line, column, optional page hint and input file.\n"
-          "       The line and column are 1 based integers,\n"
-          "       they allow to identify every character in a file.\n"
-          "       column is the offset of a character relative to the containing line.\n"
-          "       Pass 0 if this information is not relevant.\n"
-          "       page_hint is the currently displayed page number.\n"
-          "       If there is an answer on that page, it will be returned.\n"
-          "       Pass 0 if this information is not available to you.\n"
-          "       input is either the name of the main source file or an included document.\n"
-          "       It must be the very name as understood by TeX, id est the name exactly as it appears in the log file.\n"
-          "       It does not matter if the file actually exists or not, except that the command is not really useful.\n"
-          "       \n"
-          "-o output\n"
-          "       is the full or relative path of the output file (with any relevant path extension).\n"
-          "       This file must exist.\n"
-          "       \n"
-          "-d directory\n"
-          "       is the directory containing the synctex file, in case it is different from the directory of the output.\n"
-          "       This directory must exist.\n"
-          "       An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
-          "       the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
-          "		The other ones are simply removed, if the authorization is granted\n"
-          "       \n"
-          "-x viewer-command\n"
-          "       Normally the synctex tool outputs its result to the stdout.\n"
-          "       It is possible to launch an external tool with the result.\n"
-          "       The viewer-command is a printf like format string with following specifiers.\n"
-          "       %{output} is the name specifier of the main document, without path extension.\n"
-          "       %{page} is the 0 based page number specifier, %{page+1} is the 1 based page number specifier.\n"
-          "       To synchronize by point, %{x} is the x coordinate specifier, %{y} is the y coordinate specifier,\n"
-          "       both in dots and relative to the top left corner of the page.\n"
-          "       To synchronize by box,\n"
-          "       %{h} is the horizontal coordinate specifier of the origin of the enclosing box,\n"
-          "       %{v} is the vertical coordinate specifier of the origin of the enclosing box,\n"
-          "       both in dots and relative to the upper left corner of the page.\n"
-          "       They may be different from the preceding pair of coordinates.\n"
-          "       %{width} is the width specifier, %{height} is the height specifier of the enclosing box.\n"
-          "       The latter dimension is naturally counted from bottom to top.\n"
-          "       There is no notion of depth for such a box.\n"
-          "       To synchronize by content, %{before} is the word before,\n"
-          "       %{offset} is the offset specifier, %{middle} is the middle word, and %{after} is the word after.\n"
-          "\n"
+        "command sent by the editor to view the output corresponding to the position under the mouse\n"
+        "\n"
+        "usage: synctex view -i line:column:[page_hint:]input -o output [-d directory] [-x viewer-command] [-h before/offset:middle/after]\n"
+        "\n"
+        "-i line:column:[page_hint:]input\n"
+        "       specify the line, column, optional page hint and input file.\n"
+        "       The line and column are 1 based integers,\n"
+        "       they allow to identify every character in a file.\n"
+        "       column is the offset of a character relative to the containing line.\n"
+        "       Pass 0 if this information is not relevant.\n"
+        "       page_hint is the currently displayed page number.\n"
+        "       If there is an answer on that page, it will be returned.\n"
+        "       Pass 0 if this information is not available to you.\n"
+        "       input is either the name of the main source file or an included document.\n"
+        "       It must be the very name as understood by TeX, id est the name exactly as it appears in the log file.\n"
+        "       It does not matter if the file actually exists or not, except that the command is not really useful.\n"
+        "       \n"
+        "-o output\n"
+        "       is the full or relative path of the output file (with any relevant path extension).\n"
+        "       This file must exist.\n"
+        "       \n"
+        "-d directory\n"
+        "       is the directory containing the synctex file, in case it is different from the directory of the output.\n"
+        "       This directory must exist.\n"
+        "       An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
+        "       the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
+        "        The other ones are simply removed, if the authorization is granted\n"
+        "       \n"
+        "-x viewer-command\n"
+        "       Normally the synctex tool outputs its result to the stdout.\n"
+        "       It is possible to launch an external tool with the result.\n"
+        "       The viewer-command is a printf like format string with following specifiers.\n"
+        "       %{output} is the name specifier of the main document, without path extension.\n"
+        "       %{page} is the 0 based page number specifier, %{page+1} is the 1 based page number specifier.\n"
+        "       To synchronize by point, %{x} is the x coordinate specifier, %{y} is the y coordinate specifier,\n"
+        "       both in dots and relative to the top left corner of the page.\n"
+        "       To synchronize by box,\n"
+        "       %{h} is the horizontal coordinate specifier of the origin of the enclosing box,\n"
+        "       %{v} is the vertical coordinate specifier of the origin of the enclosing box,\n"
+        "       both in dots and relative to the upper left corner of the page.\n"
+        "       They may be different from the preceding pair of coordinates.\n"
+        "       %{width} is the width specifier, %{height} is the height specifier of the enclosing box.\n"
+        "       The latter dimension is naturally counted from bottom to top.\n"
+        "       There is no notion of depth for such a box.\n"
+        "       To synchronize by content, %{before} is the word before,\n"
+        "       %{offset} is the offset specifier, %{middle} is the middle word, and %{after} is the word after.\n"
+        "\n"
           "       If no viewer command is provided, the content of the SYNCTEX_VIEWER environment variable is used instead.\n"
-          "\n"
-          "-h before/offset:middle/after\n"
-          "       This hint allows a forwards synchronization by contents.\n"
-          "       Instead of giving a character offset in a line, you can give full words.\n"
-          "       A full word is a sequence of characters (excepting '/').\n"
-          "       You will choose full words in the source document that will certainly appear unaltered in the output.\n"
-          "       The \"middle\" word contains the character under the mouse at position offset.\n"
-          "       \"before\" is a full word preceding middle and \"after\" is following it.\n"
-          "       The before or after word can be missing, they are then considered as void strings.\n"
-          "       \n"
-          "The result is a list of records. In general the first one is the most accurate but\n"
-          "it is the responsibility of the client to decide which one best fits the user needs.\n",
-          (error?stderr:stdout)
-          );
+        "\n"
+        "-h before/offset:middle/after\n"
+        "       This hint allows a forwards synchronization by contents.\n"
+        "       Instead of giving a character offset in a line, you can give full words.\n"
+        "       A full word is a sequence of characters (excepting '/').\n"
+        "       You will choose full words in the source document that will certainly appear unaltered in the output.\n"
+        "       The \"middle\" word contains the character under the mouse at position offset.\n"
+        "       \"before\" is a full word preceding middle and \"after\" is following it.\n"
+        "       The before or after word can be missing, they are then considered as void strings.\n"
+        "       \n"
+        "The result is a list of records. In general the first one is the most accurate but\n"
+        "it is the responsibility of the client to decide which one best fits the user needs.\n",
+        (error?stderr:stdout)
+    );
     return;
 }
 
@@ -323,7 +324,7 @@ scan_output:
                 return synctex_view_proceed(&Ps);
             }
         }
-    option_command:
+option_command:
         if(0 == strcmp("-x",argv[arg_index])) {
             if(++arg_index<argc) {
                 if(strcmp("-",argv[arg_index])) {
@@ -344,7 +345,7 @@ scan_output:
                 return synctex_view_proceed(&Ps);
             }
         }
-    option_hint:
+option_hint:
         if(0 == strcmp("-h",argv[arg_index]) && ++arg_index<argc) {
             /* modify the argument */;
             Ps.after = strstr(argv[arg_index],"/");
@@ -435,26 +436,26 @@ int synctex_view_proceed(synctex_view_params_t * Ps) {
                 /*  find the next occurrence of a format key */
                 where = viewer;
                 while(viewer && (where = strstr(viewer,"&{"))) {
-#define TEST(KEY,FORMAT,WHAT)\
-if(!strncmp(where,KEY,strlen(KEY))) {\
-size_t printed = where-viewer;\
-if(buffer_cur != memcpy(buffer_cur,viewer,(size_t)printed)) {\
-synctex_help_view("Memory copy problem");\
-free(buffer);\
-return -1;\
-}\
-buffer_cur += printed;size-=printed;\
-printed = snprintf(buffer_cur,size,FORMAT,WHAT);\
-if((unsigned)printed >= (unsigned)size) {\
-synctex_help_view("Snprintf problem");\
-free(buffer);\
-return -1;\
-}\
-buffer_cur += printed;size-=printed;\
-*buffer_cur='\0';\
-viewer = where+strlen(KEY);\
-continue;\
-}
+#                   define TEST(KEY,FORMAT,WHAT)\
+                    if(!strncmp(where,KEY,strlen(KEY))) {\
+                        size_t printed = where-viewer;\
+                        if(buffer_cur != memcpy(buffer_cur,viewer,(size_t)printed)) {\
+                            synctex_help_view("Memory copy problem");\
+                            free(buffer);\
+                            return -1;\
+                        }\
+                        buffer_cur += printed;size-=printed;\
+                        printed = snprintf(buffer_cur,size,FORMAT,WHAT);\
+                        if((unsigned)printed >= (unsigned)size) {\
+                            synctex_help_view("Snprintf problem");\
+                            free(buffer);\
+                            return -1;\
+                        }\
+                        buffer_cur += printed;size-=printed;\
+                        *buffer_cur='\0';\
+                        viewer = where+strlen(KEY);\
+                        continue;\
+                    }
                     TEST("&{output}","%s",synctex_scanner_get_output(scanner));
                     TEST("&{page}",  "%i",synctex_node_page(node)-1);
                     TEST("&{page+1}","%i",synctex_node_page(node));
@@ -468,7 +469,7 @@ continue;\
                     TEST("&{offset}","%i",Ps->offset);
                     TEST("&{middle}","%s",(Ps->middle && strlen(Ps->middle)<SYNCTEX_STR_SIZE?Ps->middle:""));
                     TEST("&{after}", "%s",(Ps->after && strlen(Ps->after)<SYNCTEX_STR_SIZE?Ps->after:""));
-#undef TEST
+#                   undef TEST
                     break;
                 }
                 /* copy the rest of viewer into the buffer */
@@ -487,30 +488,30 @@ continue;\
                 /* just print out the results */
                 puts("SyncTeX result begin");
                 do {
-                    printf(	"Output:%s\n"
-                           "Page:%i\n"
-                           "x:%f\n"
-                           "y:%f\n"
-                           "h:%f\n"
-                           "v:%f\n"
-                           "W:%f\n"
-                           "H:%f\n"
-                           "before:%s\n"
-                           "offset:%i\n"
-                           "middle:%s\n"
-                           "after:%s\n",
-                           Ps->output,
-                           synctex_node_page(node),
-                           synctex_node_visible_h(node),
-                           synctex_node_visible_v(node),
-                           synctex_node_box_visible_h(node),
-                           synctex_node_box_visible_v(node)+synctex_node_box_visible_depth(node),
-                           synctex_node_box_visible_width(node),
-                           synctex_node_box_visible_height(node)+synctex_node_box_visible_depth(node),
-                           (Ps->before?Ps->before:""),
-                           Ps->offset,
-                           (Ps->middle?Ps->middle:""),
-                           (Ps->after?Ps->after:""));
+                    printf("Output:%s\n"
+                        "Page:%i\n"
+                        "x:%f\n"
+                        "y:%f\n"
+                        "h:%f\n"
+                        "v:%f\n"
+                        "W:%f\n"
+                        "H:%f\n"
+                        "before:%s\n"
+                        "offset:%i\n"
+                        "middle:%s\n"
+                        "after:%s\n",
+                        Ps->output,
+                        synctex_node_page(node),
+                        synctex_node_visible_h(node),
+                        synctex_node_visible_v(node),
+                        synctex_node_box_visible_h(node),
+                        synctex_node_box_visible_v(node)+synctex_node_box_visible_depth(node),
+                        synctex_node_box_visible_width(node),
+                        synctex_node_box_visible_height(node)+synctex_node_box_visible_depth(node),
+                        (Ps->before?Ps->before:""),
+                        Ps->offset,
+                        (Ps->middle?Ps->middle:""),
+                        (Ps->after?Ps->after:""));
                 } while((node = synctex_scanner_next_result(scanner)) != NULL);
                 puts("SyncTeX result end");
             }
@@ -525,47 +526,47 @@ void synctex_help_edit(const char * error,...) {
     synctex_usage(error, v);
     va_end(v);
     fputs(
-          "synctex edit: backwards or reverse synchronization,\n"
-          "command sent by the viewer to edit the source corresponding to the position under the mouse\n\n"
-          "\n"
-          "usage: synctex edit -o page:x:y:file [-d directory] [-x editor-command] [-h offset:context]\n"
-          "\n"
-          "-o page:x:y:file\n"
-          "       specify the page and coordinates of the point under the mouse.\n"
-          "       page is 1 based.\n"
-          "       Coordinates x and y are counted from the top left corner of the page.\n"
-          "       Their unit is the big point (72 dpi).\n"
-          "       \n"
-          "       file is in general the path of a pdf or dvi file.\n"
-          "       It can be either absolute or relative to the current directory.\n"
-          "       This named file must always exist.\n"
-          "       \n"
-          "-d directory\n"
-          "       is the directory containing the synctex file, in case it is different from the directory of the output.\n"
-          "       This directory must exist.\n"
-          "       An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
-          "       the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
-          "		The other ones are simply removed, if the authorization is granted\n"
-          "       \n"
-          "-x editor-command\n"
-          "       Normally the synctex tool outputs its result to the stdout.\n"
-          "       It is possible to execute an external tool with the result of the query.\n"
-          "       The editor-command is a printf like format string with following specifiers.\n"
-          "       They will be replaced by their value before the command is executed.\n"
-          "       %{output} is the full path specifier of the output document, with no extension.\n"
-          "       %{input} is the name specifier of the input document.\n"
-          "       %{line} is the 0 based line number specifier. %{line+1} is the 1 based line number specifier.\n"
-          "       %{column} is the 0 based column number specifier or -1. %{column+1} is the 1 based column number or -1.\n"
-          "       %{offset} is the 0 based offset specifier and %{context} is the context specifier of the hint.\n"
-          "       \n"
-          "       If no editor-command is provided, the content of the SYNCTEX_EDITOR environment variable is used instead.\n"
-          "       \n"
-          "-h offset:context\n"
-          "       This hint allows a backwards or reverse synchronization by contents.\n"
-          "       You give a context including the character at the mouse location, and\n"
-          "       the offset of this character relative to the beginning of this bunch of text.\n"
-          "       \n",
-          (error?stderr:stdout)
+        "synctex edit: backwards or reverse synchronization,\n"
+        "command sent by the viewer to edit the source corresponding to the position under the mouse\n\n"
+        "\n"
+        "usage: synctex edit -o page:x:y:file [-d directory] [-x editor-command] [-h offset:context]\n"
+        "\n"
+        "-o page:x:y:file\n"
+        "       specify the page and coordinates of the point under the mouse.\n"
+        "       page is 1 based.\n"
+        "       Coordinates x and y are counted from the top left corner of the page.\n"
+        "       Their unit is the big point (72 dpi).\n"
+        "       \n"
+        "       file is in general the path of a pdf or dvi file.\n"
+        "       It can be either absolute or relative to the current directory.\n"
+        "       This named file must always exist.\n"
+        "       \n"
+        "-d directory\n"
+        "       is the directory containing the synctex file, in case it is different from the directory of the output.\n"
+        "       This directory must exist.\n"
+        "       An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
+        "       the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
+        "        The other ones are simply removed, if the authorization is granted\n"
+        "       \n"
+        "-x editor-command\n"
+        "       Normally the synctex tool outputs its result to the stdout.\n"
+        "       It is possible to execute an external tool with the result of the query.\n"
+        "       The editor-command is a printf like format string with following specifiers.\n"
+        "       They will be replaced by their value before the command is executed.\n"
+        "       %{output} is the full path specifier of the output document, with no extension.\n"
+        "       %{input} is the name specifier of the input document.\n"
+        "       %{line} is the 0 based line number specifier. %{line+1} is the 1 based line number specifier.\n"
+        "       %{column} is the 0 based column number specifier or -1. %{column+1} is the 1 based column number or -1.\n"
+        "       %{offset} is the 0 based offset specifier and %{context} is the context specifier of the hint.\n"
+        "       \n"
+        "       If no editor-command is provided, the content of the SYNCTEX_EDITOR environment variable is used instead.\n"
+        "       \n"
+        "-h offset:context\n"
+        "       This hint allows a backwards or reverse synchronization by contents.\n"
+        "       You give a context including the character at the mouse location, and\n"
+        "       the offset of this character relative to the beginning of this bunch of text.\n"
+        "       \n",
+        (error?stderr:stdout)
           );
     return;
 }
@@ -583,7 +584,7 @@ typedef struct {
 
 int synctex_edit_proceed(synctex_edit_params_t * Ps);
 
-/*	"usage: synctex edit -o page:x:y:output [-d directory] [-x editor-command] [-h offset:context]\n"  */
+/*  "usage: synctex edit -o page:x:y:output [-d directory] [-x editor-command] [-h offset:context]\n"  */
 int synctex_edit(int argc, char *argv[]) {
     int arg_index = 0;
     char * start = NULL;
@@ -626,7 +627,7 @@ scan_execute:
                 return synctex_edit_proceed(&Ps);
             }
         }
-    option_command:
+option_command:
         if(0 == strcmp("-x",argv[arg_index])) {
             if(++arg_index<argc) {
                 if(strcmp("-",argv[arg_index])) {
@@ -685,7 +686,7 @@ int synctex_edit_proceed(synctex_edit_params_t * Ps) {
         synctex_node_p node = NULL;
         const char * input = NULL;
         if(NULL != (node = synctex_scanner_next_result(scanner))
-           && NULL != (input = synctex_scanner_get_name(scanner,synctex_node_tag(node)))) {
+            && NULL != (input = synctex_scanner_get_name(scanner,synctex_node_tag(node)))) {
             /* filtering the command */
             if(Ps->editor && strlen(Ps->editor)) {
                 size_t size = 0;
@@ -718,33 +719,33 @@ int synctex_edit_proceed(synctex_edit_params_t * Ps) {
                 /*  find the next occurrence of a format key */
                 where = Ps->editor;
                 while(Ps->editor && (where = strstr(Ps->editor,"&{"))) {
-#define TEST(KEY,FORMAT,WHAT)\
-if(!strncmp(where,KEY,strlen(KEY))) {\
-size_t printed = where-Ps->editor;\
-if(buffer_cur != memcpy(buffer_cur,Ps->editor,(size_t)printed)) {\
-synctex_help_edit("Memory copy problem");\
-free(buffer);\
-return -1;\
-}\
-buffer_cur += printed;size-=printed;\
-printed = snprintf(buffer_cur,size,FORMAT,WHAT);\
-if((unsigned)printed >= (unsigned)size) {\
-synctex_help_edit("Snprintf problem");\
-free(buffer);\
-return -1;\
-}\
-buffer_cur += printed;size-=printed;\
-*buffer_cur='\0';\
-Ps->editor = where+strlen(KEY);\
-continue;\
-}
+#                   define TEST(KEY,FORMAT,WHAT)\
+                    if(!strncmp(where,KEY,strlen(KEY))) {\
+                        size_t printed = where-Ps->editor;\
+                        if(buffer_cur != memcpy(buffer_cur,Ps->editor,(size_t)printed)) {\
+                            synctex_help_edit("Memory copy problem");\
+                            free(buffer);\
+                            return -1;\
+                        }\
+                        buffer_cur += printed;size-=printed;\
+                        printed = snprintf(buffer_cur,size,FORMAT,WHAT);\
+                        if((unsigned)printed >= (unsigned)size) {\
+                            synctex_help_edit("Snprintf problem");\
+                            free(buffer);\
+                            return -1;\
+                        }\
+                        buffer_cur += printed;size-=printed;\
+                        *buffer_cur='\0';\
+                        Ps->editor = where+strlen(KEY);\
+                        continue;\
+                    }
                     TEST("&{output}", "%s",Ps->output);
                     TEST("&{input}",  "%s",input);
                     TEST("&{line}",   "%i",synctex_node_line(node));
                     TEST("&{column}", "%i",-1);
                     TEST("&{offset}", "%i",Ps->offset);
                     TEST("&{context}","%s",Ps->context);
-#undef TEST
+#                   undef TEST
                     break;
                 }
                 /* copy the rest of editor into the buffer */
@@ -762,18 +763,18 @@ continue;\
                 /* just print out the results */
                 puts("SyncTeX result begin");
                 do {
-                    printf(	"Output:%s\n"
-                           "Input:%s\n"
-                           "Line:%i\n"
-                           "Column:%i\n"
-                           "Offset:%i\n"
-                           "Context:%s\n",
-                           Ps->output,
-                           input,
-                           synctex_node_line(node),
-                           synctex_node_column(node),
-                           Ps->offset,
-                           (Ps->context?Ps->context:""));
+                    printf( "Output:%s\n"
+                        "Input:%s\n"
+                        "Line:%i\n"
+                        "Column:%i\n"
+                        "Offset:%i\n"
+                        "Context:%s\n",
+                        Ps->output,
+                        input,
+                        synctex_node_line(node),
+                        synctex_node_column(node),
+                        Ps->offset,
+                        (Ps->context?Ps->context:""));
                 } while((node = synctex_scanner_next_result(scanner)) != NULL);
                 puts("SyncTeX result end");
             }
@@ -788,26 +789,26 @@ void synctex_help_update(const char * error,...) {
     synctex_usage(error, v);
     va_end(v);
     fputs(
-          "synctex update: up to date synctex file,\n"
-          "Use this command to update the synctex file once a dvi/xdv to pdf filter is applied.\n\n"
-          "\n"
-          "usage: synctex update -o output [-d directory] [-m number] [-x dimension] [-y dimension]\n"
-          "\n"
-          "-o output     is the full or relative path of an existing file,\n"
-          "              either the real synctex file you wish to update\n"
-          "              or a related file: foo.tex, foo.pdf, foo.dvi...\n"
-          "-d directory  is the directory containing the synctex file, in case it is different from the directory of the output.\n"
-          "			   This directory must exist.\n"
-          "				An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
-          "				the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
-          "				The other ones are simply removed, if the authorization is granted\n"
-          "				\n"
-          "-m number     Set additional magnification\n"
-          "-x dimension  Set horizontal offset\n"
-          "-y dimension  Set vertical offset\n"
-          "In general, these are exactly the same options provided to the dvi/xdv to pdf filter.\n",
-          (error?stderr:stdout)
-          );
+        "synctex update: up to date synctex file,\n"
+        "Use this command to update the synctex file once a dvi/xdv to pdf filter is applied.\n\n"
+        "\n"
+        "usage: synctex update -o output [-d directory] [-m number] [-x dimension] [-y dimension]\n"
+        "\n"
+        "-o output     is the full or relative path of an existing file,\n"
+        "              either the real synctex file you wish to update\n"
+        "              or a related file: foo.tex, foo.pdf, foo.dvi...\n"
+        "-d directory  is the directory containing the synctex file, in case it is different from the directory of the output.\n"
+        "              This directory must exist.\n"
+        "              An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
+        "              the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
+        "              The other ones are simply removed, if the authorization is granted\n"
+        "              \n"
+        "-m number     Set additional magnification\n"
+        "-x dimension  Set horizontal offset\n"
+        "-y dimension  Set vertical offset\n"
+        "In general, these are exactly the same options provided to the dvi/xdv to pdf filter.\n",
+        (error?stderr:stdout)
+        );
     return;
 }
 
@@ -921,13 +922,13 @@ int synctex_test_file (int argc, char *argv[])
         _synctex_error("!  TEST FAILED\n");
     } else {
         printf("output:%s\n"
-               "directory:%s\n"
-               "file name:%s\n"
-               "compression mode:%s\n",
-               output,
-               directory,
-               synctex_name,
-               (mode?"gz":"none"));
+             "directory:%s\n"
+             "file name:%s\n"
+             "compression mode:%s\n",
+             output,
+             directory,
+             synctex_name,
+             (mode?"gz":"none"));
     }
     return 0;
 }
