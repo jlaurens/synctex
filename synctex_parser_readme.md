@@ -2,7 +2,7 @@
 
 This file is part of the __SyncTeX__ package.
 
-[//]: # (Version: 1.22)
+[//]: # (Version: 1.21)
 [//]: # (Date: Tue Oct 31 10:28:24 UTC 2017)
 
 ## Important
