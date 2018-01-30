@@ -2834,7 +2834,7 @@ synctex_node_p synctex_node_next(synctex_node_p node) {
  *  May loop infinitely many times if the tree
  *  is not properly built (contains loops).
  */
-synctex_node_p _synctex_node_next(synctex_node_p node) {
+static synctex_node_p _synctex_node_next(synctex_node_p node) {
     synctex_node_p N = _synctex_tree_child(node);
     if (N) {
         return N;
