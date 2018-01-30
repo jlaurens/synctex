@@ -2828,20 +2828,6 @@ synctex_node_p synctex_node_next(synctex_node_p node) {
     return _synctex_node_sibling_or_parents(node);
 }
 /**
- *  The next nodes corresponds to a deep first tree traversal.
- *  Does not create child proxies as side effect contrary to
- *  the synctex_node_next method above.
- *  May loop infinitely many times if the tree
- *  is not properly built (contains loops).
- */
-static synctex_node_p _synctex_node_next(synctex_node_p node) {
-    synctex_node_p N = _synctex_tree_child(node);
-    if (N) {
-        return N;
-    }
-    return _synctex_node_sibling_or_parents(node);
-}
-/**
  *  The node which argument is the sibling.
  *  - return: NULL if the argument has no parent or
  *      is the first child of its parent.
@@ -8560,6 +8546,20 @@ void synctex_updater_free(synctex_updater_p updater){
 #       pragma mark -
 #       pragma mark Testers
 #   endif
+/**
+ *  The next nodes corresponds to a deep first tree traversal.
+ *  Does not create child proxies as side effect contrary to
+ *  the synctex_node_next method above.
+ *  May loop infinitely many times if the tree
+ *  is not properly built (contains loops).
+ */
+static synctex_node_p _synctex_node_next(synctex_node_p node) {
+    synctex_node_p N = _synctex_tree_child(node);
+    if (N) {
+        return N;
+    }
+    return _synctex_node_sibling_or_parents(node);
+}
 static int _synctex_input_copy_name(synctex_node_p input, char * name) {
     char * copy = _synctex_malloc(strlen(name)+1);
     memcpy(copy,name,strlen(name)+1);
