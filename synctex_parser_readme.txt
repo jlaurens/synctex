@@ -1,5 +1,7 @@
 This file is part of the SyncTeX package.
 
+Please refer to synctex_parser_readme.md
+
 The Synchronization TeXnology named SyncTeX is a new feature
 of recent TeX engines designed by Jerome Laurens.
 It allows to synchronize between input and output, which means to
@@ -13,6 +15,7 @@ synctex_parser_version.txt
 synctex_parser_utils.c
 synctex_parser_utils.h
 synctex_parser_local.h
+synctex_parser_private.h
 synctex_parser.h
 synctex_parser.c
 
@@ -99,7 +102,7 @@ Note that version 1.7 was delivered privately.
 - Various typo fixed
 - OutputDebugString replaced by OutputDebugStringA to deliberately disable unicode preprocessing
 - New conditional created because OutputDebugStringA is only available since Windows 2K professional
-1.10: Sun Jan  10 10:12:32 UTC 2010 
+1.10: Sun Jan  10 10:12:32 UTC 2010
 - Bug fix in synctex_parser.c to solve a synchronization problem with amsmath's gather environment.
   Concerns the synctex tool.
 1.11: Sun Jan  17 09:12:31 UTC 2010
@@ -129,7 +132,7 @@ TeX and friends are not concerned by these changes.
 1.17: Fri Oct 14 08:15:16 UTC 2011
 This concerns the synctex command line tool and 3rd party developers.
 TeX and friends are not concerned by these changes.
-- synctex_parser.c: cosmetic changes to enhance code readability 
+- synctex_parser.c: cosmetic changes to enhance code readability
 - Better forward synchronization.
   The problem occurs for example with LaTeX \item command.
   The fact is that this command creates nodes at parse time but these nodes are used only
@@ -186,6 +189,13 @@ TeX and friends are not concerned by these changes.
   with the older TeX engines.
   Frontends with the new parser will only see a difference
   with new TeX engines if -synctex=±2 or more is used.
+1.20: Oct 11, 2017
+- One bug fixed in some initialization and different syntax to make some compilers happy.
+1.21: Oct 15, 2017
+- Remove a \ character from the name ot 2 test files.
+- Change variable name class to class_ because the former is a reserved keyword in C++.
+- Adding a more portable unused variable management.
+- Various cosmetic changes in the source code, including explicit declaration of void in forward function declaration.
 
 Acknowledgments:
 ----------------
@@ -198,4 +208,3 @@ If you include or use a significant part of the synctex package into a software,
 I would appreciate to be listed as contributor and see "SyncTeX" highlighted.
 
 Copyright (c) 2008-2014 jerome DOT laurens AT u-bourgogne DOT fr
-

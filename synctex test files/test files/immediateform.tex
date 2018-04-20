@@ -1,0 +1,10 @@
+\noindent
+Text before\par\noindent
+\setbox1=\hbox to 2000000sp{$p$\hfill$q$}%
+\immediate\pdfxform 1%
+\hbox to 1000000sp{XX}%
+\pdfrefxform\pdflastxform%
+\hbox to 1000000sp{YY}%
+\par\noindent
+Text after
+\end

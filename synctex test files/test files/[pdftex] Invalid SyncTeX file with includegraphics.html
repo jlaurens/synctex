@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [pdftex] Invalid SyncTeX file with \includegraphics
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:pdftex%40tug.org?Subject=%5Bpdftex%5D%20Invalid%20SyncTeX%20file%20with%20%5Cincludegraphics&In-Reply-To=4A0192AC.1080704%40helios.de">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="008026.html">
+   <LINK REL="Next"  HREF="008028.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[pdftex] Invalid SyncTeX file with \includegraphics</H1>
+<!--htdig_noindex-->
+    <B>Martin Reinders</B> 
+    <A HREF="mailto:pdftex%40tug.org?Subject=%5Bpdftex%5D%20Invalid%20SyncTeX%20file%20with%20%5Cincludegraphics&In-Reply-To=4A0192AC.1080704%40helios.de"
+       TITLE="[pdftex] Invalid SyncTeX file with \includegraphics">martin at helios.de
+       </A><BR>
+    <I>Thu May  7 09:43:40 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="008026.html">[pdftex] Invalid SyncTeX file with \includegraphics
+</A></li>
+        <LI>Next message: <A HREF="008028.html">[pdftex] alternative text for images and equations
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8027">[ date ]</a>
+              <a href="thread.html#8027">[ thread ]</a>
+              <a href="subject.html#8027">[ subject ]</a>
+              <a href="author.html#8027">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--/htdig_noindex-->
+<!--beginarticle-->
+<PRE>On 06.05.2009 15:37 Uhr, I wrote
+&gt;<i> 
+</I>&gt;<i> It seems that pdftex writes an invalid SyncTeX file for the following
+</I>&gt;<i> LaTeX document:
+</I>&gt;<i> 
+</I>&gt;<i> -------------------------------
+</I>&gt;<i> \documentclass{report}
+</I>&gt;<i> \usepackage{graphicx}
+</I>&gt;<i> \begin{document}
+</I>&gt;<i> Hello world
+</I>&gt;<i> \includegraphics[bb=5 5 10 10,clip=true]{arrow} % arbitrary PNG file
+</I>&gt;<i> \clearpage
+</I>&gt;<i> \tableofcontents
+</I>&gt;<i> \chapter{Chapter 1}
+</I>&gt;<i> This is chapter 1.
+</I>&gt;<i> \end{document}
+</I>&gt;<i> -------------------------------
+</I>
+The problem seems to be the \pdfrefxform that is used by the
+pdftex.def graphics driver for clipped graphics.
+
+I have reduced the problem to the following (plain) TeX file:
+
+-------------------------------
+\output={}
+\setbox0=\hbox{FORM CONTENTS}
+\pdfxform 0
+AAA \pdfrefxform\pdflastxform\ BBB
+\vfill\eject
+\end
+-------------------------------
+
+The generated synctex file (with &quot;pdftex -synctex=-1&quot;) is
+
+-------------------------------
+SyncTeX Version:1
+Input:1:mini.tex
+Output:pdf
+Magnification:1000
+Unit:1
+X Offset:0
+Y Offset:0
+Content:
+!103
+{1
+[1,5:4736286,46889208:30785863,42152922,0
+(1,5:4736286,5391646:30785863,447828,0
+h1,4:4736286,5391646:1310720,0,0
+x1,4:7521569,5391646
+g1,4:7740022,5391646
+g1,4:13902237,5391646
+x1,4:15294882,5391646
+k1,5:35522149,5391646:20227267
+g1,5:35522149,5391646
+)
+]
+!265
+{2
+(1,2:0,447828:5943762,447828,0
+x1,2:427806,447828
+x1,2:2002493,447828
+g1,2:2220946,447828
+x1,2:5943762,447828
+)
+!120
+}1
+!8
+}1
+!6
+Postamble:
+Count:20
+!23
+Post scriptum:
+-------------------------------
+
+That looks invalid to me, because of the &quot;{2 ... }1&quot; nested inside
+sheet 1.
+
+Martin
+
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+<!--htdig_noindex-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="008026.html">[pdftex] Invalid SyncTeX file with \includegraphics
+</A></li>
+	<LI>Next message: <A HREF="008028.html">[pdftex] alternative text for images and equations
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8027">[ date ]</a>
+              <a href="thread.html#8027">[ thread ]</a>
+              <a href="subject.html#8027">[ subject ]</a>
+              <a href="author.html#8027">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="http://tug.org/mailman/listinfo/pdftex">More information about the pdftex
+mailing list</a><br>
+<!--/htdig_noindex-->
+</body></html>

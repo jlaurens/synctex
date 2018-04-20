@@ -1,0 +1,59 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2017/dev) (preloaded format=pdftex 2017.3.9)  31 MAR 2017 21:41
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**forminform2.tex
+(./forminform2.tex
+Underfull \hbox (badness 10000) detected at line 4
+\tenrm XX
+
+\hbox(6.83331+0.0)x15.25879
+.\tenrm X
+.\tenrm X
+
+
+Underfull \hbox (badness 10000) detected at line 6
+\tenrm YY
+
+\hbox(6.83331+0.0)x15.25879
+.\tenrm Y
+.\tenrm Y
+
+
+Underfull \vbox (badness 10000) detected at line 9
+
+\vbox(15.25879+1.94444)x30.51758
+.\hbox(4.30554+1.94444)x30.51758, glue set 20.66342fill
+..\mathon
+..\teni p
+..\mathoff
+..\glue 0.0 plus 1.0fill
+..\mathon
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 11
+\tenrm XX
+
+\hbox(6.83331+0.0)x15.25879
+.\tenrm X
+.\tenrm X
+
+
+Underfull \hbox (badness 10000) detected at line 13
+\tenrm YY
+
+\hbox(6.83331+0.0)x15.25879
+.\tenrm Y
+.\tenrm Y
+
+[1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] )</us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+Output written on forminform2.pdf (1 page, 17043 bytes).
+PDF statistics:
+ 20 PDF objects out of 1000 (max. 8388607)
+ 12 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+

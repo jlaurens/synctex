@@ -1,0 +1,11 @@
+This is XeTeX, Version 3.14159265-2.6-0.99997 (TeX Live 2017) (preloaded format=xetex 2017.4.23)  23 APR 2017 10:48
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**story-zapfino.tex
+(./story-zapfino.tex
+Unknown feature `Stylistic Variants=First variant glyph set' in font `Zapfino'.
+Unknown feature `Stylistic Variants=Second variant glyph set' in font `Zapfino'
+.
+ [1] )
+Output written on story-zapfino.pdf (1 page).

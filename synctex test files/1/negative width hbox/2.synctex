@@ -1,0 +1,21 @@
+SyncTeX Version:1
+Input:1:./1.tex
+Input:259:./1.tex
+Output:pdf
+Magnification:100000000
+Unit:1
+X Offset:0
+Y Offset:0
+Content:
+{1
+(259,94:50,50:100,20,10
+(259,92:50,50:-10,10,0
+g259,92:30,25
+)
+g259,94:200,65
+)
+(259,94:50,100:100,20,10
+h259,94:100,100:-60,10,0
+)
+}
+Postamble:

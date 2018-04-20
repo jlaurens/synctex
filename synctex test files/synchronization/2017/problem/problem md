@@ -1,0 +1,9 @@
+# SyncTeX test
+## domain:
+display synchronization, from source to output.
+## condition:
+The given source.
+## problem:
+Synchronize on the last line (near word derivative).
+## answer:
+...

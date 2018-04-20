@@ -1,0 +1,32 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2017/dev) (preloaded format=pdftex 2017.4.21)  21 APR 2017 12:03
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**immediateform.tex
+(./immediateform.tex{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/
+pdftex.map}
+Underfull \hbox (badness 10000) detected at line 5
+\tenrm XX
+
+\hbox(6.83331+0.0)x15.25879
+.\tenrm X
+.\tenrm X
+
+
+Underfull \hbox (badness 10000) detected at line 7
+\tenrm YY
+
+\hbox(6.83331+0.0)x15.25879
+.\tenrm Y
+.\tenrm Y
+
+[1] )</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
+pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pf
+b>
+Output written on immediateform.pdf (1 page, 20318 bytes).
+PDF statistics:
+ 18 PDF objects out of 1000 (max. 8388607)
+ 11 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 7 words of extra memory for PDF output out of 10000 (max. 10000000)
+

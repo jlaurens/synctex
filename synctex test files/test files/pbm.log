@@ -1,0 +1,39 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2017/dev) (preloaded format=pdftex 2017.3.9)  24 MAR 2017 22:01
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**pbm.tex
+(./pbm.tex
+Underfull \hbox (badness 10000) detected at line 28
+\tenrm -
+
+\hbox(4.30554+0.0)x20.0
+.\tenrm -
+
+
+Underfull \hbox (badness 10000) detected at line 36
+\tenrm -
+
+\hbox(4.30554+0.0)x20.0
+.\tenrm -
+
+
+Overfull \hbox (10.5556pt too wide) detected at line 42
+\tenrm y []y|
+
+\hbox(4.30554+1.94444)x76.29395
+.\tenrm y
+.\glue 0.0 plus 1.0fil
+.\pdfrefxform(4.30554+1.94444)x76.29395
+.\tenrm y
+.\rule(*+*)x5.0
+
+[1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] )</us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+Output written on pbm.pdf (1 page, 12514 bytes).
+PDF statistics:
+ 20 PDF objects out of 1000 (max. 8388607)
+ 11 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 25 words of extra memory for PDF output out of 10000 (max. 10000000)
+

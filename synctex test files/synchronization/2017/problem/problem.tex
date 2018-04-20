@@ -1,0 +1,23 @@
+% !TEX TS-program = lualatex
+\documentclass{article}
+
+%\usepackage{fontspec}
+
+
+\begin{document}
+
+\section{Introduction}
+\label{Intro}
+
+Therefore we still aim to compute the traces in the drift term exactly. For this we note that the derivative in the trace is an extremely sparse matrix only containing two nonzero $3\times 3$ blocks located at block-entries $(i,i+\hat d)$ and $(i+\hat d,i)$. On multiplication with $D^{-1}$ the product matrix will be sparse, existing of 2 full column-blocks at $(k,i)$ and $(k,i+\hat d$), $k=1,\ldots,V$ (a column block has size $3V\times 3$). To compute such a trace the same columns of $D^{-1}$ are needed. Hence, it looks as if the complete matrix $D^{-1}$ is needed when computing all traces. However, the situation is not as dramatic as it seems. Indeed, on taking the trace of the product matrix only the \textit{diagonal elements} of the product is needed. To compute these diagonal elements we do not need the complete columns of $D^{-1}$ but only the $3\times 3$ blocks located at the transposed positions of the $3\times 3$ derivative blocks $\partial D/\partial a$. For example, the derivative block at location $(i+\hat d,i)$ will only give a contribution to the trace when multiplied with the $3\times 3$ block of $D^{-1}$ located at $(i, i+\hat d)$. 
+
+Therefore we still aim to compute the traces in the drift term exactly.
+For this we note that the derivative in the trace is an extremely sparse matrix only containing two nonzero $3\times 3$ blocks located at block-entries $(i,i+\hat d)$ and $(i+\hat d,i)$.
+On multiplication with $D^{-1}$ the product matrix will be sparse, existing of 2 full column-blocks at $(k,i)$ and $(k,i+\hat d$), $k=1,\ldots,V$ (a column block has size $3V\times 3$).
+To compute such a trace the same columns of $D^{-1}$ are needed. Hence, it looks as if the complete matrix $D^{-1}$ is needed when computing all traces.
+ However, the situation is not as dramatic as it seems.
+ Indeed, on taking the trace of the product matrix only the \textit{diagonal elements} of the product is needed.
+ To compute these diagonal elements we do not need the complete columns of $D^{-1}$ but only the $3\times 3$ blocks located at the transposed positions of the $3\times 3$ derivative blocks $\partial D/\partial a$.
+ For example, the derivative block at location $(i+\hat d,i)$ will only give a contribution to the trace when multiplied with the $3\times 3$ block of $D^{-1}$ located at $(i, i+\hat d)$. 
+
+\end{document}

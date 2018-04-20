@@ -1,0 +1,144 @@
+%!TEX TS-program = xetex
+%!TEX encoding = UTF-8 Unicode
+\hoffset -27mm
+\voffset -27mm
+\nopagenumbers
+\frenchspacing
+
+\def\green{999922}
+\newbox\front
+\setbox\front=\vbox to 148.5mm
+{\hsize=105mm
+ \setbox0=\hbox to \hsize{\hss
+   \XeTeXpicfile "john1.jpg" width .9\hsize \hss}
+ \font\txt="Hoefler Text/B:color=\green" at 16pt \txt
+ \hrule height 0pt
+ \vss
+ \leftline{\kern10mm In the beginning…}
+ \bigskip
+ \box0
+ \bigskip
+ \rightline{…was the Word\kern10mm}
+ \vss
+ \hrule height 0pt
+}
+
+\newbox\text
+\setbox\text=\vbox to 148.5mm
+{\hsize=105mm
+ \parindent=0pt
+ \leftskip=10mm \rightskip=10mm plus 10mm minus 2mm
+ \parskip=\medskipamount
+ \font\txt="Hoefler Text" at 10pt \txt
+ \font\it="Hoefler Text/I" at 10pt
+ \baselineskip=12.5pt
+ \hrule height 0pt
+ \bigskip
+ \bigskip
+ {\special{x:textcolor=\green}\it In principio erat verbum…}
+ in the beginning was the Word.\special{x:textcolor}\break
+ And that Word still speaks to us today, bringing life and hope
+ in a world that is so often dark and troubled.
+ He speaks into our hearts by His Spirit,
+ and He speaks through His written word as we read and study it.
+ 
+ Created nearly 1300 years ago, the Lindisfarne Gospels are
+ a stunning presentation of His word in the form expected and
+ appreciated in that day. But beautiful though they are,
+ today most of us find a modern printed English
+ translation far easier to use.
+ 
+ As you read the Christmas story,
+ have you ever wondered what words Mary actually heard,
+ or the shepherds, when the angel announced the Lord’s birth?
+ Gabriel didn’t say, “Fear not!” in King James English.
+ Nor, I think, did he speak Greek, as it was eventually written by Matthew and Luke.
+ To be readily understood, he probably spoke to them in Aramaic,
+ the everyday language of the Jews at that time—and of Jesus himself.
+ 
+ As this Christmas approaches, I am beginning the formatting of
+ the New Testament in modern-day Chaldean,
+ a direct descendant of the Aramaic spoken
+ by Jesus and his companions.
+ Once printed in Arabic script, it will look quite different from either
+ the Lindisfarne Gospels or our English Bibles.
+ But it will be the appropriate form of God’s word
+ for the Chaldean-speaking community of today;
+ our hope is that this new translation will
+ communicate as clearly and powerfully in the 21st century
+ as the angel’s voice did 2000 years ago.
+ \vfill
+ \hrule height 0pt
+}
+
+\newbox\back
+\setbox\back=\vbox to 148.5mm
+{\hsize=105mm
+ \parindent=0pt
+ \leftskip=10mm \rightskip=10mm plus 10mm minus 2mm
+ \parskip=\medskipamount
+ \font\txt="Arial Narrow:color=000066" at 9.5pt \txt
+ \font\bf="Arial Narrow/B:color=660000" at 9.5pt
+ \font\ack="Arial Narrow" at 7.5pt
+ \hrule height 0pt
+ \bigskip
+
+ \vfill
+ \centerline{\bf Home address}
+ \def\_{\char`\_}
+ \centerline{NN Xxxxxx Xxxxx • Xxxxx • Xxxx XXN NXX • England}
+ \centerline{Email: jonathan\_kew(at)sil.org, priscilla\_kew(at)sil.org}
+ \centerline{Tel: +44 (0)9999 999999 \ \ AIM: nnnnnnnn}
+ \bigskip
+ \centerline{\XeTeXpicfile "wbtlogo.jpg" scaled 750}
+ \centerline{Wycliffe UK • Horsleys Green • High Wycombe • Bucks HP14 3XL • England}
+ \bigskip
+ \rightline{\ack Image of Lindisfarne Gospels, f.211 © The British Library Board\kern6.5mm}
+ \bigskip
+ \hrule height 0pt
+}
+
+\newbox\greeting
+\setbox\greeting=\vbox to 148.5mm
+{\hsize=105mm
+ \parindent=0pt
+ \leftskip=10mm plus 1fill \rightskip=\leftskip
+ \parskip=\medskipamount
+ \font\swsh="Hoefler Text/BI:color=FFCC00" at 16pt
+ \font\txt="Hoefler Text/BI:color=FFCC00;
+   Smart Swashes=!Line Final Swashes,!Line Initial Swashes" at 16pt \txt
+ \font\small="Hoefler Text/BI:color=FFCC00;
+   Smart Swashes=!Line Final Swashes,!Line Initial Swashes" at 12pt \txt
+ \def\\{\break}
+ \lineskip=6pt
+ \hrule height 0pt
+ \bigskip
+ \vfil
+ Wishing you a very\\
+ Happy Christmas\\
+ and every blessing\\
+ in the New Year
+ \bigskip
+ {\swsh with our love}
+ \bigskip
+ Jonathan \& Priscilla\\
+ Timothy, Christopher, Elizabeth
+ \vfil
+ \small December 2004
+ \bigskip
+ \bigskip
+ \hrule height 0pt
+}
+
+\def\crotate#1#2{{\setbox0=\hbox{#1}\rlap{\kern0.5\wd0
+  \dimen0=\ht0 \advance\dimen0 by -\dp0
+  \raise0.5\dimen0\hbox{\special{x:gsave}\special{x:rotate #2}}}%
+  \box0 \special{x:grestore}}}
+
+\vbox{\offinterlineskip
+  \line{\crotate{\hbox{\box\text\box\greeting\hss}}{180}\hss}
+  \line{\box\back\box\front\hss}
+  \vskip-8in
+}
+
+\bye
