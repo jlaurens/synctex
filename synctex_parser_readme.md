@@ -2,18 +2,24 @@
 
 This file is part of the __SyncTeX__ package.
 
-[//]: # (Version: 1.21)
-[//]: # (Date: Sun Oct 15 15:09:55 UTC 2017)
+[//]: # (Version: 1.22)
+[//]: # (Date: Tue Oct 31 10:28:24 UTC 2017)
 
 ## Important
 
+* Changes in version `1.22`
+
+	* new `synctex_parser_api_level` to keep track of API changes like the one that occurred in version 1.19
+	* a memory leak has been fixed
+
 * Changes in version `1.21`
 
-	* Remove a `\` character from the name ot 2 test files.
+	* Display query returns more results (as much as `1.18`)
+	* Remove a `\` character from the name of 2 test files.
 	* Change variable name `class` to `class_` because the former is a reserved keyword in C++.
 	* Adding a more portable unused variable management.
 	* Various cosmetic changes in the source code, including explicit declaration of `void` in forward function declaration.
-	
+
 
 * Changes in version `1.20`
 
@@ -22,19 +28,19 @@ This file is part of the __SyncTeX__ package.
 * Changes in version `1.19`
 
 	A long standing bug affecting only pdftex has been fixed by adding support to pdf forms. As a side effect, the synchronization algorithm gains in accuracy for all the engines, especially from pdf to source. Of course, there is a small cost in both memory footprint and computational time, but none is noticeable.
-	
+
 	Some technical changes in the API.
 	* more consistent type naming convention
 		* `_s` suffix for struct's
 		* `_p` suffix for pointers
 		* `_t` suffix for standard types
 		* `_f` suffix for functions...
-		
+
 		thus `synctex_node_t` has become `synctex_node_p`.
-		
+
 	* supplemental argument in `synctex_display_query`. Set `page_hint` to the currently displayed pdf page number (0 based). If this info is not available, set `page_hint` to 0, it corresponds to the old behaviour.
 	* rename `synctex_next_result` to `synctex_scanner_next_result`
-	* additional `synctex_parser_private.h` header where 
+	* additional `synctex_parser_private.h` header where
 	more API are exposed. For an advanced usage only (eg parallel synchronizations).
 	* `SYNCTEX_NO_UPDATER` preprocessor macro to deactivate some code useless to frontends.
 
@@ -134,7 +140,7 @@ is an ASCII text file just containing the current version and build numbers eg `
 * 1.3: Fri Sep  5 09:39:57 UTC 2008
 	- Local variable "read" renamed to "already_read" to avoid conflicts.
 	- "inline" compiler directive renamed to "SYNCTEX_INLINE" for code support and maintenance
-	- _synctex_error cannot be inlined due to variable arguments (thanks Christiaan Hofman)
+	- `_synctex_error` cannot be inlined due to variable arguments (thanks Christiaan Hofman)
 	- Correction in the display query, extra boundary nodes are used for a more precise forwards synchronization
 * 1.4: Fri Sep 12 08:12:34 UTC 2008
 	- For an unknown reason, the previous version was not the real 1.3 (as used in iTeXMac2 build 747).
@@ -156,18 +162,18 @@ Note that version 1.7 was delivered privately.
 	- Various typo fixed
 	- OutputDebugString replaced by OutputDebugStringA to deliberately disable unicode preprocessing
 	- New conditional created because OutputDebugStringA is only available since Windows 2K professional
-* 1.10: Sun Jan  10 10:12:32 UTC 2010 
+* 1.10: Sun Jan  10 10:12:32 UTC 2010
 	- Bug fix in synctex_parser.c to solve a synchronization problem with amsmath's gather environment.
   Concerns the synctex tool.
 * 1.11: Sun Jan  17 09:12:31 UTC 2010
 	- Bug fix in synctex_parser.c, function synctex_node_box_visible_v: 'x' replaced by 'y'.
   Only 3rd party tools are concerned.
 * 1.12: Mon Jul 19 21:52:10 UTC 2010
-	- Bug fix in synctex_parser.c, function __synctex_open: the io_mode was modified even in case of a non zero return,
-causing a void .synctex.gz file to be created even if it was not expected. Reported by Marek Kasik concerning a bug on evince.
+	- Bug fix in `synctex_parser.c`, function `__synctex_open`: the `io_mode` was modified even in case of a non zero return,
+causing a void `.synctex.gz` file to be created even if it was not expected. Reported by Marek Kasik concerning a bug on evince.
 * 1.13: Fri Mar 11 07:39:12 UTC 2011
-	- Bug fix in synctex_parser.c, better synchronization as suggested by Jan Sundermeyer (near line 3388).
-	- Stronger code design in synctex_parser_utils.c, function _synctex_get_name (really neutral behavior).
+	- Bug fix in `synctex_parser.c`, better synchronization as suggested by Jan Sundermeyer (near line 3388).
+	- Stronger code design in synctex_parser_utils.c, function `_synctex_get_name` (really neutral behavior).
   Only 3rd party tools are concerned.
 * 1.14: Fri Apr 15 19:10:57 UTC 2011
 	- taking output_directory into account
@@ -176,7 +182,7 @@ causing a void .synctex.gz file to be created even if it was not expected. Repor
 * 1.15: Fri Jun 10 14:10:17 UTC 2011
 This concerns the synctex command line tool and 3rd party developers.
 TeX and friends are not concerned by these changes.
-	- Bug fixed in _synctex_get_io_mode_name, sometimes the wrong mode was returned
+	- Bug fixed in `_synctex_get_io_mode_name`, sometimes the wrong mode was returned
 	- Support for LuaTeX convention of './' file prefixing
 * 1.16: Tue Jun 14 08:23:30 UTC 2011
 This concerns the synctex command line tool and 3rd party developers.
@@ -186,7 +192,7 @@ TeX and friends are not concerned by these changes.
 * 1.17: Fri Oct 14 08:15:16 UTC 2011
 This concerns the synctex command line tool and 3rd party developers.
 TeX and friends are not concerned by these changes.
-	- synctex_parser.c: cosmetic changes to enhance code readability 
+	- `synctex_parser.c`: cosmetic changes to enhance code readability
 	- Better forward synchronization.
   The problem occurs for example with LaTeX \item command.
   The fact is that this command creates nodes at parse time but these nodes are used only
@@ -207,12 +213,12 @@ TeX and friends are not concerned by these changes.
   then we try to match the base names. If there is only one match of the base names,
   then it is taken as a match for the whole names.
   The base name is defined as following:
-  
+
       `./foo => foo
       /my///.////foo => foo
       /foo => /foo
       /my//.foo => /my//.foo`
-      
+
 * 1.17: Tue Mar 13 10:10:03 UTC 2012
 	- minor changes, no version changes
 	- syntax man pages are fixed as suggested by M. Shimata
@@ -255,4 +261,3 @@ If you include or use a significant part of the __SyncTeX__ package into a softw
 I would appreciate to be listed as contributor and see __SyncTeX__" highlighted.
 
 Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
-
