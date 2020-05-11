@@ -4,7 +4,7 @@
  This file is part of the __SyncTeX__ package.
  
  [//]: # (Latest Revision: Sun Oct 15 15:09:55 UTC 2017)
- [//]: # (Version: 1.22)
+ [//]: # (Version: 1.21)
  
  See `synctex_parser_readme.md` for more details
  
@@ -449,7 +449,7 @@ extern "C" {
      */
     void synctex_iterator_free(synctex_iterator_p iterator);
     /**
-     *  Wether the iterator actually points to an object.
+     *  Whether the iterator actually points to an object.
      *  - argument iterator: the object to iterate on...
      */
     synctex_bool_t synctex_iterator_has_next(synctex_iterator_p iterator);
