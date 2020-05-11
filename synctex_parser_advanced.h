@@ -4,7 +4,7 @@
  This file is part of the __SyncTeX__ package.
  
  [//]: # (Latest Revision: Sun Oct 15 15:09:55 UTC 2017)
- [//]: # (Version: 1.22)
+ [//]: # (Version: 1.21)
  
  See `synctex_parser_readme.md` for more details
  
