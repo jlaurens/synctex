@@ -83,6 +83,11 @@
  *  First level objects are sheets and forms, containing boxes, glues, kerns...
  *  The third tree allows to browse leaves according to tag and line.
  */
+/* Declare _GNU_SOURCE for accessing vasprintf. For MSC compiler, vasprintf is
+ * defined in this file
+ */
+#define _GNU_SOURCE
+
 #   if defined(SYNCTEX_USE_LOCAL_HEADER)
 #       include "synctex_parser_local.h"
 #   else
