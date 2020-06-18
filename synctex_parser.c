@@ -366,7 +366,7 @@ __synctex_scanner_register_handle_to(NODE)
 static synctex_bool_t _synctex_tree_has_##WHAT(synctex_node_p node) {\
     if (node) {\
         if (node->class_->navigator->WHAT>=0) {\
-            return  synctex_YES; \
+            return synctex_YES; \
         } else {\
             printf("WARNING: NO tree %s for %s\n", #WHAT, synctex_node_isa(node));\
         }\
@@ -374,9 +374,9 @@ static synctex_bool_t _synctex_tree_has_##WHAT(synctex_node_p node) {\
     return synctex_NO;\
 }
 #else
-#define SYNCTEX_PARAMETER_ASSERT(WHAT)
-#define DEFINE_SYNCTEX_TREE_HAS(WHAT) \
-static synctex_bool_t _synctex_tree_has_##WHAT(synctex_node_p node) {\
+#   define SYNCTEX_PARAMETER_ASSERT(WHAT)
+#   define DEFINE_SYNCTEX_TREE_HAS(WHAT) \
+SYNCTEX_INLINE static synctex_bool_t _synctex_tree_has_##WHAT(synctex_node_p node) {\
     return (node && (node->class_->navigator->WHAT>=0));\
 }
 #endif
@@ -387,7 +387,7 @@ SYNCTEX_INLINE static synctex_node_p __synctex_tree_##WHAT(synctex_non_null_node
 }
 #   define DEFINE_SYNCTEX_TREE_GET(WHAT) \
 DEFINE_SYNCTEX_TREE__GET(WHAT) \
-static synctex_node_p _synctex_tree_##WHAT(synctex_node_p node) {\
+SYNCTEX_INLINE static synctex_node_p _synctex_tree_##WHAT(synctex_node_p node) {\
     if (_synctex_tree_has_##WHAT(node)) {\
         return __synctex_tree_##WHAT(node);\
     }\
@@ -443,10 +443,31 @@ DEFINE_SYNCTEX_TREE_RESET(WHAT)
  *  The return value of _synctex_tree_set_child and 
  *  _synctex_tree_set_sibling must be released somehow.
  */
+/* The next macro call creates:
+ SYNCTEX_INLINE static synctex_node_p _synctex_tree_sibling(synctex_node_p node)
+ SYNCTEX_INLINE static synctex_node_p _synctex_tree_set_sibling(synctex_node_p node, synctex_node_p new_value)
+ SYNCTEX_INLINE static synctex_node_p _synctex_tree_reset_sibling(synctex_node_p node)
+ */
 DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
+/* The next macro call creates:
+ SYNCTEX_INLINE static synctex_bool_t _synctex_tree_has_parent(synctex_node_p node);
+ SYNCTEX_INLINE static synctex_node_p __synctex_tree_parent(synctex_non_null_node_p node);
+ SYNCTEX_INLINE static synctex_node_p _synctex_tree_parent(synctex_node_p node);
+ SYNCTEX_INLINE static synctex_node_p __synctex_tree_set_parent(synctex_node_p node, synctex_node_p new_value);
+ SYNCTEX_INLINE static synctex_node_p _synctex_tree_set_parent(synctex_node_p node, synctex_node_p new_value);
+ SYNCTEX_INLINE static synctex_node_p __synctex_tree_reset_parent(synctex_node_p node);
+ SYNCTEX_INLINE static synctex_node_p _synctex_tree_reset_parent(synctex_node_p node);
+ */
 DEFINE_SYNCTEX_TREE_GETSETRESET(parent)
 DEFINE_SYNCTEX_TREE_GETSETRESET(child)
 DEFINE_SYNCTEX_TREE_GETSETRESET(friend)
+/* The next macro call creates:
+ SYNCTEX_INLINE static synctex_bool_t _synctex_tree_has_last(synctex_node_p node);
+ SYNCTEX_INLINE static synctex_node_p __synctex_tree_last(synctex_non_null_node_p node);
+ SYNCTEX_INLINE static synctex_node_p _synctex_tree_last(synctex_node_p node);
+ SYNCTEX_INLINE static synctex_node_p __synctex_tree_set_last(synctex_node_p node, synctex_node_p new_value);
+ SYNCTEX_INLINE static synctex_node_p _synctex_tree_set_last(synctex_node_p node, synctex_node_p new_value);
+ */
 DEFINE_SYNCTEX_TREE_GETSET(last)
 DEFINE_SYNCTEX_TREE_GETSET(next_hbox)
 DEFINE_SYNCTEX_TREE_GETSET(arg_sibling)
@@ -475,7 +496,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(target)
 
 #define SYNCTEX_HAS_CHILDREN(NODE) (NODE && _synctex_tree_child(NODE))
 #	ifdef	__SYNCTEX_WORK__
-#		include "/usr/include/zlib.h"
+#		include "/usr/local/include/node/zlib.h"
 #	else
 #		include <zlib.h>
 #	endif
