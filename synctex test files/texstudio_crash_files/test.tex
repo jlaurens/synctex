@@ -1,0 +1,33 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{lipsum}
+\usepackage[]{qrcode}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage[skins]{tcolorbox}
+\usepackage{tikzpagenodes}
+
+\begin{document}
+	\newsavebox{\tileone}
+	\sbox{\tileone}{%
+		\begin{tikzpicture}
+		\node[inner sep=0, scale=1, color=red, opacity=0.15]
+		{
+			\qrcode[version=10]{Student ID 0123456789} 
+		};
+		\end{tikzpicture}%
+	}
+	
+	\begin{tikzpicture}[remember picture,overlay]
+	\path[fill tile picture={%
+		\node[inner sep=0pt,outer sep=0pt] {\usebox{\tileone}};
+	}] 
+	(-2cm,0) rectangle (\textwidth,4cm);
+
+	\end{tikzpicture}
+	
+	\lipsum[10]
+	
+	\lipsum[10]
+	
+\end{document}

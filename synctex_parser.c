@@ -444,9 +444,9 @@ DEFINE_SYNCTEX_TREE_RESET(WHAT)
  *  _synctex_tree_set_sibling must be released somehow.
  */
 /* The next macro call creates:
- SYNCTEX_INLINE static synctex_node_p _synctex_tree_sibling(synctex_node_p node)
- SYNCTEX_INLINE static synctex_node_p _synctex_tree_set_sibling(synctex_node_p node, synctex_node_p new_value)
- SYNCTEX_INLINE static synctex_node_p _synctex_tree_reset_sibling(synctex_node_p node)
+ SYNCTEX_INLINE static synctex_node_p __synctex_tree_sibling(synctex_node_p node)
+ SYNCTEX_INLINE static synctex_node_p __synctex_tree_set_sibling(synctex_node_p node, synctex_node_p new_value)
+ SYNCTEX_INLINE static synctex_node_p __synctex_tree_reset_sibling(synctex_node_p node)
  */
 DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
 /* The next macro call creates:
@@ -918,13 +918,38 @@ static void _synctex_free_node(synctex_node_p node) {
  *  It is not owned by its parent, unless it is its first child.
  *  This destructor is for all handles.
  */
+static void _synctex_free_handle_old(synctex_node_p handle) {
+  if (handle) {
+    _synctex_free_handle_old(__synctex_tree_sibling(handle));
+    _synctex_free_handle_old(_synctex_tree_child(handle));
+    _synctex_free(handle);
+  }
+  return;
+}
 static void _synctex_free_handle(synctex_node_p handle) {
-    if (handle) {
-        _synctex_free_handle(__synctex_tree_sibling(handle));
-        _synctex_free_handle(_synctex_tree_child(handle));
-        _synctex_free(handle);
+  if (handle) {
+    synctex_node_p n = handle;
+    synctex_node_p nn;
+    __synctex_tree_set_parent(n, NULL);
+  down:
+    while ((nn = _synctex_tree_child(n))) {
+      n = nn;
+    };
+  right:
+    nn = __synctex_tree_sibling(n);
+    if (nn) {
+      _synctex_free(n);
+      n = nn;
+      goto down;
     }
-    return;
+    nn = __synctex_tree_parent(n);
+    _synctex_free(n);
+    if (nn) {
+      n = nn;
+      goto right;
+    }
+  }
+  return;
 }
 
 /**
