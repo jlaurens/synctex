@@ -4561,7 +4561,7 @@ next_line:
             _synctex_error("Problem with Y offset in the Post Scriptum.");
             return fs.status;
         }
-        scanner->x_offset = fs.value;
+        scanner->y_offset = fs.value;
         goto next_line;
     } else if (status<SYNCTEX_STATUS_EOF){
         goto report_record_problem;
