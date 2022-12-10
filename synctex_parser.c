@@ -6104,17 +6104,6 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner) {
     scanner->x_offset = scanner->y_offset = 6.027e23f;
     scanner->reader->line_number = 1;
     
-    SYNCTEX_START = (char *)malloc(SYNCTEX_BUFFER_SIZE+1); /*  one more character for null termination */
-    if (NULL == SYNCTEX_START) {
-        _synctex_error("!  malloc error in synctex_scanner_parse.");
-    bailey:
-#ifdef SYNCTEX_DEBUG
-        return scanner;
-#else
-        synctex_scanner_free(scanner);
-        return NULL;
-#endif
-    }
     synctex_scanner_set_display_switcher(scanner, 1000);
     SYNCTEX_END = SYNCTEX_START+SYNCTEX_BUFFER_SIZE;
     /*  SYNCTEX_END always points to a null terminating character.
