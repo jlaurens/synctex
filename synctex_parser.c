@@ -575,7 +575,7 @@ static synctex_open_s __synctex_open_v2(const char * output, synctex_io_mode_t i
     char * quoteless_synctex_name = NULL;
     const char * mode = _synctex_get_io_mode_name(open.io_mode);
     size_t size = strlen(output)+strlen(synctex_suffix)+strlen(synctex_suffix_gz)+1;
-    if (NULL == (open.synctex = (char *)malloc(size))) {
+    if (!(open.synctex = (char *)malloc(size))) {
         _synctex_error("!  __synctex_open_v2: Memory problem (1)\n");
         return open;
     }
@@ -614,7 +614,7 @@ static synctex_open_s __synctex_open_v2(const char * output, synctex_io_mode_t i
         free(quoteless_synctex_name);
         quoteless_synctex_name = NULL;
     }
-    if (NULL == (open.file = gzopen(open.synctex,mode))) {
+    if (!(open.file = gzopen(open.synctex,mode))) {
         /*  Could not open this file */
         if (errno != ENOENT) {
             /*  The file does exist, this is a lower level error, I can't do anything. */
@@ -633,7 +633,7 @@ static synctex_open_s __synctex_open_v2(const char * output, synctex_io_mode_t i
             free(quoteless_synctex_name);
             quoteless_synctex_name = NULL;
         }
-        if (NULL == (open.file = gzopen(open.synctex,mode))) {
+        if (!(open.file = gzopen(open.synctex,mode))) {
             /*  Could not open this file */
             if (errno != ENOENT) {
                 /*  The file does exist, this is a lower level error, I can't do anything. */
@@ -649,7 +649,7 @@ static synctex_open_s __synctex_open_v2(const char * output, synctex_io_mode_t i
         if (rename(open.synctex,quoteless_synctex_name)) {
             _synctex_error("Could not rename %s to %s, error %i\n",open.synctex,quoteless_synctex_name,errno);
             /*	We could not rename, reopen the file with the quoted name. */
-            if (NULL == (open.file = gzopen(open.synctex,mode))) {
+            if (!(open.file = gzopen(open.synctex,mode))) {
                 /*  No luck, could not re open this file, something has happened meanwhile */
                 if (errno != ENOENT) {
                     /*  The file does not exist any more, it has certainly be removed somehow
@@ -660,7 +660,7 @@ static synctex_open_s __synctex_open_v2(const char * output, synctex_io_mode_t i
             }
         } else {
             /*  The file has been successfully renamed */
-            if (NULL == (open.file = gzopen(quoteless_synctex_name,mode))) {
+            if (!(open.file = gzopen(quoteless_synctex_name,mode))) {
                 /*  Could not open this file */
                 if (errno != ENOENT) {
                     /*  The file does exist, this is a lower level error, I can't do anything. */
@@ -733,12 +733,27 @@ static synctex_open_s _synctex_open_v2(const char * output, const char * build_d
     } /* if (build_directory...) */
     return open;
 }
+synctex_reader_p synctex_reader_new() {
+    synctex_reader_p reader = _synctex_malloc(sizeof(synctex_reader_s));
+    if (reader) {
+        reader->file = NULL;
+        reader->output = NULL;
+        reader->synctex = NULL;
+        reader->current = NULL;
+        reader->start = NULL;
+        reader->end = NULL;
+        return reader;
+    }
+    return NULL;
+}
 static void synctex_reader_free(synctex_reader_p reader) {
     if (reader) {
         _synctex_free(reader->output);
         _synctex_free(reader->synctex);
         _synctex_free(reader->start);
-        gzclose(reader->file);
+        if (reader->file) {
+            gzclose(reader->file);
+        }
         _synctex_free(reader);
     }
 }
@@ -746,8 +761,19 @@ static void synctex_reader_free(synctex_reader_p reader) {
  *  Return reader on success.
  *  Deallocate reader and return NULL on failure.
  */
-static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p reader, const char * output, const char * build_directory) {
+static synctex_reader_p synctex_reader_new_with_output_file(const char * output, const char * build_directory) {
+    synctex_reader_p reader = _synctex_malloc(sizeof(synctex_reader_s));
     if (reader) {
+        reader->file = NULL;
+        reader->output = NULL;
+        reader->synctex = NULL;
+        reader->current = NULL;
+        reader->start = NULL;
+        reader->end = NULL;
+        reader->min_size = SYNCTEX_BUFFER_MIN_SIZE;
+        reader->size = SYNCTEX_BUFFER_SIZE;
+        reader->lastv = 0;
+        reader->line_number = 0;
         /*  now open the synctex file */
         synctex_open_s open = _synctex_open_v2(output,build_directory,0,synctex_ADD_QUOTES);
         if (open.status<SYNCTEX_STATUS_OK) {
@@ -760,20 +786,18 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
         reader->file = open.file;
         /*  make a private copy of output */
         if (NULL == (reader->output = (char *)_synctex_malloc(strlen(output)+1))){
-            _synctex_error("!  synctex_scanner_new_with_output_file: Memory problem (2), reader's output is not reliable.");
+            _synctex_error("!  synctex_reader_init_with_output_file: Memory problem (2), reader's output is not reliable.");
         } else if (reader->output != strcpy(reader->output,output)) {
             _synctex_free(reader->output);
             reader->output = NULL;
-            _synctex_error("!  synctex_scanner_new_with_output_file: Copy problem, reader's output is not reliable.");
+            _synctex_error("!  synctex_reader_init_with_output_file: Copy problem, reader's output is not reliable.");
         }
-        reader->start = reader->end = reader->current = NULL;
         reader->min_size = SYNCTEX_BUFFER_MIN_SIZE;
         reader->size = SYNCTEX_BUFFER_SIZE;
         reader->start = reader->current =
             (char *)_synctex_malloc(reader->size+1); /*  one more character for null termination */
-        if (NULL == reader->start) {
-            _synctex_error("!  malloc error in synctex_reader_init_with_output_file.");
-        bailey:
+        if (!reader->start) {
+            _synctex_error("!  malloc error in synctex_reader_new_with_output_file.");
 #ifdef SYNCTEX_DEBUG
             return reader;
 #else
@@ -782,6 +806,7 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
 #endif
         }
         reader->end = reader->start+reader->size;
+        *reader->end = '\0';
         /*  reader->end always points to a null terminating character.
          *  Maybe there is another null terminating character between reader->current and reader->end-1.
          *  At least, we are sure that reader->current points to a string covering a valid part of the memory. */
@@ -3849,13 +3874,14 @@ const char * synctex_scanner_get_output_fmt(synctex_scanner_p scanner);
  *  It is the responsibility of the caller to test whether this size is conforming to its needs.
  *  Negative values may return in case of error, actually
  *  when there was an error reading the synctex file.
- *  - parameter scanner: The owning scanner. When NULL, returns SYNCTEX_STATUS_BAD_ARGUMENT.
+ *  - parameter scanner: The owning scanner.
+ *    When NULL or with no reader, returns SYNCTEX_STATUS_BAD_ARGUMENT.
  *  - parameter expected: expected number of bytes.
  *  - returns: a size and a status.
  */
 static synctex_zs_s _synctex_buffer_get_available_size(synctex_scanner_p scanner, size_t expected) {
     size_t size = 0;
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return (synctex_zs_s){0,SYNCTEX_STATUS_BAD_ARGUMENT};
     }
     if (expected>scanner->reader->size){
@@ -3927,7 +3953,7 @@ static synctex_zs_s _synctex_buffer_get_available_size(synctex_scanner_p scanner
  */
 static synctex_status_t _synctex_next_line(synctex_scanner_p scanner) {
     synctex_status_t status = SYNCTEX_STATUS_OK;
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
 infinite_loop:
@@ -3963,7 +3989,7 @@ static synctex_status_t _synctex_match_string(synctex_scanner_p scanner, const c
     size_t remaining_len = 0; /*  the number of remaining characters of the_string that should match */
     size_t available = 0;
     synctex_zs_s zs = {0,0};
-    if (NULL == scanner || NULL == the_string) {
+    if (!scanner || !scanner->reader || !the_string) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
     remaining_len = strlen(the_string); /*  All the_string should match */
@@ -4078,7 +4104,7 @@ static synctex_is_s _synctex_decode_int(synctex_scanner_p scanner) {
     char * end = NULL;
     synctex_zs_s zs = {0,0};
     int result;
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return (synctex_is_s){0, SYNCTEX_STATUS_BAD_ARGUMENT};
     }
     zs = _synctex_buffer_get_available_size(scanner, SYNCTEX_BUFFER_MIN_SIZE);
@@ -4108,7 +4134,7 @@ static synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int defau
     char * ptr = NULL;
     char * end = NULL;
     synctex_zs_s zs = {0, 0};
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return (synctex_is_s){default_value, SYNCTEX_STATUS_BAD_ARGUMENT};
     }
     zs = _synctex_buffer_get_available_size(scanner, SYNCTEX_BUFFER_MIN_SIZE);
@@ -4181,7 +4207,7 @@ static synctex_ss_s _synctex_decode_string(synctex_scanner_p scanner) {
     size_t already_len = 0;
     synctex_zs_s zs = {0,0};
     char * string = NULL;
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return (synctex_ss_s){NULL,SYNCTEX_STATUS_BAD_ARGUMENT};
     }
     /*  The buffer must at least contain one character: the '\n' end of line marker */
@@ -4245,14 +4271,14 @@ static synctex_ns_s __synctex_parse_new_input(synctex_scanner_p scanner) {
     synctex_node_p input = NULL;
     synctex_status_t status = SYNCTEX_STATUS_BAD_ARGUMENT;
     synctex_zs_s zs = {0,0};
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return (synctex_ns_s){NULL,status};
     }
     if ((status=_synctex_match_string(scanner,SYNCTEX_INPUT_MARK))<SYNCTEX_STATUS_OK) {
         return (synctex_ns_s){NULL,status};
     }
     /*  Create a node */
-    if (NULL == (input = _synctex_new_input(scanner))) {
+    if (!(input = _synctex_new_input(scanner))) {
         _synctex_error("Could not create an input node.");
         return (synctex_ns_s){NULL,SYNCTEX_STATUS_ERROR};
     }
@@ -4300,7 +4326,7 @@ typedef synctex_is_s (*synctex_decoder_t)(synctex_scanner_p);
  */
 static synctex_status_t _synctex_scan_named(synctex_scanner_p scanner,const char * name) {
     synctex_status_t status = 0;
-    if (NULL == scanner || NULL == name) {
+    if (!scanner || !scanner->reader || !name) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
 not_found:
@@ -4324,7 +4350,7 @@ static synctex_status_t _synctex_scan_preamble(synctex_scanner_p scanner) {
     synctex_status_t status = 0;
     synctex_is_s is = {0,0};
     synctex_ss_s ss = {NULL,0};
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
     status = _synctex_scan_named(scanner,"SyncTeX Version:");
@@ -4410,7 +4436,7 @@ static synctex_fs_s _synctex_scan_float_and_dimension(synctex_scanner_p scanner)
 #ifdef HAVE_SETLOCALE
     char * loc = setlocale(LC_NUMERIC, NULL);
 #endif
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return (synctex_fs_s){0,SYNCTEX_STATUS_BAD_ARGUMENT};
     }
     zs = _synctex_buffer_get_available_size(scanner, SYNCTEX_BUFFER_MIN_SIZE);
@@ -4490,7 +4516,7 @@ static synctex_status_t _synctex_scan_post_scriptum(synctex_scanner_p scanner) {
 #ifdef HAVE_SETLOCALE
     char * loc = setlocale(LC_NUMERIC, NULL);
 #endif
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
     /*  Scan the file until a post scriptum line is found */
@@ -4577,7 +4603,7 @@ next_line:
 static synctex_status_t _synctex_scan_postamble(synctex_scanner_p scanner) {
     synctex_status_t status = 0;
     synctex_is_s is = {0,0};
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
     if (!scanner->flags.postamble && (status=_synctex_match_string(scanner,"Postamble:"))<SYNCTEX_STATUS_OK) {
@@ -4631,7 +4657,7 @@ static synctex_status_t _synctex_setup_visible_hbox(synctex_node_p box) {
  */
 static synctex_status_t _synctex_make_hbox_contain_point(synctex_node_p node,synctex_point_s point) {
     int min, max, n;
-    if (NULL == node || synctex_node_type(node) != synctex_node_type_hbox) {
+    if (!node || synctex_node_type(node) != synctex_node_type_hbox) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
     if ((n = _synctex_data_width_V(node))<0) {
@@ -4665,7 +4691,7 @@ static synctex_status_t _synctex_make_hbox_contain_point(synctex_node_p node,syn
 }
 static synctex_status_t _synctex_make_hbox_contain_box(synctex_node_p node,synctex_box_s box) {
     int min, max, n;
-    if (NULL == node || synctex_node_type(node) != synctex_node_type_hbox) {
+    if (!node || synctex_node_type(node) != synctex_node_type_hbox) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
     if ((n = _synctex_data_width_V(node))<0) {
@@ -5286,7 +5312,7 @@ content_loop:
 #       pragma mark + SCAN XOBV
 #   endif
                 ++SYNCTEX_CUR;
-                if (NULL == _synctex_tree_child(parent) && !form) {
+                if (!_synctex_tree_child(parent) && !form) {
                     /*  only void v boxes are friends */
                     _synctex_node_make_friend_tlc(parent);
                 }
@@ -5981,7 +6007,7 @@ SYNCTEX_INLINE static synctex_status_t _synctex_post_process(synctex_scanner_p s
 /*  Used when parsing the synctex file
  */
 static synctex_status_t _synctex_scan_content(synctex_scanner_p scanner) {
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
     scanner->reader->lastv = -1;
@@ -6040,7 +6066,7 @@ synctex_scanner_p synctex_scanner_new() {
         /*  set up the lists of friends */
         scanner->number_of_lists = 1024;
         scanner->lists_of_friends = (synctex_node_r)_synctex_malloc(scanner->number_of_lists*sizeof(synctex_node_p));
-        if (NULL == scanner->lists_of_friends) {
+        if (!scanner->lists_of_friends) {
             synctex_scanner_free(scanner);
             _synctex_error("malloc:2");
             return NULL;
@@ -6053,14 +6079,16 @@ synctex_scanner_p synctex_scanner_new() {
 /*  Where the synctex scanner is created. */
 synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, const char * build_directory, int parse) {
     synctex_scanner_p scanner = synctex_scanner_new();
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         _synctex_error("malloc problem");
         return NULL;
     }
-    if ((scanner->reader = synctex_reader_init_with_output_file(scanner->reader, output, build_directory))) {
+    scanner->reader = synctex_reader_new_with_output_file(output, build_directory);
+    if (scanner->reader) {
         return parse? synctex_scanner_parse(scanner):scanner;
     }
     _synctex_error("No file?");
+    synctex_scanner_free(scanner);
     return NULL;
 }
 
@@ -6069,10 +6097,6 @@ synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, cons
 int synctex_scanner_free(synctex_scanner_p scanner) {
     int node_count = 0;
     if (scanner) {
-        if (SYNCTEX_FILE) {
-            gzclose(SYNCTEX_FILE);
-            SYNCTEX_FILE = NULL;
-        }
         synctex_node_free(scanner->sheet);
         synctex_node_free(scanner->form);
         synctex_node_free(scanner->input);
@@ -6094,6 +6118,10 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner) {
     synctex_status_t status = 0;
     if (!scanner || scanner->flags.has_parsed) {
         return scanner;
+    }
+    if (!scanner->reader) {
+        synctex_scanner_free(scanner);
+        return NULL;
     }
     scanner->flags.has_parsed=1;
     scanner->pre_magnification = 1000;
@@ -6187,7 +6215,7 @@ float synctex_scanner_magnification(synctex_scanner_p scanner){
     return scanner?scanner->unit:1;
 }
 void synctex_scanner_display(synctex_scanner_p scanner) {
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return;
     }
     printf("The scanner:\noutput:%s\noutput_fmt:%s\nversion:%i\n",scanner->reader->output,scanner->output_fmt,scanner->version);
@@ -6223,7 +6251,7 @@ void synctex_scanner_display(synctex_scanner_p scanner) {
 /*  Public */
 const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag) {
     synctex_node_p input = NULL;
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return NULL;
     }
     if ((input = scanner->input)) {;
@@ -6245,7 +6273,7 @@ const char * synctex_node_get_name(synctex_node_p node) {
 static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
 static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name) {
     synctex_node_p input = NULL;
-    if (NULL == scanner) {
+    if (!scanner || !scanner->reader) {
         return 0;
     }
     if ((input = scanner->input)) {
@@ -6278,7 +6306,7 @@ static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name)
 
 int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name) {
     size_t char_index = strlen(name);
-    if ((scanner = synctex_scanner_parse(scanner)) && (0 < char_index)) {
+    if (scanner && scanner->flags.has_parsed && (0 < char_index)) {
         /*  the name is not void */
         char_index -= 1;
         if (!SYNCTEX_IS_PATH_SEPARATOR(name[char_index])) {
@@ -6337,13 +6365,13 @@ synctex_node_p synctex_scanner_input_with_tag(synctex_scanner_p scanner, int tag
     return input;
 }
 const char * synctex_scanner_get_output_fmt(synctex_scanner_p scanner) {
-    return NULL != scanner && scanner->output_fmt?scanner->output_fmt:"";
+    return scanner && scanner->output_fmt?scanner->output_fmt:"";
 }
 const char * synctex_scanner_get_output(synctex_scanner_p scanner) {
-    return NULL != scanner && scanner->reader->output?scanner->reader->output:"";
+    return scanner && scanner->reader->output?scanner->reader->output:"";
 }
 const char * synctex_scanner_get_synctex(synctex_scanner_p scanner) {
-    return NULL != scanner && scanner->reader->synctex?scanner->reader->synctex:"";
+    return scanner && scanner->reader->synctex?scanner->reader->synctex:"";
 }
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
@@ -7293,12 +7321,12 @@ synctex_iterator_p synctex_iterator_new_edit(synctex_scanner_p scanner,int page,
         synctex_point_s hit;
         synctex_node_p node = NULL;
         synctex_nd_lr_s nds = {{NULL,0},{NULL,0}};
-        if (NULL == (scanner = synctex_scanner_parse(scanner)) || 0 >= scanner->unit) {/*  scanner->unit must be >0 */
+        if (!scanner || !scanner->flags.has_parsed || 0 >= scanner->unit) {/*  scanner->unit must be >0 */
             return NULL;
         }
         /*  Find the proper sheet */
         sheet = synctex_sheet(scanner,page);
-        if (NULL == sheet) {
+        if (!sheet) {
             return NULL;
         }
         /*  Now sheet points to the sheet node with proper page number. */
@@ -7438,7 +7466,7 @@ static synctex_node_p _synctex_display_query_v2(synctex_node_p target, int tag, 
             }
             /*  Another match, same page number ? */
             result = _synctex_new_handle_with_target(target);
-            if (NULL == result ) {
+            if (!result ) {
                 return first_handle;
             }
             /*  is it the same page number ? */
@@ -7458,7 +7486,7 @@ static synctex_node_p _synctex_display_query_v2(synctex_node_p target, int tag, 
                     }
                     /*  New match found, which page? */
                     result = _synctex_new_handle_with_target(target);
-                    if (NULL == result) {
+                    if (!result) {
                         return first_handle;
                     }
                     same_page_node = first_handle;
@@ -8502,7 +8530,7 @@ synctex_updater_p synctex_updater_new_with_output_file(const char * output, cons
     synctex_open_s open;
     /*  prepare the updater, the memory is the only one dynamically allocated */
     updater = (synctex_updater_p)_synctex_malloc(sizeof(synctex_updater_s));
-    if (NULL == updater) {
+    if (!updater) {
         _synctex_error("!  synctex_updater_new_with_file: malloc problem");
         return NULL;
     }
@@ -8521,7 +8549,7 @@ synctex_updater_p synctex_updater_new_with_output_file(const char * output, cons
     updater->file.as_ptr = NULL;
     mode = _synctex_get_io_mode_name(open.io_mode|synctex_io_append_mask);/* either "a" or "ab", depending on the file extension */
     if (open.io_mode&synctex_io_gz_mask) {
-        if (NULL == (updater->file.as_FILE_p = fopen(open.synctex,mode))) {
+        if (!(updater->file.as_FILE_p = fopen(open.synctex,mode))) {
         no_write_error:
             _synctex_error("!  synctex_updater_new_with_file: Can't append to %s",open.synctex);
             free(open.synctex);
@@ -8530,7 +8558,7 @@ synctex_updater_p synctex_updater_new_with_output_file(const char * output, cons
         updater->print = &_synctex_updater_print;
         updater->close = &_synctex_updater_close;
     } else {
-        if (NULL == (updater->file.as_gzFile = gzopen(open.synctex,mode))) {
+        if (!(updater->file.as_gzFile = gzopen(open.synctex,mode))) {
             goto no_write_error;
         }
         updater->print = &_synctex_updater_print_gz;

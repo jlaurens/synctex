@@ -105,7 +105,7 @@ extern "C" {
      *      Use 0 only if you do not want to parse the
      *      content but just check for existence.
      *      Available since version 1.5
-     *   - resturn: a scanner. NULL is returned in case
+     *   - return: a scanner. NULL is returned in case
      *      of an error or non existent file.
      */
     synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, const char * build_directory, int parse);
@@ -126,6 +126,7 @@ extern "C" {
      *  In each query below, this message is sent,
      *  but if you need to access information more directly,
      *  you must ensure that the parsing did occur.
+     *  NOTA BENE: it recommanded to use 
      *  Usage:
      *		if((my_scanner = synctex_scanner_parse(my_scanner))) {
      *			continue with my_scanner...
@@ -134,6 +135,7 @@ extern "C" {
      *		}
      *  - returns: the argument on success.
      *      On failure, frees scanner and returns NULL.
+     *      Failure means no reader for the scanner.
      */
     synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner);
     
@@ -198,6 +200,9 @@ extern "C" {
      *  Whenever, different matches occur, the ones closest
      *  to the page will be given first. Pass a negative number
      *  when in doubt. Using pdf forms may lead to ambiguities.
+     *  These functions used to call synctex_scanner_parse,
+     *  which caused a memory leak when some problems occur,
+     *  for example when the synctex file could not open.
      */
     synctex_status_t synctex_display_query(synctex_scanner_p scanner,const char *  name,int line,int column, int page_hint);
     synctex_status_t synctex_edit_query(synctex_scanner_p scanner,int page,float h,float v);
@@ -308,7 +313,7 @@ extern "C" {
      *  Finally, synctex_scanner_input is the first input node of the scanner.
      *  To browse all the input node, use a loop like
      *      ...
-     *      synctex_node_p = input_node;
+     *      synctex_node_p input_node;
      *      ...
      *      if((input_node = synctex_scanner_input(scanner))) {
      *          do {
