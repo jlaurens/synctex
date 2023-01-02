@@ -10,13 +10,14 @@ More informations on http://itexmac2.sourceforge.net/SyncTeX.html
 
 This package is mainly for developers, it mainly contains the following files:
 
+synctex_parser_api_level.txt
 synctex_parser_readme.txt
 synctex_parser_version.txt
+synctex_parser_advanced.h
+synctex_parser_c-auto.h
 synctex_parser_utils.c
 synctex_parser_utils.h
 synctex_parser_local.h
-synctex_parser_private.h
-synctex_parser.h
 synctex_parser.c
 
 The file you are reading contains more informations about the SyncTeX parser history.

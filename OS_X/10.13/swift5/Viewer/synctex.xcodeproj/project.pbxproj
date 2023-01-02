@@ -142,6 +142,8 @@
 		2226C592295C3475002AB7F2 /* Viewer */ = {
 			isa = PBXGroup;
 			children = (
+				22F538AC295C79C900E2FD75 /* Viewer-Bridging-Header.h */,
+				22F538AD295C79C900E2FD75 /* viewer-Bridging-Header.h */,
 				2226C593295C3475002AB7F2 /* AppDelegate.swift */,
 				2226C595295C3475002AB7F2 /* ViewController.swift */,
 				2226C597295C3475002AB7F2 /* Main.storyboard */,
@@ -193,8 +195,6 @@
 				22F538B0295C79CA00E2FD75 /* synctex_parser.c */,
 				22F538B4295C79CB00E2FD75 /* synctex_parser.h */,
 				22F538B8295C79CB00E2FD75 /* synctex_version.h */,
-				22F538AC295C79C900E2FD75 /* Viewer-Bridging-Header.h */,
-				22F538AD295C79C900E2FD75 /* viewer-Bridging-Header.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
