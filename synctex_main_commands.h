@@ -55,65 +55,20 @@
  This was part of synctex_main.c but has been separated fort testing purposes.
  */
 
-#   include <stdlib.h>
-#   include <stdio.h>
-#   include <string.h>
-#   include <stdarg.h>
-#   include <math.h>
-#   include "synctex_config.h"
-#   include "synctex_commands.h"
-#   include "synctex_parser_advanced.h"
-#   include "synctex_parser_utils.h"
+#ifndef __SYNCTEX_VIEW__
+#define __SYNCTEX_VIEW__
 
-/*  "usage: synctex test subcommand options\n"  */
-int synctex_test(int argc, char *argv[]) {
-    if(argc) {
-        if(0==strcmp("file",argv[0])) {
-            return synctex_test_file(argc-1,argv+1);
-        }
-    }
-    return 0;
-}
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+int synctex_view(int argc, char *argv[]);
+int synctex_edit(int argc, char *argv[]);
+int synctex_update(int argc, char *argv[]);
+int synctex_test(int argc, char *argv[]);
 
-int synctex_test_file (int argc, char *argv[])
-{
-    int arg_index = 0;
-    char * output = NULL;
-    char * directory = NULL;
-    char * synctex_name = NULL;
-    synctex_compress_mode_t mode = synctex_compress_mode_none;
-    if(arg_index>=argc) {
-        _synctex_error("!  usage: synctex test file -o output [-d directory]\n");
-        return -1;
-    }
-    /* required */
-    if((arg_index>=argc) || strcmp("-o",argv[arg_index]) || (++arg_index>=argc)) {
-        _synctex_error("!  usage: synctex test file -o output [-d directory]\n");
-        return -1;
-    }
-    output = argv[arg_index];
-    /* optional */
-    if(++arg_index<argc) {
-        if(0 == strcmp("-d",argv[arg_index])) {
-            if(++arg_index<argc) {
-                directory = argv[arg_index];
-            } else {
-                directory = getenv("SYNCTEX_BUILD_DIRECTORY");
-            }
-        }
-    }
-    /* Arguments parsed */
-    if(_synctex_get_name(output, directory, &synctex_name, &mode)) {
-        _synctex_error("!  TEST FAILED\n");
-    } else {
-        printf("output:%s\n"
-               "directory:%s\n"
-               "file name:%s\n"
-               "compression mode:%s\n",
-               output,
-               directory,
-               synctex_name,
-               (mode?"gz":"none"));
-    }
-    return 0;
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* __SYNCTEX_VIEW__ */

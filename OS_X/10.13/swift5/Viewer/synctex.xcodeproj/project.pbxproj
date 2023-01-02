@@ -15,17 +15,12 @@
 		229793B129633D16001E57BE /* CLITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229793B029633D16001E57BE /* CLITests.swift */; };
 		229793B629633D7D001E57BE /* synctex_parser_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B5295C79CB00E2FD75 /* synctex_parser_utils.c */; };
 		229793B729633D7D001E57BE /* synctex_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B0295C79CA00E2FD75 /* synctex_parser.c */; };
-		229793BA29633DE7001E57BE /* synctex_main_test.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793B929633DE7001E57BE /* synctex_main_test.c */; };
-		229793BB29633FE2001E57BE /* synctex_main_test.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793B929633DE7001E57BE /* synctex_main_test.c */; };
-		229793BF296342BB001E57BE /* synctex_main_view.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793BE296342BB001E57BE /* synctex_main_view.c */; };
-		229793C0296342BB001E57BE /* synctex_main_view.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793BE296342BB001E57BE /* synctex_main_view.c */; };
-		229793C1296342BB001E57BE /* synctex_main_view.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793BE296342BB001E57BE /* synctex_main_view.c */; };
-		229793C6296344C4001E57BE /* synctex_main_update.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C3296344C3001E57BE /* synctex_main_update.c */; };
-		229793C7296344C4001E57BE /* synctex_main_update.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C3296344C3001E57BE /* synctex_main_update.c */; };
-		229793C8296344C4001E57BE /* synctex_main_update.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C3296344C3001E57BE /* synctex_main_update.c */; };
-		229793C9296344C4001E57BE /* synctex_main_edit.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_edit.c */; };
-		229793CA296344C4001E57BE /* synctex_main_edit.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_edit.c */; };
-		229793CB296344C4001E57BE /* synctex_main_edit.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_edit.c */; };
+		229793C9296344C4001E57BE /* synctex_main_commands.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_commands.c */; };
+		229793CA296344C4001E57BE /* synctex_main_commands.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_commands.c */; };
+		229793CB296344C4001E57BE /* synctex_main_commands.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_commands.c */; };
+		229793CE296347BC001E57BE /* synctex_main_help.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793CC296347BB001E57BE /* synctex_main_help.c */; };
+		229793CF296347BC001E57BE /* synctex_main_help.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793CC296347BB001E57BE /* synctex_main_help.c */; };
+		229793D0296347BC001E57BE /* synctex_main_help.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793CC296347BB001E57BE /* synctex_main_help.c */; };
 		22F538BB295C79CC00E2FD75 /* synctex_parser_readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 22F538AF295C79CA00E2FD75 /* synctex_parser_readme.md */; };
 		22F538BC295C79CC00E2FD75 /* synctex_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B0295C79CA00E2FD75 /* synctex_parser.c */; };
 		22F538BD295C79CC00E2FD75 /* synctex_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B0295C79CA00E2FD75 /* synctex_parser.c */; };
@@ -84,15 +79,11 @@
 		229793AE29633D16001E57BE /* CLITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CLITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		229793B029633D16001E57BE /* CLITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLITests.swift; sourceTree = "<group>"; };
 		229793B229633D16001E57BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		229793B829633DE7001E57BE /* synctex_main_test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = synctex_main_test.h; path = ../../../../synctex_main_test.h; sourceTree = "<group>"; };
-		229793B929633DE7001E57BE /* synctex_main_test.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = synctex_main_test.c; path = ../../../../synctex_main_test.c; sourceTree = "<group>"; };
 		229793BC296341BD001E57BE /* synctex_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = synctex_config.h; path = ../../../../synctex_config.h; sourceTree = "<group>"; };
-		229793BD296342BB001E57BE /* synctex_main_view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = synctex_main_view.h; path = ../../../../synctex_main_view.h; sourceTree = "<group>"; };
-		229793BE296342BB001E57BE /* synctex_main_view.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = synctex_main_view.c; path = ../../../../synctex_main_view.c; sourceTree = "<group>"; };
-		229793C2296344C3001E57BE /* synctex_main_update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_main_update.h; path = ../../../../synctex_main_update.h; sourceTree = "<group>"; };
-		229793C3296344C3001E57BE /* synctex_main_update.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = synctex_main_update.c; path = ../../../../synctex_main_update.c; sourceTree = "<group>"; };
-		229793C4296344C4001E57BE /* synctex_main_edit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = synctex_main_edit.c; path = ../../../../synctex_main_edit.c; sourceTree = "<group>"; };
-		229793C5296344C4001E57BE /* synctex_main_edit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_main_edit.h; path = ../../../../synctex_main_edit.h; sourceTree = "<group>"; };
+		229793C4296344C4001E57BE /* synctex_main_commands.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = synctex_main_commands.c; path = ../../../../synctex_main_commands.c; sourceTree = "<group>"; };
+		229793C5296344C4001E57BE /* synctex_main_commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_main_commands.h; path = ../../../../synctex_main_commands.h; sourceTree = "<group>"; };
+		229793CC296347BB001E57BE /* synctex_main_help.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = synctex_main_help.c; path = ../../../../synctex_main_help.c; sourceTree = "<group>"; };
+		229793CD296347BB001E57BE /* synctex_main_help.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_main_help.h; path = ../../../../synctex_main_help.h; sourceTree = "<group>"; };
 		22F538AC295C79C900E2FD75 /* Viewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Viewer-Bridging-Header.h"; sourceTree = "<group>"; };
 		22F538AD295C79C900E2FD75 /* viewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "viewer-Bridging-Header.h"; sourceTree = "<group>"; };
 		22F538AE295C79CA00E2FD75 /* synctex_parser_local.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_parser_local.h; path = ../../../../synctex_parser_local.h; sourceTree = "<group>"; };
@@ -228,14 +219,10 @@
 			children = (
 				229793BC296341BD001E57BE /* synctex_config.h */,
 				22F538B2295C79CA00E2FD75 /* synctex_main.c */,
-				229793C5296344C4001E57BE /* synctex_main_edit.h */,
-				229793C4296344C4001E57BE /* synctex_main_edit.c */,
-				229793C2296344C3001E57BE /* synctex_main_update.h */,
-				229793C3296344C3001E57BE /* synctex_main_update.c */,
-				229793B829633DE7001E57BE /* synctex_main_test.h */,
-				229793B929633DE7001E57BE /* synctex_main_test.c */,
-				229793BD296342BB001E57BE /* synctex_main_view.h */,
-				229793BE296342BB001E57BE /* synctex_main_view.c */,
+				229793CD296347BB001E57BE /* synctex_main_help.h */,
+				229793CC296347BB001E57BE /* synctex_main_help.c */,
+				229793C5296344C4001E57BE /* synctex_main_commands.h */,
+				229793C4296344C4001E57BE /* synctex_main_commands.c */,
 				22F538B9295C79CC00E2FD75 /* synctex_parser_advanced.h */,
 				22F538B1295C79CA00E2FD75 /* synctex_parser_api_level.txt */,
 				22F538B7295C79CB00E2FD75 /* synctex_parser_c-auto.h */,
@@ -436,14 +423,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				229793BA29633DE7001E57BE /* synctex_main_test.c in Sources */,
-				229793BF296342BB001E57BE /* synctex_main_view.c in Sources */,
 				2226C596295C3475002AB7F2 /* ViewController.swift in Sources */,
-				229793C9296344C4001E57BE /* synctex_main_edit.c in Sources */,
-				229793C6296344C4001E57BE /* synctex_main_update.c in Sources */,
+				229793C9296344C4001E57BE /* synctex_main_commands.c in Sources */,
 				2226C594295C3475002AB7F2 /* AppDelegate.swift in Sources */,
 				22F538BC295C79CC00E2FD75 /* synctex_parser.c in Sources */,
 				22F538C1295C79CC00E2FD75 /* synctex_parser_utils.c in Sources */,
+				229793CE296347BC001E57BE /* synctex_main_help.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,12 +452,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				229793C0296342BB001E57BE /* synctex_main_view.c in Sources */,
 				22F538C5295CA10B00E2FD75 /* synctex_main.c in Sources */,
 				22F538C2295C79CC00E2FD75 /* synctex_parser_utils.c in Sources */,
-				229793CA296344C4001E57BE /* synctex_main_edit.c in Sources */,
-				229793BB29633FE2001E57BE /* synctex_main_test.c in Sources */,
-				229793C7296344C4001E57BE /* synctex_main_update.c in Sources */,
+				229793CA296344C4001E57BE /* synctex_main_commands.c in Sources */,
+				229793CF296347BC001E57BE /* synctex_main_help.c in Sources */,
 				22F538BD295C79CC00E2FD75 /* synctex_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,12 +464,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				229793D0296347BC001E57BE /* synctex_main_help.c in Sources */,
 				229793B129633D16001E57BE /* CLITests.swift in Sources */,
 				229793B629633D7D001E57BE /* synctex_parser_utils.c in Sources */,
 				229793B729633D7D001E57BE /* synctex_parser.c in Sources */,
-				229793C8296344C4001E57BE /* synctex_main_update.c in Sources */,
-				229793C1296342BB001E57BE /* synctex_main_view.c in Sources */,
-				229793CB296344C4001E57BE /* synctex_main_edit.c in Sources */,
+				229793CB296344C4001E57BE /* synctex_main_commands.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

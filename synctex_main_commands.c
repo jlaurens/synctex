@@ -61,9 +61,15 @@
 #   include <stdarg.h>
 #   include <math.h>
 #   include "synctex_config.h"
-#   include "synctex_commands.h"
+#   include "synctex_main_help.h"
+#   include "synctex_main_commands.h"
 #   include "synctex_parser_advanced.h"
 #   include "synctex_parser_utils.h"
+
+#    ifdef SYNCTEX_NOTHING
+#       pragma mark -
+#       pragma mark View commands
+#   endif
 
 typedef struct {
     int line;
@@ -321,73 +327,348 @@ scan_output:
     return synctex_view_proceed(&Ps);
 }
 
-void synctex_help_view(const char * error,...) {
-    va_list v;
-    va_start(v, error);
-    synctex_usage(error, v);
-    va_end(v);
-    fputs("synctex view: forwards or direct synchronization,\n"
-          "command sent by the editor to view the output corresponding to the position under the mouse\n"
-          "\n"
-          "usage: synctex view -i line:column:[page_hint:]input -o output [-d directory] [-x viewer-command] [-h before/offset:middle/after]\n"
-          "\n"
-          "-i line:column:[page_hint:]input\n"
-          "       specify the line, column, optional page hint and input file.\n"
-          "       The line and column are 1 based integers,\n"
-          "       they allow to identify every character in a file.\n"
-          "       column is the offset of a character relative to the containing line.\n"
-          "       Pass 0 if this information is not relevant.\n"
-          "       page_hint is the currently displayed page number.\n"
-          "       If there is an answer on that page, it will be returned.\n"
-          "       Pass 0 if this information is not available to you.\n"
-          "       input is either the name of the main source file or an included document.\n"
-          "       It must be the very name as understood by TeX, id est the name exactly as it appears in the log file.\n"
-          "       It does not matter if the file actually exists or not, except that the command is not really useful.\n"
-          "       \n"
-          "-o output\n"
-          "       is the full or relative path of the output file (with any relevant path extension).\n"
-          "       This file must exist.\n"
-          "       \n"
-          "-d directory\n"
-          "       is the directory containing the synctex file, in case it is different from the directory of the output.\n"
-          "       This directory must exist.\n"
-          "       An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
-          "       the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
-          "        The other ones are simply removed, if the authorization is granted\n"
-          "       \n"
-          "-x viewer-command\n"
-          "       Normally the synctex tool outputs its result to the stdout.\n"
-          "       It is possible to launch an external tool with the result.\n"
-          "       The viewer-command is a printf like format string with following specifiers.\n"
-          "       %{output} is the name specifier of the main document, without path extension.\n"
-          "       %{page} is the 0 based page number specifier, %{page+1} is the 1 based page number specifier.\n"
-          "       To synchronize by point, %{x} is the x coordinate specifier, %{y} is the y coordinate specifier,\n"
-          "       both in dots and relative to the top left corner of the page.\n"
-          "       To synchronize by box,\n"
-          "       %{h} is the horizontal coordinate specifier of the origin of the enclosing box,\n"
-          "       %{v} is the vertical coordinate specifier of the origin of the enclosing box,\n"
-          "       both in dots and relative to the upper left corner of the page.\n"
-          "       They may be different from the preceding pair of coordinates.\n"
-          "       %{width} is the width specifier, %{height} is the height specifier of the enclosing box.\n"
-          "       The latter dimension is naturally counted from bottom to top.\n"
-          "       There is no notion of depth for such a box.\n"
-          "       To synchronize by content, %{before} is the word before,\n"
-          "       %{offset} is the offset specifier, %{middle} is the middle word, and %{after} is the word after.\n"
-          "\n"
-          "       If no viewer command is provided, the content of the SYNCTEX_VIEWER environment variable is used instead.\n"
-          "\n"
-          "-h before/offset:middle/after\n"
-          "       This hint allows a forwards synchronization by contents.\n"
-          "       Instead of giving a character offset in a line, you can give full words.\n"
-          "       A full word is a sequence of characters (excepting '/').\n"
-          "       You will choose full words in the source document that will certainly appear unaltered in the output.\n"
-          "       The \"middle\" word contains the character under the mouse at position offset.\n"
-          "       \"before\" is a full word preceding middle and \"after\" is following it.\n"
-          "       The before or after word can be missing, they are then considered as void strings.\n"
-          "       \n"
-          "The result is a list of records. In general the first one is the most accurate but\n"
-          "it is the responsibility of the client to decide which one best fits the user needs.\n",
-          (error?stderr:stdout)
-          );
-    return;
+#    ifdef SYNCTEX_NOTHING
+#       pragma mark -
+#       pragma mark Edit commands
+#   endif
+
+typedef struct {
+    int page;
+    float x;
+    float y;
+    unsigned int offset;
+    char * output;
+    char * directory;
+    char * editor;
+    char * context;
+} synctex_edit_params_t;
+
+int synctex_edit_proceed(synctex_edit_params_t * Ps);
+
+/*  "usage: synctex edit -o page:x:y:output [-d directory] [-x editor-command] [-h offset:context]\n"  */
+int synctex_edit(int argc, char *argv[]) {
+    int arg_index = 0;
+    char * start = NULL;
+    char * end = NULL;
+    synctex_edit_params_t Ps = {0,0,0,0,NULL,NULL,NULL,NULL};
+    /* required */
+    if((arg_index>=argc) || strcmp("-o",argv[arg_index]) || (++arg_index>=argc)) {
+        synctex_help_edit("Missing -o required argument");
+        return -1;
+    }
+    start = argv[arg_index];
+    Ps.page = (int)strtol(start,&end,10);
+    if(end>start && strlen(end)>1 && *end==':') {
+        start = end+1;
+        Ps.x = strtod(start,&end);
+        if(end>start && strlen(end)>1 && *end==':') {
+            start = end+1;
+            Ps.y = strtod(start,&end);
+            if(end>start && strlen(end)>1 && *end==':') {
+                Ps.output = ++end;
+                goto scan_execute;
+            }
+        }
+    }
+    synctex_help_edit("Bad -o argument");
+    return -1;
+scan_execute:
+    /* now scan the optional arguments */
+    if(++arg_index<argc) {
+        if(0 == strcmp("-d",argv[arg_index])) {
+            if(++arg_index<argc) {
+                Ps.directory = argv[arg_index];
+                if(++arg_index<argc) {
+                    goto option_command;
+                } else {
+                    return synctex_edit_proceed(&Ps);
+                }
+            } else {
+                Ps.directory = getenv("SYNCTEX_BUILD_DIRECTORY");
+                return synctex_edit_proceed(&Ps);
+            }
+        }
+    option_command:
+        if(0 == strcmp("-x",argv[arg_index])) {
+            if(++arg_index<argc) {
+                if(strcmp("-",argv[arg_index])) {
+                    /* next option does not start with '-', this is a command */
+                    Ps.editor = argv[arg_index];
+                    if(++arg_index<argc) {
+                        goto option_hint;
+                    } else {
+                        return synctex_edit_proceed(&Ps);
+                    }
+                } else {
+                    /* retrieve the environment variable */
+                    Ps.editor = getenv("SYNCTEX_EDITOR");
+                    goto option_hint;
+                }
+            } else {
+                Ps.editor = getenv("SYNCTEX_EDITOR");
+                return synctex_edit_proceed(&Ps);
+            }
+        }
+    option_hint:
+        if(0 == strcmp("-h",argv[arg_index]) && ++arg_index<argc) {
+            
+            start = argv[arg_index];
+            end = NULL;
+            Ps.offset = (int)strtol(start,&end,10);
+            if(end>start && strlen(end)>1 && *end==':') {
+                Ps.context = end+1;
+                return synctex_edit_proceed(&Ps);
+            }
+            synctex_help_edit("Bad -h argument");
+            return -1;
+        }
+    }
+    return synctex_edit_proceed(&Ps);
+}
+
+int synctex_edit_proceed(synctex_edit_params_t * Ps) {
+    synctex_scanner_p scanner = NULL;
+#if SYNCTEX_DEBUG
+    printf("page:%i\n",Ps->page);
+    printf("x:%f\n",Ps->x);
+    printf("y:%f\n",Ps->y);
+    printf("almost output:%s\n",Ps->output);
+    printf("editor:%s\n",Ps->editor);
+    printf("offset:%u\n",Ps->offset);
+    printf("context:%s\n",Ps->context);
+    printf("cwd:%s\n",getcwd(NULL,0));
+#endif
+    scanner = synctex_scanner_new_with_output_file(Ps->output,Ps->directory,1);
+    if(NULL == scanner) {
+        synctex_help_edit("No SyncTeX available for %s",Ps->output);
+        return -1;
+    }
+    if(synctex_edit_query(scanner,Ps->page,Ps->x,Ps->y)) {
+        synctex_node_p node = NULL;
+        const char * input = NULL;
+        if(NULL != (node = synctex_scanner_next_result(scanner))
+           && NULL != (input = synctex_scanner_get_name(scanner,synctex_node_tag(node)))) {
+            /* filtering the command */
+            if(Ps->editor && strlen(Ps->editor)) {
+                size_t size = 0;
+                char * where = NULL;
+                char * buffer = NULL;
+                char * buffer_cur = NULL;
+                int status;
+                size = strlen(Ps->editor)+3*sizeof(int)+3*SYNCTEX_STR_SIZE;
+                buffer = malloc(size+1);
+                if(NULL == buffer) {
+                    printf("SyncTeX ERROR: No memory available\n");
+                    return -1;
+                }
+                buffer[size]='\0';
+                /* Replace %{ by &{, then remove all unescaped '%'*/
+                while((where = strstr(Ps->editor,"%{")) != NULL) {
+                    *where = '&';
+                }
+                where = Ps->editor;
+                while(where &&(where = strstr(where,"%"))) {
+                    if(strlen(++where)) {
+                        if(*where == '%') {
+                            ++where;
+                        } else {
+                            *(where-1)='&';
+                        }
+                    }
+                }
+                buffer_cur = buffer;
+                /*  find the next occurrence of a format key */
+                where = Ps->editor;
+                while(Ps->editor && (where = strstr(Ps->editor,"&{"))) {
+#                   define TEST(KEY,FORMAT,WHAT)\
+if(!strncmp(where,KEY,strlen(KEY))) {\
+size_t printed = where-Ps->editor;\
+if(buffer_cur != memcpy(buffer_cur,Ps->editor,(size_t)printed)) {\
+synctex_help_edit("Memory copy problem");\
+free(buffer);\
+return -1;\
+}\
+buffer_cur += printed;size-=printed;\
+printed = snprintf(buffer_cur,size,FORMAT,WHAT);\
+if((unsigned)printed >= (unsigned)size) {\
+synctex_help_edit("Snprintf problem");\
+free(buffer);\
+return -1;\
+}\
+buffer_cur += printed;size-=printed;\
+*buffer_cur='\0';\
+Ps->editor = where+strlen(KEY);\
+continue;\
+}
+                    TEST("&{output}", "%s",Ps->output);
+                    TEST("&{input}",  "%s",input);
+                    TEST("&{line}",   "%i",synctex_node_line(node));
+                    TEST("&{column}", "%i",-1);
+                    TEST("&{offset}", "%u",Ps->offset);
+                    TEST("&{context}","%s",Ps->context);
+#                   undef TEST
+                    break;
+                }
+                /* copy the rest of editor into the buffer */
+                if(buffer_cur != memcpy(buffer_cur,Ps->editor,strlen(Ps->editor))) {
+                    fputs("!  synctex_edit: Memory copy problem",stderr);
+                    free(buffer);
+                    return -1;
+                }\
+                printf("SyncTeX: Executing\n%s\n",buffer);
+                status = system(buffer);
+                free(buffer);
+                buffer = NULL;
+                return status;
+            } else {
+                /* just print out the results */
+                puts("SyncTeX result begin");
+                do {
+                    printf( "Output:%s\n"
+                           "Input:%s\n"
+                           "Line:%i\n"
+                           "Column:%i\n"
+                           "Offset:%i\n"
+                           "Context:%s\n",
+                           Ps->output,
+                           input,
+                           synctex_node_line(node),
+                           synctex_node_column(node),
+                           Ps->offset,
+                           (Ps->context?Ps->context:""));
+                } while((node = synctex_scanner_next_result(scanner)) != NULL);
+                puts("SyncTeX result end");
+            }
+        }
+    }
+    return 0;
+}
+
+#    ifdef SYNCTEX_NOTHING
+#       pragma mark -
+#       pragma mark Update commands
+#   endif
+
+/*  "usage: synctex update -o output [-d directory] [-m number] [-x dimension] [-y dimension]\n"  */
+int synctex_update(int argc, char *argv[]) {
+    int arg_index = 0;
+    synctex_updater_p updater = NULL;
+    char * magnification = NULL;
+    char * x = NULL;
+    char * y = NULL;
+    char * output = NULL;
+    char * directory = NULL;
+#define SYNCTEX_fprintf (*synctex_fprintf)
+    if(arg_index>=argc) {
+        synctex_help_update("Bad update command");
+        return -1;
+    }
+    /* required */
+    if((arg_index>=argc) || strcmp("-o",argv[arg_index]) || (++arg_index>=argc)) {
+        synctex_help_update("Missing -o required argument");
+        return -1;
+    }
+    output = argv[arg_index];
+    if(++arg_index>=argc) {
+        return 0;
+    }
+next_argument:
+    if(0 == strcmp("-m",argv[arg_index])) {
+        if(++arg_index>=argc) {
+            synctex_help_update("Missing magnification");
+            return -1;
+        }
+        magnification = argv[arg_index];
+    prepare_next_argument:
+        if(++arg_index<argc) {
+            goto next_argument;
+        }
+    } else if(0 == strcmp("-x",argv[arg_index])) {
+        if(++arg_index>=argc) {
+            synctex_help_update("Missing x offset");
+            return -1;
+        }
+        x = argv[arg_index];
+        goto prepare_next_argument;
+    } else if(0 == strcmp("-y",argv[arg_index])) {
+        if(++arg_index>=argc) {
+            synctex_help_update("Missing y offset");
+            return -1;
+        }
+        y = argv[arg_index];
+        goto prepare_next_argument;
+    } else if(0 == strcmp("-d",argv[arg_index])) {
+        if(++arg_index<argc) {
+            directory = argv[arg_index];
+        } else {
+            directory = getenv("SYNCTEX_BUILD_DIRECTORY");
+        }
+        goto prepare_next_argument;
+    }
+    
+    /* Arguments parsed */
+    updater = synctex_updater_new_with_output_file(output,directory);
+    synctex_updater_append_magnification(updater,magnification);
+    synctex_updater_append_x_offset(updater,x);
+    synctex_updater_append_y_offset(updater,y);
+    synctex_updater_free(updater);
+    return 0;
+}
+
+#    ifdef SYNCTEX_NOTHING
+#       pragma mark -
+#       pragma mark Test commands
+#   endif
+
+/*  "usage: synctex test subcommand options\n"  */
+int synctex_test(int argc, char *argv[]) {
+    if(argc) {
+        if(0==strcmp("file",argv[0])) {
+            return synctex_test_file(argc-1,argv+1);
+        }
+    }
+    return 0;
+}
+
+int synctex_test_file (int argc, char *argv[])
+{
+    int arg_index = 0;
+    char * output = NULL;
+    char * directory = NULL;
+    char * synctex_name = NULL;
+    synctex_compress_mode_t mode = synctex_compress_mode_none;
+    if(arg_index>=argc) {
+        _synctex_error("!  usage: synctex test file -o output [-d directory]\n");
+        return -1;
+    }
+    /* required */
+    if((arg_index>=argc) || strcmp("-o",argv[arg_index]) || (++arg_index>=argc)) {
+        _synctex_error("!  usage: synctex test file -o output [-d directory]\n");
+        return -1;
+    }
+    output = argv[arg_index];
+    /* optional */
+    if(++arg_index<argc) {
+        if(0 == strcmp("-d",argv[arg_index])) {
+            if(++arg_index<argc) {
+                directory = argv[arg_index];
+            } else {
+                directory = getenv("SYNCTEX_BUILD_DIRECTORY");
+            }
+        }
+    }
+    /* Arguments parsed */
+    if(_synctex_get_name(output, directory, &synctex_name, &mode)) {
+        _synctex_error("!  TEST FAILED\n");
+    } else {
+        printf("output:%s\n"
+               "directory:%s\n"
+               "file name:%s\n"
+               "compression mode:%s\n",
+               output,
+               directory,
+               synctex_name,
+               (mode?"gz":"none"));
+    }
+    return 0;
 }
