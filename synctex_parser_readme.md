@@ -7,11 +7,18 @@ This file is part of the __SyncTeX__ package.
 
 ## Important
 
+* Changes in version `1.23`
+
+  * Code documentation
+  * Code cleaning
+  * Bug fixed in post processing (issue #50)
+  * api moved to 3.0.0, see `synctex_scanner_parse`
+
 * Changes in version `1.22`
 
-  * Typos fixed in code and printed comments
-  * Code cleaning (`static` keyword added)
-  * Bug fixed (Missing `va_end`)
+ * Typos fixed in code and printed comments
+ * Code cleaning (`static` keyword added)
+ * Bug fixed (Missing `va_end`)
 
 * Changes in version `1.21`
 
@@ -20,7 +27,6 @@ This file is part of the __SyncTeX__ package.
 	* Adding a more portable unused variable management.
 	* Various cosmetic changes in the source code, including explicit declaration of `void` in forward function declaration.
 	
-
 * Changes in version `1.20`
 
 	One bug fixed in some initialization and different syntax to make some compilers happy.
@@ -260,5 +266,5 @@ and significant help from __XeTeX__ developer Jonathan Kew.
 If you include or use a significant part of the __SyncTeX__ package into a software,
 I would appreciate to be listed as contributor and see __SyncTeX__" highlighted.
 
-Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+Copyright (c) 2008-2023 jerome DOT laurens AT u-bourgogne DOT fr
 

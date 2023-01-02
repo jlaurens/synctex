@@ -5,7 +5,7 @@
  
  Latest Revision: Sun Oct 15 15:09:55 UTC 2017
  
- Version: 1.21
+ Version: 1.23 / 3.0.0
  
  See synctex_parser_readme.txt for more details
  

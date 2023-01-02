@@ -1,10 +1,10 @@
 /* 
- Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2023 jerome DOT laurens AT u-bourgogne DOT fr
  
  This file is part of the __SyncTeX__ package.
  
- [//]: # (Latest Revision: Fri Jul 14 16:20:41 UTC 2017)
- [//]: # (Version: 1.21)
+ [//]: # (Latest Revision: Mon Jan  2 11:25:09 UTC 2023)
+ [//]: # (Version: 1.23 / 3.0.0)
  
  See `synctex_parser_readme.md` for more details
  

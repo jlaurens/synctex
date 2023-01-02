@@ -1,10 +1,10 @@
 /*
- Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2023 jerome DOT laurens AT u-bourgogne DOT fr
  
  This file is part of the __SyncTeX__ package.
  
- [//]: # (Latest Revision: Fri Jul 14 16:20:41 UTC 2017)
- [//]: # (Version: 1.21)
+ [//]: # (Latest Revision: Mon Jan  2 11:25:09 UTC 2023)
+ [//]: # (Version: 1.23 / 3.0.0)
  
  See `synctex_parser_readme.md` for more details
  
@@ -56,6 +56,20 @@
 extern "C" {
 #endif
     
+    typedef enum {
+        /*  When the function returns the value it was asked for:
+         It must be the biggest one, and the only positive... */
+        synctex_status_OK = 1,
+        /*  When the function could not return the value it was asked for: */
+        synctex_status_NOT_OK = 0,
+        /*  Generic error: */
+        synctex_status_ERROR = -1,
+        /*  When the end of the synctex file has been reached: */
+        synctex_status_EOF = -2,
+        /*  Parameter error: */
+        synctex_status_BAD_ARGUMENT = -3,
+    } synctex_status_t;
+
     /*  The main synctex object is a scanner.
      *  Its implementation is considered private.
      *  The basic workflow is
@@ -128,7 +142,7 @@ extern "C" {
      *  you must ensure that the parsing did occur.
      *  NOTA BENE: it recommanded to use 
      *  Usage:
-     *		if((my_scanner = synctex_scanner_parse(my_scanner))) {
+     *		if((synctex_scanner_parse(my_scanner) != )) {
      *			continue with my_scanner...
      *		} else {
      *			there was a problem
@@ -137,7 +151,7 @@ extern "C" {
      *      On failure, frees scanner and returns NULL.
      *      Failure means no reader for the scanner.
      */
-    synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner);
+    synctex_status_t synctex_scanner_parse(synctex_scanner_p scanner);
     
     /*  synctex_node_p is the type for all synctex nodes.
      *  Its implementation is considered private.
@@ -195,7 +209,6 @@ extern "C" {
      *  Sumatra-PDF, Skim, iTeXMac2, TeXShop and Texworks are examples of open source software that use this library.
      *  You can browse their code for a concrete implementation.
      */
-    typedef long synctex_status_t;
     /*  The page_hint argument is used to resolve ambiguities.
      *  Whenever, different matches occur, the ones closest
      *  to the page will be given first. Pass a negative number
