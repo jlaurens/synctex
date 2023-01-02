@@ -1,15 +1,14 @@
 //
-//  ViewerTests.swift
-//  ViewerTests
+//  CLITests.swift
+//  CLITests
 //
-//  Created by Jérôme LAURENS on 28/12/2022.
-//  Copyright © 2022 Jérôme LAURENS. All rights reserved.
+//  Created by Jérôme LAURENS on 02/01/2023.
+//  Copyright © 2023 Jérôme LAURENS. All rights reserved.
 //
 
 import XCTest
-@testable import Viewer
 
-class ViewerTests: XCTestCase {
+class CLITests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -22,8 +21,6 @@ class ViewerTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        synctex_scanner_t scanner = synctex_scanner_new_with_output_file("abcd",NULL,1)
-        
     }
 
     func testPerformanceExample() {
