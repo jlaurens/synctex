@@ -798,6 +798,7 @@ static synctex_reader_p synctex_reader_new_with_output_file(const char * output,
             (char *)_synctex_malloc(reader->size+1); /*  one more character for null termination */
         if (!reader->start) {
             _synctex_error("!  malloc error in synctex_reader_new_with_output_file.");
+        bailey:
 #ifdef SYNCTEX_DEBUG
             return reader;
 #else
@@ -6145,7 +6146,13 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner) {
     status = _synctex_scan_preamble(scanner);
     if (status<SYNCTEX_STATUS_OK) {
         _synctex_error("Bad preamble\n");
-        goto bailey;
+    bailey:
+#ifdef SYNCTEX_DEBUG
+        return scanner;
+#else
+        synctex_scanner_free(scanner);
+        return NULL;
+#endif
     }
     status = _synctex_scan_content(scanner);
     if (status<SYNCTEX_STATUS_OK) {

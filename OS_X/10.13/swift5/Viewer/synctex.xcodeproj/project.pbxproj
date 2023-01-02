@@ -12,7 +12,15 @@
 		2226C599295C3475002AB7F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2226C597295C3475002AB7F2 /* Main.storyboard */; };
 		2226C5A5295C3475002AB7F2 /* ViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226C5A4295C3475002AB7F2 /* ViewerTests.swift */; };
 		2226C5B0295C3476002AB7F2 /* ViewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226C5AF295C3476002AB7F2 /* ViewerUITests.swift */; };
-		22800DC1295C46D2002E00D2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22800DC0295C46D2002E00D2 /* main.swift */; };
+		22F538BB295C79CC00E2FD75 /* synctex_parser_readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 22F538AF295C79CA00E2FD75 /* synctex_parser_readme.md */; };
+		22F538BC295C79CC00E2FD75 /* synctex_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B0295C79CA00E2FD75 /* synctex_parser.c */; };
+		22F538BD295C79CC00E2FD75 /* synctex_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B0295C79CA00E2FD75 /* synctex_parser.c */; };
+		22F538BE295C79CC00E2FD75 /* synctex_parser_api_level.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22F538B1295C79CA00E2FD75 /* synctex_parser_api_level.txt */; };
+		22F538C1295C79CC00E2FD75 /* synctex_parser_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B5295C79CB00E2FD75 /* synctex_parser_utils.c */; };
+		22F538C2295C79CC00E2FD75 /* synctex_parser_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B5295C79CB00E2FD75 /* synctex_parser_utils.c */; };
+		22F538C3295C79CC00E2FD75 /* synctex_parser_readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22F538B6295C79CB00E2FD75 /* synctex_parser_readme.txt */; };
+		22F538C4295C79CC00E2FD75 /* synctex_parser_version.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22F538BA295C79CC00E2FD75 /* synctex_parser_version.txt */; };
+		22F538C5295CA10B00E2FD75 /* synctex_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B2295C79CA00E2FD75 /* synctex_main.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,15 +58,30 @@
 		2226C595295C3475002AB7F2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2226C598295C3475002AB7F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2226C59A295C3475002AB7F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2226C59B295C3475002AB7F2 /* Viewer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Viewer.entitlements; sourceTree = "<group>"; };
+		2226C59B295C3475002AB7F2 /* UI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UI.entitlements; sourceTree = "<group>"; };
 		2226C5A0295C3475002AB7F2 /* ViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2226C5A4295C3475002AB7F2 /* ViewerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerTests.swift; sourceTree = "<group>"; };
 		2226C5A6295C3475002AB7F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2226C5AB295C3476002AB7F2 /* ViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2226C5AF295C3476002AB7F2 /* ViewerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerUITests.swift; sourceTree = "<group>"; };
 		2226C5B1295C3476002AB7F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		22800DBE295C46D2002E00D2 /* viewer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = viewer; sourceTree = BUILT_PRODUCTS_DIR; };
+		22800DBE295C46D2002E00D2 /* synctex */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = synctex; sourceTree = BUILT_PRODUCTS_DIR; };
 		22800DC0295C46D2002E00D2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		22F538AC295C79C900E2FD75 /* Viewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Viewer-Bridging-Header.h"; sourceTree = "<group>"; };
+		22F538AD295C79C900E2FD75 /* viewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "viewer-Bridging-Header.h"; sourceTree = "<group>"; };
+		22F538AE295C79CA00E2FD75 /* synctex_parser_local.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_parser_local.h; path = ../../../../synctex_parser_local.h; sourceTree = "<group>"; };
+		22F538AF295C79CA00E2FD75 /* synctex_parser_readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = synctex_parser_readme.md; path = ../../../../synctex_parser_readme.md; sourceTree = "<group>"; };
+		22F538B0295C79CA00E2FD75 /* synctex_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = synctex_parser.c; path = ../../../../synctex_parser.c; sourceTree = "<group>"; };
+		22F538B1295C79CA00E2FD75 /* synctex_parser_api_level.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = synctex_parser_api_level.txt; path = ../../../../synctex_parser_api_level.txt; sourceTree = "<group>"; };
+		22F538B2295C79CA00E2FD75 /* synctex_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = synctex_main.c; path = ../../../../synctex_main.c; sourceTree = "<group>"; };
+		22F538B3295C79CB00E2FD75 /* synctex_parser_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_parser_utils.h; path = ../../../../synctex_parser_utils.h; sourceTree = "<group>"; };
+		22F538B4295C79CB00E2FD75 /* synctex_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_parser.h; path = ../../../../synctex_parser.h; sourceTree = "<group>"; };
+		22F538B5295C79CB00E2FD75 /* synctex_parser_utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = synctex_parser_utils.c; path = ../../../../synctex_parser_utils.c; sourceTree = "<group>"; };
+		22F538B6295C79CB00E2FD75 /* synctex_parser_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = synctex_parser_readme.txt; path = ../../../../synctex_parser_readme.txt; sourceTree = "<group>"; };
+		22F538B7295C79CB00E2FD75 /* synctex_parser_c-auto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "synctex_parser_c-auto.h"; path = "../../../../synctex_parser_c-auto.h"; sourceTree = "<group>"; };
+		22F538B8295C79CB00E2FD75 /* synctex_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_version.h; path = ../../../../synctex_version.h; sourceTree = "<group>"; };
+		22F538B9295C79CC00E2FD75 /* synctex_parser_advanced.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_parser_advanced.h; path = ../../../../synctex_parser_advanced.h; sourceTree = "<group>"; };
+		22F538BA295C79CC00E2FD75 /* synctex_parser_version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = synctex_parser_version.txt; path = ../../../../synctex_parser_version.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,10 +119,11 @@
 		2226C587295C3475002AB7F2 = {
 			isa = PBXGroup;
 			children = (
+				22F538AB295C799000E2FD75 /* Source */,
 				2226C592295C3475002AB7F2 /* Viewer */,
 				2226C5A3295C3475002AB7F2 /* ViewerTests */,
 				2226C5AE295C3476002AB7F2 /* ViewerUITests */,
-				22800DBF295C46D2002E00D2 /* viewer */,
+				22800DBF295C46D2002E00D2 /* cli */,
 				2226C591295C3475002AB7F2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -110,7 +134,7 @@
 				2226C590295C3475002AB7F2 /* Viewer.app */,
 				2226C5A0295C3475002AB7F2 /* ViewerTests.xctest */,
 				2226C5AB295C3476002AB7F2 /* ViewerUITests.xctest */,
-				22800DBE295C46D2002E00D2 /* viewer */,
+				22800DBE295C46D2002E00D2 /* synctex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,7 +146,7 @@
 				2226C595295C3475002AB7F2 /* ViewController.swift */,
 				2226C597295C3475002AB7F2 /* Main.storyboard */,
 				2226C59A295C3475002AB7F2 /* Info.plist */,
-				2226C59B295C3475002AB7F2 /* Viewer.entitlements */,
+				2226C59B295C3475002AB7F2 /* UI.entitlements */,
 			);
 			path = Viewer;
 			sourceTree = "<group>";
@@ -145,12 +169,34 @@
 			path = ViewerUITests;
 			sourceTree = "<group>";
 		};
-		22800DBF295C46D2002E00D2 /* viewer */ = {
+		22800DBF295C46D2002E00D2 /* cli */ = {
 			isa = PBXGroup;
 			children = (
 				22800DC0295C46D2002E00D2 /* main.swift */,
 			);
-			path = viewer;
+			path = cli;
+			sourceTree = "<group>";
+		};
+		22F538AB295C799000E2FD75 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				22F538B2295C79CA00E2FD75 /* synctex_main.c */,
+				22F538B9295C79CC00E2FD75 /* synctex_parser_advanced.h */,
+				22F538B1295C79CA00E2FD75 /* synctex_parser_api_level.txt */,
+				22F538B7295C79CB00E2FD75 /* synctex_parser_c-auto.h */,
+				22F538AE295C79CA00E2FD75 /* synctex_parser_local.h */,
+				22F538AF295C79CA00E2FD75 /* synctex_parser_readme.md */,
+				22F538B6295C79CB00E2FD75 /* synctex_parser_readme.txt */,
+				22F538B5295C79CB00E2FD75 /* synctex_parser_utils.c */,
+				22F538B3295C79CB00E2FD75 /* synctex_parser_utils.h */,
+				22F538BA295C79CC00E2FD75 /* synctex_parser_version.txt */,
+				22F538B0295C79CA00E2FD75 /* synctex_parser.c */,
+				22F538B4295C79CB00E2FD75 /* synctex_parser.h */,
+				22F538B8295C79CB00E2FD75 /* synctex_version.h */,
+				22F538AC295C79C900E2FD75 /* Viewer-Bridging-Header.h */,
+				22F538AD295C79C900E2FD75 /* viewer-Bridging-Header.h */,
+			);
+			name = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,9 +255,9 @@
 			productReference = 2226C5AB295C3476002AB7F2 /* ViewerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		22800DBD295C46D2002E00D2 /* viewer */ = {
+		22800DBD295C46D2002E00D2 /* synctex */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 22800DC4295C46D2002E00D2 /* Build configuration list for PBXNativeTarget "viewer" */;
+			buildConfigurationList = 22800DC4295C46D2002E00D2 /* Build configuration list for PBXNativeTarget "synctex" */;
 			buildPhases = (
 				22800DBA295C46D2002E00D2 /* Sources */,
 				22800DBB295C46D2002E00D2 /* Frameworks */,
@@ -221,9 +267,9 @@
 			);
 			dependencies = (
 			);
-			name = viewer;
+			name = synctex;
 			productName = viewer;
-			productReference = 22800DBE295C46D2002E00D2 /* viewer */;
+			productReference = 22800DBE295C46D2002E00D2 /* synctex */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -238,6 +284,7 @@
 				TargetAttributes = {
 					2226C58F295C3475002AB7F2 = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
 					};
 					2226C59F295C3475002AB7F2 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -249,10 +296,11 @@
 					};
 					22800DBD295C46D2002E00D2 = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
-			buildConfigurationList = 2226C58B295C3475002AB7F2 /* Build configuration list for PBXProject "Viewer" */;
+			buildConfigurationList = 2226C58B295C3475002AB7F2 /* Build configuration list for PBXProject "synctex" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -268,7 +316,7 @@
 				2226C58F295C3475002AB7F2 /* Viewer */,
 				2226C59F295C3475002AB7F2 /* ViewerTests */,
 				2226C5AA295C3476002AB7F2 /* ViewerUITests */,
-				22800DBD295C46D2002E00D2 /* viewer */,
+				22800DBD295C46D2002E00D2 /* synctex */,
 			);
 		};
 /* End PBXProject section */
@@ -278,6 +326,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22F538BE295C79CC00E2FD75 /* synctex_parser_api_level.txt in Resources */,
+				22F538BB295C79CC00E2FD75 /* synctex_parser_readme.md in Resources */,
+				22F538C4295C79CC00E2FD75 /* synctex_parser_version.txt in Resources */,
+				22F538C3295C79CC00E2FD75 /* synctex_parser_readme.txt in Resources */,
 				2226C599295C3475002AB7F2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,6 +357,8 @@
 			files = (
 				2226C596295C3475002AB7F2 /* ViewController.swift in Sources */,
 				2226C594295C3475002AB7F2 /* AppDelegate.swift in Sources */,
+				22F538BC295C79CC00E2FD75 /* synctex_parser.c in Sources */,
+				22F538C1295C79CC00E2FD75 /* synctex_parser_utils.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,7 +382,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22800DC1295C46D2002E00D2 /* main.swift in Sources */,
+				22F538C5295CA10B00E2FD75 /* synctex_main.c in Sources */,
+				22F538C2295C79CC00E2FD75 /* synctex_parser_utils.c in Sources */,
+				22F538BD295C79CC00E2FD75 /* synctex_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Viewer/Viewer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -489,6 +546,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chemin.des.faysses.Viewer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Viewer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -497,6 +556,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Viewer/Viewer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -508,6 +568,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chemin.des.faysses.Viewer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Viewer-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -597,9 +658,23 @@
 		22800DC2295C46D2002E00D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = THVRY34AAD;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
+					"$(inherited)",
+					__SYNCTEX_WORK__,
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lz";
+				"OTHER_LDFLAGS[arch=*]" = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "viewer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -607,9 +682,19 @@
 		22800DC3295C46D2002E00D2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = THVRY34AAD;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = __SYNCTEX_WORK__;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-lz";
+				"OTHER_LDFLAGS[arch=*]" = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "viewer-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -617,7 +702,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2226C58B295C3475002AB7F2 /* Build configuration list for PBXProject "Viewer" */ = {
+		2226C58B295C3475002AB7F2 /* Build configuration list for PBXProject "synctex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2226C5B2295C3476002AB7F2 /* Debug */,
@@ -653,7 +738,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		22800DC4295C46D2002E00D2 /* Build configuration list for PBXNativeTarget "viewer" */ = {
+		22800DC4295C46D2002E00D2 /* Build configuration list for PBXNativeTarget "synctex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				22800DC2295C46D2002E00D2 /* Debug */,

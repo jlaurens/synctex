@@ -65,8 +65,7 @@
 #   endif
 
 #   ifdef __SYNCTEX_WORK__
-#       include <synctex_parser_c-auto.h>
-/*      for inline && HAVE_xxx */
+#       include "synctex_parser_c-auto.h"
 #   else
 #       include <w2c/c-auto.h>
 /*      for inline && HAVE_xxx */

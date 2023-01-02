@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "22800DBD295C46D2002E00D2"
-               BuildableName = "viewer"
-               BlueprintName = "viewer"
-               ReferencedContainer = "container:Viewer.xcodeproj">
+               BuildableName = "synctex"
+               BlueprintName = "synctex"
+               ReferencedContainer = "container:synctex.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -56,11 +56,17 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "22800DBD295C46D2002E00D2"
-            BuildableName = "viewer"
-            BlueprintName = "viewer"
-            ReferencedContainer = "container:Viewer.xcodeproj">
+            BuildableName = "synctex"
+            BlueprintName = "synctex"
+            ReferencedContainer = "container:synctex.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "--help"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -70,16 +76,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "22800DBD295C46D2002E00D2"
-            BuildableName = "viewer"
-            BlueprintName = "viewer"
-            ReferencedContainer = "container:Viewer.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -9,7 +9,7 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>viewer.xcscheme_^#shared#^_</key>
+		<key>synctex.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -17,6 +17,21 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>2226C58F295C3475002AB7F2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2226C59F295C3475002AB7F2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2226C5AA295C3476002AB7F2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>22800DBD295C46D2002E00D2</key>
 		<dict>
 			<key>primary</key>
