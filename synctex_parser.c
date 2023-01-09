@@ -6117,7 +6117,13 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner) {
     status = _synctex_scan_preamble(scanner);
     if (status<SYNCTEX_STATUS_OK) {
         _synctex_error("Bad preamble\n");
-        goto bailey;
+        bailey:
+#ifdef SYNCTEX_DEBUG
+            return scanner;
+#else
+            synctex_scanner_free(scanner);
+            return NULL;
+#endif
     }
     status = _synctex_scan_content(scanner);
     if (status<SYNCTEX_STATUS_OK) {
