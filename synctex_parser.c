@@ -6057,10 +6057,11 @@ synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, cons
         _synctex_error("malloc problem");
         return NULL;
     }
-    if ((scanner->reader = synctex_reader_init_with_output_file(scanner->reader, output, build_directory))) {
+    if (synctex_reader_init_with_output_file(scanner->reader, output, build_directory)) {
         return parse? synctex_scanner_parse(scanner):scanner;
     }
     _synctex_error("No file?");
+    synctex_scanner_free(scanner);
     return NULL;
 }
 
@@ -6069,10 +6070,6 @@ synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, cons
 int synctex_scanner_free(synctex_scanner_p scanner) {
     int node_count = 0;
     if (scanner) {
-        if (SYNCTEX_FILE) {
-            gzclose(SYNCTEX_FILE);
-            SYNCTEX_FILE = NULL;
-        }
         synctex_node_free(scanner->sheet);
         synctex_node_free(scanner->form);
         synctex_node_free(scanner->input);
