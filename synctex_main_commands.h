@@ -61,11 +61,25 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
-int synctex_view(int argc, char *argv[]);
-int synctex_edit(int argc, char *argv[]);
-int synctex_update(int argc, char *argv[]);
-int synctex_test(int argc, char *argv[]);
+
+typedef int (*synctex_s_print_f)(const char *, const char *);
+typedef int (*synctex_i_print_f)(const char *, int);
+typedef int (*synctex_f_print_f)(const char *, float);
+
+struct synctex_print_t {
+    synctex_s_print_f s;
+    synctex_i_print_f i;
+    synctex_f_print_f f;
+};
+typedef const struct synctex_print_t synctex_print_s;
+typedef synctex_print_s * const synctex_print_p;
+
+extern synctex_print_p synctex_print;
+
+int synctex_view(int argc, char *argv[], synctex_print_p);
+int synctex_edit(int argc, char *argv[], synctex_print_p);
+int synctex_update(int argc, char *argv[], synctex_print_p);
+int synctex_test(int argc, char *argv[], synctex_print_p);
 
 #ifdef __cplusplus
 }

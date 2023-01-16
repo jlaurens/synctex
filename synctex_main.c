@@ -60,10 +60,6 @@
  This is the command line interface to the synctex_parser.c.
  */
 
-#   ifdef __linux__
-#       define _ISOC99_SOURCE /* to get the fmax() prototype */
-#   endif
-
 #   ifdef __SYNCTEX_WORK__
 #       include "synctex_parser_c-auto.h"
 #   else
@@ -93,14 +89,6 @@
 #ifndef HAVE_STRLCPY
 #   define strlcpy(dst, src, size) strcpy((dst), (src))
 #endif
-#ifndef HAVE_FMAX
-#   define fmax my_fmax
-inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
-#endif
-
-#ifdef WIN32
-#   define snprintf _snprintf
-#endif
 
 #if SYNCTEX_DEBUG
 #   ifdef WIN32
@@ -112,7 +100,6 @@ inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
 #endif
 
 int main(int argc, char *argv[]);
-
 
 int main(int argc, char *argv[])
 {
@@ -135,13 +122,13 @@ int main(int argc, char *argv[])
             synctex_help(NULL);
             return 0;
         } else if(0==strcmp("view",argv[arg_index])) {
-            return synctex_view(argc-arg_index-1,argv+arg_index+1);
+            return synctex_view(argc-arg_index-1,argv+arg_index+1, &printf);
         } else if(0==strcmp("edit",argv[arg_index])) {
-            return synctex_edit(argc-arg_index-1,argv+arg_index+1);
+            return synctex_edit(argc-arg_index-1,argv+arg_index+1, &printf);
         } else if(0==strcmp("update",argv[arg_index])) {
-            return synctex_update(argc-arg_index-1,argv+arg_index+1);
+            return synctex_update(argc-arg_index-1,argv+arg_index+1, &printf);
         } else if(0==strcmp("test",argv[arg_index])) {
-            return synctex_test(argc-arg_index-1,argv+arg_index+1);
+            return synctex_test(argc-arg_index-1,argv+arg_index+1, &printf);
         }
     }
     synctex_help("Missing options");

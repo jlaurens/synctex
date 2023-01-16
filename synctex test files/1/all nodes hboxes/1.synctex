@@ -19,16 +19,6 @@ Content:
 (1,50:20,40:250,10,5
 )
 (1,51:20,60:250,10,5
-#   define SYNCTEX_CHAR_ANCHOR      '!'
-#   define SYNCTEX_CHAR_VOID_VBOX   'v'
-#   define SYNCTEX_CHAR_VOID_HBOX   'h'
-#   define SYNCTEX_CHAR_KERN        'k'
-#   define SYNCTEX_CHAR_GLUE        'g'
-#   define SYNCTEX_CHAR_RULE        'r'
-#   define SYNCTEX_CHAR_MATH        '$'
-#   define SYNCTEX_CHAR_FORM_REF    'f'
-#   define SYNCTEX_CHAR_BOUNDARY    'x'
-#   define SYNCTEX_CHAR_CHARACTER   'c'
 )
 !-421
 (1,52:20,80:250,10,5
@@ -99,3 +89,4 @@ c1,89:150,=
 ]
 }
 Postamble:
+

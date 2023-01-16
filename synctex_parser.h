@@ -50,12 +50,16 @@
 #ifndef __SYNCTEX_PARSER__
 #   define __SYNCTEX_PARSER__
 
-#include "synctex_version.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
     
+#   include "synctex_version.h"
+#   include "synctex_config.h"
+
+    extern const char * synctex_suffix;
+    extern const char * synctex_suffix_gz;
+
     typedef enum {
         /*  When the function returns the value it was asked for:
          It must be the biggest one, and the only positive... */

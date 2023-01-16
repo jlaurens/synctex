@@ -37,10 +37,11 @@ This file is part of the __SyncTeX__ package.
 	
 	Some technical changes in the API.
 	* more consistent type naming convention
-		* `_s` suffix for struct's
-		* `_p` suffix for pointers
-		* `_t` suffix for standard types
-		* `_f` suffix for functions...
+                * `_s` suffix for struct's
+                * `_p` suffix for pointers
+                * `_r` suffix for lists of pointers
+                * `_t` suffix for standard types
+                * `_f` suffix for functions...
 		
 		thus `synctex_node_t` has become `synctex_node_p`.
 		

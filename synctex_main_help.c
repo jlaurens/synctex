@@ -51,7 +51,7 @@
  
  Important notice:
  -----------------
- This file is named "synctex_commands.c".
+ This file is named "synctex_main_commands.c".
  This was part of synctex_main.c but has been separated fort testing purposes.
  */
 
@@ -61,7 +61,7 @@
 #   include <stdarg.h>
 #   include <math.h>
 #   include "synctex_config.h"
-#   include "synctex_commands.h"
+#   include "synctex_main_commands.h"
 #   include "synctex_parser_advanced.h"
 #   include "synctex_parser_utils.h"
 
@@ -73,10 +73,11 @@ static void synctex_usage(const char * error,va_list ap) {
     }
     fprintf((error?stderr:stdout),
             "usage: synctex <subcommand> [options] [args]\n"
-            "Synchronize TeXnology command-line client, version " SYNCTEX_VERSION_STRING "\n\n"
+            "Synchronize TeXnology command-line client, version " SYNCTEX_CLI_VERSION_STRING "\n\n"
             "The Synchronization TeXnology by Jérôme Laurens is a rather new feature of recent TeX engines.\n"
             "It allows to synchronize between input and output, which means to\n"
-            "navigate from the source document to the typeset material and vice versa.\n\n"
+            "navigate from the source document to the typeset material and vice versa.\n"
+            "SyncTeX version is " SYNCTEX_VERSION_STRING ".\n\n"
             );
     return;
 }
@@ -178,24 +179,24 @@ void synctex_help_edit(const char * error,...) {
           "synctex edit: backwards or reverse synchronization,\n"
           "command sent by the viewer to edit the source corresponding to the position under the mouse\n\n"
           "\n"
-          "usage: synctex edit -o page:x:y:file [-d directory] [-x editor-command] [-h offset:context]\n"
+          "usage: synctex edit -o page:x:y:output [-d directory] [-x editor-command] [-h offset:context]\n"
           "\n"
-          "-o page:x:y:file\n"
+          "-o page:x:y:output\n"
           "       specify the page and coordinates of the point under the mouse.\n"
           "       page is 1 based.\n"
           "       Coordinates x and y are counted from the top left corner of the page.\n"
           "       Their unit is the big point (72 dpi).\n"
           "       \n"
-          "       file is in general the path of a pdf or dvi file.\n"
+          "       output is in general the path of a pdf or dvi file.\n"
           "       It can be either absolute or relative to the current directory.\n"
           "       This named file must always exist.\n"
           "       \n"
           "-d directory\n"
-          "       is the directory containing the synctex file, in case it is different from the directory of the output.\n"
+          "       is the directory containing the synctex file, in case it is different from the directory of the output file.\n"
           "       This directory must exist.\n"
           "       An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
           "       the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
-          "        The other ones are simply removed, if the authorization is granted\n"
+          "        The other ones are simply removed, if the authorization is granted.\n"
           "       \n"
           "-x editor-command\n"
           "       Normally the synctex tool outputs its result to the stdout.\n"
@@ -227,7 +228,7 @@ void synctex_help_update(const char * error,...) {
     va_end(v);
     fputs(
           "synctex update: up to date synctex file,\n"
-          "Use this command to update the synctex file once a dvi/xdv to pdf filter is applied.\n\n"
+          "Use this command to update the synctex file once a dvi/xdv to pdf filter is applied.\n"
           "\n"
           "usage: synctex update -o output [-d directory] [-m number] [-x dimension] [-y dimension]\n"
           "\n"

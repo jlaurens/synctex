@@ -6,6 +6,20 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		229793DD29643A72001E57BE /* synctexModuleMap */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 229793DE29643A73001E57BE /* Build configuration list for PBXAggregateTarget "synctexModuleMap" */;
+			buildPhases = (
+				229793E129643AB4001E57BE /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = synctexModuleMap;
+			productName = synctexModuleMap;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		2226C594295C3475002AB7F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226C593295C3475002AB7F2 /* AppDelegate.swift */; };
 		2226C596295C3475002AB7F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226C595295C3475002AB7F2 /* ViewController.swift */; };
@@ -13,14 +27,15 @@
 		2226C5A5295C3475002AB7F2 /* ViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226C5A4295C3475002AB7F2 /* ViewerTests.swift */; };
 		2226C5B0295C3476002AB7F2 /* ViewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226C5AF295C3476002AB7F2 /* ViewerUITests.swift */; };
 		229793B129633D16001E57BE /* CLITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229793B029633D16001E57BE /* CLITests.swift */; };
-		229793B629633D7D001E57BE /* synctex_parser_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B5295C79CB00E2FD75 /* synctex_parser_utils.c */; };
-		229793B729633D7D001E57BE /* synctex_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B0295C79CA00E2FD75 /* synctex_parser.c */; };
 		229793C9296344C4001E57BE /* synctex_main_commands.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_commands.c */; };
 		229793CA296344C4001E57BE /* synctex_main_commands.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_commands.c */; };
-		229793CB296344C4001E57BE /* synctex_main_commands.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_commands.c */; };
 		229793CE296347BC001E57BE /* synctex_main_help.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793CC296347BB001E57BE /* synctex_main_help.c */; };
 		229793CF296347BC001E57BE /* synctex_main_help.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793CC296347BB001E57BE /* synctex_main_help.c */; };
-		229793D0296347BC001E57BE /* synctex_main_help.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793CC296347BB001E57BE /* synctex_main_help.c */; };
+		229793D92964319F001E57BE /* synctex_main_help.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793CC296347BB001E57BE /* synctex_main_help.c */; };
+		229793DA2964319F001E57BE /* synctex_main_commands.c in Sources */ = {isa = PBXBuildFile; fileRef = 229793C4296344C4001E57BE /* synctex_main_commands.c */; };
+		229793DB2964319F001E57BE /* synctex_parser_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B5295C79CB00E2FD75 /* synctex_parser_utils.c */; };
+		229793DC2964319F001E57BE /* synctex_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B0295C79CA00E2FD75 /* synctex_parser.c */; };
+		229793E629643B78001E57BE /* libsynctexLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229793D52964317F001E57BE /* libsynctexLib.a */; };
 		22F538BB295C79CC00E2FD75 /* synctex_parser_readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 22F538AF295C79CA00E2FD75 /* synctex_parser_readme.md */; };
 		22F538BC295C79CC00E2FD75 /* synctex_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B0295C79CA00E2FD75 /* synctex_parser.c */; };
 		22F538BD295C79CC00E2FD75 /* synctex_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22F538B0295C79CA00E2FD75 /* synctex_parser.c */; };
@@ -46,6 +61,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2226C58F295C3475002AB7F2;
 			remoteInfo = Viewer;
+		};
+		229793E329643B54001E57BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2226C588295C3475002AB7F2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 229793DD29643A72001E57BE;
+			remoteInfo = synctexModuleMap;
+		};
+		229793E729643B86001E57BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2226C588295C3475002AB7F2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 229793D42964317F001E57BE;
+			remoteInfo = synctexLib;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -84,8 +113,9 @@
 		229793C5296344C4001E57BE /* synctex_main_commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_main_commands.h; path = ../../../../synctex_main_commands.h; sourceTree = "<group>"; };
 		229793CC296347BB001E57BE /* synctex_main_help.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = synctex_main_help.c; path = ../../../../synctex_main_help.c; sourceTree = "<group>"; };
 		229793CD296347BB001E57BE /* synctex_main_help.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_main_help.h; path = ../../../../synctex_main_help.h; sourceTree = "<group>"; };
+		229793D52964317F001E57BE /* libsynctexLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsynctexLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F538AC295C79C900E2FD75 /* Viewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Viewer-Bridging-Header.h"; sourceTree = "<group>"; };
-		22F538AD295C79C900E2FD75 /* viewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "viewer-Bridging-Header.h"; sourceTree = "<group>"; };
+		22F538AD295C79C900E2FD75 /* synctex-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "synctex-Bridging-Header.h"; sourceTree = "<group>"; };
 		22F538AE295C79CA00E2FD75 /* synctex_parser_local.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synctex_parser_local.h; path = ../../../../synctex_parser_local.h; sourceTree = "<group>"; };
 		22F538AF295C79CA00E2FD75 /* synctex_parser_readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = synctex_parser_readme.md; path = ../../../../synctex_parser_readme.md; sourceTree = "<group>"; };
 		22F538B0295C79CA00E2FD75 /* synctex_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = synctex_parser.c; path = ../../../../synctex_parser.c; sourceTree = "<group>"; };
@@ -134,6 +164,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				229793E629643B78001E57BE /* libsynctexLib.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		229793D32964317F001E57BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +181,7 @@
 		2226C587295C3475002AB7F2 = {
 			isa = PBXGroup;
 			children = (
+				22F538AD295C79C900E2FD75 /* synctex-Bridging-Header.h */,
 				22F538AB295C799000E2FD75 /* Source */,
 				2226C592295C3475002AB7F2 /* Viewer */,
 				2226C5A3295C3475002AB7F2 /* ViewerTests */,
@@ -150,6 +189,7 @@
 				22800DBF295C46D2002E00D2 /* cli */,
 				229793AF29633D16001E57BE /* CLITests */,
 				2226C591295C3475002AB7F2 /* Products */,
+				229793E529643B78001E57BE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -161,6 +201,7 @@
 				2226C5AB295C3476002AB7F2 /* ViewerUITests.xctest */,
 				22800DBE295C46D2002E00D2 /* synctex */,
 				229793AE29633D16001E57BE /* CLITests.xctest */,
+				229793D52964317F001E57BE /* libsynctexLib.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -169,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				22F538AC295C79C900E2FD75 /* Viewer-Bridging-Header.h */,
-				22F538AD295C79C900E2FD75 /* viewer-Bridging-Header.h */,
 				2226C593295C3475002AB7F2 /* AppDelegate.swift */,
 				2226C595295C3475002AB7F2 /* ViewController.swift */,
 				2226C597295C3475002AB7F2 /* Main.storyboard */,
@@ -214,9 +254,17 @@
 			path = CLITests;
 			sourceTree = "<group>";
 		};
+		229793E529643B78001E57BE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		22F538AB295C799000E2FD75 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				22F538B8295C79CB00E2FD75 /* synctex_version.h */,
 				229793BC296341BD001E57BE /* synctex_config.h */,
 				22F538B2295C79CA00E2FD75 /* synctex_main.c */,
 				229793CD296347BB001E57BE /* synctex_main_help.h */,
@@ -234,12 +282,21 @@
 				22F538BA295C79CC00E2FD75 /* synctex_parser_version.txt */,
 				22F538B0295C79CA00E2FD75 /* synctex_parser.c */,
 				22F538B4295C79CB00E2FD75 /* synctex_parser.h */,
-				22F538B8295C79CB00E2FD75 /* synctex_version.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		229793D12964317F001E57BE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		2226C58F295C3475002AB7F2 /* Viewer */ = {
@@ -323,11 +380,30 @@
 			buildRules = (
 			);
 			dependencies = (
+				229793E829643B86001E57BE /* PBXTargetDependency */,
+				229793E429643B54001E57BE /* PBXTargetDependency */,
 			);
 			name = CLITests;
 			productName = CLITests;
 			productReference = 229793AE29633D16001E57BE /* CLITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		229793D42964317F001E57BE /* synctexLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 229793D62964317F001E57BE /* Build configuration list for PBXNativeTarget "synctexLib" */;
+			buildPhases = (
+				229793D12964317F001E57BE /* Headers */,
+				229793D22964317F001E57BE /* Sources */,
+				229793D32964317F001E57BE /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = synctexLib;
+			productName = synctexLib;
+			productReference = 229793D52964317F001E57BE /* libsynctexLib.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -358,6 +434,12 @@
 					229793AD29633D16001E57BE = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
+					229793D42964317F001E57BE = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					229793DD29643A72001E57BE = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
 				};
 			};
 			buildConfigurationList = 2226C58B295C3475002AB7F2 /* Build configuration list for PBXProject "synctex" */;
@@ -377,6 +459,8 @@
 				2226C59F295C3475002AB7F2 /* ViewerTests */,
 				2226C5AA295C3476002AB7F2 /* ViewerUITests */,
 				22800DBD295C46D2002E00D2 /* synctex */,
+				229793DD29643A72001E57BE /* synctexModuleMap */,
+				229793D42964317F001E57BE /* synctexLib */,
 				229793AD29633D16001E57BE /* CLITests */,
 			);
 		};
@@ -417,6 +501,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		229793E129643AB4001E57BE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "# This if-statement means we'll only run the main script if the synctexModuleMap directory doesn't exist\n# Because otherwise the rest of the script causes a full recompile for anything where CommonCrypto is a dependency\n# Do a \"Clean Build Folder\" to remove this directory and trigger the rest of the script to run\nif [ -d \"${BUILT_PRODUCTS_DIR}/syntexModuleMap\" ]; then\necho \"${BUILT_PRODUCTS_DIR}/synctexModuleMap directory already exists, so skipping the rest of the script.\"\nexit 0\nfi\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/synctexModuleMap\"\ncat <<EOF > \"${BUILT_PRODUCTS_DIR}/synctexModuleMap/module.modulemap\"\nmodule synctex {\nheader \"${SRCROOT}/../../../../synctex_version.h\"\nheader \"${SRCROOT}/../../../../synctex_parser_advanced.h\"\nheader \"${SRCROOT}/../../../../synctex_parser_utils.h\"\nheader \"${SRCROOT}/../../../../synctex_main_commands.h\"\nexport *\n}\nEOF\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2226C58C295C3475002AB7F2 /* Sources */ = {
@@ -464,11 +568,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				229793D0296347BC001E57BE /* synctex_main_help.c in Sources */,
 				229793B129633D16001E57BE /* CLITests.swift in Sources */,
-				229793B629633D7D001E57BE /* synctex_parser_utils.c in Sources */,
-				229793B729633D7D001E57BE /* synctex_parser.c in Sources */,
-				229793CB296344C4001E57BE /* synctex_main_commands.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		229793D22964317F001E57BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				229793D92964319F001E57BE /* synctex_main_help.c in Sources */,
+				229793DA2964319F001E57BE /* synctex_main_commands.c in Sources */,
+				229793DB2964319F001E57BE /* synctex_parser_utils.c in Sources */,
+				229793DC2964319F001E57BE /* synctex_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +595,16 @@
 			isa = PBXTargetDependency;
 			target = 2226C58F295C3475002AB7F2 /* Viewer */;
 			targetProxy = 2226C5AC295C3476002AB7F2 /* PBXContainerItemProxy */;
+		};
+		229793E429643B54001E57BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 229793DD29643A72001E57BE /* synctexModuleMap */;
+			targetProxy = 229793E329643B54001E57BE /* PBXContainerItemProxy */;
+		};
+		229793E829643B86001E57BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 229793D42964317F001E57BE /* synctexLib */;
+			targetProxy = 229793E729643B86001E57BE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -541,6 +662,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SYNCTEX_TESTING_ON=1",
 					"DEBUG=1",
 					"$(inherited)",
 				);
@@ -630,7 +752,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chemin.des.faysses.Viewer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Viewer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "synctex-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -652,7 +774,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chemin.des.faysses.Viewer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Viewer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "synctex-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -748,6 +870,7 @@
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
 					"$(inherited)",
 					__SYNCTEX_WORK__,
+					__SYNCTEX_HAVE_FMAX__,
 				);
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -786,10 +909,11 @@
 		229793B429633D16001E57BE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = THVRY34AAD;
+				"HEADER_SEARCH_PATHS[arch=*]" = ../../..;
 				INFOPLIST_FILE = CLITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -798,6 +922,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chemin.des.faysses.CLITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "synctex-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -805,10 +930,11 @@
 		229793B529633D16001E57BE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = THVRY34AAD;
+				HEADER_SEARCH_PATHS = ../../..;
 				INFOPLIST_FILE = CLITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -817,7 +943,50 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chemin.des.faysses.CLITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "synctex-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		229793D72964317F001E57BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = THVRY34AAD;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		229793D82964317F001E57BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = THVRY34AAD;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		229793DF29643A73001E57BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = THVRY34AAD;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		229793E029643A73001E57BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = THVRY34AAD;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -874,6 +1043,24 @@
 			buildConfigurations = (
 				229793B429633D16001E57BE /* Debug */,
 				229793B529633D16001E57BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		229793D62964317F001E57BE /* Build configuration list for PBXNativeTarget "synctexLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				229793D72964317F001E57BE /* Debug */,
+				229793D82964317F001E57BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		229793DE29643A73001E57BE /* Build configuration list for PBXAggregateTarget "synctexModuleMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				229793DF29643A73001E57BE /* Debug */,
+				229793E029643A73001E57BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

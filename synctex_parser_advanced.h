@@ -265,38 +265,6 @@ extern "C" {
      *  thus different nodes will have different private data.
      *  There is no inheritancy overhead.
      */
-    typedef union {
-        synctex_node_p as_node;
-        int    as_integer;
-        char * as_string;
-        void * as_pointer;
-    } synctex_data_u;
-    typedef synctex_data_u * synctex_data_p;
-    
-#   if defined(SYNCTEX_USE_CHARINDEX)
-    typedef unsigned int synctex_charindex_t;
-    synctex_charindex_t synctex_node_charindex(synctex_node_p node);
-    typedef synctex_charindex_t synctex_lineindex_t;
-    synctex_lineindex_t synctex_node_lineindex(synctex_node_p node);
-    synctex_node_p synctex_scanner_handle(synctex_scanner_p scanner);
-#       define SYNCTEX_DECLARE_CHARINDEX \
-            synctex_charindex_t char_index;\
-            synctex_lineindex_t line_index;
-#       define SYNCTEX_DECLARE_CHAR_OFFSET \
-            synctex_charindex_t charindex_offset;
-#   else
-#       define SYNCTEX_DECLARE_CHARINDEX
-#       define SYNCTEX_DECLARE_CHAR_OFFSET
-#   endif
-    struct synctex_node_t {
-        SYNCTEX_DECLARE_CHARINDEX
-        synctex_class_p class_;
-#ifdef DEBUG
-        synctex_data_u data[22];
-#else
-        synctex_data_u data[1];
-#endif
-    };
     
     typedef synctex_node_p * synctex_node_r;
     
@@ -499,8 +467,8 @@ extern "C" {
     
     /*  You MUST free the updater, once everything is properly appended */
     void synctex_updater_free(synctex_updater_p updater);
-#endif
-    
+#endif /* SYNCTEX_NO_UPDATER */
+
 #if defined(SYNCTEX_DEBUG)
 #   include "assert.h"
 #   define SYNCTEX_ASSERT assert
@@ -508,45 +476,34 @@ extern "C" {
 #   define SYNCTEX_ASSERT(UNUSED)
 #endif
 
-#if defined(SYNCTEX_TESTING)
+#if defined(SYNCTEX_TESTING_ON)
 #warning TESTING IS PROHIBITED
-#if __clang__
-#define __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \
-_Pragma("clang diagnostic push") \
-_Pragma("clang diagnostic ignored \"-Wformat-extra-args\"")
-    
-#define __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS _Pragma("clang diagnostic pop")
-#else
-#define __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS
-#define __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS
-#endif
-    
-#   define SYNCTEX_TEST_BODY(counter, condition, desc, ...) \
-    do {				\
-        __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \
-        if (!(condition)) {		\
-            ++counter;  \
-            printf("**** Test failed: %s\nfile %s\nfunction %s\nline %i\n",#condition,__FILE__,__FUNCTION__,__LINE__); \
-            printf((desc), ##__VA_ARGS__); \
-        }				\
-        __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS \
-    } while(0)
-        
-#   define SYNCTEX_TEST_PARAMETER(counter, condition) SYNCTEX_TEST_BODY(counter, (condition), "Invalid parameter not satisfying: %s", #condition)
-    
     int synctex_test_input(synctex_scanner_p scanner);
     int synctex_test_proxy(synctex_scanner_p scanner);
     int synctex_test_tree(synctex_scanner_p scanner);
     int synctex_test_page(synctex_scanner_p scanner);
     int synctex_test_handle(synctex_scanner_p scanner);
     int synctex_test_display_query(synctex_scanner_p scanner);
-    int synctex_test_charindex();
-    int synctex_test_sheet_1();
-    int synctex_test_sheet_2();
-    int synctex_test_sheet_3();
-    int synctex_test_form();
-#endif
+    int synctex_test_char_index(void);
+    int synctex_test_sheet_1(void);
+    int synctex_test_sheet_2(void);
+    int synctex_test_form(void);
+#   if !defined(SYNCTEX_USE_HANDLE)
+#       define SYNCTEX_USE_HANDLE 1
+#   endif
+#   if !defined(SYNCTEX_USE_CHAR_INDEX)
+#       define SYNCTEX_USE_CHAR_INDEX 1
+#   endif
+#endif /* SYNCTEX_TESTING_ON */
 
+#   if defined(SYNCTEX_USE_CHAR_INDEX)
+    typedef size_t synctex_char_index_t;
+    synctex_char_index_t synctex_node_char_index(synctex_node_p node);
+    typedef synctex_char_index_t synctex_line_index_t;
+    synctex_line_index_t synctex_node_line_index(synctex_node_p node);
+    synctex_node_p synctex_scanner_handle(synctex_scanner_p scanner);
+#   endif
+    
 #ifdef __cplusplus
 }
 #endif

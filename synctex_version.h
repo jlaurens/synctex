@@ -52,8 +52,10 @@ I would appreciate to be listed as contributor and see "__SyncTeX__" highlighted
 
 #   define SYNCTEX_VERSION_MAJOR 1
 
-#   define SYNCTEX_VERSION_STRING "1.21"
+#   define SYNCTEX_VERSION_STRING "1.23"
 
-#   define SYNCTEX_CLI_VERSION_STRING "1.5"
+#   define SYNCTEX_CLI_VERSION_STRING "1.4"
+
+#   define SYNCTEX_API_LEVEL_STRING "3.0.0"
 
 #endif
