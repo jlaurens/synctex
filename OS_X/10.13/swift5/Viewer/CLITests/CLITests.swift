@@ -63,6 +63,18 @@ class CLITests: XCTestCase {
         free(output)
         free(build_directory)
     }
+    func generic_test_2( _ f: (synctex_scanner_p)->Int32, file: String ) {
+        let path = directoryURL("work/\(file).synctex").path
+        let output = strdup(path)
+        let build_directory = strdup("")
+        if let scanner = synctex_scanner_new_with_output_file(output, build_directory, 1) {
+            XCTAssert(f(scanner)==0)
+        } else {
+            XCTFail("No scanner")
+        }
+        free(output)
+        free(build_directory)
+    }
     func test_input() {
         generic_test_1(synctex_test_input)
     }
@@ -92,5 +104,15 @@ class CLITests: XCTestCase {
     }
     func test_form() {
         XCTAssert(synctex_test_form()==0)
+    }
+    func test_ith1() {
+        let ith1 = strdup("./ith1.tex")
+        generic_test_2({ (s: synctex_scanner_p) -> Int32 in
+            XCTAssert(synctex_scanner_get_ith_tag(s, ith1, 1) == 333)
+            XCTAssert(synctex_scanner_get_ith_tag(s, ith1, 2) == 22)
+            XCTAssert(synctex_scanner_get_ith_tag(s, ith1, 3) == 1)
+            return 0
+        }, file: "ith1")
+        free(ith1)
     }
 }

@@ -214,7 +214,7 @@ TeX and friends are not concerned by these changes.
 	    - function `_synctex_is_equivalent_file_name` is more permissive
   Previously, the function synctex_scanner_get_tag would give an answer only when
   the given file name was EXACTLY one of the file names listed in the synctex file.
-  The we added some changes accepting for example 'foo.tex' instead of './foo.tex'.
+  Then we added some changes accepting for example 'foo.tex' instead of './foo.tex'.
   Now we have an even looser policy for dealing with file names.
   If the given file name does not match exactly one the file names of the synctex file,
   then we try to match the base names. If there is only one match of the base names,

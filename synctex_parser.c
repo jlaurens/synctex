@@ -6289,6 +6289,44 @@ const char * synctex_node_get_name(synctex_node_p node) {
     return NULL;
 }
 
+typedef synctex_bool_t (*synctex_is_equivalent_file_name_f) (const char * left, const char * right);
+
+static synctex_is_equivalent_file_name_f synctex_is_equivalent_file_name = &_synctex_is_equivalent_file_name;
+
+static int _synctex_scanner_get_ith_tag(synctex_scanner_p scanner,const char * name,int i);
+static int _synctex_scanner_get_ith_tag(synctex_scanner_p scanner,const char * name,int i) {
+    synctex_node_p input = NULL;
+    if (!scanner || !scanner->reader) {
+        return 0;
+    }
+    if (i<1) {i=1;}
+    if ((input = scanner->input)) {
+        do {
+            if (_synctex_is_equivalent_file_name(name,(_synctex_data_name(input)))) {
+                if (i == 1) {
+                    return _synctex_data_tag(input);
+                } else {
+                    --i;
+                }
+            }
+        } while((input = __synctex_tree_sibling(input)));
+    }
+    /*  2011 version */
+    name = _synctex_base_name(name);
+    if ((input = scanner->input)) {
+        do {
+            if (_synctex_is_equivalent_file_name(name,_synctex_base_name(_synctex_data_name(input)))) {
+                if (i == 1) {
+                    return _synctex_data_tag(input);
+                } else {
+                    --i;
+                }
+            }
+        } while((input = __synctex_tree_sibling(input)));
+    }
+    return 0;
+}
+
 static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
 static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name) {
     synctex_node_p input = NULL;
@@ -6319,6 +6357,54 @@ static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name)
                 return _synctex_data_tag(input);
             }
         } while((input = __synctex_tree_sibling(input)));
+    }
+    return 0;
+}
+
+int synctex_scanner_get_ith_tag(synctex_scanner_p scanner,const char * name,int i) {
+    size_t char_index = strlen(name);
+    if (scanner && scanner->flags.has_parsed && (0 < char_index)) {
+        /*  the name is not void */
+        char_index -= 1;
+        if (!SYNCTEX_IS_PATH_SEPARATOR(name[char_index])) {
+            /*  the last character of name is not a path separator */
+            int result = _synctex_scanner_get_ith_tag(scanner,name,i);
+            if (result) {
+                return result;
+            } else {
+                /*  the given name was not the one known by TeX
+                 *  try a name relative to the enclosing directory of the scanner->output file */
+                const char * relative = name;
+                const char * ptr = scanner->reader->output;
+                while((strlen(relative) > 0) && (strlen(ptr) > 0) && (*relative == *ptr))
+                {
+                    relative += 1;
+                    ptr += 1;
+                }
+                /*  Find the last path separator before relative */
+                while(relative > name) {
+                    if (SYNCTEX_IS_PATH_SEPARATOR(*(relative-1))) {
+                        break;
+                    }
+                    relative -= 1;
+                }
+                if ((relative > name) && (result = _synctex_scanner_get_ith_tag(scanner,relative,i))) {
+                    return result;
+                }
+                if (SYNCTEX_IS_PATH_SEPARATOR(name[0])) {
+                    /*  No tag found for the given absolute name,
+                     *  Try each relative path starting from the shortest one */
+                    while(0<char_index) {
+                        char_index -= 1;
+                        if (SYNCTEX_IS_PATH_SEPARATOR(name[char_index])
+                            && (result = _synctex_scanner_get_ith_tag(scanner,name+char_index+1, i))) {
+                            return result;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
     }
     return 0;
 }
@@ -7616,10 +7702,10 @@ synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner,const 
     }
     return NULL;
 }
-synctex_status_t synctex_display_query(synctex_scanner_p scanner,const char *  name,int line,int column, int page_hint) {
+synctex_status_t synctex_display_query(synctex_scanner_p scanner,const char *  name,int line,int column,int page_hint) {
     if (scanner) {
         synctex_iterator_free(scanner->iterator);
-        scanner->iterator = synctex_iterator_new_display(scanner, name,line,column, page_hint);
+        scanner->iterator = synctex_iterator_new_display(scanner,name,line,column, page_hint);
         return synctex_iterator_count(scanner->iterator);
     }
     return synctex_status_ERROR;
@@ -7651,7 +7737,7 @@ synctex_node_p synctex_node_target(synctex_node_p node) {
 #       pragma mark Geometric utilities
 #   endif
 
-/** Rougly speaking, this is:
+/** Roughly speaking, this is:
  *  node's h coordinate - hit point's h coordinate.
  *  If node is to the right of the hit point, then this distance is positive,
  *  if node is to the left of the hit point, this distance is negative.

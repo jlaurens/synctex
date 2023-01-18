@@ -89,7 +89,7 @@ extern "C" {
     /**
      *  This is the designated method to create
      *  a new synctex scanner object.
-     *  - argument output: the pdf/dvi/xdv file associated
+     *  - argument output: the pdf/dvi/xdv file path associated
      *      to the synctex file.
      *      If necessary, it can be the tex file that
      *      originated the synctex file but this might cause
@@ -102,16 +102,14 @@ extern "C" {
      *      not 16 bits nor 32 bits.
      *      The last file extension is removed and
      *      replaced by the proper extension,
-     *      either synctex or synctex.gz.
+     *      either ".synctex" or ".synctex.gz".
      *  - argument build_directory: It is the directory where
-     *      all the auxiliary stuff is created.
+     *      all the auxiliary stuff is created. Sometimes,
+     *      the synctex output file and the pdf, dvi or xdv files are not
+     *      created in the same folder. See MikTeX.
      *      If no synctex file is found in the same directory
      *      as the output file, then we try to find one in
      *      this build directory.
-     *      It is the directory where all the auxiliary
-     *      stuff is created. Sometimes, the synctex output
-     *      file and the pdf, dvi or xdv files are not 
-     *      created in the same location. See MikTeX.
      *      This directory path can be NULL,
      *      it will be ignored then.
      *      It can be either absolute or relative to the
@@ -125,6 +123,7 @@ extern "C" {
      *      Available since version 1.5
      *   - return: a scanner. NULL is returned in case
      *      of an error or non existent file.
+     *      The scanner must be freed when no longer needed.
      */
     synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, const char * build_directory, int parse);
     
@@ -144,16 +143,17 @@ extern "C" {
      *  In each query below, this message is sent,
      *  but if you need to access information more directly,
      *  you must ensure that the parsing did occur.
-     *  NOTA BENE: it recommanded to use 
+     *  NOTA BENE: it is recommanded to parse with synctex_scanner_new_with_output_file.
      *  Usage:
-     *		if((synctex_scanner_parse(my_scanner) != )) {
+     *		if((synctex_scanner_parse(my_scanner) >= synctex_status_OK)) {
      *			continue with my_scanner...
      *		} else {
      *			there was a problem
      *		}
-     *  - returns: the argument on success.
+     *  - returns: synctex_status_OK on success, another status on failure.
      *      On failure, frees scanner and returns NULL.
      *      Failure means no reader for the scanner.
+     % NOTA BENE: This function used to free the scanner, but this is no longer the case.
      */
     synctex_status_t synctex_scanner_parse(synctex_scanner_p scanner);
     
@@ -168,7 +168,7 @@ extern "C" {
      *  Given the file name, a line and a column number, synctex_display_query returns the number of nodes
      *  satisfying the constrain. Use code like
      *
-     *      if(synctex_display_query(scanner,name,line,column,page_hint)>0) {
+     *      if(synctex_display_query(scanner,name,line,column,page_hint) >= synctex_status_OK) {
      *         synctex_node_p node;
      *         while((node = synctex_scanner_next_result(scanner))) {
      *             // do something with node
@@ -212,14 +212,14 @@ extern "C" {
      *
      *  Sumatra-PDF, Skim, iTeXMac2, TeXShop and Texworks are examples of open source software that use this library.
      *  You can browse their code for a concrete implementation.
-     */
-    /*  The page_hint argument is used to resolve ambiguities.
+     *  The page_hint argument is used to resolve ambiguities.
      *  Whenever, different matches occur, the ones closest
      *  to the page will be given first. Pass a negative number
      *  when in doubt. Using pdf forms may lead to ambiguities.
      *  These functions used to call synctex_scanner_parse,
      *  which caused a memory leak when some problems occur,
      *  for example when the synctex file could not open.
+     *  Nota Bene: Only one query at a time.
      */
     synctex_status_t synctex_display_query(synctex_scanner_p scanner,const char *  name,int line,int column, int page_hint);
     synctex_status_t synctex_edit_query(synctex_scanner_p scanner,int page,float h,float v);
@@ -345,7 +345,15 @@ extern "C" {
     const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag);
     
     int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
-    
+    /*
+     * In some situations, there are many tags for the same file name.
+     * We can now deal with that situation.
+     * In next function, if i equals 1 we return the last tag for the given name.
+     * If i equals 2, we return the last but one tag, and so on.
+     * If the ith tag does not exist, 0 is returned.
+     */
+    int synctex_scanner_get_ith_tag(synctex_scanner_p scanner,const char * name,int i);
+
     synctex_node_p synctex_scanner_input(synctex_scanner_p scanner);
     synctex_node_p synctex_scanner_input_with_tag(synctex_scanner_p scanner,int tag);
     const char * synctex_scanner_get_output(synctex_scanner_p scanner);
