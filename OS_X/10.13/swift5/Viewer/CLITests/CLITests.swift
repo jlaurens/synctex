@@ -105,14 +105,23 @@ class CLITests: XCTestCase {
     func test_form() {
         XCTAssert(synctex_test_form()==0)
     }
-    func test_ith1() {
+    func test_next_tag() {
         let ith1 = strdup("./ith1.tex")
         generic_test_2({ (s: synctex_scanner_p) -> Int32 in
-            XCTAssert(synctex_scanner_get_ith_tag(s, ith1, 1) == 333)
-            XCTAssert(synctex_scanner_get_ith_tag(s, ith1, 2) == 22)
-            XCTAssert(synctex_scanner_get_ith_tag(s, ith1, 3) == 1)
+            var tag: Int32 = 0;
+            var input: synctex_node_p? = nil
+            let input_ptr = UnsafeMutablePointer<synctex_node_p?>?.init(&input)
+            tag = synctex_scanner_next_tag(s, ith1, input_ptr)
+            XCTAssert(tag == 333)
+            tag = synctex_scanner_next_tag(s, ith1, input_ptr)
+            XCTAssert(tag == 22)
+            tag = synctex_scanner_next_tag(s, ith1, input_ptr)
+            XCTAssert(tag == 1)
+            tag = synctex_scanner_next_tag(s, ith1, input_ptr)
+            XCTAssert(tag == 0)
             return 0
         }, file: "ith1")
         free(ith1)
     }
+    //Cannot convert value of type 'synctex_node_p' (aka 'OpaquePointer') to expected argument type 'UnsafeMutablePointer<synctex_node_p?>?' (aka 'Optional<UnsafeMutablePointer<Optional<OpaquePointer>>>')
 }

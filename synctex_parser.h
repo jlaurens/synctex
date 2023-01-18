@@ -347,12 +347,18 @@ extern "C" {
     int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
     /*
      * In some situations, there are many tags for the same file name.
-     * We can now deal with that situation.
-     * In next function, if i equals 1 we return the last tag for the given name.
-     * If i equals 2, we return the last but one tag, and so on.
-     * If the ith tag does not exist, 0 is returned.
+     * We can now deal with that fact.
+     * In next function, input_ptr should not be NULL.
+     * Usage:
+     *      ...
+     *      synctex_node_p input;
+     *      int tag
+     *      while((tag = synctex_scanner_next_tag(scanner,"name",&input))) {
+     *          // do something with tag
+     *     }
+     *
      */
-    int synctex_scanner_get_ith_tag(synctex_scanner_p scanner,const char * name,int i);
+    int synctex_scanner_next_tag(synctex_scanner_p scanner,const char * name,synctex_node_p * input_ptr);
 
     synctex_node_p synctex_scanner_input(synctex_scanner_p scanner);
     synctex_node_p synctex_scanner_input_with_tag(synctex_scanner_p scanner,int tag);
