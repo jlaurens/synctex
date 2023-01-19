@@ -516,6 +516,7 @@ int synctex_view_proceed(synctex_view_params_t * Ps) {
                 puts("SyncTeX result end");
             }
         }
+        synctex_scanner_free(scanner);
     }
     return 0;
 }
@@ -780,6 +781,7 @@ int synctex_edit_proceed(synctex_edit_params_t * Ps) {
             }
         }
     }
+    synctex_scanner_free(scanner);
     return 0;
 }
 

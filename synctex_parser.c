@@ -933,6 +933,7 @@ static void _synctex_free_handle(synctex_node_p handle) {
     __synctex_tree_set_parent(n, NULL);
   down:
     while ((nn = _synctex_tree_child(n))) {
+      __synctex_tree_set_parent(nn, n);
       n = nn;
     };
   right:
