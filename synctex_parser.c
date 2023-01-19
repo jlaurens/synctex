@@ -3658,7 +3658,7 @@ static char * _synctex_abstract_proxy(synctex_node_p node) {
                synctex_node_line(node),
                _synctex_data_h(node),
                _synctex_data_v(node),
-               (void*)node,
+               (void*)node, // Fix GCC warning: %p expects a void* according to POSIX
                _synctex_node_abstract(N));
     }
     return abstract;
@@ -3742,7 +3742,7 @@ static char * _synctex_abstract_proxy_hbox(synctex_node_p node) {
                synctex_node_width(node),
                synctex_node_height(node),
                synctex_node_depth(node),
-               (void*)node
+               (void*)node // Fix GCC warning: %p expects a void* according to POSIX
                SYNCTEX_PRINT_CHARINDEX_WHAT);
     }
     return abstract;
