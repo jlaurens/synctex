@@ -744,7 +744,7 @@ static void synctex_reader_free(synctex_reader_p reader) {
 }
 /*
  *  Return reader on success.
- *  Deallocate reader and return NULL on failure.
+ *  Return NULL on failure.
  */
 static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p reader, const char * output, const char * build_directory) {
     if (reader) {
@@ -776,7 +776,6 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
 #ifdef SYNCTEX_DEBUG
             return reader;
 #else
-            synctex_reader_free(reader);
             return NULL;
 #endif
         }
@@ -4163,7 +4162,7 @@ static synctex_is_s _synctex_decode_int_v(synctex_scanner_p scanner) {
  *  A string is an array of characters from the current parser location
  *  and before the next '\n' character.
  *  If a string was properly decoded, it is returned in value_ref and
- *  the cursor points to the new line marker.
+ *  the cursor points to the newline marker.
  *  The returned string was alloced on the heap, the caller is the owner and
  *  is responsible to free it in due time,
  *  unless it transfers the ownership to another object.
