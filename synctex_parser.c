@@ -898,6 +898,9 @@ SYNCTEX_INLINE static void _synctex_will_free(synctex_node_p node) {
  *  - note: a node is meant to own its child and sibling.
  *  It is not owned by its parent, unless it is its first child.
  *  This destructor is for all nodes with children.
+ *  In issue 64,
+ *  https://github.com/jlaurens/synctex/issues/64
+ * sunderme pointed out that recursive calls are not a good idea.
  */
 static void _synctex_free_node(synctex_node_p node) {
     if (node) {
@@ -909,6 +912,20 @@ static void _synctex_free_node(synctex_node_p node) {
     }
     return;
 }
+#if 0
+static void _synctex_free_node(synctex_node_p node) {
+    synctex_node_p sibling;
+    while (node) {
+        SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
+        SYNCTEX_WILL_FREE(node);
+        sibling = __synctex_tree_sibling(node);
+        synctex_node_free(_synctex_tree_child(node));
+        _synctex_free(node);
+        node = sibling;
+    }
+    return;
+}
+#endif
 /**
  *  Free the given handle.
  *  - parameter node: of type synctex_node_p
