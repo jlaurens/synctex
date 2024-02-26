@@ -913,7 +913,22 @@ static void _synctex_free_node(synctex_node_p node) {
         node = sibling;
     }
     return;
-}/**
+}
+#if 0
+static void _synctex_free_node(synctex_node_p node) {
+    synctex_node_p sibling;
+    while (node) {
+        SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
+        SYNCTEX_WILL_FREE(node);
+        sibling = __synctex_tree_sibling(node);
+        synctex_node_free(_synctex_tree_child(node));
+        _synctex_free(node);
+        node = sibling;
+    }
+    return;
+}
+#endif
+/**
  *  Free the given handle.
  *  - parameter node: of type synctex_node_p
  *  - note: a node is meant to own its child and sibling.
