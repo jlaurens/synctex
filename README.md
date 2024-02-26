@@ -16,9 +16,33 @@ The focus here is on the client side code for synchronization between text edito
 Instructions below are given to build the `synctex` command line tool on possibly various operating systems.
 
 ## Clone
-Clone the git repository 
+Clone the git repository
 
-## Instruction for OS X
+## Building with meson and ninja
+
+To build the project, run:
+```sh
+meson build
+cd build && ninja
+```
+
+To install the project, run `sudo ninja install` from within the `build` directory.
+
+## Setting up Xcode with meson
+
+Install meson with [homebrew](https://brew.sh/):
+```sh
+brew install meson ninja
+```
+
+Build the Xcode project files:
+```sh
+meson setup --backend xcode build
+```
+
+You will find the Xcode project in `build/synctex.xcodeproj`.
+
+## Setting up Xcode manually
 These instructions are for Xcode 7 but they might apply as well for other versions.
 
 ### create a new project
