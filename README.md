@@ -22,7 +22,7 @@ Clone the git repository
 
 To build the project, run:
 ```sh
-meson build
+meson setup build
 cd build && ninja
 ```
 
@@ -38,6 +38,7 @@ brew install meson ninja
 Build the Xcode project files:
 ```sh
 meson setup --backend xcode build
+cd build && xcodebuild
 ```
 
 You will find the Xcode project in `build/synctex.xcodeproj`.

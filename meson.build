@@ -9,6 +9,11 @@ sources = files(
     'synctex_parser_utils.c',
 )
 
+headers = files(
+    'synctex_parser.h',
+    'synctex_parser_advanced.h',
+)
+
 zdep = dependency('zlib', version : '>=1.2.8')
 
 lib = library('synctex',
@@ -17,7 +22,7 @@ lib = library('synctex',
     dependencies : [ zdep ]
 )
 
-install_headers('synctex_parser.h', subdir : 'synctex')
+install_headers(headers, subdir : 'synctex')
 
 pkg.generate(
     name : 'synctex',
@@ -25,7 +30,7 @@ pkg.generate(
     libraries : 'synctex',
     subdirs : 'synctex',
     description : 'SyncTeX parser library',
-    url : 'http://www.tug.org/synctex',
+    url : 'http://github.org/jlaurens/synctex',
     install_dir : join_paths(get_option('prefix'), 'lib', 'pkgconfig'),
 )
 
