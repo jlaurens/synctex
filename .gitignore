@@ -30,3 +30,9 @@ synctex.h
 DerivedData/*
 
 *xcodeproj*
+
+build
+
+.vscode
+synctex test files/1/big/1.synctex
+synctex test files/1/big/1.pdf

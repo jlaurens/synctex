@@ -572,3 +572,120 @@ const char * _synctex_get_io_mode_name(synctex_io_mode_t io_mode) {
     unsigned index = ((io_mode & synctex_io_gz_mask)?1:0) + ((io_mode & synctex_io_append_mask)?2:0);// bug pointed out by Jose Alliste
     return synctex_io_modes[index];
 }
+
+typedef int(*synctex_parse_int_f)(char * ptr, char ** endptr);
+
+static int _synctex_parse_int_C(char * ptr, char ** endptr) {
+	return (int)strtol(ptr, endptr, 10);
+}
+/**
+ * This was initially suggested by user202729.
+ * 
+ */
+static int _synctex_parse_int_raw1(char * ptr, char ** endptr) {
+  int result = 0;
+	while (*ptr==' ') {
+    ptr++;
+  }
+  synctex_bool_t negative = (*ptr=='-');
+  if (negative) {
+    ptr++;
+  } else if (*ptr=='+') {
+    ptr++;
+  }
+  while (*ptr>='0' && *ptr<='9') {
+    result = 10 * result + (*ptr - '0');
+    ptr++;
+  }
+	if (endptr) {
+    *endptr = ptr;
+	}
+  return negative? -result : result;
+}
+
+static int _synctex_parse_int_raw2(char * ptr, char ** endptr) {
+  int result = 0;
+	unsigned digits = 10;
+  while (*ptr==' ') {
+    ptr++;
+  }
+  synctex_bool_t negative = (*ptr=='-');
+  if (negative) {
+    ptr++;
+  } else if (*ptr=='+') {
+    ptr++;
+  }
+  while (*ptr>='0' && *ptr<='9') {
+    result = (result << 3) + (result << 1) + (*ptr - '0');
+    ptr++;
+		digits--;
+		if (digits) {
+			continue;
+		}
+  	// We got nine digits so far
+		// Shall we overflow or underflow?
+		const int max = negative ? -INT_MIN : INT_MAX;
+		while (*ptr>='0' && *ptr<='9') {
+			int i = *ptr - '0';
+			// We test if result * 10 + (*ptr - '0') <= max
+			if ( result < (max - i) / 10 ) {
+in_range:
+				result = result * 10 + i;
+        ptr++;
+			} else if ( result > (max - i) / 10 ) {
+				result = max;
+out_of_range:
+				ptr++;
+        while (*ptr>='0' && *ptr<='9') {
+					ptr++;
+				}
+				goto will_return;
+			} else if ( result % 10 > (max - i) %10 ) {
+				goto out_of_range;
+			} else {
+				goto in_range;
+			}
+		}
+		break;
+  }
+will_return:
+	if (endptr) {
+    *endptr = ptr;
+	}
+  return negative? -result : result;
+}
+
+static synctex_parse_int_f synctex_parse_int_do = & _synctex_parse_int_C;
+
+synctex_parse_int_policy_t synctex_parse_int_policy(synctex_parse_int_policy_t policy) {
+	if (policy == synctex_parse_int_policy_request) {
+		if ( ( synctex_parse_int_do = &_synctex_parse_int_raw1 ) ) {
+			return synctex_parse_int_policy_raw1;
+		}
+		if ( ( synctex_parse_int_do = &_synctex_parse_int_raw2 ) ) {
+			return synctex_parse_int_policy_raw2;
+		}
+		return synctex_parse_int_policy_C;
+	} else if (policy == synctex_parse_int_policy_raw1) {
+#if SYNCTEX_DEBUG > 500
+    printf("synctex_parse_int_policy: raw1");
+#endif
+		synctex_parse_int_do = &_synctex_parse_int_raw1;
+	} else if (policy == synctex_parse_int_policy_raw2) {
+#if SYNCTEX_DEBUG > 500
+    printf("synctex_parse_int_policy: raw2");
+#endif
+		synctex_parse_int_do = &_synctex_parse_int_raw2;
+	} else {
+#if SYNCTEX_DEBUG > 500
+    printf("synctex_parse_int_policy: C");
+#endif
+		synctex_parse_int_do = &_synctex_parse_int_C;
+	  return synctex_parse_int_policy_C;
+	}
+	return policy;
+}
+
+int synctex_parse_int(char * ptr, char ** endptr) {
+	return (*synctex_parse_int_do)(ptr, endptr);
+}
