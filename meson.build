@@ -43,3 +43,13 @@ exe = executable('synctex',
     dependencies : [ zdep ],
     c_args : [ '-D__SYNCTEX_WORK__' ]
 )
+
+test('first test',
+    exe,
+    args : [
+        'edit',
+        '-o',
+        '1:100:100:synctex test files/1/edit query/1.pdf'
+    ],
+    workdir : meson.current_source_dir(),
+)
