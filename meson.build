@@ -9,17 +9,17 @@ subdir('include')
 
 zdep = dependency('zlib', version: '>=1.2.8')
 
-inc = include_directories('include')
-lib = library('synctex',
+synctex_inc = include_directories('include')
+synctex_lib = library('synctex',
   sources,
   install: true,
   dependencies: [ zdep ],
-  include_directories: [ inc ],
+  include_directories: [ synctex_inc ],
 )
 
-dep = declare_dependency(
-  include_directories: [ inc ],
-  link_with: lib,
+synctex_dep = declare_dependency(
+  include_directories: [ synctex_inc ],
+  link_with: synctex_lib,
 )
 
 install_headers(headers)
@@ -34,18 +34,18 @@ pkg.generate(
   install_dir: join_paths(get_option('prefix'), 'lib', 'pkgconfig'),
 )
 
-src = include_directories('src')
-exe = executable('synctex',
+synctex_src = include_directories('src')
+synctex_exe = executable('synctex',
   main,
-  include_directories: [ inc, src ],
+  include_directories: [ synctex_inc, synctex_src ],
   install: true,
-  link_with: [ lib ],
+  link_with: [ synctex_lib ],
   dependencies: [ zdep ],
   c_args: [ '-D__SYNCTEX_WORK__' ]
 )
 
 test('first test',
-  exe,
+  synctex_exe,
   args: [
     'edit',
     '-o',
