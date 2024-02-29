@@ -36,7 +36,7 @@ pkg.generate(
 
 src = include_directories('src')
 exe = executable('synctex',
-  'src/synctex_main.c',
+  main,
   include_directories: [ inc, src ],
   install: true,
   link_with: [ lib ],
