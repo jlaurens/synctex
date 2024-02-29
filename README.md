@@ -50,3 +50,6 @@ You end with 3 sources : `synctex_main.c`, `synctex_parser.c`, `synctex_parser_u
 - in the build phase pane, link to libz1.2.5.tbd (or similar)
 
 You are ready to build
+
+## Tags
+v2020.5
