@@ -4,12 +4,25 @@ version = '1.3'
 
 pkg = import('pkgconfig')
 
-subdir('src')
-subdir('include')
+headers = files(
+  'synctex_parser.h',
+  'synctex_parser_advanced.h',
+  'synctex_parser_utils.h',
+  'synctex_version.h',
+)
+
+sources = files(
+  'synctex_parser.c',
+  'synctex_parser_utils.c',
+)
+
+main = files(
+  'synctex_main.c',
+)
 
 zdep = dependency('zlib', version: '>=1.2.8')
 
-synctex_inc = include_directories('include')
+synctex_inc = include_directories('.')
 synctex_lib = library('synctex',
   sources,
   install: true,
@@ -34,7 +47,7 @@ pkg.generate(
   install_dir: join_paths(get_option('prefix'), 'lib', 'pkgconfig'),
 )
 
-synctex_src = include_directories('src')
+synctex_src = include_directories('.')
 synctex_exe = executable('synctex',
   main,
   include_directories: [ synctex_inc, synctex_src ],
@@ -49,7 +62,7 @@ test('first test',
   args: [
     'edit',
     '-o',
-    '1:100:100:test/1/edit query/1.pdf'
+    '1:100:100:synctex test files/1/edit query/1.pdf'
   ],
   workdir: meson.current_source_dir(),
 )
