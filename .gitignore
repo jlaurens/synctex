@@ -29,10 +29,14 @@ synctex.h
 
 DerivedData/*
 
-*xcodeproj*
+**.xcodeproj*
 
 build
 
 .vscode
-synctex test files/1/big/1.synctex
-synctex test files/1/big/1.pdf
+
+**/big/*.pdf
+**/big/*.synctex
+**/big/*.synctex.gz
+**/big/*.synctex(busy)
+**/big/*.synctex(busy)

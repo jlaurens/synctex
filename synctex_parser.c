@@ -2344,7 +2344,7 @@ static synctex_class_s synctex_class_proxy_last = {
     &synctex_tree_model_proxy_last, /*  tree model */
     &synctex_data_model_proxy,      /*  data model */
     &synctex_tlcpector_proxy,       /*  tlcpector */
-    &synctex_inspector_proxy_box,       /*  inspector */
+    &synctex_inspector_proxy_box,   /*  inspector */
     &synctex_vispector_proxy,       /*  vispector */
 };
 

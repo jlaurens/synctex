@@ -44,6 +44,17 @@ exe = executable('synctex',
   c_args: [ '-D__SYNCTEX_WORK__' ]
 )
 
+nomalloc = environment({'MALLOC_PERTURB_': '0'})
+
+test('test',
+  find_program('texlua'),
+  args: [
+    'synctex test files/test.lua'
+  ],
+  workdir: meson.current_source_dir(),
+  env: nomalloc,
+)
+
 test('first test',
   exe,
   args: [

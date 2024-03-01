@@ -21,9 +21,9 @@ bottom=100pt,
 \ExplSyntaxOn
 \tl_new:N \l__MY_page_tl
 % 1000 pages
-\int_step_variable:nNn { 1000 } \l__MY_page_tl {
+\int_step_variable:nNn { 10 } \l__MY_page_tl {
 \newpage\noindent\leavevmode
-\input{page.tex}
+\input{one_page.tex}
 }
 \ExplSyntaxOff
 \end{document}
