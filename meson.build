@@ -4,44 +4,35 @@ version = '1.3'
 
 pkg = import('pkgconfig')
 
-headers = files(
+synctex_sources = files(
+  'synctex_parser.c',
+  'synctex_parser_utils.c',
+)
+
+synctex_headers = files(
   'synctex_parser.h',
   'synctex_parser_advanced.h',
   'synctex_parser_utils.h',
   'synctex_version.h',
 )
 
-sources = files(
-  'synctex_parser.c',
-  'synctex_parser_utils.c',
-)
+synctex_dependencies = [ dependency('zlib', version: '>=1.2.8') ]
+synctex_name = 'synctex'
 
-main = files(
-  'synctex_main.c',
-)
-
-zdep = dependency('zlib', version: '>=1.2.8')
-
-synctex_inc = include_directories('.')
-synctex_lib = library('synctex',
-  sources,
+synctex_library = library(
+  synctex_name,
+  synctex_sources,
   install: true,
-  dependencies: [ zdep ],
-  include_directories: [ synctex_inc ],
+  dependencies: synctex_dependencies
 )
 
-synctex_dep = declare_dependency(
-  include_directories: [ synctex_inc ],
-  link_with: synctex_lib,
-)
-
-install_headers(headers)
+install_headers(synctex_headers, subdir: synctex_name)
 
 pkg.generate(
-  name: 'synctex',
+  name: synctex_name,
   version: version,
-  libraries: 'synctex',
-  subdirs: 'synctex',
+  libraries: synctex_name,
+  subdirs: synctex_name,
   description: 'SyncTeX parser library',
   url: 'http://github.org/jlaurens/synctex',
   install_dir: join_paths(get_option('prefix'), 'lib', 'pkgconfig'),
@@ -57,15 +48,23 @@ synctex_exe = executable('synctex',
   c_args: [ '-D__SYNCTEX_WORK__' ]
 )
 
-nomalloc = environment({'MALLOC_PERTURB_': '0'})
+synctex_no_malloc_env = environment({'MALLOC_PERTURB_': '0'})
+synctex_test = meson.current_source_dir() / 'test'
 
-test('test',
+test(
+  'big',
   find_program('texlua'),
-  args: [
-    'synctex test files/test.lua'
-  ],
-  workdir: meson.current_source_dir(),
-  env: nomalloc,
+  args: [ 'test.lua', '--dir=big'],
+  workdir: synctex_test,
+  env: synctex_no_malloc_env,
+)
+
+test(
+  'big/1',
+  find_program('texlua'),
+  args: [ 'test.lua', '--dir=big', '--unit=1'],
+  workdir: synctex_test,
+  env: synctex_no_malloc_env,
 )
 
 test('first test',
