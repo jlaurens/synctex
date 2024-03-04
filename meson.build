@@ -4,11 +4,6 @@ version = '1.3'
 
 pkg = import('pkgconfig')
 
-sources = files(
-  'synctex_parser.c',
-  'synctex_parser_utils.c',
-)
-
 headers = files(
   'synctex_parser.h',
   'synctex_parser_advanced.h',
@@ -16,15 +11,31 @@ headers = files(
   'synctex_version.h',
 )
 
-zdep = dependency('zlib', version: '>=1.2.8')
-
-lib = library('synctex',
-  sources,
-  install: true,
-  dependencies: [ zdep ]
+sources = files(
+  'synctex_parser.c',
+  'synctex_parser_utils.c',
 )
 
-install_headers(headers, subdir:'synctex')
+main = files(
+  'synctex_main.c',
+)
+
+zdep = dependency('zlib', version: '>=1.2.8')
+
+synctex_inc = include_directories('.')
+synctex_lib = library('synctex',
+  sources,
+  install: true,
+  dependencies: [ zdep ],
+  include_directories: [ synctex_inc ],
+)
+
+synctex_dep = declare_dependency(
+  include_directories: [ synctex_inc ],
+  link_with: synctex_lib,
+)
+
+install_headers(headers)
 
 pkg.generate(
   name: 'synctex',
@@ -36,16 +47,18 @@ pkg.generate(
   install_dir: join_paths(get_option('prefix'), 'lib', 'pkgconfig'),
 )
 
-exe = executable('synctex',
-  'synctex_main.c',
+synctex_src = include_directories('.')
+synctex_exe = executable('synctex',
+  main,
+  include_directories: [ synctex_inc, synctex_src ],
   install: true,
-  link_with: [ lib ],
+  link_with: [ synctex_lib ],
   dependencies: [ zdep ],
   c_args: [ '-D__SYNCTEX_WORK__' ]
 )
 
 test('first test',
-  exe,
+  synctex_exe,
   args: [
     'edit',
     '-o',
