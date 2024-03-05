@@ -2,8 +2,8 @@
 
 This file is part of the __SyncTeX__ package.
 
-[//]: # (Version: 1.3)
-[//]: # (Date: Tue Mar  5 21:16:33 UTC 2024)
+Version: 1.30
+Latest revision: Tue Mar  5 21:16:33 UTC 2024
 
 ## Important
 
@@ -21,6 +21,12 @@ This file is part of the __SyncTeX__ package.
 	* Fixed implicit declarations (vasprintf)
 	* less recursion
 	
+* Changes in version `1.22`
+
+  * Typos fixed in code and printed comments
+  * Code cleaning (`static` keyword added)
+  * Bug fixed (Missing `va_end`)
+
 * Changes in version `1.22`
 
   * Typos fixed in code and printed comments
