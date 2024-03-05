@@ -3,9 +3,9 @@
  
  This file is part of the SyncTeX package.
  
- Latest Revision: Sun Oct 15 15:09:55 UTC 2017
+ Latest Revision: Tue Mar  5 21:16:33 UTC 2024
  
- Version: 1.21
+ Version: 1.30
  
  See synctex_parser_readme.txt for more details
  
