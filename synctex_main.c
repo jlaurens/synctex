@@ -50,7 +50,8 @@
  --------
  
  - the -d option for an input directory
- - the --parse_int_policy option
+ - the --parse_int_policy global option
+ - the --interactive global option
  
  Important notice:
  -----------------
@@ -126,7 +127,7 @@ int synctex_edit(int argc, char *argv[]);
 int synctex_update(int argc, char *argv[]);
 int synctex_test(int argc, char *argv[]);
 
-int interactive = 0;
+int g_interactive = 0;
 /**
  * When in normal mode, free the scanner.
  * When in interaction mode, first starts an event loop to pool the standard input.
@@ -140,7 +141,7 @@ int main(int argc, char *argv[])
     printf("This is SyncTeX command line utility, version " SYNCTEX_CLI_VERSION_STRING "\n");
     while(++i<argc) {
         if(0==strcmp("--interactive",argv[i])) {
-            interactive = 1;
+            g_interactive = 1;
         } else if(0==strcmp("--parse_int_policy",argv[i])) {
             if(++i<argc) {
                 if(0==strcmp("C",argv[i])) {
@@ -227,7 +228,8 @@ int synctex_synchronize() {
 #   define SYNCTEX_BUFFER_SIZE 2048
 
 int synctex_return(int status) {
-    if (!status && interactive) {
+    fflush(stdout);
+    if (!status && g_interactive) {
         struct pollfd poll_stdin = {0, POLLIN, 0};
         char * buffer = (char *)malloc(SYNCTEX_BUFFER_SIZE+1);
         if (buffer) {
