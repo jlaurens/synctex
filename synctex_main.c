@@ -259,8 +259,8 @@ int synctex_return(int status) {
                 p[length] = 0;
                 if (strcmp(p, "?") == 0) {
                     puts("q to quit");
-                    puts("e line:column:input to edit");
-                    puts("v page:x:y to view");
+                    puts("e page:x:y to edit");
+                    puts("v line:column:input to view");
                     continue;
                 }
                 if (strcmp(p, "q") == 0) {
@@ -447,7 +447,19 @@ char * synctex_view_i(char * arg) {
             g_view.column = 0;
         }
         if(*ans==':') {
-            ++ans;
+            arg = ans+1;
+            g_view.page = synctex_parse_int(arg,&ans);
+            if(ans == arg) {
+                // This was not a page hint but an input
+                g_view.page = 0;
+            } else if(*ans==':') {
+                // this is a page hint followed by an input
+                ++ans;
+            } else {
+                // this is not a page hint, this is the head of an input
+                ans = arg;
+                g_view.page = 0;
+            }
             if (ans[0] == '"' && ans[strlen(ans)-1] == '"') {
                 ans[strlen(ans)-1] = '\0';
                 ++ans;
