@@ -54,7 +54,7 @@ synctex_exe = executable('synctex',
   install: true,
   link_with: [ synctex_lib ],
   dependencies: [ zdep ],
-  c_args: [ '-D__SYNCTEX_WORK__' ]
+  c_args: [ '-DSYNCTEX_STANDALONE' ]
 )
 
 test('first test',

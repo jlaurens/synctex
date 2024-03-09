@@ -63,7 +63,7 @@
 #       define _ISOC99_SOURCE /* to get the fmax() prototype */
 #   endif
 
-#   ifdef __SYNCTEX_WORK__
+#   ifdef SYNCTEX_STANDALONE
 #       include <synctex_parser_c-auto.h>
 /*      for inline && HAVE_xxx */
 #   else

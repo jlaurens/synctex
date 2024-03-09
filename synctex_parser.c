@@ -495,7 +495,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(target)
 #endif
 
 #define SYNCTEX_HAS_CHILDREN(NODE) (NODE && _synctex_tree_child(NODE))
-#	ifdef	__SYNCTEX_WORK__
+#	ifdef	SYNCTEX_STANDALONE
 #		include "/usr/local/include/node/zlib.h"
 #	else
 #		include <zlib.h>
