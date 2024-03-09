@@ -77,9 +77,7 @@ void *_synctex_malloc(size_t size) {
 }
 
 void _synctex_free(void * ptr) {
-    if (ptr) {
-        free(ptr);
-    }
+    free(ptr);
 }
 
 #if !defined(_WIN32)
