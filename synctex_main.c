@@ -105,12 +105,6 @@ inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
 #ifdef WIN32
 #   define snprintf _snprintf
 #endif
-*/
-
-#if defined(WIN32) && !defined(__SYNCTEX_WORK)
-#   include <kpathsea/progname.h>
-#endif
-
 
 #if SYNCTEX_DEBUG
 #   ifdef WIN32
