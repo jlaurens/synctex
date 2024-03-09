@@ -3,9 +3,8 @@ Copyright (c) 2005 jerome DOT laurens AT u-bourgogne DOT fr
 
 This file is part of the SyncTeX package.
 
-Latest Revision: Jeu 25 jui 2015 10:10:58 UTC
-
-Version: 1.18
+[//]: # (Version: 1.30)
+[//]: # (Latest revision: Tue Mar  5 21:16:33 UTC 2024)
 
 See synctex_parser_readme.txt for more details
 

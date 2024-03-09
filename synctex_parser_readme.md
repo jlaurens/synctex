@@ -2,10 +2,30 @@
 
 This file is part of the __SyncTeX__ package.
 
-[//]: # (Version: 1.22)
-[//]: # (Date: Mon May 11 16:05:02 UTC 2020)
+Version: 1.30
+Latest revision: Tue Mar  5 21:16:33 UTC 2024
 
 ## Important
+
+* Changes in version `1.3`
+
+  * interactive mode
+	* parse int policy (for testing)
+	* Build with meson
+	* Typos in code
+	* Better naming convention is code
+  * More explanations in the code
+	* Memory leaks fixed
+	* Fixed compilation (MSVC)
+	* Fixed compilation warnings (clang, gcc)
+	* Fixed implicit declarations (vasprintf)
+	* less recursion
+	
+* Changes in version `1.22`
+
+  * Typos fixed in code and printed comments
+  * Code cleaning (`static` keyword added)
+  * Bug fixed (Missing `va_end`)
 
 * Changes in version `1.22`
 
@@ -254,11 +274,13 @@ TeX and friends are not concerned by these changes.
 
 The author received useful remarks from the __pdfTeX__ developers, especially Hahn The Thanh,
 and significant help from __XeTeX__ developer Jonathan Kew.
+The Github repository keeps track of contributors like Stefan Löffler,
+who is now the leading developer of TeXworks, and many others.
 
 ## Nota Bene:
 
 If you include or use a significant part of the __SyncTeX__ package into a software,
 I would appreciate to be listed as contributor and see __SyncTeX__" highlighted.
 
-Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
 

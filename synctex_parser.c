@@ -1,10 +1,10 @@
 /*
- Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
  
  This file is part of the __SyncTeX__ package.
  
- [//]: # (Latest Revision: Sun Oct 15 15:09:55 UTC 2017)
- [//]: # (Version: 1.21)
+ [//]: # (Latest Revision: Tue Mar  5 21:16:33 UTC 2024)
+ [//]: # (Version: 1.30)
  
  See `synctex_parser_readme.md` for more details
  
@@ -60,7 +60,7 @@
  *  \brief SyncTeX file parser and controller.
  *  - author: Jérôme LAURENS
  *  \version 1.21
- *  \date Sun Oct 15 15:09:55 UTC 2017
+ *  \date Tue Mar  5 21:16:33 UTC 2024
  *
  *  Reads and parse *.synctex[.gz] files,
  *  performs edit and display queries.

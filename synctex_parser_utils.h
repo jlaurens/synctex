@@ -1,10 +1,10 @@
 /* 
- Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
  
  This file is part of the __SyncTeX__ package.
  
- [//]: # (Latest Revision: Fri Jul 14 16:20:41 UTC 2017)
- [//]: # (Version: 1.21)
+ [//]: # (Latest Revision: Tue Mar  5 21:16:33 UTC 2024)
+ [//]: # (Version: 1.30)
  
  See `synctex_parser_readme.md` for more details
  
@@ -103,8 +103,8 @@ void _synctex_free(void * ptr);
 /*  This is used to log some informational message to the standard error stream.
  *  On Windows, the stderr stream is not exposed and another method is used.
  *	The return value is the number of characters printed.	*/
-    int _synctex_error(const char * reason,...);
-    int _synctex_debug(const char * reason,...);
+	int _synctex_error(const char * reason,...);
+	int _synctex_debug(const char * reason,...);
 
 /*  strip the last extension of the given string, this string is modified!
  *  This function depends on the OS because the path separator may differ.
@@ -117,6 +117,11 @@ void _synctex_strip_last_path_extension(char * string);
  *  The return value is an undefined non 0 value when the two file names are equivalent.
  *  It is 0 otherwise. */
 synctex_bool_t _synctex_is_equivalent_file_name(const char *lhs, const char *rhs);
+
+/**
+ * The client is responsible of the management of the returned string, if any.
+ */
+char * _synctex_merge_strings(const char * first,...);
 
 /*	Description forthcoming.*/
 synctex_bool_t _synctex_path_is_absolute(const char * name);

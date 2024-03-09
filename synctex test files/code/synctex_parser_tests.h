@@ -1,9 +1,9 @@
 /*
- Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
  
  This file is part of the SyncTeX package.
  
- Latest Revision: Thu Mar  9 21:26:27 UTC 2017
+ Latest Revision: Tue Mar  5 21:16:33 UTC 2024
  
  Version: 1.19
  
