@@ -107,7 +107,7 @@ inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
 #endif
 */
 
-#ifdef WIN32
+#if defined(WIN32) && !defined(__SYNCTEX_WORK)
 #   include <kpathsea/progname.h>
 #endif
 
@@ -145,7 +145,7 @@ int main(int argc, char *argv[])
 {
     int i = 0;
     int status = 0;
-#ifdef WIN32
+#if defined(WIN32) && !defined(__SYNCTEX_WORK)
     kpse_set_program_name(argv[0], "synctex");
 #endif
     printf("This is SyncTeX command line utility, version " SYNCTEX_CLI_VERSION_STRING "\n");
