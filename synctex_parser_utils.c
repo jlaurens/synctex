@@ -77,9 +77,7 @@ void *_synctex_malloc(size_t size) {
 }
 
 void _synctex_free(void * ptr) {
-    if (ptr) {
-        free(ptr);
-    }
+    free(ptr);
 }
 
 #if !defined(_WIN32)
@@ -314,12 +312,7 @@ int _synctex_copy_with_quoting_last_path_component(const char * src, char ** des
 				if(strlen(src)<size) {
 					if((dest = (char *)malloc(size+2))) {
 						char * dpc = dest + (lpc-src);	/*	dpc is the last path component of dest.	*/
-						if(dest != strncpy(dest,src,size)) {
-							_synctex_error("!  _synctex_copy_with_quoting_last_path_component: Copy problem");
-							free(dest);
-							dest = NULL;/*  Don't forget to reinitialize. */
-							return -2;
-						}
+						memcpy(dest,src,size);
 						memmove(dpc+1,dpc,strlen(dpc)+1);	/*	Also move the null terminating character. */
 						dpc[0]='"';
 						dpc[strlen(dpc)+1]='\0';/*	Consistency test */
@@ -329,7 +322,7 @@ int _synctex_copy_with_quoting_last_path_component(const char * src, char ** des
 					return -1;	/*	Memory allocation error.	*/
 				}
 				_synctex_error("!  _synctex_copy_with_quoting_last_path_component: Internal inconsistency");
-				return -3;
+				return -2;
 			}
 			return 0;	/*	Success. */
 		}
@@ -367,13 +360,7 @@ char * _synctex_merge_strings(const char * first,...) {
 			do {
 				if((size = strlen(temp))>0) {
 					/*  There is something to merge */
-					if(dest != strncpy(dest,temp,size)) {
-						_synctex_error("!  _synctex_merge_strings: Copy problem");
-						free(result);
-						result = NULL;
-						va_end(arg);
-						return NULL;
-					}
+					memcpy(dest,temp,size);
 					dest += size;
 				}
 			} while( (temp = va_arg(arg, const char *)) != NULL);

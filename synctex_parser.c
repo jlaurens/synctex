@@ -899,18 +899,22 @@ SYNCTEX_INLINE static void _synctex_will_free(synctex_node_p node) {
  *  - note: a node is meant to own its child and sibling.
  *  It is not owned by its parent, unless it is its first child.
  *  This destructor is for all nodes with children.
+ * 
+ * Recursion only occurs from parent to children, which means
+ * that there is a maximum depth determined by the calling stack size.
+ * This is not managed.
  */
 static void _synctex_free_node(synctex_node_p node) {
-    if (node) {
+    while (node) {
+        synctex_node_p sibling = __synctex_tree_sibling(node);
         SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
         SYNCTEX_WILL_FREE(node);
-        synctex_node_free(__synctex_tree_sibling(node));
         synctex_node_free(_synctex_tree_child(node));
         _synctex_free(node);
+        node = sibling;
     }
     return;
-}
-/**
+}/**
  *  Free the given handle.
  *  - parameter node: of type synctex_node_p
  *  - note: a node is meant to own its child and sibling.
@@ -6061,7 +6065,8 @@ synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, cons
     if (synctex_reader_init_with_output_file(scanner->reader, output, build_directory)) {
         return parse? synctex_scanner_parse(scanner):scanner;
     }
-    _synctex_error("No file? %s", output);
+    // don't warn to terminal if no file is present, this is a library.
+    // _synctex_error("No file?");
     synctex_scanner_free(scanner);
     return NULL;
 }
