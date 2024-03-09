@@ -473,7 +473,7 @@ DEFINE_SYNCTEX_TREE_GETSET(next_hbox)
 DEFINE_SYNCTEX_TREE_GETSET(arg_sibling)
 DEFINE_SYNCTEX_TREE_GETSETRESET(target)
 
-#if SYNCTEX_DEBUG>1000
+#if SYNCTEX_DEBUG > 1000
 #   undef SYNCTEX_USE_NODE_COUNT
 #   define SYNCTEX_USE_NODE_COUNT 1
 #endif
@@ -898,35 +898,22 @@ SYNCTEX_INLINE static void _synctex_will_free(synctex_node_p node) {
  *  - note: a node is meant to own its child and sibling.
  *  It is not owned by its parent, unless it is its first child.
  *  This destructor is for all nodes with children.
- *  In issue 64,
- *  https://github.com/jlaurens/synctex/issues/64
- * sunderme pointed out that recursive calls are not a good idea.
+ * 
+ * Recursion only occurs from parent to children, which means
+ * that there is a maximum depth determined by the calling stack size.
+ * This is not managed.
  */
 static void _synctex_free_node(synctex_node_p node) {
-    if (node) {
-        SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
-        SYNCTEX_WILL_FREE(node);
-        synctex_node_free(__synctex_tree_sibling(node));
-        synctex_node_free(_synctex_tree_child(node));
-        _synctex_free(node);
-    }
-    return;
-}
-#if 0
-static void _synctex_free_node(synctex_node_p node) {
-    synctex_node_p sibling;
     while (node) {
+        synctex_node_p sibling = __synctex_tree_sibling(node);
         SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
         SYNCTEX_WILL_FREE(node);
-        sibling = __synctex_tree_sibling(node);
         synctex_node_free(_synctex_tree_child(node));
         _synctex_free(node);
         node = sibling;
     }
     return;
-}
-#endif
-/**
+}/**
  *  Free the given handle.
  *  - parameter node: of type synctex_node_p
  *  - note: a node is meant to own its child and sibling.
@@ -2669,7 +2656,7 @@ SYNCTEX_INLINE static synctex_node_p __synctex_node_make_friend(synctex_node_p n
         i = i%(node->class_->scanner->number_of_lists);
         old = synctex_tree_set_friend(node,(node->class_->scanner->lists_of_friends)[i]);
         (node->class_->scanner->lists_of_friends)[i] = node;
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
         printf("tl(%i)=>",i);
         synctex_node_log(node);
         if (synctex_node_parent_form(node)) {
@@ -3977,7 +3964,7 @@ infinite_loop:
  *  As side effect, the buffer state may have changed if the given argument string can't fit into the buffer.
  */
 static synctex_status_t _synctex_match_string(synctex_scanner_p scanner, const char * the_string) {
-    size_t tested_len = 0; /*  the number of characters at the beginning of the_string that match */
+    /* size_t tested_len = 0; */ /*  the number of characters at the beginning of the_string that match */
     size_t remaining_len = 0; /*  the number of remaining characters of the_string that should match */
     size_t available = 0;
     synctex_zs_s zs = {0,0};
@@ -4014,7 +4001,7 @@ static synctex_status_t _synctex_match_string(synctex_scanner_p scanner, const c
         the_string += zs.size;
         /*  update the remaining length and the parsed length. */
         remaining_len -= zs.size;
-        tested_len += zs.size;
+        /* tested_len += zs.size; */
         SYNCTEX_CUR += zs.size; /*  We validate the tested characters. */
         if (0 == remaining_len) {
             /*  Nothing left to test, we have found the given string. */
@@ -4065,7 +4052,7 @@ static synctex_status_t _synctex_match_string(synctex_scanner_p scanner, const c
             the_string += available;
             /*  update the remaining length and the parsed length. */
             remaining_len -= zs.size;
-            tested_len += zs.size;
+            /* tested_len += zs.size; */
             SYNCTEX_CUR += zs.size; /*  We validate the tested characters. */
             goto more_characters;
         }
@@ -4115,7 +4102,7 @@ static synctex_is_s _synctex_decode_int(synctex_scanner_p scanner) {
             return (synctex_is_s){0,SYNCTEX_STATUS_NOT_OK};
         }
     }
-    result = (int)strtol(ptr, &end, 10);
+    result = synctex_parse_int(ptr, &end);
     if (end>ptr) {
         SYNCTEX_CUR = end;
         return (synctex_is_s){result,SYNCTEX_STATUS_OK};
@@ -4145,7 +4132,7 @@ static synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int defau
         if (zs.size==0) {
             return (synctex_is_s){default_value,SYNCTEX_STATUS_NOT_OK};
         }
-        result = (int)strtol(ptr, &end, 10);
+        result = synctex_parse_int(ptr, &end);
         if (end>ptr) {
             SYNCTEX_CUR = end;
             return (synctex_is_s){result,SYNCTEX_STATUS_OK};
@@ -4603,7 +4590,7 @@ static synctex_status_t _synctex_scan_postamble(synctex_scanner_p scanner) {
     }
 count_again:
     if ((status=_synctex_next_line(scanner))<SYNCTEX_STATUS_OK) {
-        return status;
+        return SYNCTEX_STATUS_OK;
     }
     if ((status=_synctex_scan_named(scanner,"Count:"))< SYNCTEX_STATUS_EOF) {
         return status; /*  forward the error */
@@ -4614,7 +4601,7 @@ count_again:
         return is.status;
     }
     if ((status=_synctex_next_line(scanner))<SYNCTEX_STATUS_OK) {
-        return status;
+        return SYNCTEX_STATUS_OK;
     }
     scanner->count = is.integer;
     /*  Now we scan the last part of the SyncTeX file: the Post Scriptum section. */
@@ -5270,7 +5257,7 @@ content_loop:
 #if SYNCTEX_VERBOSE
     synctex_scanner_set_display_switcher(scanner,-1);
     printf("NEW CONTENT LOOP\n");
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
     synctex_node_display(sheet);
 #endif
 #endif
@@ -5609,7 +5596,7 @@ _synctex_make_hbox_contain_box(parent,_synctex_data_box(child));
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark + SCAN FORM REF
 #   endif
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
             synctex_node_display(parent);
             synctex_node_display(child);
 #endif
@@ -5775,7 +5762,7 @@ SYNCTEX_INLINE static synctex_ns_s __synctex_replace_ref(synctex_node_p ref) {
                 sibling->line_index = arg_sibling->line_index;
             }
 #endif
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
             printf("!  Ref replacement:\n");
             synctex_node_log(ref);
             synctex_node_display(synctex_node_sibling(ref));
@@ -5839,7 +5826,7 @@ SYNCTEX_INLINE static synctex_status_t _synctex_post_process_proxy(synctex_node_
             }
         }
         do {
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
             printf("POST PROCESSING %s\n",_synctex_node_abstract(proxy));
             {
                 int i,j = 0;
@@ -5858,7 +5845,7 @@ SYNCTEX_INLINE static synctex_status_t _synctex_post_process_proxy(synctex_node_
             }
 #endif
             f(proxy);
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
             {
                 int i,j = 0;
                 for (i=0;i<proxy->class_->scanner->number_of_lists;++i) {
@@ -5877,7 +5864,7 @@ SYNCTEX_INLINE static synctex_status_t _synctex_post_process_proxy(synctex_node_
 #endif
             /*  Side effect: create the hierarchy on the fly */
             proxy = synctex_node_next(proxy); /*  Change is here */
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
             if (proxy) {
                 int i,j = 0;
                 for (i=0;i<proxy->class_->scanner->number_of_lists;++i) {
@@ -5909,7 +5896,7 @@ SYNCTEX_INLINE static synctex_status_t _synctex_post_process_proxy(synctex_node_
 SYNCTEX_INLINE static synctex_status_t _synctex_post_process(synctex_scanner_p scanner) {
     synctex_status_t status = SYNCTEX_STATUS_OK;
     synctex_ns_s ns = {NULL,SYNCTEX_STATUS_NOT_OK};
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
     printf("!  entering _synctex_post_process.\n");
     synctex_node_display(scanner->sheet);
     synctex_node_display(scanner->form);
@@ -5920,7 +5907,7 @@ SYNCTEX_INLINE static synctex_status_t _synctex_post_process(synctex_scanner_p s
     if (ns.status<status) {
         status = ns.status;
     }
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
     printf("!  ref replaced in form _synctex_post_process.\n");
     synctex_node_display(scanner->form);
 #endif
@@ -5942,7 +5929,7 @@ SYNCTEX_INLINE static synctex_status_t _synctex_post_process(synctex_scanner_p s
         status = ns.status;
     }
     scanner->ref_in_sheet = NULL;
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
     printf("!  ref replaced in sheet _synctex_post_process.\n");
     synctex_node_display(scanner->sheet);
 #endif
@@ -5985,7 +5972,7 @@ SYNCTEX_INLINE static synctex_status_t _synctex_post_process(synctex_scanner_p s
     if (ns.status<status) {
         status = ns.status;
     }
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
     printf("!  exiting _synctex_post_process.\n");
     synctex_node_display(scanner->sheet);
     synctex_node_display(scanner->form);
@@ -6149,7 +6136,7 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner) {
     if (status<SYNCTEX_STATUS_OK) {
         _synctex_error("Bad postamble. Ignored\n");
     }
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
     synctex_scanner_set_display_switcher(scanner, 100);
     synctex_node_display(scanner->sheet);
     synctex_node_display(scanner->form);
@@ -8353,7 +8340,7 @@ static synctex_nd_s __synctex_closest_deep_child_v2(synctex_point_p hitP, syncte
                SYNCTEX_LINEINDEX(node));
 #endif
         do {
-#if SYNCTEX_DEBUG>500
+#if SYNCTEX_DEBUG > 500
             synctex_node_display(child);
 #endif
             synctex_nd_s nd = SYNCTEX_ND_0;

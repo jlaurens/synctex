@@ -1,8 +1,10 @@
-The 2020 branch is the stable branch this year, it is synchronized with the TeXLive svn repository on Mon May 11 16:05:02 UTC 2020.
+The branch named "main" is the upstream main branch where development occurs.
 
-The 2020-1.23 branch is a working branch.
+The branch name `2024` is the stable release this year, which means that new features from the main branch go here when they are considered sufficiently mature and stable.
 
-All other branches are obsolete.
+The tag  `2023.5(TeXLive)` corresponds to the synctexdir directory of TeXLive svn repository from the 2023 release.
+
+All other branches are secondary.
 
 See synctex_version.h to see the latest version of synctex and of the parser.
 
@@ -10,9 +12,9 @@ See synctex_version.h to see the latest version of synctex and of the parser.
 
 Synchronization for TeX
 
-This is a partial clone of synctexdir in the TeXLive svn repository, see the online [TeXLive repository](http://www.tug.org/svn/texlive/trunk/Build/source/texk/web2c/synctexdir/).
+The tagged history points are a partial clone of synctexdir in the TeXLive svn repository, see the online [TeXLive repository](http://www.tug.org/svn/texlive/trunk/Build/source/texk/web2c/synctexdir/).
 
-The focus here is on the client side code for synchronization between text editor and pdf viewer.
+The focus here is on the client side code for synchronization between text editor and pdf viewer. The files are not forwarded to TeXLive.
 Instructions below are given to build the `synctex` command line tool on possibly various operating systems.
 
 ## Clone

@@ -1,5 +1,5 @@
 /* 
- Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
  
  This file is part of the __SyncTeX__ package.
  
@@ -46,13 +46,13 @@
  If you include or use a significant part of the synctex package into a software,
  I would appreciate to be listed as contributor and see "SyncTeX" highlighted.
  
- Version 1.2
- Thu Jun 19 09:39:21 UTC 2008
+ Version 1.6
  
  History:
  --------
  
  - the -d option for an input directory
+ - the --parse_int_policy option
  
  Important notice:
  -----------------
@@ -131,13 +131,29 @@ int synctex_test(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
 {
-    int arg_index = 1;
+    int arg_index = 0;
 #ifdef WIN32
     kpse_set_program_name(argv[0], "synctex");
 #endif
     printf("This is SyncTeX command line utility, version " SYNCTEX_CLI_VERSION_STRING "\n");
-    if(arg_index<argc) {
-        if(0==strcmp("help",argv[arg_index])) {
+    while(++arg_index<argc) {
+        if(0==strcmp("--parse_int_policy",argv[arg_index])) {
+            if(++arg_index<argc) {
+                if(0==strcmp("C",argv[arg_index])) {
+                    synctex_parse_int_policy(synctex_parse_int_policy_C);
+                } else if(0==strcmp("raw1",argv[arg_index])) {
+                    synctex_parse_int_policy(synctex_parse_int_policy_raw1);
+                } else if(0==strcmp("raw2",argv[arg_index])) {
+                    synctex_parse_int_policy(synctex_parse_int_policy_raw2);
+                } else {
+                    synctex_help("Unknown policy.");
+                    return 0;
+                }
+                continue;
+            }
+            synctex_help(NULL);
+            return 0;
+        } else if(0==strcmp("help",argv[arg_index])) {
             if(++arg_index<argc) {
                 if(0==strcmp("view",argv[arg_index])) {
                     synctex_help_view(NULL);
@@ -160,9 +176,11 @@ int main(int argc, char *argv[])
             return synctex_update(argc-arg_index-1,argv+arg_index+1);
         } else if(0==strcmp("test",argv[arg_index])) {
             return synctex_test(argc-arg_index-1,argv+arg_index+1);
+        } else if(0==strcmp("test",argv[arg_index])) {
+            return synctex_test(argc-arg_index-1,argv+arg_index+1);
         }
     }
-    synctex_help("Missing options");
+    synctex_help("No command available.");
     return 0;
 }
 
@@ -173,9 +191,9 @@ static void synctex_usage(const char * error,va_list ap) {
         fprintf(stderr,"\n");
     }
     fprintf((error?stderr:stdout),
-        "usage: synctex <subcommand> [options] [args]\n"
+        "usage: synctex [global option] <subcommand> [options] [args]\n"
         "Synchronize TeXnology command-line client, version " SYNCTEX_VERSION_STRING "\n\n"
-        "The Synchronization TeXnology by Jérôme Laurens is a rather new feature of recent TeX engines.\n"
+        "The Synchronization TeXnology by Jérôme Laurens is a feature of recent TeX engines.\n"
         "It allows to synchronize between input and output, which means to\n"
         "navigate from the source document to the typeset material and vice versa.\n\n"
     );
@@ -195,6 +213,11 @@ void synctex_help(const char * error,...) {
         "   help     this help\n\n"
         "Type 'synctex help <subcommand>' for help on a specific subcommand.\n"
         "There is also an undocumented test subcommand.\n"
+        "Global options:\n"
+        "--parse_int_policy raw|C\n"
+        "   `raw' selects a faster integer parser that saves time when opening synctex files.\n"
+        "   This is the default behavior. `C' selects a parser based on C strtol.\n"
+        "   Choose `C' if `raw' gives wrong results.\n"
     );
     return;
 }
@@ -299,10 +322,10 @@ int synctex_view(int argc, char *argv[]) {
         return -1;
     }
     start = argv[arg_index];
-    Ps.line = (int)strtol(start,&end,10);
+    Ps.line = synctex_parse_int(start,&end);
     if(end>start && strlen(end)>0 && *end==':') {
         start = end+1;
-        Ps.column = (int)strtol(start,&end,10);
+        Ps.column = synctex_parse_int(start,&end);
         if(end == start || Ps.column < 0) {
             Ps.column = 0;
         }
@@ -607,7 +630,7 @@ int synctex_edit(int argc, char *argv[]) {
         return -1;
     }
     start = argv[arg_index];
-    Ps.page = (int)strtol(start,&end,10);
+    Ps.page = synctex_parse_int(start,&end);
     if(end>start && strlen(end)>1 && *end==':') {
         start = end+1;
         Ps.x = strtod(start,&end);
@@ -664,7 +687,7 @@ option_command:
             
             start = argv[arg_index];
             end = NULL;
-            Ps.offset = (int)strtol(start,&end,10);
+            Ps.offset = synctex_parse_int(start,&end);
             if(end>start && strlen(end)>1 && *end==':') {
                 Ps.context = end+1;
                 return synctex_edit_proceed(&Ps);

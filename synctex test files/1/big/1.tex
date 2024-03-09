@@ -1,0 +1,29 @@
+\documentclass{article}
+\RequirePackage[
+paperwidth=1200pt,
+paperheight=1200pt,
+paperheight=1200pt,
+left=100pt,
+right=100pt,
+top=100pt,
+bottom=100pt,
+]{geometry}
+\pagestyle{empty}
+
+\begin{document}
+\thispagestyle{empty}
+\ttfamily
+\noindent
+\the\textwidth\
+\the\baselineskip\
+\baselineskip20pt\selectfont
+\the\baselineskip
+\ExplSyntaxOn
+\tl_new:N \l__MY_page_tl
+% 1000 pages
+\int_step_variable:nNn { 1000 } \l__MY_page_tl {
+\newpage\noindent\leavevmode
+\input{page.tex}
+}
+\ExplSyntaxOff
+\end{document}
