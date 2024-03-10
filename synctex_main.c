@@ -101,7 +101,7 @@
 inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
 #endif
 
-/* I use the definition in kpathsea --ak
+/* I use the definition in kpathsea --ak*/
 #ifdef WIN32
 #   define snprintf _snprintf
 #endif
