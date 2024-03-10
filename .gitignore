@@ -32,6 +32,7 @@ DerivedData/*
 *xcodeproj*
 
 build
+meson/build
 
 .vscode
 synctex test files/1/big/1.synctex
