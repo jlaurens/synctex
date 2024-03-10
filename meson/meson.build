@@ -1,6 +1,6 @@
 project('synctex', 'c', version: 'see synctex_version.h')
 
-synctex_dir = '..'
+synctex_dir = meson.current_source_dir() / '..'
 
 fs = import('fs')
 
@@ -21,7 +21,7 @@ headers = files(
   synctex_dir / 'synctex_version.h',
 )
 
-sources = files(
+synctex_sources = files(
   synctex_dir / 'synctex_parser.c',
   synctex_dir / 'synctex_parser_utils.c',
 )
@@ -34,7 +34,7 @@ zdep = dependency('zlib', version: '>=1.2.8')
 
 synctex_inc = include_directories('..')
 synctex_lib = library('synctex',
-  sources,
+  synctex_sources,
   install: true,
   dependencies: [ zdep ],
   include_directories: [ synctex_inc ],
@@ -82,5 +82,5 @@ test('first test',
     '-o',
     '1:100:100:synctex test files/1/edit query/1.pdf'
   ],
-  workdir: meson.current_source_dir(),
+  workdir: synctex_dir,
 )
