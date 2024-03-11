@@ -32,7 +32,7 @@ synctex_main = files(
 
 zdep = dependency('zlib', version: '>=1.2.8')
 
-synctex_inc = include_directories('..')
+synctex_inc = include_directories(synctex_dir)
 synctex_name = 'synctex'
 synctex_lib = library(synctex_name,
   synctex_sources,
