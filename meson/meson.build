@@ -33,7 +33,8 @@ synctex_main = files(
 zdep = dependency('zlib', version: '>=1.2.8')
 
 synctex_inc = include_directories('..')
-synctex_lib = library('synctex',
+synctex_name = 'synctex'
+synctex_lib = library(synctex_name,
   synctex_sources,
   install: true,
   dependencies: [ zdep ],
@@ -48,16 +49,16 @@ synctex_dep = declare_dependency(
 install_headers(headers)
 
 pkg.generate(
-  name: 'synctex',
+  name: synctex_name,
   version: synctex_version,
-  libraries: 'synctex',
-  subdirs: 'synctex',
+  libraries: synctex_name,
+  subdirs: synctex_name,
   description: 'SyncTeX parser library',
   url: 'http://github.org/jlaurens/synctex',
   install_dir: get_option('prefix') / 'lib' / 'pkgconfig',
 )
 
-synctex_exe = executable('synctex',
+synctex_exe = executable(synctex_name,
   synctex_main,
   include_directories: [ synctex_inc ],
   install: true,
