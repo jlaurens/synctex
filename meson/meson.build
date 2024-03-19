@@ -1,6 +1,6 @@
 project('synctex', 'c', version: 'see synctex_version.h')
 
-synctex_dir = meson.current_source_dir() / '..'
+synctex_dir = '..'
 
 fs = import('fs')
 
@@ -48,6 +48,8 @@ synctex_dep = declare_dependency(
 
 install_headers(headers)
 
+synctex_name = 'synctex'
+
 pkg.generate(
   name: synctex_name,
   version: synctex_version,
@@ -76,6 +78,70 @@ synctex_test_exe = executable('synctex_test',
   c_args: [ '-DSYNCTEX_STANDALONE', '-DSYNCTEX_TEST' ]
 )
 
+synctex_no_malloc = environment({'MALLOC_PERTURB_': '0'})
+synctex_test_dir = meson.current_source_dir() / synctex_dir / 'test standalone'
+
+shared_library_args = [
+  'test_main.lua',
+  '--build_dir="'+meson.current_build_dir()+'"',
+  '--library'
+]
+
+if build_machine.system() == 'windows'
+  texlua = find_program('texlua.exe')
+else
+  texlua = find_program('texlua')
+endif
+
+test(
+  'library/gh',
+  texlua,
+  args: shared_library_args + '--suite=gh',
+  workdir: synctex_test_dir,
+  env: synctex_no_malloc,
+)
+
+test(
+  'library/gh/...',
+  texlua,
+  args: shared_library_args + ['--suite=gh', '--unit=gh78'],
+  workdir: synctex_test_dir,
+  env: synctex_no_malloc,
+)
+
+shared_engine_args = [
+  'test_main.lua',
+  '--build_dir="'+meson.current_build_dir()+'"',
+  '--engine'
+]
+
+test(
+  'engine/gh',
+  texlua,
+  args: shared_engine_args + '--suite=gh',
+  workdir: synctex_test_dir,
+  env: synctex_no_malloc,
+)
+
+test(
+  'engine/gh/...',
+  texlua,
+  args: shared_engine_args + ['--suite=gh', '--unit=gh30'],
+  workdir: synctex_test_dir,
+  env: synctex_no_malloc,
+)
+
+test(
+  'library/foo/bar',
+  texlua,
+  args: shared_library_args + [
+    '--suite="foo"',
+    '--unit="bar"'
+  ],
+  workdir: synctex_test_dir,
+  env: synctex_no_malloc,
+)
+
 test('first test',
   synctex_exe,
   args: [
@@ -83,5 +149,5 @@ test('first test',
     '-o',
     '1:100:100:synctex test files/1/edit query/1.pdf'
   ],
-  workdir: synctex_dir,
+  workdir: meson.current_source_dir() / synctex_dir,
 )

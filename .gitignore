@@ -37,3 +37,37 @@ meson/build
 .vscode
 synctex test files/1/big/1.synctex
 synctex test files/1/big/1.pdf
+
+synctex standalone/test_engine/**/*-blx.bib
+synctex standalone/test_engine/**/*.1"
+synctex standalone/test_engine/**/*.acn
+synctex standalone/test_engine/**/*.acr
+synctex standalone/test_engine/**/*.alg
+synctex standalone/test_engine/**/*.aux
+synctex standalone/test_engine/**/*.bbl
+synctex standalone/test_engine/**/*.blg
+synctex standalone/test_engine/**/*.end
+synctex standalone/test_engine/**/*.fdb_latexmk
+synctex standalone/test_engine/**/*.glg
+synctex standalone/test_engine/**/*.glo
+synctex standalone/test_engine/**/*.gls
+synctex standalone/test_engine/**/*.idx
+synctex standalone/test_engine/**/*.ind
+synctex standalone/test_engine/**/*.ilg
+synctex standalone/test_engine/**/*.ist
+synctex standalone/test_engine/**/*.lof
+synctex standalone/test_engine/**/*.log
+synctex standalone/test_engine/**/*.lot
+synctex standalone/test_engine/**/*.out
+synctex standalone/test_engine/**/*.pdf
+synctex standalone/test_engine/**/*.run.xml
+synctex standalone/test_engine/**/*.sind
+synctex standalone/test_engine/**/*.synctex
+synctex standalone/test_engine/**/*.synctex.gz
+synctex standalone/test_engine/**/*.toc
+
+test standalone/**/lua_modules/lib/lua
+test standalone/**/lua_modules/lib/luarocks/rocks-5.3/luafilesystem
+test standalone/**/lua_modules/lib/luarocks/rocks-5.3/penlight/**/tests
+test standalone/**/lua_modules/**/*.rockspec
+test standalone/**/lua_modules/**/rock_manifest
