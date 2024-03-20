@@ -42,23 +42,23 @@ kpse.set_program_name('kpsewhich')
 local lookup = kpse.lookup
 
 
----@class AUPL3BuildProxy
----@field env table
----@field activate fun()
----@field deactivate fun()
+--- @class AUPL3BuildProxy
+--- @field env table
+--- @field activate fun()
+--- @field deactivate fun()
 
----Imports l3build in the given environment or the current environment.
----Locate the `l3buld.lua` in the TDS using `kpse`,
----configure `package.path` accordingly,
----finally `require('l3build')`.
----Everything is imported in the current environment per `l3build` design.
----Nevertheless, one can play with environments to disable `l3build`
----temporarily when there can be name conflicts.
----Change the environment before importing
----@param env table? where `l3build` material is imported,
----it defaults to a void table. Any ways its `__index` event points to the
----current environment.
----@return AUPL3BuildProxy
+--- mports l3build in the given environment or the current environment.
+--- ocate the `l3buld.lua` in the TDS using `kpse`,
+--- onfigure `package.path` accordingly,
+--- inally `require('l3build')`.
+--- verything is imported in the current environment per `l3build` design.
+--- evertheless, one can play with environments to disable `l3build`
+--- emporarily when there can be name conflicts.
+--- hange the environment before importing
+--- @param env table? where `l3build` material is imported,
+--- t defaults to a void table. Any ways its `__index` event points to the
+--- urrent environment.
+--- @return AUPL3BuildProxy
 local function importer(env)
   local l3build_path = lookup("l3build.lua")
   local l3build_dir = string.match(l3build_path,"(.*[/])")
@@ -67,7 +67,7 @@ local function importer(env)
   setmetatable(env, {
     __index = _ENV
   })
-  ---@type (table|true)[]
+  --- @type (table|true)[]
   local stack = {}
   local l3build_proxy = {
     env = env,
@@ -80,7 +80,7 @@ local function importer(env)
       end
     end,
     deactivate = function()
-      ---@type table|true
+      --- @type table|true
       local e = assert(remove(stack))
       if e ~= true then
         _ENV = e

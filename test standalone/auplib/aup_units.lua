@@ -32,7 +32,7 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
----@type AUP
+--- @type AUP
 local AUP = package.loaded.AUP
 
 local pushd = AUP.pushd
@@ -42,28 +42,28 @@ local dbg = AUP.dbg
 
 local PL = AUP.PL
 
----@alias StringsByString { string: string[] }
+--- @alias StringsByString { string: string[] }
 
----@class AUPUnits
----@field _engine_suites string[]
----@field _library_suites string[]
----@field _test_suites { engine: string[], library: string[] }
----@field _units_by_suite { engine: StringsByString, library: StringsByString }
----@field _engine { test_suites: string[], units_by_suite: StringsByString }
----@field _library { test_suites: string[], units_by_suite: StringsByString }
----@field check fun(self: AUPUnits)
----@field check_suite fun(self: AUPUnits, dir: string?, units: string[]?)
----@field check_unit fun(self: AUPUnits, unit: string)
----@field load fun(self: unknown, name: string), class methods
----@field test_setup fun(self: unknown)
----@field test fun(self: unknown)
----@field test_teardown fun(self: unknown)
----@field test_currentdir fun(self: unknown, exclude: table?)
+--- @class AUPUnits
+--- @field _engine_suites string[]
+--- @field _library_suites string[]
+--- @field _test_suites { engine: string[], library: string[] }
+--- @field _units_by_suite { engine: StringsByString, library: StringsByString }
+--- @field _engine { test_suites: string[], units_by_suite: StringsByString }
+--- @field _library { test_suites: string[], units_by_suite: StringsByString }
+--- @field check fun(self: AUPUnits)
+--- @field check_suite fun(self: AUPUnits, dir: string?, units: string[]?)
+--- @field check_unit fun(self: AUPUnits, unit: string)
+--- @field load fun(self: unknown, name: string), class methods
+--- @field test_setup fun(self: unknown)
+--- @field test fun(self: unknown)
+--- @field test_teardown fun(self: unknown)
+--- @field test_currentdir fun(self: unknown, exclude: table?)
 
 local AUPUnits = PL.class.AUPUnits()
 
----Initialize an `AUPUnits` instance
----@param arguments AUPArguments
+--- nitialize an `AUPUnits` instance
+--- @param arguments AUPArguments
 function AUPUnits:_init(arguments)
   --self:super()   -- call the ancestor initializer if needed
   local engine_suites = {}
@@ -156,10 +156,10 @@ end
 local PL_path = PL.path
 local currentdir = PL_path.currentdir
 
----Load a file in the current directory.
----Class method.
----@param self unknown
----@param name string
+--- oad a file in the current directory.
+--- lass method.
+--- @param self unknown
+--- @param name string
 function AUPUnits:load(name)
   local f = loadfile(name..'.lua')
   if f then
@@ -170,26 +170,26 @@ function AUPUnits:load(name)
   end
 end
 
----Load the `test_setup.lua` of the current directory, if any.
+--- oad the `test_setup.lua` of the current directory, if any.
 function AUPUnits:test_setup()
   print('Test setup for '..AUP:short_path())
   self:load('test_setup')
 end
 
----Load the `test.lua` of the current directory, if any.
+--- oad the `test.lua` of the current directory, if any.
 function AUPUnits:test()
   print('Test for '..AUP:short_path())
   self:load('test')
 end
 
----Load the `test_teardown.lua` of the current directory, if any.
+--- oad the `test_teardown.lua` of the current directory, if any.
 function AUPUnits:test_teardown()
   print('Test teardown for '..AUP:short_path())
   self:load('test_teardown')
 end
 
----Make all the tests
----@param self AUPUnits
+--- ake all the tests
+--- @param self AUPUnits
 function AUPUnits:check()
   self:test_setup()
   for _,key in ipairs({'_library', '_engine'}) do
@@ -210,10 +210,10 @@ function AUPUnits:check()
   self:test_teardown()
 end
 
----Make all the tests in the given directory
----@param self AUPUnits
----@param suite string|string[]?
----@param units string[]?
+--- ake all the tests in the given directory
+--- @param self AUPUnits
+--- @param suite string|string[]?
+--- @param units string[]?
 function AUPUnits:check_suite(suite, units)
   if suite then
     if type(suite) == "table" then
@@ -240,10 +240,10 @@ function AUPUnits:check_suite(suite, units)
   end
 end
 
----Make all the tests for the given unit.
----`unit` is a folder in the current working directory.
----@param self AUPUnits
----@param unit string
+--- ake all the tests for the given unit.
+--- unit` is a folder in the current working directory.
+--- @param self AUPUnits
+--- @param unit string
 function AUPUnits:check_unit(unit)
   if pushd(unit) then
     print('▬▬▶︎ Unit '..unit..':')
@@ -258,8 +258,8 @@ local getdirectories = PL.dir.getdirectories
 local basename = PL_path.basename
 local List = PL.List
 
----Make tests in the current working directory.
----@param exclude table?
+--- ake tests in the current working directory.
+--- @param exclude table?
 function AUPUnits:test_currentdir(exclude)
   local dirs = getdirectories()
   for _,p in ipairs(dirs) do

@@ -32,7 +32,7 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
----@enum (key) AUPFormat
+--- @enum (key) AUPFormat
 AUPFormat = {
   Plain = "plain",
   LaTeX = "latex",

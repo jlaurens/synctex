@@ -32,7 +32,7 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
----@type AUP
+--- @type AUP
 local AUP = package.loaded.AUP
 local PL = AUP.PL
 
@@ -42,13 +42,13 @@ local PL_utils = PL.utils
 local assert_string = PL_utils.assert_string
 local executeex = PL_utils.executeex
 
----A simple implementation of the which command.
----This looks for
----the given file on the path. On windows, it will assume an extension
----of `.exe` if no extension is given.
----from https://stevedonovan.github.io/Penlight/api/examples/which.lua.html
----@param file string
----@return string?
+---  simple implementation of the which command.
+--- his looks for
+--- he given file on the path. On windows, it will assume an extension
+--- f `.exe` if no extension is given.
+--- rom https://stevedonovan.github.io/Penlight/api/examples/which.lua.html
+--- @param file string
+--- @return string?
 local function which(file)
   assert_string(1, file)
   if PL_path.extension(file) == '' and PL_path.is_windows then
@@ -60,7 +60,7 @@ local function which(file)
   if res then return res[1] end
 end
 
----@enum (key) AUPInteractionMode
+--- @enum (key) AUPInteractionMode
 local AUPInteractionMode = {
   batchmode   = 'batchmode',
   nonstopmode = 'nonstopmode',
@@ -68,27 +68,27 @@ local AUPInteractionMode = {
   errorstopmode = 'errorstopmode'
 }
 
----@class AUPEngine
----@field _init fun(self: AUPEngine, name: string)
----@field synctex fun(self: AUPEngine, value: integer): AUPEngine
----@field interaction fun(self: AUPEngine, value: AUPInteractionMode): AUPEngine
----@field run fun(file: string): boolean, integer, string, string
+--- @class AUPEngine
+--- @field _init fun(self: AUPEngine, name: string)
+--- @field synctex fun(self: AUPEngine, value: integer): AUPEngine
+--- @field interaction fun(self: AUPEngine, value: AUPInteractionMode): AUPEngine
+--- @field run fun(file: string): boolean, integer, string, string
 
 local AUPEngine = PL.class.AUPEngine()
 
----Initialize an AUPEngine instance
----@param name string
+--- nitialize an AUPEngine instance
+--- @param name string
 function AUPEngine:_init(name)
   assert_string(1, name)
   self._engine = name
 end
 
----Set the `--synctex` option.
----@param value string|number
----@return AUPEngine
+--- et the `--synctex` option.
+--- @param value string|number
+--- @return AUPEngine
 function AUPEngine:synctex(value)
   if type(value) ~= 'string' then
-    ---@diagnostic disable-next-line: cast-local-type
+    --- @diagnostic disable-next-line: cast-local-type
     value = assert(tostring(value))
   end
   --assert_string (2, value)
@@ -96,9 +96,9 @@ function AUPEngine:synctex(value)
   return self
 end
 
----Set the `--synctex` option.
----@param value AUPInteractionMode
----@return AUPEngine
+--- et the `--synctex` option.
+--- @param value AUPInteractionMode
+--- @return AUPEngine
 function AUPEngine:interaction(value)
   assert_string(2, value)
   self._interaction = "--interaction="..value
@@ -106,12 +106,12 @@ function AUPEngine:interaction(value)
 end
 
 local quote_arg = PL_utils.quote_arg
----Set the `--synctex` option.
----@param file string
----@return boolean status
----@return integer code
----@return string stdout
----@return string errout
+--- et the `--synctex` option.
+--- @param file string
+--- @return boolean status
+--- @return integer code
+--- @return string stdout
+--- @return string errout
 function AUPEngine:run(file)
   local cmd = which(self._engine)
   if not cmd then

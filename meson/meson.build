@@ -1,3 +1,7 @@
+
+# This file is useless outside of the SyncTeX package
+# See the README.md
+
 project('synctex', 'c', version: 'see synctex_version.h')
 
 synctex_dir = '..'
@@ -78,20 +82,35 @@ synctex_test_exe = executable('synctex_test',
   c_args: [ '-DSYNCTEX_STANDALONE', '-DSYNCTEX_TEST' ]
 )
 
+dot_exe = ''
+if build_machine.system() == 'windows'
+  dot_exe = '.exe'
+endif
+texlua = find_program('texlua'+dot_exe)
+
 synctex_no_malloc = environment({'MALLOC_PERTURB_': '0'})
 synctex_test_dir = meson.current_source_dir() / synctex_dir / 'test standalone'
+
+synctex_auplib_dir = synctex_test_dir / 'auplib' / ''
+synctex_auplib_doc_dir = synctex_auplib_dir / 'doc'
+
+fs = import('fs')
+if not fs.is_dir(synctex_auplib_doc_dir)
+  message(synctex_auplib_doc_dir+' does not exist')
+  runresult = run_command(
+    texlua,
+    synctex_auplib_dir / 'aup_doc_main.lua',
+    '--build_dir="'+meson.current_build_dir()+'"',
+    check: true
+)
+endif
+
 
 shared_library_args = [
   'test_main.lua',
   '--build_dir="'+meson.current_build_dir()+'"',
   '--library'
 ]
-
-if build_machine.system() == 'windows'
-  texlua = find_program('texlua.exe')
-else
-  texlua = find_program('texlua')
-endif
 
 test(
   'library/gh',

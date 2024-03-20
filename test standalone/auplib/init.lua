@@ -77,18 +77,18 @@ assert(pl)
 package.path = path_dir_auplib.."?.lua;"..package.path
 local raise = pl.utils.raise
 
----@class AUP
----@field _VERSION string
----@field _DESCRIPTION string
----@field module table
----@field dbg AUPDBG
----@field PL table
----@field short_path fun(self: AUP, p: string?)
----@field import_l3build fun(self: AUP, env: table)
----@field l3build_proxy AUPL3BuildProxy
----@field uuid fun(): string
----@field pushd fun(dir: string):boolean, string?
----@field popd fun():boolean, string?
+--- @class AUP
+--- @field _VERSION string
+--- @field _DESCRIPTION string
+--- @field module table
+--- @field dbg AUPDBG
+--- @field PL table
+--- @field short_path fun(self: AUP, p: string?)
+--- @field import_l3build fun(self: AUP, env: table)
+--- @field l3build_proxy AUPL3BuildProxy
+--- @field uuid fun(): string
+--- @field pushd fun(dir: string):boolean, string?
+--- @field popd fun():boolean, string?
 
 local AUP = {
   _VERSION = '0.1',
@@ -133,8 +133,8 @@ local random = math.random
 local randomseed = math.randomseed
 local time = os.time
 local clock = os.clock
----Build a uuid.
----@return string
+--- uild a uuid.
+--- @return string
 function AUP.uuid()
   randomseed(tonumber(tostring(time()):reverse():sub(1, 9))+clock()*1000000)
   local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
@@ -160,10 +160,10 @@ local relpath = path.relpath
 
 local pushd_stack = List()
 
----Sort of command line pushd emulation.
----@param dir string
----@return boolean
----@return string?
+--- ort of command line pushd emulation.
+--- @param dir string
+--- @return boolean
+--- @return string?
 function AUP.pushd(dir)
   local cwd = currentdir()
   local ans, err = chdir(dir)
@@ -173,9 +173,9 @@ function AUP.pushd(dir)
   return ans, err
 end
 
----Sort of command line popd emulation.
----@return boolean
----@return string
+--- ort of command line popd emulation.
+--- @return boolean
+--- @return string
 function AUP.popd()
   if not #pushd_stack then
     return false, "popd without a pushd"
@@ -185,11 +185,11 @@ end
 
 AUP._cwd = currentdir()
 
----Return the argument relative to the initial current directory.
----This is used to keep some information private.
----This is not full proofed.
----@param p string?
----@return string
+--- eturn the argument relative to the initial current directory.
+--- his is used to keep some information private.
+--- his is not full proofed.
+--- @param p string?
+--- @return string
 function AUP:short_path(p)
   p = p or currentdir()
   return List({'...', relpath(p, self._cwd)})

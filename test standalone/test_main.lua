@@ -42,7 +42,7 @@ local lfs = package.loaded.lfs
 local separator = package.config:sub(1,1)
 
 local dir = match(arg[0], "^(.*)/[^/"..separator.."]*$")
----@type AUP
+--- @type AUP
 local AUP
 if dir then
   local cwd = lfs.currentdir()

@@ -38,13 +38,13 @@ local AUP = package.loaded.AUP
 local PL = AUP.PL
 local printf = PL.utils.printf
 
----@class (exact) AUPDBG debugging message
----@field write fun(self: AUPDBG, level: integer, ...: unknown)
----@field format fun(self: AUPDBG, level: integer, format: string, env: table?)
----@field printf fun(self: AUPDBG, level: integer, format: string, ...: unknown)
----@field level_get fun(self: AUPDBG): integer
----@field level_set fun(self: AUPDBG, value: integer): integer
----@field level_increment fun(self: AUPDBG, delta: integer): integer
+--- @class (exact) AUPDBG debugging message
+--- @field write fun(self: AUPDBG, level: integer, ...: unknown)
+--- @field format fun(self: AUPDBG, level: integer, format: string, env: table?)
+--- @field printf fun(self: AUPDBG, level: integer, format: string, ...: unknown)
+--- @field level_get fun(self: AUPDBG): integer
+--- @field level_set fun(self: AUPDBG, value: integer): integer
+--- @field level_increment fun(self: AUPDBG, delta: integer): integer
 
 local AUPDBG = PL.class.AUPDBG()
 
@@ -52,11 +52,11 @@ function AUPDBG:_init()
   self._level = 0
 end
 
----Print debuggging information.
----When level is positive, extra debugging information is
----displayed. The higher the level, the richer the information.
----@param level integer
----@param ... unknown
+--- rint debuggging information.
+--- hen level is positive, extra debugging information is
+--- isplayed. The higher the level, the richer the information.
+--- @param level integer
+--- @param ... unknown
 function AUPDBG:write(level, ...)
   if level <= self._level then
     local sep = ''
@@ -75,12 +75,12 @@ function AUPDBG:write(level, ...)
   end
 end
 
----Print debuggging information.
----When level is positive, extra debugging information is
----displayed. The higher the level, the richer the information.
----@param level integer
----@param template string
----@param env table?
+--- rint debuggging information.
+--- hen level is positive, extra debugging information is
+--- isplayed. The higher the level, the richer the information.
+--- @param level integer
+--- @param template string
+--- @param env table?
 function AUPDBG:format(level, template, env)
   if level <= self._level then
     local ans, error, code = PL.template.substitute(template, env)
@@ -89,12 +89,12 @@ function AUPDBG:format(level, template, env)
   end
 end
 
----Print debuggging formatted information.
----When level is positive, extra debugging information is
----displayed. The higher the level, the richer the information.
----@param level integer
----@param format string
----@param ... unknown
+--- rint debuggging formatted information.
+--- hen level is positive, extra debugging information is
+--- isplayed. The higher the level, the richer the information.
+--- @param level integer
+--- @param format string
+--- @param ... unknown
 function AUPDBG:printf(level, format, ...)
   --local arg = table.pack(...)
   if level <= self._level then
@@ -102,14 +102,14 @@ function AUPDBG:printf(level, format, ...)
   end
 end
 
----Returns the debug level
----@return integer
+--- eturns the debug level
+--- @return integer
 function AUPDBG:level_get()
   return self._level
 end
 
----Set the debug level
----@param level integer|string
+--- et the debug level
+--- @param level integer|string
 function AUPDBG:level_set(level)
   if type(level) ~= 'number' then
     level = tonumber(level) or 0
@@ -118,8 +118,8 @@ function AUPDBG:level_set(level)
   return self._level
 end
 
----Increment the debug level
----@param delta integer|string
+--- ncrement the debug level
+--- @param delta integer|string
 function AUPDBG:level_increment(delta)
   if type(delta) ~= 'number' then
     delta = tonumber(delta) or 1

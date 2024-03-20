@@ -32,7 +32,7 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
----@source
+--- @source
 
 local match = string.match
 local print = print
@@ -46,15 +46,15 @@ local class = PL.class
 
 local lpeg = package.loaded.lpeg -- built into texlua
 
----@class (exact) AUPArgumentEntry
----@field _init fun(self: AUPArgumentEntry, key: string, value: string|true)
----@field key string the `⟨key⟩` in `--test-⟨key⟩=⟨value⟩` or `--test-⟨key⟩`
----@field value string|true the `⟨value⟩` in `--test-⟨key⟩=⟨value⟩` or `true` for `--test-⟨key⟩`
+--- @class (exact) AUPArgumentEntry
+--- @field _init fun(self: AUPArgumentEntry, key: string, value: string|true)
+--- @field key string the `⟨key⟩` in `--test-⟨key⟩=⟨value⟩` or `--test-⟨key⟩`
+--- @field value string|true the `⟨value⟩` in `--test-⟨key⟩=⟨value⟩` or `true` for `--test-⟨key⟩`
 local AUPArgumentEntry = class.AUPArgumentEntry()
 
----Initialize a new argument entry instance
----@param key string
----@param value string|true
+--- nitialize a new argument entry instance
+--- @param key string
+--- @param value string|true
 function AUPArgumentEntry:_init(key, value)
   self.key = key
   if type(value) == 'string' then
@@ -70,22 +70,21 @@ function AUPArgumentEntry:__tostring()
   return "AUPArgumentEntry: "..self.key..' -> '..(self.value == true and 'true' or self.value)
 end
 
-
----@class (exact) AUPArguments
----@field _init fun(self: AUPArguments, arg_list: string[])
----@field iterator fun(self: AUPArguments): AUPArgumentsIterator
----@field get fun(self: AUPArguments, i: integer): AUPArgumentEntry
----@field consume fun(self: AUPArguments, i: integer): nil
----@field is_consumed fun(self: AUPArguments, i: integer): boolean
----@field _all AUPArgumentEntry[]
----@field _consumed { [string]: boolean }
----@field build_dir string
+--- @class (exact) AUPArguments
+--- @field _init fun(self: AUPArguments, arg_list: string[])
+--- @field iterator fun(self: AUPArguments): AUPArgumentsIterator
+--- @field get fun(self: AUPArguments, i: integer): AUPArgumentEntry
+--- @field consume fun(self: AUPArguments, i: integer): nil
+--- @field is_consumed fun(self: AUPArguments, i: integer): boolean
+--- @field _all AUPArgumentEntry[]
+--- @field _consumed { [string]: boolean }
+--- @field build_dir string
 local AUPArguments = class.AUPArguments()
 
----Initialize a new AUPArguments instance from a list of command arguments
----Only `--debug=⟨level⟩` and `--debug` arguments are consumed.
----`--⟨key⟩=⟨value⟩` argument and `--⟨key⟩` simply give a new entry.
----@param arg_list string[]
+--- nitialize a new AUPArguments instance from a list of command arguments
+--- nly `--debug=⟨level⟩` and `--debug` arguments are consumed.
+--- --⟨key⟩=⟨value⟩` argument and `--⟨key⟩` simply give a new entry.
+--- @param arg_list string[]
 function AUPArguments:_init(arg_list)
   local function do_something() end
   for k,v in ipairs(arg_list) do
@@ -139,34 +138,34 @@ function AUPArguments:_init(arg_list)
   assert(self.build_dir and path.isdir(self.build_dir) and path.exists(self.build_dir))
 end
 
----Consume the argument at the given index
----@param self AUPArguments
----@param i integer
+--- onsume the argument at the given index
+--- @param self AUPArguments
+--- @param i integer
 function AUPArguments:consume(i)
   self._consumed[i] = true
 end
 
----Whether the argument at the given index is consumed
----@param self AUPArguments
----@param i integer
----@return boolean
+--- hether the argument at the given index is consumed
+--- @param self AUPArguments
+--- @param i integer
+--- @return boolean
 function AUPArguments:is_consumed(i)
   return self._consumed[i] and true
 end
 
----Whether the argument at the given index is consumed
----@param self AUPArguments
----@param i integer
----@return AUPArgumentEntry
+--- hether the argument at the given index is consumed
+--- @param self AUPArguments
+--- @param i integer
+--- @return AUPArgumentEntry
 function AUPArguments:get(i)
   return self._all[i]
 end
 
----@class (exact) AUPArgumentsIterator
----@field _arguments AUPArguments The arguments previously parsed
----@field _i integer The next argument
----@field next fun(self: AUPArgumentsIterator): AUPArgumentEntry|nil The next argument is any
----@field consume fun(self: AUPArgumentsIterator) consume the argument at the given index
+--- @class (exact) AUPArgumentsIterator
+--- @field _arguments AUPArguments The arguments previously parsed
+--- @field _i integer The next argument
+--- @field next fun(self: AUPArgumentsIterator): AUPArgumentEntry|nil The next argument is any
+--- @field consume fun(self: AUPArgumentsIterator) consume the argument at the given index
 local AUPArgumentsIterator = class.AUPArgumentsIterator()
 
 -- Patch the `__call` function
@@ -179,8 +178,8 @@ do
     end
   end
 end
----Initialize an AUPArgumentsIterator instance
----@param arguments AUPArguments
+--- nitialize an AUPArgumentsIterator instance
+--- @param arguments AUPArguments
 function AUPArgumentsIterator:_init(arguments)
   self._arguments = arguments
   self._i = 0
@@ -198,8 +197,8 @@ function AUPArgumentsIterator:_init(arguments)
   end
 end
 
----Return the next argument entry that is not consumed
----@return AUPArgumentEntry?
+--- eturn the next argument entry that is not consumed
+--- @return AUPArgumentEntry?
 function AUPArgumentsIterator:next()
   self._i = self._i+1
   while self._arguments:is_consumed(self._i) do
@@ -208,13 +207,13 @@ function AUPArgumentsIterator:next()
   return self._arguments:get(self._i)
 end
 
----Mark the current argument as consumed
+--- ark the current argument as consumed
 function AUPArgumentsIterator:consume()
   self._arguments:consume(self._i)
 end
 
----Return an argument entries iterator
----@return AUPArgumentsIterator
+--- eturn an argument entries iterator
+--- @return AUPArgumentsIterator
 function AUPArguments:iterator()
   return AUPArgumentsIterator(self)
 end
