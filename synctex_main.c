@@ -3,9 +3,9 @@
  
  This file is part of the __SyncTeX__ package.
  
- [//]: # (Latest Revision: Tue Mar  5 21:16:33 UTC 2024)
- [//]: # (Version: 1.30)
- 
+ Version: see synctex_version.h
+ Latest Revision: Thu Mar 21 14:12:58 UTC 2024
+
  See `synctex_parser_readme.md` for more details
  
  ## License
@@ -328,7 +328,7 @@ static void synctex_usage(const char * error,va_list ap) {
     fprintf((error?stderr:stdout),
         "usage: synctex [global option] <subcommand> [options] [args]\n"
         "Synchronize TeXnology command-line client, version " SYNCTEX_VERSION_STRING "\n\n"
-        "The Synchronization TeXnology by Jérôme Laurens is a feature of recent TeX engines.\n"
+        "The Synchronization TeXnology by Jérôme Laurens is a feature of most TeX engines.\n"
         "It allows to synchronize between input and output, which means to\n"
         "navigate from the source document to the typeset material and vice versa.\n\n"
     );
