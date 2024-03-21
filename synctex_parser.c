@@ -1,11 +1,11 @@
 /*
- Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
  
  This file is part of the __SyncTeX__ package.
  
- [//]: # (Latest Revision: Sun Oct 15 15:09:55 UTC 2017)
- [//]: # (Version: 1.21)
- 
+ Version: see synctex_version.h
+ Latest Revision: Thu Mar 21 14:12:58 UTC 2024
+
  See `synctex_parser_readme.md` for more details
  
  ## License
@@ -744,7 +744,7 @@ static void synctex_reader_free(synctex_reader_p reader) {
 }
 /*
  *  Return reader on success.
- *  Return NULL on failure.
+ *  Deallocate reader and return NULL on failure.
  */
 static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p reader, const char * output, const char * build_directory) {
     if (reader) {
@@ -776,6 +776,7 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
 #ifdef SYNCTEX_DEBUG
             return reader;
 #else
+            synctex_reader_free(reader);
             return NULL;
 #endif
         }
@@ -913,7 +914,8 @@ static void _synctex_free_node(synctex_node_p node) {
         node = sibling;
     }
     return;
-}/**
+}
+/**
  *  Free the given handle.
  *  - parameter node: of type synctex_node_p
  *  - note: a node is meant to own its child and sibling.
@@ -1030,7 +1032,7 @@ static synctex_ss_s _synctex_decode_string(synctex_scanner_p scanner);
   *  - parameter NODE: of type synctex_node_p
  */
 #   define SYNCTEX_DATA(NODE) ((*((((NODE)->class_))->info))(NODE))
-#if defined SYNCTEX_DEBUG > 1000
+#if SYNCTEX_DEBUG > 1000
 #   define DEFINE_SYNCTEX_DATA_HAS(WHAT) \
 SYNCTEX_INLINE static synctex_bool_t __synctex_data_has_##WHAT(synctex_node_p node) {\
     return (node && (node->class_->modelator->WHAT>=0));\
@@ -4166,7 +4168,7 @@ static synctex_is_s _synctex_decode_int_v(synctex_scanner_p scanner) {
  *  A string is an array of characters from the current parser location
  *  and before the next '\n' character.
  *  If a string was properly decoded, it is returned in value_ref and
- *  the cursor points to the newline marker.
+ *  the cursor points to the new line marker.
  *  The returned string was alloced on the heap, the caller is the owner and
  *  is responsible to free it in due time,
  *  unless it transfers the ownership to another object.
@@ -5951,7 +5953,7 @@ SYNCTEX_INLINE static synctex_status_t _synctex_post_process(synctex_scanner_p s
         }
     }
 #endif
-#if SYNCTEX_DEBUG>10000
+#if SYNCTEX_DEBUG > 10000
     {
         int i;
         for (i=0;i<scanner->number_of_lists;++i) {

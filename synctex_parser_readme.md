@@ -2,8 +2,8 @@
 
 This file is part of the __SyncTeX__ package.
 
-[//]: # (Version: 1.22)
-[//]: # (Date: Mon May 11 16:05:02 UTC 2020)
+Version: see synctex_version.h
+Latest Revision: Thu Mar 21 14:12:58 UTC 2024
 
 ## Important
 
@@ -260,5 +260,5 @@ and significant help from __XeTeX__ developer Jonathan Kew.
 If you include or use a significant part of the __SyncTeX__ package into a software,
 I would appreciate to be listed as contributor and see __SyncTeX__" highlighted.
 
-Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
 

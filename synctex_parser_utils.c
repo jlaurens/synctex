@@ -1,11 +1,11 @@
 /* 
- Copyright (c) 2008-2017 jerome DOT laurens AT u-bourgogne DOT fr
+ Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
  
  This file is part of the __SyncTeX__ package.
  
- [//]: # (Latest Revision: Fri Jul 14 16:20:41 UTC 2017)
- [//]: # (Version: 1.21)
- 
+ Version: see synctex_version.h
+ Latest Revision: Thu Mar 21 14:12:58 UTC 2024
+
  See `synctex_parser_readme.md` for more details
  
  ## License
@@ -77,8 +77,8 @@ void *_synctex_malloc(size_t size) {
 }
 
 void _synctex_free(void * ptr) {
-    free(ptr);
-}
+        free(ptr);
+    }
 
 #if !defined(_WIN32)
 #   include <syslog.h>
