@@ -52,8 +52,6 @@ local join = path.join
 local makepath = dir.makepath
 local write = file.write
 local read = file.read
-local executeex = utils.executeex
-local strip = stringx.strip
 local splitlines = stringx.splitlines
 local printf = utils.printf
 local cwd = path.currentdir()
@@ -70,9 +68,9 @@ for name in seq.list {'pdftex', 'luatex', 'xetex'} do
   local p_2 = join(my_path, name)
   makepath(p_2)
   if AUP.pushd(p_2) then
-    local _ = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):run('../gh78.tex')
+    local _ = AUPEngine(name, -1):interaction(InteractionMode.nonstopmode):run('../gh78.tex')
     local p_3 = join(p_2, "gh78.synctex")
-    local s = read(p_3)
+    local s = assert(read(p_3))
     for _,l in ipairs(splitlines(s)) do
       if match(l, "gh78.tex") then
         printf("%s->\n<%s>\n", p_3, l)

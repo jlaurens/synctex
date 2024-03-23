@@ -214,9 +214,9 @@ This concerns the synctex command line tool and 3rd party developers.
 TeX and friends are not concerned by these changes.
 	- synctex_parser.c: cosmetic changes to enhance code readability 
 	- Better forward synchronization.
-  The problem occurs for example with LaTeX \item command.
+  The problem occurs for example with LaTeX `\item` command.
   The fact is that this command creates nodes at parse time but these nodes are used only
-  after the text material of the \item is displayed on the page. The consequence is that sometimes,
+  after the text material of the `\item` is displayed on the page. The consequence is that sometimes,
   forward synchronization spots an irrelevant point from the point of view of the editing process.
   This was due to some very basic filtering policy, where a somehow arbitrary choice was made when
   many different possibilities where offered for synchronisation.

@@ -34,37 +34,42 @@ DerivedData/*
 build
 meson/build
 
+documentation
+!document/DoxyFile
+!document/Readme.md
+
 .vscode
+
 synctex test files/1/big/1.synctex
 synctex test files/1/big/1.pdf
 
-synctex standalone/test_engine/**/*-blx.bib
-synctex standalone/test_engine/**/*.1"
-synctex standalone/test_engine/**/*.acn
-synctex standalone/test_engine/**/*.acr
-synctex standalone/test_engine/**/*.alg
-synctex standalone/test_engine/**/*.aux
-synctex standalone/test_engine/**/*.bbl
-synctex standalone/test_engine/**/*.blg
-synctex standalone/test_engine/**/*.end
-synctex standalone/test_engine/**/*.fdb_latexmk
-synctex standalone/test_engine/**/*.glg
-synctex standalone/test_engine/**/*.glo
-synctex standalone/test_engine/**/*.gls
-synctex standalone/test_engine/**/*.idx
-synctex standalone/test_engine/**/*.ind
-synctex standalone/test_engine/**/*.ilg
-synctex standalone/test_engine/**/*.ist
-synctex standalone/test_engine/**/*.lof
-synctex standalone/test_engine/**/*.log
-synctex standalone/test_engine/**/*.lot
-synctex standalone/test_engine/**/*.out
-synctex standalone/test_engine/**/*.pdf
-synctex standalone/test_engine/**/*.run.xml
-synctex standalone/test_engine/**/*.sind
-synctex standalone/test_engine/**/*.synctex
-synctex standalone/test_engine/**/*.synctex.gz
-synctex standalone/test_engine/**/*.toc
+synctex standalone/test_*/**/*-blx.bib
+synctex standalone/test_*/**/*.1"
+synctex standalone/test_*/**/*.acn
+synctex standalone/test_*/**/*.acr
+synctex standalone/test_*/**/*.alg
+synctex standalone/test_*/**/*.aux
+synctex standalone/test_*/**/*.bbl
+synctex standalone/test_*/**/*.blg
+synctex standalone/test_*/**/*.end
+synctex standalone/test_*/**/*.fdb_latexmk
+synctex standalone/test_*/**/*.glg
+synctex standalone/test_*/**/*.glo
+synctex standalone/test_*/**/*.gls
+synctex standalone/test_*/**/*.idx
+synctex standalone/test_*/**/*.ind
+synctex standalone/test_*/**/*.ilg
+synctex standalone/test_*/**/*.ist
+synctex standalone/test_*/**/*.lof
+synctex standalone/test_*/**/*.log
+synctex standalone/test_*/**/*.lot
+synctex standalone/test_*/**/*.out
+synctex standalone/test_*/**/*.pdf
+synctex standalone/test_*/**/*.run.xml
+synctex standalone/test_*/**/*.sind
+synctex standalone/test_*/**/*.synctex
+synctex standalone/test_*/**/*.synctex.gz
+synctex standalone/test_*/**/*.toc
 
 test standalone/**/lua_modules/lib/lua
 test standalone/**/lua_modules/lib/luarocks/rocks-5.3/luafilesystem

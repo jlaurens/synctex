@@ -40,5 +40,5 @@ print(AUP._VERSION)
 print(AUP._DESCRIPTION)
 
 local AUP_units = AUP.units
-local exclude = {}
+local exclude = { 'gh78' }
 AUP_units:test_currentdir(exclude)

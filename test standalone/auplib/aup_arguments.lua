@@ -81,8 +81,8 @@ end
 --- @field build_dir string
 local AUPArguments = class.AUPArguments()
 
---- nitialize a new AUPArguments instance from a list of command arguments
---- nly `--debug=⟨level⟩` and `--debug` arguments are consumed.
+--- Initialize a new AUPArguments instance from a list of command arguments
+--- Only `--debug=⟨level⟩` and `--debug` arguments are consumed.
 --- --⟨key⟩=⟨value⟩` argument and `--⟨key⟩` simply give a new entry.
 --- @param arg_list string[]
 function AUPArguments:_init(arg_list)
@@ -138,14 +138,14 @@ function AUPArguments:_init(arg_list)
   assert(self.build_dir and path.isdir(self.build_dir) and path.exists(self.build_dir))
 end
 
---- onsume the argument at the given index
+--- Consume the argument at the given index
 --- @param self AUPArguments
 --- @param i integer
 function AUPArguments:consume(i)
   self._consumed[i] = true
 end
 
---- hether the argument at the given index is consumed
+--- Whether the argument at the given index is consumed
 --- @param self AUPArguments
 --- @param i integer
 --- @return boolean
@@ -153,7 +153,7 @@ function AUPArguments:is_consumed(i)
   return self._consumed[i] and true
 end
 
---- hether the argument at the given index is consumed
+--- Whether the argument at the given index is consumed
 --- @param self AUPArguments
 --- @param i integer
 --- @return AUPArgumentEntry
@@ -178,7 +178,7 @@ do
     end
   end
 end
---- nitialize an AUPArgumentsIterator instance
+--- Initialize an AUPArgumentsIterator instance
 --- @param arguments AUPArguments
 function AUPArgumentsIterator:_init(arguments)
   self._arguments = arguments
@@ -197,7 +197,7 @@ function AUPArgumentsIterator:_init(arguments)
   end
 end
 
---- eturn the next argument entry that is not consumed
+--- Return the next argument entry that is not consumed
 --- @return AUPArgumentEntry?
 function AUPArgumentsIterator:next()
   self._i = self._i+1
@@ -207,12 +207,12 @@ function AUPArgumentsIterator:next()
   return self._arguments:get(self._i)
 end
 
---- ark the current argument as consumed
+--- Mark the current argument as consumed
 function AUPArgumentsIterator:consume()
   self._arguments:consume(self._i)
 end
 
---- eturn an argument entries iterator
+--- Return an argument entries iterator
 --- @return AUPArgumentsIterator
 function AUPArguments:iterator()
   return AUPArgumentsIterator(self)

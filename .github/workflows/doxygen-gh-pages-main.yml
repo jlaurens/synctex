@@ -1,0 +1,20 @@
+name: Doxygen GitHub Pages Deploy Action (main)
+
+on:
+  push:
+    branches:
+      - 2024
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: DenverCoder1/doxygen-github-pages-action@v1.3.0
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages-main
+          folder: documentation/html
+          config_file: documentation/Doxyfile
+          target_folder: documentation/2024

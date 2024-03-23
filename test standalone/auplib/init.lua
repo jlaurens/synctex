@@ -89,6 +89,7 @@ local raise = pl.utils.raise
 --- @field uuid fun(): string
 --- @field pushd fun(dir: string):boolean, string?
 --- @field popd fun():boolean, string?
+--- @field arguments AUPArguments?
 
 local AUP = {
   _VERSION = '0.1',
@@ -133,7 +134,7 @@ local random = math.random
 local randomseed = math.randomseed
 local time = os.time
 local clock = os.clock
---- uild a uuid.
+--- Build a uuid.
 --- @return string
 function AUP.uuid()
   randomseed(tonumber(tostring(time()):reverse():sub(1, 9))+clock()*1000000)
@@ -160,7 +161,7 @@ local relpath = path.relpath
 
 local pushd_stack = List()
 
---- ort of command line pushd emulation.
+--- Sort of command line pushd emulation.
 --- @param dir string
 --- @return boolean
 --- @return string?
@@ -173,7 +174,7 @@ function AUP.pushd(dir)
   return ans, err
 end
 
---- ort of command line popd emulation.
+--- Sort of command line popd emulation.
 --- @return boolean
 --- @return string
 function AUP.popd()
@@ -185,9 +186,9 @@ end
 
 AUP._cwd = currentdir()
 
---- eturn the argument relative to the initial current directory.
---- his is used to keep some information private.
---- his is not full proofed.
+--- Return the argument relative to the initial current directory.
+--- This is used to keep some information private.
+--- This is not full proofed.
 --- @param p string?
 --- @return string
 function AUP:short_path(p)

@@ -63,7 +63,7 @@
 #       define _ISOC99_SOURCE /* to get the fmax() prototype */
 #   endif
 
-#   ifdef SYNCTEX_STANDALONE
+#   if defined(SYNCTEX_STANDALONE)
 #       include <synctex_parser_c-auto.h>
 /*      for inline && HAVE_xxx */
 #   else
@@ -101,10 +101,20 @@
 inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
 #endif
 
-/* I use the definition in kpathsea --ak*/
+/* I use the definition in kpathsea --ak
 #ifdef WIN32
 #   define snprintf _snprintf
 #endif
+*/
+
+#if defined(WIN32) && defined(SYNCTEX_STANDALONE)
+#   define snprintf _snprintf
+#endif
+
+#if defined(WIN32) && !defined(SYNCTEX_STANDALONE)
+#   include <kpathsea/progname.h>
+#endif
+
 
 #if SYNCTEX_DEBUG
 #   ifdef WIN32
@@ -139,7 +149,7 @@ int main(int argc, char *argv[])
 {
     int i = 0;
     int status = 0;
-#if defined(WIN32) && !defined(__SYNCTEX_WORK)
+#if defined(WIN32) && !defined(SYNCTEX_STANDALONE)
     kpse_set_program_name(argv[0], "synctex");
 #endif
     printf("This is SyncTeX command line utility, version " SYNCTEX_CLI_VERSION_STRING "\n");
@@ -425,21 +435,36 @@ void synctex_help_view(const char * error,...) {
     return;
 }
 
+/**
+ * @brief Data structure for view queries
+ * 
+ */
 typedef struct {
+    /** The line number*/
     int line;
+    /** The column number*/
     int column;
+    /** The page number*/
     int page;
+    /** The offset hint */
     unsigned int offset;
+    /** name of the input file */
     char * input;
+    /** name of the output file */
     char * output;
+    /** name of the directory, defaults to the current working directory */
     char * directory;
+    /** command to launch the viewer */
     char * viewer;
+    /** text before hint */
     char * before;
+    /** middle text hint */
     char * middle;
+    /** after text hint */
     char * after;
-} synctex_view_t;
+} _synctex_view_t;
 
-synctex_view_t g_view = {-1,0,0,-1,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+_synctex_view_t g_view = {-1,0,0,-1,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
 
 char * synctex_view_i(char * arg) {
     char * ans;
@@ -484,8 +509,8 @@ int synctex_view(int argc, char *argv[]) {
         return -1;
     }
     if (synctex_view_i(argv[i]) <= argv[i]) {
-        synctex_help_view("Bad -i argument");
-        return -1;
+    synctex_help_view("Bad -i argument");
+    return -1;
     }
     if((++i>=argc) || strcmp("-o",argv[i]) || (++i>=argc)) {
         synctex_help_view("Missing -o required argument");
@@ -756,9 +781,9 @@ typedef struct {
     char * directory;
     char * editor;
     char * context;
-} synctex_edit_t;
+} _synctex_edit_t;
 
-synctex_edit_t g_edit = {0,0,0,0,NULL,NULL,NULL,NULL};
+_synctex_edit_t g_edit = {0,0,0,0,NULL,NULL,NULL,NULL};
 
 char * synctex_edit_o(char * arg) {
     char * ans;
@@ -789,8 +814,8 @@ int synctex_edit(int argc, char *argv[]) {
     }
     char * arg = argv[i];
     if (synctex_edit_o(arg) <= arg) {
-        synctex_help_edit("Bad -o argument");
-        return -1;
+    synctex_help_edit("Bad -o argument");
+    return -1;
     }
     /* now scan the optional arguments */
     if(++i<argc) {

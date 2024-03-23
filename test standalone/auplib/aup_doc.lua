@@ -48,9 +48,9 @@ local dbg = AUP.module.dbg()
 --- @field make fun(self: AUPDoc)
 local AUPDoc = class.AUPDoc()
 
---- nitialize an AUPDoc instance
+--- Initialize an AUPDoc instance
 --- @param arguments AUPArguments
-function AUPDoc:init(arguments)
+function AUPDoc:_init(arguments)
   local iterator = arguments:iterator()
   local entry = iterator:next()
   dbg:write(1, "**** Managing arguments")
@@ -60,7 +60,7 @@ function AUPDoc:init(arguments)
   end
 end
 
---- ake the documentation
+--- Make the documentation
 function AUPDoc:make()
   print("IN PROGRESS")
 end

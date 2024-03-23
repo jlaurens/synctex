@@ -47,17 +47,17 @@ local lookup = kpse.lookup
 --- @field activate fun()
 --- @field deactivate fun()
 
---- mports l3build in the given environment or the current environment.
---- ocate the `l3buld.lua` in the TDS using `kpse`,
---- onfigure `package.path` accordingly,
---- inally `require('l3build')`.
---- verything is imported in the current environment per `l3build` design.
---- evertheless, one can play with environments to disable `l3build`
---- emporarily when there can be name conflicts.
---- hange the environment before importing
+--- Imports l3build in the given environment or the current environment.
+--- Locate the `l3buld.lua` in the TDS using `kpse`,
+--- configure `package.path` accordingly,
+--- finally `require('l3build')`.
+--- Everything is imported in the current environment per `l3build` design.
+--- nevertheless, one can play with environments to disable `l3build`
+--- temporarily when there can be name conflicts.
+--- change the environment before importing
 --- @param env table? where `l3build` material is imported,
---- t defaults to a void table. Any ways its `__index` event points to the
---- urrent environment.
+--- it defaults to a void table. Any ways its `__index` event points to the
+--- current environment.
 --- @return AUPL3BuildProxy
 local function importer(env)
   local l3build_path = lookup("l3build.lua")

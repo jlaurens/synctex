@@ -42,12 +42,6 @@ local PL_path = PL.path
 local PL_dir = PL.dir
 
 -- exclude directories in next list
-local exclude_dirs = List({"fake example"})
+local exclude = List({"fake example", 'gh30'})
 
-local dirs = PL_dir.getdirectories()
-for _,p in ipairs(dirs) do
-  local bn = PL_path.basename(p)
-  if not exclude_dirs:contains(p) then
-    AUP_units:check_suite(bn)
-  end
-end
+AUP_units:test_currentdir(exclude)
