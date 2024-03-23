@@ -62,7 +62,7 @@ local PL = AUP.PL
 
 local AUPUnits = PL.class.AUPUnits()
 
---- nitialize an `AUPUnits` instance
+--- Initialize an `AUPUnits` instance
 --- @param arguments AUPArguments
 function AUPUnits:_init(arguments)
   --self:super()   -- call the ancestor initializer if needed
@@ -156,8 +156,8 @@ end
 local PL_path = PL.path
 local currentdir = PL_path.currentdir
 
---- oad a file in the current directory.
---- lass method.
+--- Load a file in the current directory.
+--- Class method.
 --- @param self unknown
 --- @param name string
 function AUPUnits:load(name)
@@ -170,25 +170,25 @@ function AUPUnits:load(name)
   end
 end
 
---- oad the `test_setup.lua` of the current directory, if any.
+--- Load the `test_setup.lua` of the current directory, if any.
 function AUPUnits:test_setup()
   print('Test setup for '..AUP:short_path())
   self:load('test_setup')
 end
 
---- oad the `test.lua` of the current directory, if any.
+--- Load the `test.lua` of the current directory, if any.
 function AUPUnits:test()
   print('Test for '..AUP:short_path())
   self:load('test')
 end
 
---- oad the `test_teardown.lua` of the current directory, if any.
+--- Load the `test_teardown.lua` of the current directory, if any.
 function AUPUnits:test_teardown()
   print('Test teardown for '..AUP:short_path())
   self:load('test_teardown')
 end
 
---- ake all the tests
+--- Run all the tests
 --- @param self AUPUnits
 function AUPUnits:check()
   self:test_setup()
@@ -210,7 +210,7 @@ function AUPUnits:check()
   self:test_teardown()
 end
 
---- ake all the tests in the given directory
+--- Run all the tests in the given directory
 --- @param self AUPUnits
 --- @param suite string|string[]?
 --- @param units string[]?
@@ -240,8 +240,8 @@ function AUPUnits:check_suite(suite, units)
   end
 end
 
---- ake all the tests for the given unit.
---- unit` is a folder in the current working directory.
+--- Run all the tests for the given unit.
+--- `unit` is a folder in the current working directory.
 --- @param self AUPUnits
 --- @param unit string
 function AUPUnits:check_unit(unit)
@@ -258,7 +258,7 @@ local getdirectories = PL.dir.getdirectories
 local basename = PL_path.basename
 local List = PL.List
 
---- ake tests in the current working directory.
+--- Run tests in the current working directory.
 --- @param exclude table?
 function AUPUnits:test_currentdir(exclude)
   local dirs = getdirectories()

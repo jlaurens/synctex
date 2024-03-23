@@ -63,7 +63,7 @@
 #       define _ISOC99_SOURCE /* to get the fmax() prototype */
 #   endif
 
-#   ifdef SYNCTEX_STANDALONE
+#   if defined(SYNCTEX_STANDALONE)
 #       include <synctex_parser_c-auto.h>
 /*      for inline && HAVE_xxx */
 #   else
@@ -101,12 +101,23 @@
 inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
 #endif
 
-/* I use the definition in kpathsea --ak*/
+/* I use the definition in kpathsea --ak
 #ifdef WIN32
 #   define snprintf _snprintf
 #endif
+*/
+
+#if defined(WIN32) && defined(SYNCTEX_STANDALONE)
+#   define snprintf _snprintf
+#endif
+
+#if defined(WIN32) && !defined(SYNCTEX_STANDALONE)
+#   include <kpathsea/progname.h>
+#endif
+
 
 #if SYNCTEX_DEBUG
+#   define SYNCTEX_DUMP 1
 #   ifdef WIN32
 #       include <direct.h>
 #       define getcwd _getcwd
@@ -122,11 +133,17 @@ void synctex_help_view(const char * error,...);
 void synctex_help_edit(const char * error,...);
 void synctex_help_update(const char * error,...);
 void synctex_help_options(const char * error,...);
+#if SYNCTEX_DUMP
+void synctex_help_dump(const char * error,...);
+#endif
 
 int synctex_view(int argc, char *argv[]);
 int synctex_edit(int argc, char *argv[]);
 int synctex_update(int argc, char *argv[]);
 int synctex_test(int argc, char *argv[]);
+#if SYNCTEX_DUMP
+int synctex_dump(int argc, char *argv[]);
+#endif
 
 int g_interactive = 0;
 /**
@@ -139,7 +156,7 @@ int main(int argc, char *argv[])
 {
     int i = 0;
     int status = 0;
-#if defined(WIN32) && !defined(__SYNCTEX_WORK)
+#if defined(WIN32) && !defined(SYNCTEX_STANDALONE)
     kpse_set_program_name(argv[0], "synctex");
 #endif
     printf("This is SyncTeX command line utility, version " SYNCTEX_CLI_VERSION_STRING "\n");
@@ -176,6 +193,11 @@ int main(int argc, char *argv[])
                 } else if(0==strcmp("options",argv[i])) {
                     synctex_help_options(NULL);
                     return 0;
+#if SYNCTEX_DUMP
+                } else if(0==strcmp("dump",argv[i])) {
+                    synctex_help_dump(NULL);
+                    return 0;
+#endif
                 }
             }
             synctex_help(NULL);
@@ -190,6 +212,10 @@ int main(int argc, char *argv[])
             return synctex_update(argc-i-1,argv+i+1);
         } else if(0==strcmp("test",argv[i])) {
             return synctex_test(argc-i-1,argv+i+1);
+#if SYNCTEX_DUMP
+        } else if(0==strcmp("dump",argv[i])) {
+            return synctex_dump(argc-i-1,argv+i+1);
+#endif
         }
     }
     synctex_help("No command available.");
@@ -209,6 +235,9 @@ int synctex_synchronize();
 
 char * g_output   = NULL;
 char * g_directory = NULL;
+#if SYNCTEX_DUMP
+char * g_file = NULL;
+#endif
 
 int synctex_synchronize() {
     const char * dot_synctex;
@@ -425,21 +454,36 @@ void synctex_help_view(const char * error,...) {
     return;
 }
 
+/**
+ * @brief Data structure for view queries
+ * 
+ */
 typedef struct {
+    /** The line number*/
     int line;
+    /** The column number*/
     int column;
+    /** The page number*/
     int page;
+    /** The offset hint */
     unsigned int offset;
+    /** name of the input file */
     char * input;
+    /** name of the output file */
     char * output;
+    /** name of the directory, defaults to the current working directory */
     char * directory;
+    /** command to launch the viewer */
     char * viewer;
+    /** text before hint */
     char * before;
+    /** middle text hint */
     char * middle;
+    /** after text hint */
     char * after;
-} synctex_view_t;
+} _synctex_view_t;
 
-synctex_view_t g_view = {-1,0,0,-1,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+_synctex_view_t g_view = {-1,0,0,-1,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
 
 char * synctex_view_i(char * arg) {
     char * ans;
@@ -756,9 +800,9 @@ typedef struct {
     char * directory;
     char * editor;
     char * context;
-} synctex_edit_t;
+} _synctex_edit_t;
 
-synctex_edit_t g_edit = {0,0,0,0,NULL,NULL,NULL,NULL};
+_synctex_edit_t g_edit = {0,0,0,0,NULL,NULL,NULL,NULL};
 
 char * synctex_edit_o(char * arg) {
     char * ans;
@@ -789,8 +833,8 @@ int synctex_edit(int argc, char *argv[]) {
     }
     char * arg = argv[i];
     if (synctex_edit_o(arg) <= arg) {
-        synctex_help_edit("Bad -o argument");
-        return -1;
+    synctex_help_edit("Bad -o argument");
+    return -1;
     }
     /* now scan the optional arguments */
     if(++i<argc) {
@@ -1140,3 +1184,67 @@ int synctex_test_file (int argc, char *argv[])
     }
     return 0;
 }
+
+#if SYNCTEX_DUMP
+int synctex_dump(int argc, char *argv[]) {
+    if((++i>=argc) || strcmp("-o",argv[i]) || (++i>=argc)) {
+        synctex_help_dump("Missing -o required argument");
+        return -1;
+    }
+    g_output = argv[i];
+    /* now scan the optional arguments */
+    g_directory = NULL;
+    g_file = NULL;
+    ++i;
+    while(i<argc) {
+        if(0 == strcmp("-d",argv[i])) {
+            if(++i<argc) {
+                g_directory = argv[i];
+            } else {
+                g_directory = getenv("SYNCTEX_BUILD_DIRECTORY");
+            }
+        } else if(0 == strcmp("-f",argv[i])) {
+            if(++i<argc) {
+                g_file = argv[i];
+            } else {
+                g_file = getenv("SYNCTEX_BUILD_DIRECTORY");
+            }
+        } else {
+            synctex_help_dump("Unsupported argument")
+            return(-1);
+        }
+    }
+    if (synctex_synchronize()<0) {
+        _synctex_error("Something wrong happened!")
+        return(-1);
+    }
+    
+    synctex_scanner_free(g_scanner);
+    g_scanner = NULL;
+}
+
+void synctex_help_dump(const char * error,...) {
+    va_list v;
+    va_start(v, error);
+    synctex_usage(error, v);
+    va_end(v);
+    fputs(
+        "synctex dump command :\n"
+        "-o output\n"
+        "       is the full or relative path of the output file (with any relevant path extension).\n"
+        "       This file must exist.\n"
+        "       \n"
+        "-d directory\n"
+        "       is the directory containing the synctex file, in case it is different from the directory of the output.\n"
+        "       This directory must exist.\n"
+        "       An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
+        "       the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
+        "        The other ones are simply removed, if the authorization is granted\n"
+        "       \n"
+        "-f <file>\n"
+        "   when provided, writes the dumped data to <file>.\n",
+        "   By default dumped data are written to stdout.\n",
+        (error?stderr:stdout)
+    );
+}
+#endif

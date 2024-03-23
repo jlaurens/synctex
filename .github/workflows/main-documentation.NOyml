@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Doxygen Action main
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - run: echo "event= ${{ github.event_name }}"
+    - run: echo "os= ${{ runner.os }}"
+    - run: echo "repository= ${{ github.repository }}"
+    - run: echo "branch= ${{ github.ref }}"
+    - name: Check out repository code
+      uses: actions/checkout@v4
+    - name: Doxygen Action
+      uses: mattnotmitt/doxygen-action@v1.9.8
+      with:
+        working-directory: '.'
+        doxyfile-path: 'documentation/Doxyfile'
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        # If you're changing the branch from main,
+        # also change the `main` in `refs/heads/main`
+        # below accordingly.
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public

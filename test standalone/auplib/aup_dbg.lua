@@ -52,9 +52,9 @@ function AUPDBG:_init()
   self._level = 0
 end
 
---- rint debuggging information.
---- hen level is positive, extra debugging information is
---- isplayed. The higher the level, the richer the information.
+--- Print debuggging information.
+--- Then level is positive, extra debugging information is
+--- displayed. The higher the level, the richer the information.
 --- @param level integer
 --- @param ... unknown
 function AUPDBG:write(level, ...)
@@ -75,9 +75,9 @@ function AUPDBG:write(level, ...)
   end
 end
 
---- rint debuggging information.
---- hen level is positive, extra debugging information is
---- isplayed. The higher the level, the richer the information.
+--- Print debuggging information.
+--- then level is positive, extra debugging information is
+--- displayed. The higher the level, the richer the information.
 --- @param level integer
 --- @param template string
 --- @param env table?
@@ -89,9 +89,9 @@ function AUPDBG:format(level, template, env)
   end
 end
 
---- rint debuggging formatted information.
---- hen level is positive, extra debugging information is
---- isplayed. The higher the level, the richer the information.
+--- Print debuggging formatted information.
+--- then level is positive, extra debugging information is
+--- displayed. The higher the level, the richer the information.
 --- @param level integer
 --- @param format string
 --- @param ... unknown
@@ -102,13 +102,13 @@ function AUPDBG:printf(level, format, ...)
   end
 end
 
---- eturns the debug level
+--- Returns the debug level
 --- @return integer
 function AUPDBG:level_get()
   return self._level
 end
 
---- et the debug level
+--- Set the debug level
 --- @param level integer|string
 function AUPDBG:level_set(level)
   if type(level) ~= 'number' then
@@ -118,7 +118,7 @@ function AUPDBG:level_set(level)
   return self._level
 end
 
---- ncrement the debug level
+--- Increment the debug level
 --- @param delta integer|string
 function AUPDBG:level_increment(delta)
   if type(delta) ~= 'number' then
