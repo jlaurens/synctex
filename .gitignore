@@ -34,6 +34,8 @@ DerivedData/*
 build
 meson/build
 
+documentation/*
+
 .vscode
 synctex test files/1/big/1.synctex
 synctex test files/1/big/1.pdf
