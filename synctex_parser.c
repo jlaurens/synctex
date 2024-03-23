@@ -76,7 +76,7 @@
  *
  *  The data is organized in a graph with multiple entries.
  *  The root object is a scanner, it is created with the contents on a synctex file.
- *  Each node of the tree is a synctex_node_t object.
+ *  Each node of the tree is a private `_synctex_node_t` object.
  *  There are 3 subtrees, two of them sharing the same leaves.
  *  The first tree is the list of input records, where input file names are associated with tags.
  *  The second tree is the box tree as given by TeX when shipping pages out.
@@ -288,7 +288,7 @@ static const _synctex_vispector_s synctex_vispector_none = {
 };
 typedef const _synctex_vispector_s * _synctex_vispector_p;
 
-struct synctex_class_t {
+struct _synctex_class_t {
     synctex_scanner_p scanner;
     synctex_node_type_t type;
     _synctex_node_new_f new;
@@ -592,7 +592,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(target)
  * @brief Data structure fot a file reader
  * 
  */
-typedef struct synctex_reader_t {
+typedef struct _synctex_reader_t {
     /** The (possibly compressed) file */
     gzFile file;
     /** The output file */
@@ -614,9 +614,13 @@ typedef struct synctex_reader_t {
     /** Undocumented */
     int line_number;
     SYNCTEX_DECLARE_CHAR_OFFSET
-} synctex_reader_s;
+} _synctex_reader_s;
 
-typedef synctex_reader_s * synctex_reader_p;
+/**
+ * @brief Reader structure
+ * 
+ */
+typedef _synctex_reader_s * synctex_reader_p;
 
 /**
  * @brief Return structure
@@ -632,7 +636,7 @@ typedef struct {
     gzFile file;
     /** mode */
     synctex_io_mode_t io_mode;
-} synctex_open_s;
+} _synctex_open_s;
 
 /*	This functions opens the file at the "output" given location.
  *  It manages the problem of quoted filenames that appear with pdftex and filenames containing the space character.
@@ -645,8 +649,8 @@ typedef struct {
  *  - note: on success, the caller is the owner
  *      of the fields of the returned open structure.
  */
-static synctex_open_s __synctex_open_v2(const char * output, synctex_io_mode_t io_mode, synctex_bool_t add_quotes) {
-    synctex_open_s open = {SYNCTEX_STATUS_ERROR, NULL, NULL, io_mode};
+static _synctex_open_s __synctex_open_v2(const char * output, synctex_io_mode_t io_mode, synctex_bool_t add_quotes) {
+    _synctex_open_s open = {SYNCTEX_STATUS_ERROR, NULL, NULL, io_mode};
     char * quoteless_synctex_name = NULL;
     const char * mode = _synctex_get_io_mode_name(open.io_mode);
     size_t size = strlen(output)+strlen(synctex_suffix)+strlen(synctex_suffix_gz)+1;
@@ -761,8 +765,8 @@ static synctex_open_s __synctex_open_v2(const char * output, synctex_io_mode_t i
  *  - note: on success, the caller is the owner
  *      of the fields of the returned open structure.
  */
-static synctex_open_s _synctex_open_v2(const char * output, const char * build_directory, synctex_io_mode_t io_mode, synctex_bool_t add_quotes) {
-    synctex_open_s open = __synctex_open_v2(output,io_mode,add_quotes);
+static _synctex_open_s _synctex_open_v2(const char * output, const char * build_directory, synctex_io_mode_t io_mode, synctex_bool_t add_quotes) {
+    _synctex_open_s open = __synctex_open_v2(output,io_mode,add_quotes);
     if (open.status == SYNCTEX_STATUS_OK) {
         return open;
     }
@@ -824,7 +828,7 @@ static void synctex_reader_free(synctex_reader_p reader) {
 static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p reader, const char * output, const char * build_directory) {
     if (reader) {
         /*  now open the synctex file */
-        synctex_open_s open = _synctex_open_v2(output,build_directory,0,synctex_ADD_QUOTES);
+        _synctex_open_s open = _synctex_open_v2(output,build_directory,0,synctex_ADD_QUOTES);
         if (open.status<SYNCTEX_STATUS_OK) {
             open = _synctex_open_v2(output,build_directory,0,synctex_DONT_ADD_QUOTES);
             if (open.status<SYNCTEX_STATUS_OK) {
@@ -885,7 +889,7 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
  *  Is is initialized with the contents of a text file or a gzipped file.
  *  The buffer_.* are first used to parse the text.
  */
-struct synctex_scanner_t {
+struct _synctex_scanner_t {
     /** Auxiliary reader object discarded when used */
     synctex_reader_p reader;
     SYNCTEX_DECLARE_NODE_COUNT
@@ -1141,9 +1145,9 @@ typedef struct {
 } synctex_is_s;
 /** @endcond */
 
-static synctex_is_s _synctex_decode_int(synctex_scanner_p scanner);
-static synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int default_value);
-static synctex_is_s _synctex_decode_int_v(synctex_scanner_p scanner);
+static _synctex_is_s _synctex_decode_int(synctex_scanner_p scanner);
+static _synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int default_value);
+static _synctex_is_s _synctex_decode_int_v(synctex_scanner_p scanner);
 
 /**
  * @brief String+status structure.
@@ -1155,9 +1159,9 @@ typedef struct {
     char * string;
     /** status component */
     synctex_status_t status;
-} synctex_ss_s;
+} _synctex_ss_s;
 
-static synctex_ss_s _synctex_decode_string(synctex_scanner_p scanner);
+static _synctex_ss_s _synctex_decode_string(synctex_scanner_p scanner);
 
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
@@ -1213,7 +1217,7 @@ static int _synctex_data_set_##WHAT(synctex_node_p node, int new_value) {\
 #define DEFINE_SYNCTEX_DATA_INT_DECODE(WHAT) \
 static synctex_status_t _synctex_data_decode_##WHAT(synctex_node_p node) {\
     if (_synctex_data_has_##WHAT(node)) {\
-        synctex_is_s is = _synctex_decode_int(node->class_->scanner);\
+        _synctex_is_s is = _synctex_decode_int(node->class_->scanner);\
         if (is.status == SYNCTEX_STATUS_OK) {\
             _synctex_data_set_##WHAT(node,is.integer);\
         } \
@@ -1224,7 +1228,7 @@ static synctex_status_t _synctex_data_decode_##WHAT(synctex_node_p node) {\
 #   define DEFINE_SYNCTEX_DATA_INT_DECODE_v(WHAT) \
 static synctex_status_t _synctex_data_decode_##WHAT##_v(synctex_node_p node) {\
     if (_synctex_data_has_##WHAT(node)) {\
-        synctex_is_s is = _synctex_decode_int_v(node->class_->scanner);\
+        _synctex_is_s is = _synctex_decode_int_v(node->class_->scanner);\
         if (is.status == SYNCTEX_STATUS_OK) {\
             _synctex_data_set_##WHAT(node,is.integer);\
         } \
@@ -1251,7 +1255,7 @@ static char * _synctex_data_set_##WHAT(synctex_node_p node, char * new_value) {\
 #define DEFINE_SYNCTEX_DATA_STR_DECODE(WHAT) \
 static synctex_status_t _synctex_data_decode_##WHAT(synctex_node_p node) {\
     if (_synctex_data_has_##WHAT(node)) {\
-        synctex_ss_s ss = _synctex_decode_string(node->class_->scanner);\
+        _synctex_ss_s ss = _synctex_decode_string(node->class_->scanner);\
         if (ss.status == SYNCTEX_STATUS_OK) {\
             _synctex_data_set_##WHAT(node,ss.string);\
         } \
@@ -1335,7 +1339,7 @@ static const _synctex_tlcpector_s synctex_tlcpector_input = {
     &_synctex_int_none, /* column */
 };
 
-static synctex_class_s synctex_class_input = {
+static _synctex_class_s _synctex_class_input = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_input,    /*  Node type */
     &_synctex_new_input,        /*  creator */
@@ -1474,7 +1478,7 @@ static const _synctex_data_model_s synctex_data_model_sheet = {
     synctex_data_sheet_page_idx, /* page */
     synctex_data_p_sheet_max
 };
-static synctex_class_s synctex_class_sheet = {
+static _synctex_class_s _synctex_class_sheet = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_sheet,    /*  Node type */
     &_synctex_new_sheet,        /*  creator */
@@ -1538,7 +1542,7 @@ static const _synctex_data_model_s synctex_data_model_form = {
     -1, /* page */
     synctex_data_t_form_max
 };
-static synctex_class_s synctex_class_form = {
+static _synctex_class_s _synctex_class_form = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_form,     /*  Node type */
     &_synctex_new_form,         /*  creator */
@@ -1591,7 +1595,7 @@ static const _synctex_tree_model_s synctex_tree_model_vbox = {
 DEFINE_SYNCTEX_DATA_INT_GETSET(column)
 static synctex_status_t _synctex_data_decode_column(synctex_node_p node) {
     if (_synctex_data_has_column(node)) {
-        synctex_is_s is = _synctex_decode_int_opt(node->class_->scanner,
+        _synctex_is_s is = _synctex_decode_int_opt(node->class_->scanner,
             SYNCTEX_DFLT_COLUMN);
         if (is.status == SYNCTEX_STATUS_OK) {
             _synctex_data_set_column(node,is.integer);
@@ -1668,7 +1672,7 @@ static _synctex_vispector_s _synctex_vispector_box = {
 };
 /*  These are static class objects, each scanner will make a copy of them and setup the scanner field.
  */
-static synctex_class_s synctex_class_vbox = {
+static _synctex_class_s _synctex_class_vbox = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_vbox,     /*  Node type */
     &_synctex_new_vbox,         /*  creator */
@@ -1755,7 +1759,7 @@ static void _synctex_log_hbox(synctex_node_p node);
 static char * _synctex_abstract_hbox(synctex_node_p node);
 static void _synctex_display_hbox(synctex_node_p node);
 
-static synctex_class_s synctex_class_hbox = {
+static _synctex_class_s _synctex_class_hbox = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_hbox,     /*  Node type */
     &_synctex_new_hbox,         /*  creator */
@@ -1801,7 +1805,7 @@ static void _synctex_log_void_box(synctex_node_p node);
 static char * _synctex_abstract_void_vbox(synctex_node_p node);
 static void _synctex_display_void_vbox(synctex_node_p node);
 
-static synctex_class_s synctex_class_void_vbox = {
+static _synctex_class_s _synctex_class_void_vbox = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_void_vbox,/*  Node type */
     &_synctex_new_void_vbox,    /*  creator */
@@ -1828,7 +1832,7 @@ DEFINE_synctex_new_scanned_NODE(void_hbox)
 static char * _synctex_abstract_void_hbox(synctex_node_p node);
 static void _synctex_display_void_hbox(synctex_node_p node);
 
-static synctex_class_s synctex_class_void_hbox = {
+static _synctex_class_s _synctex_class_void_hbox = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_void_hbox,/*  Node type */
     &_synctex_new_void_hbox,    /*  creator */
@@ -1892,7 +1896,7 @@ static const _synctex_data_model_s synctex_data_model_ref = {
     -1, /* page */
     synctex_data_ref_thv_max /* size */
 };
-static synctex_class_s synctex_class_ref = {
+static _synctex_class_s _synctex_class_ref = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_ref,      /*  Node type */
     &_synctex_new_ref,          /*  creator */
@@ -1966,7 +1970,7 @@ static _synctex_vispector_s synctex_vispector_hv = {
     &_synctex_float_none,
 };
 
-static synctex_class_s synctex_class_math = {
+static _synctex_class_s _synctex_class_math = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_math,     /*  Node type */
     &_synctex_new_math,         /*  creator */
@@ -2035,7 +2039,7 @@ static _synctex_vispector_s synctex_vispector_kern = {
     &_synctex_float_none,
 };
 
-static synctex_class_s synctex_class_kern = {
+static _synctex_class_s _synctex_class_kern = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_kern,     /*  Node type */
     &_synctex_new_kern,         /*  creator */
@@ -2061,7 +2065,7 @@ DEFINE_synctex_new_scanned_NODE(glue)
 static char * _synctex_abstract_glue(synctex_node_p node);
 static void _synctex_display_glue(synctex_node_p node);
 
-static synctex_class_s synctex_class_glue = {
+static _synctex_class_s _synctex_class_glue = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_glue,     /*  Node type */
     &_synctex_new_glue,         /*  creator */
@@ -2107,7 +2111,7 @@ static _synctex_vispector_s _synctex_vispector_rule = {
     &__synctex_rule_visible_depth,
 };
 
-static synctex_class_s synctex_class_rule = {
+static _synctex_class_s _synctex_class_rule = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_rule,     /*  Node type */
     &_synctex_new_rule,         /*  creator */
@@ -2133,7 +2137,7 @@ DEFINE_synctex_new_scanned_NODE(boundary)
 static char * _synctex_abstract_boundary(synctex_node_p node);
 static void _synctex_display_boundary(synctex_node_p node);
 
-static synctex_class_s synctex_class_boundary = {
+static _synctex_class_s _synctex_class_boundary = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_boundary, /*  Node type */
     &_synctex_new_boundary,     /*  creator */
@@ -2175,7 +2179,7 @@ DEFINE_synctex_new_unscanned_NODE(box_bdry)
 static char * _synctex_abstract_box_bdry(synctex_node_p node);
 static void _synctex_display_box_bdry(synctex_node_p node);
 
-static synctex_class_s synctex_class_box_bdry = {
+static _synctex_class_s _synctex_class_box_bdry = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_box_bdry, /*  Node type */
     &_synctex_new_box_bdry,     /*  creator */
@@ -2346,7 +2350,7 @@ static _synctex_vispector_s synctex_vispector_proxy_box = {
     &__synctex_proxy_visible_depth,
 };
 
-static synctex_class_s synctex_class_proxy_hbox = {
+static _synctex_class_s _synctex_class_proxy_hbox = {
     NULL,                           /*  No scanner yet */
     synctex_node_type_proxy_hbox,   /*  Node type */
     &_synctex_new_proxy_hbox,       /*  creator */
@@ -2392,7 +2396,7 @@ static void _synctex_log_proxy(synctex_node_p node);
 static char * _synctex_abstract_proxy_vbox(synctex_node_p node);
 static void _synctex_display_proxy_vbox(synctex_node_p node);
 
-static synctex_class_s synctex_class_proxy_vbox = {
+static _synctex_class_s _synctex_class_proxy_vbox = {
     NULL,                           /*  No scanner yet */
     synctex_node_type_proxy_vbox,   /*  Node type */
     &_synctex_new_proxy_vbox,       /*  creator */
@@ -2448,7 +2452,7 @@ static _synctex_vispector_s synctex_vispector_proxy = {
     &_synctex_float_none,
 };
 
-static synctex_class_s synctex_class_proxy = {
+static _synctex_class_s _synctex_class_proxy = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_proxy,    /*  Node type */
     &_synctex_new_proxy,        /*  creator */
@@ -2496,7 +2500,7 @@ static void _synctex_log_proxy(synctex_node_p node);
 static char * _synctex_abstract_proxy(synctex_node_p node);
 static void _synctex_display_proxy(synctex_node_p node);
 
-static synctex_class_s synctex_class_proxy_last = {
+static _synctex_class_s _synctex_class_proxy_last = {
     NULL,                           /*  No scanner yet */
     synctex_node_type_proxy_last,   /*  Node type */
     &_synctex_new_proxy,            /*  creator */
@@ -2570,7 +2574,7 @@ static void _synctex_log_handle(synctex_node_p node);
 static char * _synctex_abstract_handle(synctex_node_p node);
 static void _synctex_display_handle(synctex_node_p node);
 
-static synctex_class_s synctex_class_handle = {
+static _synctex_class_s _synctex_class_handle = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_handle,   /*  Node type */
     &_synctex_new_handle,       /*  creator */
@@ -4015,9 +4019,8 @@ static synctex_status_t _synctex_scan_post_scriptum(synctex_scanner_p scanner);
 static synctex_status_t _synctex_scan_postamble(synctex_scanner_p scanner);
 static synctex_status_t _synctex_setup_visible_hbox(synctex_node_p box);
 static synctex_status_t _synctex_scan_content(synctex_scanner_p scanner);
-int synctex_scanner_pre_x_offset(synctex_scanner_p scanner);
-int synctex_scanner_pre_y_offset(synctex_scanner_p scanner);
-const char * synctex_scanner_get_output_fmt(synctex_scanner_p scanner);
+int _synctex_scanner_pre_x_offset(synctex_scanner_p scanner);
+int _synctex_scanner_pre_y_offset(synctex_scanner_p scanner);
 
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
@@ -4259,20 +4262,20 @@ static synctex_status_t _synctex_match_string(synctex_scanner_p scanner, const c
  *  It is SYNCTEX_STATUS_OK if an int has been successfully parsed.
  *  The given scanner argument must not be NULL, on the contrary, value_ref may be NULL.
  */
-static synctex_is_s _synctex_decode_int(synctex_scanner_p scanner) {
+static _synctex_is_s _synctex_decode_int(synctex_scanner_p scanner) {
     char * ptr = NULL;
     char * end = NULL;
     _synctex_zs_s zs = {0,0};
     int result;
     if (NULL == scanner) {
-        return (synctex_is_s){0, SYNCTEX_STATUS_BAD_ARGUMENT};
+        return (_synctex_is_s){0, SYNCTEX_STATUS_BAD_ARGUMENT};
     }
     zs = _synctex_buffer_get_available_size(scanner, SYNCTEX_BUFFER_MIN_SIZE);
     if (zs.status<SYNCTEX_STATUS_EOF) {
-        return (synctex_is_s){0,zs.status};
+        return (_synctex_is_s){0,zs.status};
     }
     if (zs.size==0) {
-        return (synctex_is_s){0,SYNCTEX_STATUS_NOT_OK};
+        return (_synctex_is_s){0,SYNCTEX_STATUS_NOT_OK};
     }
     ptr = SYNCTEX_CUR;
     /*  Optionally parse the separator */
@@ -4280,29 +4283,29 @@ static synctex_is_s _synctex_decode_int(synctex_scanner_p scanner) {
         ++ptr;
         --zs.size;
         if (zs.size==0) {
-            return (synctex_is_s){0,SYNCTEX_STATUS_NOT_OK};
+            return (_synctex_is_s){0,SYNCTEX_STATUS_NOT_OK};
         }
     }
     result = synctex_parse_int(ptr, &end);
     if (end>ptr) {
         SYNCTEX_CUR = end;
-        return (synctex_is_s){result,SYNCTEX_STATUS_OK};
+        return (_synctex_is_s){result,SYNCTEX_STATUS_OK};
     }
-    return (synctex_is_s){result,SYNCTEX_STATUS_NOT_OK};
+    return (_synctex_is_s){result,SYNCTEX_STATUS_NOT_OK};
 }
-static synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int default_value) {
+static _synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int default_value) {
     char * ptr = NULL;
     char * end = NULL;
     _synctex_zs_s zs = {0, 0};
     if (NULL == scanner) {
-        return (synctex_is_s){default_value, SYNCTEX_STATUS_BAD_ARGUMENT};
+        return (_synctex_is_s){default_value, SYNCTEX_STATUS_BAD_ARGUMENT};
     }
     zs = _synctex_buffer_get_available_size(scanner, SYNCTEX_BUFFER_MIN_SIZE);
     if (zs.status<SYNCTEX_STATUS_EOF) {
-        return (synctex_is_s){default_value,zs.status};
+        return (_synctex_is_s){default_value,zs.status};
     }
     if (zs.size==0) {
-        return (synctex_is_s){default_value,SYNCTEX_STATUS_OK};
+        return (_synctex_is_s){default_value,SYNCTEX_STATUS_OK};
     }
     ptr = SYNCTEX_CUR;
     /*  Comma separator required */
@@ -4311,16 +4314,16 @@ static synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int defau
         ++ptr;
         --zs.size;
         if (zs.size==0) {
-            return (synctex_is_s){default_value,SYNCTEX_STATUS_NOT_OK};
+            return (_synctex_is_s){default_value,SYNCTEX_STATUS_NOT_OK};
         }
         result = synctex_parse_int(ptr, &end);
         if (end>ptr) {
             SYNCTEX_CUR = end;
-            return (synctex_is_s){result,SYNCTEX_STATUS_OK};
+            return (_synctex_is_s){result,SYNCTEX_STATUS_OK};
         }
-        return (synctex_is_s){default_value,SYNCTEX_STATUS_NOT_OK};
+        return (_synctex_is_s){default_value,SYNCTEX_STATUS_NOT_OK};
     }
-    return (synctex_is_s){default_value,SYNCTEX_STATUS_OK};
+    return (_synctex_is_s){default_value,SYNCTEX_STATUS_OK};
 }
 /*  Used when parsing the synctex file.
  *  Decode an integer for a v field.
@@ -4329,8 +4332,8 @@ static synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int defau
  *  which is a shortcut for the last v field scanned.
  */
 #   define SYNCTEX_INPUT_COMEQUALS ",="
-static synctex_is_s _synctex_decode_int_v(synctex_scanner_p scanner) {
-    synctex_is_s is = _synctex_decode_int(scanner);
+static _synctex_is_s _synctex_decode_int_v(synctex_scanner_p scanner) {
+    _synctex_is_s is = _synctex_decode_int(scanner);
     if (SYNCTEX_STATUS_OK == is.status) {
         scanner->reader->lastv = is.integer;
         return is;
@@ -4361,23 +4364,23 @@ static synctex_is_s _synctex_decode_int_v(synctex_scanner_p scanner) {
  *  If either scanner or value_ref is NULL, it is considered as an error and
  *  SYNCTEX_STATUS_BAD_ARGUMENT is returned.
  */
-static synctex_ss_s _synctex_decode_string(synctex_scanner_p scanner) {
+static _synctex_ss_s _synctex_decode_string(synctex_scanner_p scanner) {
     char * end = NULL;
     size_t len = 0;/*  The number of bytes to copy */
     size_t already_len = 0;
     _synctex_zs_s zs = {0,0};
     char * string = NULL;
     if (NULL == scanner) {
-        return (synctex_ss_s){NULL,SYNCTEX_STATUS_BAD_ARGUMENT};
+        return (_synctex_ss_s){NULL,SYNCTEX_STATUS_BAD_ARGUMENT};
     }
     /*  The buffer must at least contain one character: the '\n' end of line marker */
     if (SYNCTEX_CUR>=SYNCTEX_END) {
 more_characters:
         zs = _synctex_buffer_get_available_size(scanner,1);
         if (zs.status < SYNCTEX_STATUS_EOF) {
-            return (synctex_ss_s){NULL,zs.status};
+            return (_synctex_ss_s){NULL,zs.status};
         } else if (0 == zs.size) {
-            return (synctex_ss_s){NULL,SYNCTEX_STATUS_EOF};
+            return (_synctex_ss_s){NULL,SYNCTEX_STATUS_EOF};
         }
     }
     /*  Now we are sure that there is at least one available character, either because
@@ -4411,15 +4414,15 @@ more_characters:
                     }
                 }
                 string[already_len] = '\0';
-                return (synctex_ss_s){string,SYNCTEX_STATUS_OK};
+                return (_synctex_ss_s){string,SYNCTEX_STATUS_OK};
             }
             free(string);
             _synctex_error("could not copy memory (1).");
-            return (synctex_ss_s){NULL,SYNCTEX_STATUS_ERROR};
+            return (_synctex_ss_s){NULL,SYNCTEX_STATUS_ERROR};
         }
     }
     _synctex_error("could not (re)allocate memory (1).");
-    return (synctex_ss_s){NULL,SYNCTEX_STATUS_ERROR};
+    return (_synctex_ss_s){NULL,SYNCTEX_STATUS_ERROR};
 }
 
 /*  Used when parsing the synctex file.
@@ -4474,8 +4477,6 @@ static _synctex_ns_s __synctex_parse_new_input(synctex_scanner_p scanner) {
     return (_synctex_ns_s){input,_synctex_next_line(scanner)};/*  read the line termination character, if any */
 }
 
-typedef synctex_is_s (*synctex_decoder_t)(synctex_scanner_p);
-
 /*  Used when parsing the synctex file.
  *  Read one of the settings.
  *  On normal completion, returns SYNCTEX_STATUS_OK.
@@ -4508,8 +4509,8 @@ not_found:
  */
 static synctex_status_t _synctex_scan_preamble(synctex_scanner_p scanner) {
     synctex_status_t status = 0;
-    synctex_is_s is = {0,0};
-    synctex_ss_s ss = {NULL,0};
+    _synctex_is_s is = {0,0};
+    _synctex_ss_s ss = {NULL,0};
     if (NULL == scanner) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
@@ -4762,7 +4763,7 @@ next_line:
  */
 static synctex_status_t _synctex_scan_postamble(synctex_scanner_p scanner) {
     synctex_status_t status = 0;
-    synctex_is_s is = {0,0};
+    _synctex_is_s is = {0,0};
     if (NULL == scanner) {
         return SYNCTEX_STATUS_BAD_ARGUMENT;
     }
@@ -5985,13 +5986,13 @@ SYNCTEX_INLINE static _synctex_ns_s _synctex_post_process_ref(synctex_node_p ref
     }
     return ns;
 }
-typedef synctex_node_p (* synctex_processor_f)(synctex_node_p node);
+typedef synctex_node_p (* _synctex_processor_f)(synctex_node_p node);
 /**
  *  Apply the processor f to the tree hierarchy rooted at proxy.
  *  proxy has replaced a form ref, no children yet.
  *  As a side effect all the hierarchy of nodes will be created.
  */
-SYNCTEX_INLINE static synctex_status_t _synctex_post_process_proxy(synctex_node_p proxy, synctex_processor_f f) {
+SYNCTEX_INLINE static synctex_status_t _synctex_post_process_proxy(synctex_node_p proxy, _synctex_processor_f f) {
     while(proxy) {
         synctex_node_p next_proxy = _synctex_tree_friend(proxy);
         synctex_node_p halt = __synctex_tree_sibling(proxy);
@@ -6191,9 +6192,9 @@ content_not_found:
     return status;
 }
 synctex_scanner_p synctex_scanner_new() {
-    synctex_scanner_p scanner =(synctex_scanner_p)_synctex_malloc(sizeof(synctex_scanner_s));
+    synctex_scanner_p scanner =(synctex_scanner_p)_synctex_malloc(sizeof(_synctex_scanner_s));
     if (scanner) {
-        if (!(scanner->reader = _synctex_malloc(sizeof(synctex_reader_s)))) {
+        if (!(scanner->reader = _synctex_malloc(sizeof(_synctex_reader_s)))) {
             _synctex_free(scanner);
             return NULL;
         }
@@ -6201,7 +6202,7 @@ synctex_scanner_p synctex_scanner_new() {
 #       pragma mark -
 #   endif
 #   define DEFINE_synctex_scanner_class(NAME)\
-    scanner->class_[synctex_node_type_##NAME] = synctex_class_##NAME;\
+    scanner->class_[synctex_node_type_##NAME] = _synctex_class_##NAME;\
 (scanner->class_[synctex_node_type_##NAME]).scanner = scanner
         DEFINE_synctex_scanner_class(input);
         DEFINE_synctex_scanner_class(sheet);
@@ -6360,10 +6361,10 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner) {
 
 /*  Scanner accessors.
  */
-int synctex_scanner_pre_x_offset(synctex_scanner_p scanner){
+int _synctex_scanner_pre_x_offset(synctex_scanner_p scanner){
     return scanner?scanner->pre_x_offset:0;
 }
-int synctex_scanner_pre_y_offset(synctex_scanner_p scanner){
+int _synctex_scanner_pre_y_offset(synctex_scanner_p scanner){
     return scanner?scanner->pre_y_offset:0;
 }
 int synctex_scanner_x_offset(synctex_scanner_p scanner){
@@ -6410,6 +6411,14 @@ void synctex_scanner_display(synctex_scanner_p scanner) {
     }
 }
 /*  Public */
+/**
+ * @brief Get the name of an input node.
+ * 
+ * Corresponds to `Input:<tag>:<name>` entries in the `.synctex` file.
+ * @param scanner 
+ * @param tag 
+ * @return const char* 
+ */
 const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag) {
     synctex_node_p input = NULL;
     if (NULL == scanner) {
@@ -6424,6 +6433,14 @@ const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag) {
     }
     return NULL;
 }
+/**
+ * @brief Get the name of a node.
+ * 
+ * Forwards to the node's scanner for the node's tag.
+ * @param node 
+ * @return const char
+ * @see synctex_scanner_get_name
+ */
 const char * synctex_node_get_name(synctex_node_p node) {
     if (node) {
         return synctex_scanner_get_name(node->class_->scanner,_synctex_data_tag(node));
@@ -6465,6 +6482,13 @@ static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name)
     return 0;
 }
 
+/**
+ * @brief Get the tag for a given name.
+ * 
+ * @param scanner 
+ * @param name 
+ * @return int, 0 for an unknown tag.
+ */
 int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name) {
     size_t char_index = strlen(name);
     if ((scanner = synctex_scanner_parse(scanner)) && (0 < char_index)) {
@@ -6639,10 +6663,11 @@ SYNCTEX_INLINE static synctex_bool_t _synctex_node_is_hbox(synctex_node_p node) 
 }
 
 /**
- *  The horizontal location of the first box enclosing node.
- *  - parameter node: a node with geometrical information.
- *  - returns: an integer.
- *  - author: JL
+ * @brief The horizontal location of the first box enclosing node.
+ * 
+ * The first box enclosing a box is itself.
+ * @param node a node with geometrical information.
+ * @return int in TeX sp coordinates. 
  */
 int synctex_node_box_h(synctex_node_p node) {
     if (_synctex_node_is_box(node) || (node = _synctex_tree_parent(node))) {
@@ -6651,10 +6676,11 @@ int synctex_node_box_h(synctex_node_p node) {
     return 0;
 }
 /**
- *  The vertical location of the first box enclosing node.
- *  - parameter node: a node with geometrical information.
- *  - returns: an integer.
- *  - author: JL
+ * @brief The vertical location of the first box enclosing node.
+ * 
+ * The first box enclosing a box is itself.
+ * @param node a node with geometrical information.
+ * @return int in TeX sp coordinates
  */
 int synctex_node_box_v(synctex_node_p node) {
     if (_synctex_node_is_box(node) || (node = _synctex_tree_parent(node))) {
@@ -7431,7 +7457,7 @@ static _synctex_nd_s _synctex_eq_closest_child_v2(synctex_point_p hitP, synctex_
 /**
  * @cond
  */
-struct synctex_iterator_t {
+typedef struct synctex_iterator_t {
     synctex_node_p seed;
     synctex_node_p top;
     synctex_node_p next;
@@ -8709,9 +8735,9 @@ static void _synctex_updater_close_gz(synctex_updater_p updater) {
 synctex_updater_p synctex_updater_new_with_output_file(const char * output, const char * build_directory) {
     synctex_updater_p updater = NULL;
     const char * mode = NULL;
-    synctex_open_s open;
+    _synctex_open_s open;
     /*  prepare the updater, the memory is the only one dynamically allocated */
-    updater = (synctex_updater_p)_synctex_malloc(sizeof(synctex_updater_s));
+    updater = (synctex_updater_p)_synctex_malloc(sizeof(_synctex_updater_s));
     if (NULL == updater) {
         _synctex_error("!  synctex_updater_new_with_file: malloc problem");
         return NULL;

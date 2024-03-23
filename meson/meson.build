@@ -76,7 +76,7 @@ synctex_exe = executable(synctex_name,
 synctex_test_exe = executable('synctex_test',
   synctex_main,
   include_directories: [ synctex_inc ],
-  install: true,
+  install: false,
   link_with: [ synctex_lib ],
   dependencies: [ zdep ],
   c_args: [ '-DSYNCTEX_STANDALONE', '-DSYNCTEX_TEST' ]

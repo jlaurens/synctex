@@ -116,6 +116,7 @@ extern "C" {
         | synctex_mask_box
         | synctex_mask_v
     };
+#if 0
     typedef enum {
         synctex_node_mask_sf =
         synctex_mask_root
@@ -174,7 +175,7 @@ extern "C" {
         |synctex_mask_no_box
         |synctex_mask_proxy
     } synctex_node_mask_t;
-
+#endif
     enum {
         /* input */
         synctex_tree_sibling_idx        =  0,
@@ -306,6 +307,11 @@ extern "C" {
         char * as_string;
         void * as_pointer;
     } _synctex_data_u;
+
+    /**
+     * @brief Pointer to an opaque node data structure.
+     * 
+     */
     typedef _synctex_data_u * synctex_data_p;
     
 #   if defined(SYNCTEX_USE_CHARINDEX)
@@ -327,7 +333,7 @@ extern "C" {
  * @brief Node data model.
  * 
  */
-    struct synctex_node_t {
+    struct _synctex_node_t {
         SYNCTEX_DECLARE_CHARINDEX
         /** Each node has an associate class. */
         synctex_class_p class_;
@@ -488,10 +494,11 @@ extern "C" {
     int synctex_node_weight(synctex_node_p node);
     int synctex_node_child_count(synctex_node_p node);
     
-    int synctex_node_h(synctex_node_p node);
-    int synctex_node_v(synctex_node_p node);
-    int synctex_node_width(synctex_node_p node);
-    
+    /** \defgroup AdvancedGeometry Node geometry (advance)
+     * 
+     *   Available in `synctex_parser_advanced.h`.
+     * @{
+     */
     int synctex_node_box_h(synctex_node_p node);
     int synctex_node_box_v(synctex_node_p node);
     int synctex_node_box_width(synctex_node_p node);
@@ -503,6 +510,7 @@ extern "C" {
     int synctex_node_hbox_width(synctex_node_p node);
     int synctex_node_hbox_height(synctex_node_p node);
     int synctex_node_hbox_depth(synctex_node_p node);
+    /** @} */
     
 
     /**
@@ -533,6 +541,8 @@ extern "C" {
      * If the switcher is >0, only the first switcher (as number) nodes are displayed.
      */
     void synctex_scanner_set_display_switcher(synctex_scanner_p scanR, int switcher);
+
+    /** @} */
 
 /** @defgroup Iterator Managing the answer to queries.
  *  
@@ -666,12 +676,12 @@ extern "C" {
     * @brief Updater data structure.
     * 
     */
-    typedef struct synctex_updater_t synctex_updater_s;
+    typedef struct _synctex_updater_t _synctex_updater_s;
    /**
     * @brief Pointer to a `synctex_updater_s` updater data structure.
     * 
     */
-    typedef synctex_updater_s * synctex_updater_p;
+    typedef _synctex_updater_s * synctex_updater_p;
     
     /**
      * @brief Updater designated creator.
