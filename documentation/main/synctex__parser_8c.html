@@ -1785,7 +1785,7 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
         </tr>
       </table>
 </div><div class="memdoc">
-<h2><a class="anchor" id="autotoc_md64"></a>
+<h2><a class="anchor" id="autotoc_md1"></a>
 Browsing the nodes</h2>
 <p>parent, child and sibling are standard names for tree nodes. The parent is one level higher, the child is one level deeper, and the sibling is at the same level. A node and its sibling have the same parent. A node is the parent of its children. A node is either the child of its parent, or belongs to the sibling chain of its parent's child. The sheet or form of a node is the topmost ancestor, it is of type sheet or form. The next node is either the child, the sibling or the parent's sibling, unless the parent is a sheet, a form or NULL. This allows to navigate through all the nodes of a given sheet node:</p>
 <p>synctex_node_p node = sheet; while((node = synctex_node_next(node))) { // do something with node }</p>
