@@ -67,10 +67,10 @@ extern "C" {
 #endif
 
 #	if defined(_WIN32) || defined(__OS2__)
-#       define SYNCTEX_CASE_SENSITIVE_PATH 0
+#   define SYNCTEX_CASE_SENSITIVE_PATH 0
 #		define SYNCTEX_IS_PATH_SEPARATOR(c) ('/' == c || '\\' == c)
 #	else
-#       define SYNCTEX_CASE_SENSITIVE_PATH 1
+#   define SYNCTEX_CASE_SENSITIVE_PATH 1
 #		define SYNCTEX_IS_PATH_SEPARATOR(c) ('/' == c)
 #	endif
     

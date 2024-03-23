@@ -117,6 +117,7 @@ inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
 
 
 #if SYNCTEX_DEBUG
+#   define SYNCTEX_DUMP 1
 #   ifdef WIN32
 #       include <direct.h>
 #       define getcwd _getcwd
@@ -132,11 +133,17 @@ void synctex_help_view(const char * error,...);
 void synctex_help_edit(const char * error,...);
 void synctex_help_update(const char * error,...);
 void synctex_help_options(const char * error,...);
+#if SYNCTEX_DUMP
+void synctex_help_dump(const char * error,...);
+#endif
 
 int synctex_view(int argc, char *argv[]);
 int synctex_edit(int argc, char *argv[]);
 int synctex_update(int argc, char *argv[]);
 int synctex_test(int argc, char *argv[]);
+#if SYNCTEX_DUMP
+int synctex_dump(int argc, char *argv[]);
+#endif
 
 int g_interactive = 0;
 /**
@@ -186,6 +193,11 @@ int main(int argc, char *argv[])
                 } else if(0==strcmp("options",argv[i])) {
                     synctex_help_options(NULL);
                     return 0;
+#if SYNCTEX_DUMP
+                } else if(0==strcmp("dump",argv[i])) {
+                    synctex_help_dump(NULL);
+                    return 0;
+#endif
                 }
             }
             synctex_help(NULL);
@@ -200,6 +212,10 @@ int main(int argc, char *argv[])
             return synctex_update(argc-i-1,argv+i+1);
         } else if(0==strcmp("test",argv[i])) {
             return synctex_test(argc-i-1,argv+i+1);
+#if SYNCTEX_DUMP
+        } else if(0==strcmp("dump",argv[i])) {
+            return synctex_dump(argc-i-1,argv+i+1);
+#endif
         }
     }
     synctex_help("No command available.");
@@ -219,6 +235,9 @@ int synctex_synchronize();
 
 char * g_output   = NULL;
 char * g_directory = NULL;
+#if SYNCTEX_DUMP
+char * g_file = NULL;
+#endif
 
 int synctex_synchronize() {
     const char * dot_synctex;
@@ -1165,3 +1184,67 @@ int synctex_test_file (int argc, char *argv[])
     }
     return 0;
 }
+
+#if SYNCTEX_DUMP
+int synctex_dump(int argc, char *argv[]) {
+    if((++i>=argc) || strcmp("-o",argv[i]) || (++i>=argc)) {
+        synctex_help_dump("Missing -o required argument");
+        return -1;
+    }
+    g_output = argv[i];
+    /* now scan the optional arguments */
+    g_directory = NULL;
+    g_file = NULL;
+    ++i;
+    while(i<argc) {
+        if(0 == strcmp("-d",argv[i])) {
+            if(++i<argc) {
+                g_directory = argv[i];
+            } else {
+                g_directory = getenv("SYNCTEX_BUILD_DIRECTORY");
+            }
+        } else if(0 == strcmp("-f",argv[i])) {
+            if(++i<argc) {
+                g_file = argv[i];
+            } else {
+                g_file = getenv("SYNCTEX_BUILD_DIRECTORY");
+            }
+        } else {
+            synctex_help_dump("Unsupported argument")
+            return(-1);
+        }
+    }
+    if (synctex_synchronize()<0) {
+        _synctex_error("Something wrong happened!")
+        return(-1);
+    }
+    
+    synctex_scanner_free(g_scanner);
+    g_scanner = NULL;
+}
+
+void synctex_help_dump(const char * error,...) {
+    va_list v;
+    va_start(v, error);
+    synctex_usage(error, v);
+    va_end(v);
+    fputs(
+        "synctex dump command :\n"
+        "-o output\n"
+        "       is the full or relative path of the output file (with any relevant path extension).\n"
+        "       This file must exist.\n"
+        "       \n"
+        "-d directory\n"
+        "       is the directory containing the synctex file, in case it is different from the directory of the output.\n"
+        "       This directory must exist.\n"
+        "       An example will explain how things work: for synctex -o ...:bar.tex -d foo,\n"
+        "       the chosen synctex file is the most recent among bar.synctex, bar.synctex.gz, foo/bar.synctex and foo/bar.synctex.gz.\n"
+        "        The other ones are simply removed, if the authorization is granted\n"
+        "       \n"
+        "-f <file>\n"
+        "   when provided, writes the dumped data to <file>.\n",
+        "   By default dumped data are written to stdout.\n",
+        (error?stderr:stdout)
+    );
+}
+#endif
