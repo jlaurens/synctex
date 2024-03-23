@@ -120,7 +120,7 @@ Important</h1>
 <li><code>_t</code> suffix for standard types</li>
 <li><code>_f</code> suffix for functions...</li>
 </ul>
-<p class="startli">thus <code><a class="el" href="structsynctex__node__t.html">synctex_node_t</a></code> has become <code>synctex_node_p</code>.</p>
+<p class="startli">thus <code><a class="el" href="structsynctex__node__t.html" title="Node data model.">synctex_node_t</a></code> has become <code>synctex_node_p</code>.</p>
 </li>
 <li>supplemental argument in <code>synctex_display_query</code>. Set <code>page_hint</code> to the currently displayed pdf page number (0 based). If this info is not available, set <code>page_hint</code> to 0, it corresponds to the old behaviour.</li>
 <li>rename <code>synctex_next_result</code> to <code>synctex_scanner_next_result</code></li>
@@ -142,7 +142,7 @@ Contents</h1>
 <li><code><a class="el" href="synctex__parser__utils_8h_source.html">synctex_parser_utils.h</a></code></li>
 <li><code><a class="el" href="synctex__parser__local_8h_source.html">synctex_parser_local.h</a></code></li>
 <li><code><a class="el" href="synctex__parser_8h_source.html">synctex_parser.h</a></code></li>
-<li><code><a class="el" href="synctex__parser__advanced_8h_source.html">synctex_parser_advanced.h</a></code></li>
+<li><code><a class="el" href="synctex__parser__advanced_8h.html" title="More header declaration than in synctex_parser.h.">synctex_parser_advanced.h</a></code></li>
 <li><code><a class="el" href="synctex__parser_8c.html" title="SyncTeX file parser and controller.">synctex_parser.c</a></code></li>
 </ul>
 <p>The file you are reading contains more informations about the <b>SyncTeX</b> parser history.</p>
@@ -154,7 +154,7 @@ Source</h1>
 <h1><a class="anchor" id="autotoc_md70"></a>
 Usage</h1>
 <p>In order to support <b>SyncTeX</b> in a viewer, it is sufficient to include in the source the files <code><a class="el" href="synctex__parser_8c.html" title="SyncTeX file parser and controller.">synctex_parser.c</a></code> and <code>synctex_parser_utils.c</code>. The synctex parser usage is described in <code><a class="el" href="synctex__parser_8h_source.html">synctex_parser.h</a></code> header file.</p>
-<p>More advanced usage is found in <code><a class="el" href="synctex__parser__advanced_8h_source.html">synctex_parser_advanced.h</a></code></p>
+<p>More advanced usage is found in <code><a class="el" href="synctex__parser__advanced_8h.html" title="More header declaration than in synctex_parser.h.">synctex_parser_advanced.h</a></code></p>
 <p>The other files are used by tex engines or by the synctex command line utility:</p>
 <div class="fragment"><div class="line">ChangeLog</div>
 <div class="line">README.txt</div>
@@ -268,7 +268,7 @@ History:</h1>
 </li>
 <li>1.17: Fri Oct 14 08:15:16 UTC 2011 This concerns the synctex command line tool and 3rd party developers. TeX and friends are not concerned by these changes.<ul>
 <li><a class="el" href="synctex__parser_8c.html" title="SyncTeX file parser and controller.">synctex_parser.c</a>: cosmetic changes to enhance code readability</li>
-<li>Better forward synchronization. The problem occurs for example with LaTeX \item command. The fact is that this command creates nodes at parse time but these nodes are used only after the text material of the \item is displayed on the page. The consequence is that sometimes, forward synchronization spots an irrelevant point from the point of view of the editing process. This was due to some very basic filtering policy, where a somehow arbitrary choice was made when many different possibilities where offered for synchronisation. Now, forward synchronization prefers nodes inside an hbox with as many acceptable spots as possible. This is achieved with the notion of mean line and node weight.</li>
+<li>Better forward synchronization. The problem occurs for example with LaTeX <code>\item</code> command. The fact is that this command creates nodes at parse time but these nodes are used only after the text material of the <code>\item</code> is displayed on the page. The consequence is that sometimes, forward synchronization spots an irrelevant point from the point of view of the editing process. This was due to some very basic filtering policy, where a somehow arbitrary choice was made when many different possibilities where offered for synchronisation. Now, forward synchronization prefers nodes inside an hbox with as many acceptable spots as possible. This is achieved with the notion of mean line and node weight.</li>
 <li>Adding support for the new file naming convention with './'<ul>
 <li>function <code>synctex_ignore_leading_dot_slash_in_path replaces</code> <code>synctex_ignore_leading_dot_slash</code></li>
 <li>function <code>_synctex_is_equivalent_file_name</code> is more permissive Previously, the function synctex_scanner_get_tag would give an answer only when the given file name was EXACTLY one of the file names listed in the synctex file. The we added some changes accepting for example 'foo.tex' instead of './foo.tex'. Now we have an even looser policy for dealing with file names. If the given file name does not match exactly one the file names of the synctex file, then we try to match the base names. If there is only one match of the base names, then it is taken as a match for the whole names. The base name is defined as following: <pre class="fragment">`./foo =&gt; foo

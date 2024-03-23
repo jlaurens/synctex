@@ -66,7 +66,7 @@ $(function() {
 <div class="title">synctex_parser_advanced.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<a href="synctex__parser__advanced_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> </span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> This file is part of the __SyncTeX__ package.</span></div>
@@ -105,463 +105,508 @@ $(function() {
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> authorization from the copyright holder.</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &quot;synctex_parser.h&quot;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &quot;synctex_parser_utils.h&quot;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#ifndef __SYNCTEX_PARSER_PRIVATE__</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#   define __SYNCTEX_PARSER_PRIVATE__</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">/*  Reminder that the argument must not be NULL */</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> <a class="code" href="structsynctex__node__t.html">synctex_non_null_node_p</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">/*  Each node of the tree, except the scanner itself belongs to a class.</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">     *  The class object is just a struct declaring the owning scanner</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">     *  This is a pointer to the scanner as root of the tree.</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">     *  The type is used to identify the kind of node.</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">     *  The class declares pointers to a creator and a destructor method.</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">     *  The log and display fields are used to log and display the node.</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">     *  display will also display the child, sibling and parent sibling.</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">     *  parent, child and sibling are used to navigate the tree,</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">     *  from TeX box hierarchy point of view.</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">     *  The friend field points to a method which allows to navigate from friend to friend.</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">     *  A friend is a node with very close tag and line numbers.</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">     *  Finally, the info field point to a method giving the private node info offset.</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        synctex_shift_root,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        synctex_shift_no_root,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        synctex_shift_void,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        synctex_shift_no_void,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        synctex_shift_box,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        synctex_shift_no_box,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        synctex_shift_proxy,</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        synctex_shift_no_proxy,</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        synctex_shift_h,</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        synctex_shift_v</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    };</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        synctex_mask_root      = 1,</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        synctex_mask_no_root   = synctex_mask_root&lt;&lt;1,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        synctex_mask_void      = synctex_mask_no_root&lt;&lt;1,</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        synctex_mask_no_void   = synctex_mask_void&lt;&lt;1,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        synctex_mask_box       = synctex_mask_no_void&lt;&lt;1,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        synctex_mask_no_box    = synctex_mask_box&lt;&lt;1,</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        synctex_mask_proxy     = synctex_mask_no_box&lt;&lt;1,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        synctex_mask_no_proxy  = synctex_mask_proxy&lt;&lt;1,</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        synctex_mask_h         = synctex_mask_no_proxy&lt;&lt;1,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        synctex_mask_v         = synctex_mask_h&lt;&lt;1,</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    };</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        synctex_mask_non_void_hbox = synctex_mask_no_void</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        | synctex_mask_box</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        | synctex_mask_h,</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        synctex_mask_non_void_vbox = synctex_mask_no_void</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        | synctex_mask_box</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        | synctex_mask_v</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    };</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        synctex_node_mask_sf =</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        synctex_mask_root</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        |synctex_mask_no_void</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        |synctex_mask_no_box</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        |synctex_mask_no_proxy,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        synctex_node_mask_vbox =</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        synctex_mask_no_root</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        |synctex_mask_no_void</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        |synctex_mask_box</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        |synctex_mask_no_proxy</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        |synctex_mask_v,</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        synctex_node_mask_hbox =</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        synctex_mask_no_root</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        |synctex_mask_no_void</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        |synctex_mask_box</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        |synctex_mask_no_proxy</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        |synctex_mask_h,</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        synctex_node_mask_void_vbox =</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        synctex_mask_no_root</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        |synctex_mask_void</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        |synctex_mask_box</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        |synctex_mask_no_proxy</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        |synctex_mask_v,</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        synctex_node_mask_void_hbox =</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        synctex_mask_no_root</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        |synctex_mask_void</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        |synctex_mask_box</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        |synctex_mask_no_proxy</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        |synctex_mask_h,</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        synctex_node_mask_vbox_proxy =</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        synctex_mask_no_root</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        |synctex_mask_no_void</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        |synctex_mask_box</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        |synctex_mask_proxy</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        |synctex_mask_v,</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        synctex_node_mask_hbox_proxy =</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        synctex_mask_no_root</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        |synctex_mask_no_void</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        |synctex_mask_box</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        |synctex_mask_proxy</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        |synctex_mask_h,</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        synctex_node_mask_nvnn =</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        synctex_mask_no_root</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        |synctex_mask_void</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        |synctex_mask_no_box</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        |synctex_mask_no_proxy,</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        synctex_node_mask_input =</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        synctex_mask_root</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        |synctex_mask_void</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        |synctex_mask_no_box</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        |synctex_mask_no_proxy,</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        synctex_node_mask_proxy =</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        synctex_mask_no_root</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        |synctex_mask_void</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        |synctex_mask_no_box</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        |synctex_mask_proxy</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    } synctex_node_mask_t;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="comment">/* input */</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        synctex_tree_sibling_idx        =  0,</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        synctex_tree_s_input_max        =  1,</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="comment">/* All */</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        synctex_tree_s_parent_idx       =  1,</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        synctex_tree_sp_child_idx       =  2,</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        synctex_tree_spc_friend_idx     =  3,</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        synctex_tree_spcf_last_idx      =  4,</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        synctex_tree_spcfl_vbox_max     =  5,</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="comment">/* hbox supplement */</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        synctex_tree_spcfl_next_hbox_idx  =  5,</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        synctex_tree_spcfln_hbox_max      =  6,</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="comment">/* hbox proxy supplement */</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        synctex_tree_spcfln_target_idx        =  6,</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        synctex_tree_spcflnt_proxy_hbox_max   =  7,</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="comment">/* vbox proxy supplement */</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        synctex_tree_spcfl_target_idx         =  5,</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        synctex_tree_spcflt_proxy_vbox_max    =  6,</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="comment">/*  spf supplement*/</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        synctex_tree_sp_friend_idx  =  2,</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        synctex_tree_spf_max        =  3,</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="comment">/*  box boundary supplement */</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        synctex_tree_spf_arg_sibling_idx   =  3,</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        synctex_tree_spfa_max              =  4,</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="comment">/*  proxy supplement */</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        synctex_tree_spf_target_idx    =  3,</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        synctex_tree_spft_proxy_max    =  4,</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="comment">/*  last proxy supplement */</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        synctex_tree_spfa_target_idx      =  4,</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        synctex_tree_spfat_proxy_last_max =  5,</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="comment">/* sheet supplement */</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        synctex_tree_s_child_idx        =  1,</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        synctex_tree_sc_next_hbox_idx   =  2,</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        synctex_tree_scn_sheet_max      =  3,</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="comment">/* form supplement */</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        synctex_tree_sc_target_idx      =  2,</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        synctex_tree_sct_form_max       =  3,</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="comment">/* spct */</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        synctex_tree_spc_target_idx     =  3,</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        synctex_tree_spct_handle_max    =  4,</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    };</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    </div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        <span class="comment">/* input */</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        synctex_data_input_tag_idx  =  0,</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        synctex_data_input_line_idx =  1,</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        synctex_data_input_name_idx =  2,</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        synctex_data_input_tln_max  =  3,</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="comment">/* sheet */</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        synctex_data_sheet_page_idx =  0,</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        synctex_data_p_sheet_max    =  1,</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="comment">/* form */</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        synctex_data_form_tag_idx   =  0,</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        synctex_data_t_form_max     =  1,</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="comment">/* tlchv */</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        synctex_data_tag_idx        =  0,</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        synctex_data_line_idx       =  1,</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        synctex_data_column_idx     =  2,</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        synctex_data_h_idx          =  3,</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        synctex_data_v_idx          =  4,</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        synctex_data_tlchv_max      =  5,</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="comment">/* tlchvw */</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        synctex_data_width_idx      =  5,</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        synctex_data_tlchvw_max     =  6,</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="comment">/* box */</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        synctex_data_height_idx     =  6,</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        synctex_data_depth_idx      =  7,</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        synctex_data_box_max        =  8,</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="comment">/* hbox supplement */</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        synctex_data_mean_line_idx  =  8,</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        synctex_data_weight_idx     =  9,</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        synctex_data_h_V_idx        = 10,</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        synctex_data_v_V_idx        = 11,</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        synctex_data_width_V_idx    = 12,</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        synctex_data_height_V_idx   = 13,</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        synctex_data_depth_V_idx    = 14,</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        synctex_data_hbox_max       = 15,</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="comment">/* ref */</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        synctex_data_ref_tag_idx    =  0,</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        synctex_data_ref_h_idx      =  1,</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        synctex_data_ref_v_idx      =  2,</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        synctex_data_ref_thv_max    =  3,</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="comment">/* proxy */</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        synctex_data_proxy_h_idx    =  0,</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        synctex_data_proxy_v_idx    =  1,</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        synctex_data_proxy_hv_max   =  2,</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="comment">/* handle */</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        synctex_data_handle_w_idx   =  0,</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        synctex_data_handle_w_max   =  1,</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    };</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="comment">/*  each synctex node has a class */</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structsynctex__class__t.html">synctex_class_t</a> <a class="code" href="structsynctex__class__t.html">synctex_class_s</a>;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__class__t.html">synctex_class_s</a> * <a class="code" href="structsynctex__class__t.html">synctex_class_p</a>;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    </div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="comment">/*  synctex_node_p is a pointer to a node</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="comment">     *  synctex_node_s is the target of the synctex_node_p pointer</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="comment">     *  It is a pseudo object oriented program.</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="comment">     *  class is a pointer to the class object the node belongs to.</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="comment">     *  implementation is meant to contain the private data of the node</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="comment">     *  basically, there are 2 kinds of information: navigation information and</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment">     *  synctex information. Both will depend on the type of the node,</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="comment">     *  thus different nodes will have different private data.</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment">     *  There is no inheritancy overhead.</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno"><a class="line" href="unionsynctex__data__u.html">  268</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">union </span>{</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> as_node;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        <span class="keywordtype">int</span>    as_integer;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        <span class="keywordtype">char</span> * as_string;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="keywordtype">void</span> * as_pointer;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    } <a class="code" href="unionsynctex__data__u.html">synctex_data_u</a>;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="unionsynctex__data__u.html">synctex_data_u</a> * <a class="code" href="unionsynctex__data__u.html">synctex_data_p</a>;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="preprocessor">#   if defined(SYNCTEX_USE_CHARINDEX)</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> synctex_charindex_t;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    synctex_charindex_t synctex_node_charindex(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keyword">typedef</span> synctex_charindex_t synctex_lineindex_t;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    synctex_lineindex_t synctex_node_lineindex(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> synctex_scanner_handle(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner);</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="preprocessor">#       define SYNCTEX_DECLARE_CHARINDEX \</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="preprocessor">            synctex_charindex_t char_index;\</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="preprocessor">            synctex_lineindex_t line_index;</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="preprocessor">#       define SYNCTEX_DECLARE_CHAR_OFFSET \</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="preprocessor">            synctex_charindex_t charindex_offset;</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="preprocessor">#   else</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="preprocessor">#       define SYNCTEX_DECLARE_CHARINDEX</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="preprocessor">#       define SYNCTEX_DECLARE_CHAR_OFFSET</span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="preprocessor">#   endif</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno"><a class="line" href="structsynctex__node__t.html">  291</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structsynctex__node__t.html">synctex_node_t</a> {</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        SYNCTEX_DECLARE_CHARINDEX</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        <a class="code" href="structsynctex__class__t.html">synctex_class_p</a> class_;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="preprocessor">#ifdef DEBUG</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        <a class="code" href="unionsynctex__data__u.html">synctex_data_u</a> data[22];</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        <a class="code" href="unionsynctex__data__u.html">synctex_data_u</a> data[1];</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    };</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    </div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> * <a class="code" href="structsynctex__node__t.html">synctex_node_r</a>;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    </div>
-<div class="line"><a name="l00303"></a><span class="lineno"><a class="line" href="structsynctex__point__s.html">  303</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="keywordtype">int</span> h;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        <span class="keywordtype">int</span> v;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    } <a class="code" href="structsynctex__point__s.html">synctex_point_s</a>;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    </div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__point__s.html">synctex_point_s</a> * <a class="code" href="structsynctex__point__s.html">synctex_point_p</a>;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    </div>
-<div class="line"><a name="l00310"></a><span class="lineno"><a class="line" href="structsynctex__box__s.html">  310</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        <a class="code" href="structsynctex__point__s.html">synctex_point_s</a> min;   <span class="comment">/* top left */</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <a class="code" href="structsynctex__point__s.html">synctex_point_s</a> max;   <span class="comment">/* bottom right */</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    } <a class="code" href="structsynctex__box__s.html">synctex_box_s</a>;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    </div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__box__s.html">synctex_box_s</a> * <a class="code" href="structsynctex__box__s.html">synctex_box_p</a>;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        synctex_node_type_none = 0,</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        synctex_node_type_input,</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        synctex_node_type_sheet,</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        synctex_node_type_form,</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        synctex_node_type_ref,</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        synctex_node_type_vbox,</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        synctex_node_type_void_vbox,</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        synctex_node_type_hbox,</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        synctex_node_type_void_hbox,</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        synctex_node_type_kern,</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        synctex_node_type_glue,</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        synctex_node_type_rule,</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        synctex_node_type_math,</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        synctex_node_type_boundary,</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        synctex_node_type_box_bdry,</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        synctex_node_type_proxy,</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        synctex_node_type_proxy_last,</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        synctex_node_type_proxy_vbox,</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        synctex_node_type_proxy_hbox,</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;        synctex_node_type_handle,</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        synctex_node_number_of_types</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    } synctex_node_type_t;</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="comment">/*  synctex_node_type gives the type of a given node,</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">     *  synctex_node_isa gives the same information as a human readable text. */</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    synctex_node_type_t synctex_node_type(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> * synctex_node_isa(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    </div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    synctex_node_type_t synctex_node_target_type(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    synctex_node_type_t synctex_node_type(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> * synctex_node_isa(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    </div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordtype">void</span> synctex_node_log(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keywordtype">void</span> synctex_node_display(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    </div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="comment">/*  Given a node, access to the location in the synctex file where it is defined.</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="keywordtype">int</span> synctex_node_form_tag(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    </div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a33c068825bf1c04037cb892c081b0183">synctex_node_weight</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a434304cdf565b5acfd4dcc5333a80343">synctex_node_child_count</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    </div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="keywordtype">int</span> synctex_node_h(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    <span class="keywordtype">int</span> synctex_node_v(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="keywordtype">int</span> synctex_node_width(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    </div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a1d0d390f23c746fc86f31fde15e97a43">synctex_node_box_h</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#ac88852d6a6ba5e81d0079df702d85e56">synctex_node_box_v</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#ae1f5418b70c647741eb2d514031b4902">synctex_node_box_width</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a55ed29113e901f8c50b7afc265448dc8">synctex_node_box_height</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a5c22d913e6da509a014e82b1b4cd26ec">synctex_node_box_depth</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    </div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#ad75593b8421c942e316a384d29bcffe9">synctex_node_hbox_h</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a43455b4975ad42c4659daca52b376e3e">synctex_node_hbox_v</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a7b167f11d5a6eac88f2c31a4de818c52">synctex_node_hbox_width</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a7d48ebf2138b08c6f07f6e3007c16780">synctex_node_hbox_height</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a2ff1b1e8d204ad138b7358f72b899ea5">synctex_node_hbox_depth</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    </div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    <a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> synctex_scanner_new(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> <a class="code" href="synctex__parser_8c.html#a96f3e6bfa1334094e6c65323346a5cfd">synctex_node_new</a>(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner,synctex_node_type_t type);</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160; </div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#af51ed1c751635df817709b92e0e98cd1">synctex_scanner_display_switcher</a>(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanR);</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    <span class="keywordtype">void</span> synctex_scanner_set_display_switcher(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanR, <span class="keywordtype">int</span> switcher);</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structsynctex__iterator__t.html">synctex_iterator_t</a> <a class="code" href="structsynctex__iterator__t.html">synctex_iterator_s</a>;</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__iterator__t.html">synctex_iterator_s</a> * <a class="code" href="structsynctex__iterator__t.html">synctex_iterator_p</a>;</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160; </div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    <a class="code" href="structsynctex__iterator__t.html">synctex_iterator_p</a> <a class="code" href="synctex__parser_8c.html#a7df9f440b2cc1c7f2fe5f8ca1177ecd6">synctex_iterator_new_display</a>(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner,<span class="keyword">const</span> <span class="keywordtype">char</span> *  name,<span class="keywordtype">int</span> line,<span class="keywordtype">int</span> column, <span class="keywordtype">int</span> page_hint);</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;    <a class="code" href="structsynctex__iterator__t.html">synctex_iterator_p</a> <a class="code" href="synctex__parser_8c.html#a147d3e57ee5d7916b164b8b534bcbb48">synctex_iterator_new_edit</a>(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner,<span class="keywordtype">int</span> page,<span class="keywordtype">float</span> h,<span class="keywordtype">float</span> v);</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="synctex__parser_8c.html#acd39b77f523004af3651841d004e701c">synctex_iterator_free</a>(<a class="code" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator);</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    synctex_bool_t <a class="code" href="synctex__parser_8c.html#a8f4f778910682efa320b1b888f9094d4">synctex_iterator_has_next</a>(<a class="code" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator);</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;    <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> <a class="code" href="synctex__parser_8c.html#a6f494ee009c5a4c78edfe45dd1e89980">synctex_iterator_next_result</a>(<a class="code" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator);</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a52eda50ef0dcd7edcf131fb80d20c0a5">synctex_iterator_reset</a>(<a class="code" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator);</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser_8c.html#a2ee6386f691c4f4f8f7cb87505c7c4bc">synctex_iterator_count</a>(<a class="code" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator);</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160; </div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;    <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> <a class="code" href="synctex__parser_8c.html#a25515e0ba1a0aae8242120e2b0dadd57">synctex_node_target</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;    </div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;<span class="preprocessor">#ifndef SYNCTEX_NO_UPDATER</span></div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    <span class="comment">/*  The main synctex updater object.</span></div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;<span class="comment">     *  This object is used to append information to the synctex file.</span></div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;<span class="comment">     *  Its implementation is considered private.</span></div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;<span class="comment">     *  It is used by the synctex command line tool to take into account modifications</span></div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;<span class="comment">     *  that could occur while postprocessing files by dvipdf like filters.</span></div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structsynctex__updater__t.html">synctex_updater_t</a> <a class="code" href="structsynctex__updater__t.html">synctex_updater_s</a>;</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__updater__t.html">synctex_updater_s</a> * <a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a>;</div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    </div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;    <span class="comment">/*  Designated initializer.</span></div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;<span class="comment">     *  Once you are done with your whole job,</span></div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;<span class="comment">     *  free the updater */</span></div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;    <a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> synctex_updater_new_with_output_file(<span class="keyword">const</span> <span class="keywordtype">char</span> * output, <span class="keyword">const</span> <span class="keywordtype">char</span> * directory);</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;    </div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;    <span class="comment">/*  Use the next functions to append records to the synctex file,</span></div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;<span class="comment">     *  no consistency tests made on the arguments */</span></div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;    <span class="keywordtype">void</span> synctex_updater_append_magnification(<a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> updater, <span class="keywordtype">char</span> *  magnification);</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;    <span class="keywordtype">void</span> synctex_updater_append_x_offset(<a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> updater, <span class="keywordtype">char</span> *  x_offset);</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="keywordtype">void</span> synctex_updater_append_y_offset(<a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> updater, <span class="keywordtype">char</span> *  y_offset);</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    </div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="comment">/*  You MUST free the updater, once everything is properly appended */</span></div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;    <span class="keywordtype">void</span> synctex_updater_free(<a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> updater);</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;    </div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;<span class="preprocessor">#if defined(SYNCTEX_DEBUG)</span></div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;<span class="preprocessor">#   include &quot;assert.h&quot;</span></div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;<span class="preprocessor">#   define SYNCTEX_ASSERT assert</span></div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;<span class="preprocessor">#   define SYNCTEX_ASSERT(UNUSED)</span></div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160; </div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;<span class="preprocessor">#if defined(SYNCTEX_TESTING)</span></div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;<span class="preprocessor">#warning TESTING IS PROHIBITED</span></div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;<span class="preprocessor">#if __clang__</span></div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;<span class="preprocessor">#define __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \</span></div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;<span class="preprocessor">_Pragma(&quot;clang diagnostic push&quot;</span>) \</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;_Pragma(&quot;clang diagnostic ignored \&quot;-Wformat-extra-args\&quot;&quot;)</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;    </div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;<span class="preprocessor">#define __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS _Pragma(&quot;clang diagnostic pop&quot;</span>)</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;<span class="preprocessor">#define __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS</span></div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;<span class="preprocessor">#define __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS</span></div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;    </div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;<span class="preprocessor">#   define SYNCTEX_TEST_BODY(counter, condition, desc, ...) \</span></div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;<span class="preprocessor">    do {                \</span></div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;<span class="preprocessor">        __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \</span></div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;<span class="preprocessor">        if (!(condition)) {     \</span></div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;<span class="preprocessor">            ++counter;  \</span></div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;<span class="preprocessor">            printf(&quot;**** Test failed: %s\nfile %s\nfunction %s\nline %i\n&quot;</span>,#condition,__FILE__,__FUNCTION__,__LINE__); \</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;            printf((desc), ##__VA_ARGS__); \</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;        }               \</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;        __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS \</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;    } while(0)</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        </div>
-<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;<span class="preprocessor">#   define SYNCTEX_TEST_PARAMETER(counter, condition) SYNCTEX_TEST_BODY(counter, (condition), &quot;Invalid parameter not satisfying: %s&quot;</span>, #condition)</div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;    </div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;    <span class="keywordtype">int</span> synctex_test_input(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner);</div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    <span class="keywordtype">int</span> synctex_test_proxy(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner);</div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    <span class="keywordtype">int</span> synctex_test_tree(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner);</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    <span class="keywordtype">int</span> synctex_test_page(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner);</div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    <span class="keywordtype">int</span> synctex_test_handle(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner);</div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;    <span class="keywordtype">int</span> synctex_test_display_query(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner);</div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;    <span class="keywordtype">int</span> synctex_test_charindex();</div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;    <span class="keywordtype">int</span> synctex_test_sheet_1();</div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;    <span class="keywordtype">int</span> synctex_test_sheet_2();</div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;    <span class="keywordtype">int</span> synctex_test_sheet_3();</div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;    <span class="keywordtype">int</span> synctex_test_form();</div>
-<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160; </div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;}</div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160; </div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="astructsynctex__box__s_html"><div class="ttname"><a href="structsynctex__box__s.html">synctex_box_s</a></div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:310</div></div>
-<div class="ttc" id="astructsynctex__class__t_html"><div class="ttname"><a href="structsynctex__class__t.html">synctex_class_t</a></div><div class="ttdef"><b>Definition:</b> synctex_parser.c:240</div></div>
-<div class="ttc" id="astructsynctex__iterator__t_html"><div class="ttname"><a href="structsynctex__iterator__t.html">synctex_iterator_t</a></div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7259</div></div>
-<div class="ttc" id="astructsynctex__node__t_html"><div class="ttname"><a href="structsynctex__node__t.html">synctex_node_t</a></div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:291</div></div>
-<div class="ttc" id="astructsynctex__point__s_html"><div class="ttname"><a href="structsynctex__point__s.html">synctex_point_s</a></div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:303</div></div>
-<div class="ttc" id="astructsynctex__scanner__t_html"><div class="ttname"><a href="structsynctex__scanner__t.html">synctex_scanner_t</a></div><div class="ttdef"><b>Definition:</b> synctex_parser.c:809</div></div>
-<div class="ttc" id="astructsynctex__updater__t_html"><div class="ttname"><a href="structsynctex__updater__t.html">synctex_updater_t</a></div><div class="ttdef"><b>Definition:</b> synctex_parser.c:8449</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a147d3e57ee5d7916b164b8b534bcbb48"><div class="ttname"><a href="synctex__parser_8c.html#a147d3e57ee5d7916b164b8b534bcbb48">synctex_iterator_new_edit</a></div><div class="ttdeci">synctex_iterator_p synctex_iterator_new_edit(synctex_scanner_p scanner, int page, float h, float v)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7314</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a1d0d390f23c746fc86f31fde15e97a43"><div class="ttname"><a href="synctex__parser_8c.html#a1d0d390f23c746fc86f31fde15e97a43">synctex_node_box_h</a></div><div class="ttdeci">int synctex_node_box_h(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6482</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a25515e0ba1a0aae8242120e2b0dadd57"><div class="ttname"><a href="synctex__parser_8c.html#a25515e0ba1a0aae8242120e2b0dadd57">synctex_node_target</a></div><div class="ttdeci">synctex_node_p synctex_node_target(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7622</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a2ee6386f691c4f4f8f7cb87505c7c4bc"><div class="ttname"><a href="synctex__parser_8c.html#a2ee6386f691c4f4f8f7cb87505c7c4bc">synctex_iterator_count</a></div><div class="ttdeci">int synctex_iterator_count(synctex_iterator_p iterator)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7285</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a2ff1b1e8d204ad138b7358f72b899ea5"><div class="ttname"><a href="synctex__parser_8c.html#a2ff1b1e8d204ad138b7358f72b899ea5">synctex_node_hbox_depth</a></div><div class="ttdeci">int synctex_node_hbox_depth(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6605</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a33c068825bf1c04037cb892c081b0183"><div class="ttname"><a href="synctex__parser_8c.html#a33c068825bf1c04037cb892c081b0183">synctex_node_weight</a></div><div class="ttdeci">int synctex_node_weight(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7006</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a434304cdf565b5acfd4dcc5333a80343"><div class="ttname"><a href="synctex__parser_8c.html#a434304cdf565b5acfd4dcc5333a80343">synctex_node_child_count</a></div><div class="ttdeci">int synctex_node_child_count(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7019</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a43455b4975ad42c4659daca52b376e3e"><div class="ttname"><a href="synctex__parser_8c.html#a43455b4975ad42c4659daca52b376e3e">synctex_node_hbox_v</a></div><div class="ttdeci">int synctex_node_hbox_v(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6560</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a52eda50ef0dcd7edcf131fb80d20c0a5"><div class="ttname"><a href="synctex__parser_8c.html#a52eda50ef0dcd7edcf131fb80d20c0a5">synctex_iterator_reset</a></div><div class="ttdeci">int synctex_iterator_reset(synctex_iterator_p iterator)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7306</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a55ed29113e901f8c50b7afc265448dc8"><div class="ttname"><a href="synctex__parser_8c.html#a55ed29113e901f8c50b7afc265448dc8">synctex_node_box_height</a></div><div class="ttdeci">int synctex_node_box_height(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6518</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a5c22d913e6da509a014e82b1b4cd26ec"><div class="ttname"><a href="synctex__parser_8c.html#a5c22d913e6da509a014e82b1b4cd26ec">synctex_node_box_depth</a></div><div class="ttdeci">int synctex_node_box_depth(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6530</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a6f494ee009c5a4c78edfe45dd1e89980"><div class="ttname"><a href="synctex__parser_8c.html#a6f494ee009c5a4c78edfe45dd1e89980">synctex_iterator_next_result</a></div><div class="ttdeci">synctex_node_p synctex_iterator_next_result(synctex_iterator_p iterator)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7295</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a7b167f11d5a6eac88f2c31a4de818c52"><div class="ttname"><a href="synctex__parser_8c.html#a7b167f11d5a6eac88f2c31a4de818c52">synctex_node_hbox_width</a></div><div class="ttdeci">int synctex_node_hbox_width(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6576</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a7d48ebf2138b08c6f07f6e3007c16780"><div class="ttname"><a href="synctex__parser_8c.html#a7d48ebf2138b08c6f07f6e3007c16780">synctex_node_hbox_height</a></div><div class="ttdeci">int synctex_node_hbox_height(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6590</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a7df9f440b2cc1c7f2fe5f8ca1177ecd6"><div class="ttname"><a href="synctex__parser_8c.html#a7df9f440b2cc1c7f2fe5f8ca1177ecd6">synctex_iterator_new_display</a></div><div class="ttdeci">synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner, const char *name, int line, int column, int page_hint)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7511</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a8f4f778910682efa320b1b888f9094d4"><div class="ttname"><a href="synctex__parser_8c.html#a8f4f778910682efa320b1b888f9094d4">synctex_iterator_has_next</a></div><div class="ttdeci">synctex_bool_t synctex_iterator_has_next(synctex_iterator_p iterator)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7282</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_a96f3e6bfa1334094e6c65323346a5cfd"><div class="ttname"><a href="synctex__parser_8c.html#a96f3e6bfa1334094e6c65323346a5cfd">synctex_node_new</a></div><div class="ttdeci">synctex_node_p synctex_node_new(synctex_scanner_p scanner, synctex_node_type_t type)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:847</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_ac88852d6a6ba5e81d0079df702d85e56"><div class="ttname"><a href="synctex__parser_8c.html#ac88852d6a6ba5e81d0079df702d85e56">synctex_node_box_v</a></div><div class="ttdeci">int synctex_node_box_v(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6494</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_acd39b77f523004af3651841d004e701c"><div class="ttname"><a href="synctex__parser_8c.html#acd39b77f523004af3651841d004e701c">synctex_iterator_free</a></div><div class="ttdeci">void synctex_iterator_free(synctex_iterator_p iterator)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7276</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_ad75593b8421c942e316a384d29bcffe9"><div class="ttname"><a href="synctex__parser_8c.html#ad75593b8421c942e316a384d29bcffe9">synctex_node_hbox_h</a></div><div class="ttdeci">int synctex_node_hbox_h(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6543</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_ae1f5418b70c647741eb2d514031b4902"><div class="ttname"><a href="synctex__parser_8c.html#ae1f5418b70c647741eb2d514031b4902">synctex_node_box_width</a></div><div class="ttdeci">int synctex_node_box_width(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6506</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_af51ed1c751635df817709b92e0e98cd1"><div class="ttname"><a href="synctex__parser_8c.html#af51ed1c751635df817709b92e0e98cd1">synctex_scanner_display_switcher</a></div><div class="ttdeci">int synctex_scanner_display_switcher(synctex_scanner_p scanR)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:3185</div></div>
-<div class="ttc" id="aunionsynctex__data__u_html"><div class="ttname"><a href="unionsynctex__data__u.html">synctex_data_u</a></div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:268</div></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#include &quot;synctex_parser.h&quot;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#include &quot;synctex_parser_utils.h&quot;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#ifndef __SYNCTEX_PARSER_PRIVATE__</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#   define __SYNCTEX_PARSER_PRIVATE__</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a559dc1ff1ed81087a23487ffccea2b60">   64</a></span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> <a class="code" href="synctex__parser__advanced_8h.html#a559dc1ff1ed81087a23487ffccea2b60">synctex_non_null_node_p</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">/*  Each node of the tree, except the scanner itself belongs to a class.</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">     *  The class object is just a struct declaring the owning scanner</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">     *  This is a pointer to the scanner as root of the tree.</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">     *  The type is used to identify the kind of node.</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">     *  The class declares pointers to a creator and a destructor method.</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">     *  The log and display fields are used to log and display the node.</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">     *  display will also display the child, sibling and parent sibling.</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">     *  parent, child and sibling are used to navigate the tree,</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">     *  from TeX box hierarchy point of view.</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">     *  The friend field points to a method which allows to navigate from friend to friend.</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">     *  A friend is a node with very close tag and line numbers.</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">     *  Finally, the info field point to a method giving the private node info offset.</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">     *  These are the mask hekpers for the synctex node types.</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        synctex_shift_root,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        synctex_shift_no_root,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        synctex_shift_void,</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        synctex_shift_no_void,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        synctex_shift_box,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        synctex_shift_no_box,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        synctex_shift_proxy,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        synctex_shift_no_proxy,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        synctex_shift_h,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        synctex_shift_v</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    };</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">     *  These are the masks for the synctex node types.</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">     *  int&#39;s are 32 bits at leats.</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        synctex_mask_root      = 1,</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        synctex_mask_no_root   = synctex_mask_root&lt;&lt;1,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        synctex_mask_void      = synctex_mask_no_root&lt;&lt;1,</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        synctex_mask_no_void   = synctex_mask_void&lt;&lt;1,</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        synctex_mask_box       = synctex_mask_no_void&lt;&lt;1,</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        synctex_mask_no_box    = synctex_mask_box&lt;&lt;1,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        synctex_mask_proxy     = synctex_mask_no_box&lt;&lt;1,</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        synctex_mask_no_proxy  = synctex_mask_proxy&lt;&lt;1,</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        synctex_mask_h         = synctex_mask_no_proxy&lt;&lt;1,</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        synctex_mask_v         = synctex_mask_h&lt;&lt;1,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    };</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        synctex_mask_non_void_hbox = synctex_mask_no_void</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        | synctex_mask_box</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        | synctex_mask_h,</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        synctex_mask_non_void_vbox = synctex_mask_no_void</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        | synctex_mask_box</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        | synctex_mask_v</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    };</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        synctex_node_mask_sf =</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        synctex_mask_root</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        |synctex_mask_no_void</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        |synctex_mask_no_box</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        |synctex_mask_no_proxy,</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        synctex_node_mask_vbox =</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        synctex_mask_no_root</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        |synctex_mask_no_void</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        |synctex_mask_box</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        |synctex_mask_no_proxy</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        |synctex_mask_v,</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        synctex_node_mask_hbox =</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        synctex_mask_no_root</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        |synctex_mask_no_void</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        |synctex_mask_box</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        |synctex_mask_no_proxy</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        |synctex_mask_h,</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        synctex_node_mask_void_vbox =</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        synctex_mask_no_root</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        |synctex_mask_void</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        |synctex_mask_box</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        |synctex_mask_no_proxy</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        |synctex_mask_v,</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        synctex_node_mask_void_hbox =</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        synctex_mask_no_root</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        |synctex_mask_void</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        |synctex_mask_box</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        |synctex_mask_no_proxy</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        |synctex_mask_h,</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        synctex_node_mask_vbox_proxy =</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        synctex_mask_no_root</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        |synctex_mask_no_void</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        |synctex_mask_box</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        |synctex_mask_proxy</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        |synctex_mask_v,</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        synctex_node_mask_hbox_proxy =</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        synctex_mask_no_root</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        |synctex_mask_no_void</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        |synctex_mask_box</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        |synctex_mask_proxy</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        |synctex_mask_h,</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        synctex_node_mask_nvnn =</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        synctex_mask_no_root</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        |synctex_mask_void</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        |synctex_mask_no_box</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        |synctex_mask_no_proxy,</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        synctex_node_mask_input =</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        synctex_mask_root</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        |synctex_mask_void</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        |synctex_mask_no_box</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        |synctex_mask_no_proxy,</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        synctex_node_mask_proxy =</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        synctex_mask_no_root</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        |synctex_mask_void</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        |synctex_mask_no_box</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        |synctex_mask_proxy</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    } synctex_node_mask_t;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        <span class="comment">/* input */</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        synctex_tree_sibling_idx        =  0,</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        synctex_tree_s_input_max        =  1,</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="comment">/* All */</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        synctex_tree_s_parent_idx       =  1,</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        synctex_tree_sp_child_idx       =  2,</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        synctex_tree_spc_friend_idx     =  3,</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        synctex_tree_spcf_last_idx      =  4,</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        synctex_tree_spcfl_vbox_max     =  5,</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="comment">/* hbox supplement */</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        synctex_tree_spcfl_next_hbox_idx  =  5,</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        synctex_tree_spcfln_hbox_max      =  6,</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="comment">/* hbox proxy supplement */</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        synctex_tree_spcfln_target_idx        =  6,</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        synctex_tree_spcflnt_proxy_hbox_max   =  7,</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="comment">/* vbox proxy supplement */</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        synctex_tree_spcfl_target_idx         =  5,</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        synctex_tree_spcflt_proxy_vbox_max    =  6,</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="comment">/*  spf supplement*/</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        synctex_tree_sp_friend_idx  =  2,</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        synctex_tree_spf_max        =  3,</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="comment">/*  box boundary supplement */</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        synctex_tree_spf_arg_sibling_idx   =  3,</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        synctex_tree_spfa_max              =  4,</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        <span class="comment">/*  proxy supplement */</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        synctex_tree_spf_target_idx    =  3,</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        synctex_tree_spft_proxy_max    =  4,</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <span class="comment">/*  last proxy supplement */</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        synctex_tree_spfa_target_idx      =  4,</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        synctex_tree_spfat_proxy_last_max =  5,</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="comment">/* sheet supplement */</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        synctex_tree_s_child_idx        =  1,</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        synctex_tree_sc_next_hbox_idx   =  2,</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        synctex_tree_scn_sheet_max      =  3,</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="comment">/* form supplement */</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        synctex_tree_sc_target_idx      =  2,</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        synctex_tree_sct_form_max       =  3,</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="comment">/* spct */</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        synctex_tree_spc_target_idx     =  3,</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        synctex_tree_spct_handle_max    =  4,</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    };</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    </div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="comment">/* input */</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        synctex_data_input_tag_idx  =  0,</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        synctex_data_input_line_idx =  1,</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        synctex_data_input_name_idx =  2,</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        synctex_data_input_tln_max  =  3,</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="comment">/* sheet */</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        synctex_data_sheet_page_idx =  0,</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        synctex_data_p_sheet_max    =  1,</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="comment">/* form */</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        synctex_data_form_tag_idx   =  0,</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        synctex_data_t_form_max     =  1,</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="comment">/* tlchv */</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        synctex_data_tag_idx        =  0,</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        synctex_data_line_idx       =  1,</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        synctex_data_column_idx     =  2,</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        synctex_data_h_idx          =  3,</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        synctex_data_v_idx          =  4,</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        synctex_data_tlchv_max      =  5,</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <span class="comment">/* tlchvw */</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        synctex_data_width_idx      =  5,</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        synctex_data_tlchvw_max     =  6,</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <span class="comment">/* box */</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        synctex_data_height_idx     =  6,</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        synctex_data_depth_idx      =  7,</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        synctex_data_box_max        =  8,</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="comment">/* hbox supplement */</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        synctex_data_mean_line_idx  =  8,</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        synctex_data_weight_idx     =  9,</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        synctex_data_h_V_idx        = 10,</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        synctex_data_v_V_idx        = 11,</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        synctex_data_width_V_idx    = 12,</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        synctex_data_height_V_idx   = 13,</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        synctex_data_depth_V_idx    = 14,</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        synctex_data_hbox_max       = 15,</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment">/* ref */</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        synctex_data_ref_tag_idx    =  0,</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        synctex_data_ref_h_idx      =  1,</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        synctex_data_ref_v_idx      =  2,</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        synctex_data_ref_thv_max    =  3,</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="comment">/* proxy */</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        synctex_data_proxy_h_idx    =  0,</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        synctex_data_proxy_v_idx    =  1,</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        synctex_data_proxy_hv_max   =  2,</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="comment">/* handle */</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        synctex_data_handle_w_idx   =  0,</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        synctex_data_handle_w_max   =  1,</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    };</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="comment">/*  each synctex node has a class */</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span>synctex_class_t synctex_class_s;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    </div>
+<div class="line"><a name="l00287"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#abb34605b457b187173b2ae0c9c28e2b6">  287</a></span>&#160;    <span class="keyword">typedef</span> synctex_class_s * <a class="code" href="synctex__parser__advanced_8h.html#abb34605b457b187173b2ae0c9c28e2b6">synctex_class_p</a>;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    </div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">union </span>{</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> as_node;</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        <span class="keywordtype">int</span>    as_integer;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordtype">char</span> * as_string;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        <span class="keywordtype">void</span> * as_pointer;</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    } _synctex_data_u;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <span class="keyword">typedef</span> _synctex_data_u * synctex_data_p;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    </div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="preprocessor">#   if defined(SYNCTEX_USE_CHARINDEX)</span></div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> synctex_charindex_t;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    synctex_charindex_t synctex_node_charindex(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="keyword">typedef</span> synctex_charindex_t synctex_lineindex_t;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    synctex_lineindex_t synctex_node_lineindex(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> synctex_scanner_handle(synctex_scanner_p scanner);</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="preprocessor">#       define SYNCTEX_DECLARE_CHARINDEX \</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="preprocessor">            synctex_charindex_t char_index;\</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="preprocessor">            synctex_lineindex_t line_index;</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="preprocessor">#       define SYNCTEX_DECLARE_CHAR_OFFSET \</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="preprocessor">            synctex_charindex_t charindex_offset;</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="preprocessor">#   else</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="preprocessor">#       define SYNCTEX_DECLARE_CHARINDEX</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="preprocessor">#       define SYNCTEX_DECLARE_CHAR_OFFSET</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00330"></a><span class="lineno"><a class="line" href="structsynctex__node__t.html">  330</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structsynctex__node__t.html">synctex_node_t</a> {</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        SYNCTEX_DECLARE_CHARINDEX</div>
+<div class="line"><a name="l00333"></a><span class="lineno"><a class="line" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">  333</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#abb34605b457b187173b2ae0c9c28e2b6">synctex_class_p</a> <a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>;</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="preprocessor">#ifdef DEBUG</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        synctex_data_u <a class="code" href="structsynctex__node__t.html#a93dc2b476d7ff8e1e6cd40f667263493">data</a>[22];</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno"><a class="line" href="structsynctex__node__t.html#a93dc2b476d7ff8e1e6cd40f667263493">  338</a></span>&#160;        _synctex_data_u <a class="code" href="structsynctex__node__t.html#a93dc2b476d7ff8e1e6cd40f667263493">data</a>[1];</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    };</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    </div>
+<div class="line"><a name="l00348"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a71dbdb28b7806972de8299f35dafd557">  348</a></span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> * <a class="code" href="synctex__parser__advanced_8h.html#a71dbdb28b7806972de8299f35dafd557">synctex_node_r</a>;</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    </div>
+<div class="line"><a name="l00356"></a><span class="lineno"><a class="line" href="structsynctex__point__s.html">  356</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00358"></a><span class="lineno"><a class="line" href="structsynctex__point__s.html#a9368c586a2e15fce6b64034b2c9d507d">  358</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structsynctex__point__s.html#a9368c586a2e15fce6b64034b2c9d507d">h</a>;</div>
+<div class="line"><a name="l00360"></a><span class="lineno"><a class="line" href="structsynctex__point__s.html#ac2f769c24d71bdea85196c9a2ff5621d">  360</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structsynctex__point__s.html#ac2f769c24d71bdea85196c9a2ff5621d">v</a>;</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    } <a class="code" href="structsynctex__point__s.html">synctex_point_s</a>;</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    </div>
+<div class="line"><a name="l00367"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a592f349f017881ca67014785a2f24885">  367</a></span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__point__s.html">synctex_point_s</a> * <a class="code" href="synctex__parser__advanced_8h.html#a592f349f017881ca67014785a2f24885">synctex_point_p</a>;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    </div>
+<div class="line"><a name="l00373"></a><span class="lineno"><a class="line" href="structsynctex__box__s.html">  373</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00375"></a><span class="lineno"><a class="line" href="structsynctex__box__s.html#aad3923085c0f0bc17193c14d13c2c2d4">  375</a></span>&#160;        <a class="code" href="structsynctex__point__s.html">synctex_point_s</a> <a class="code" href="structsynctex__box__s.html#aad3923085c0f0bc17193c14d13c2c2d4">min</a>;</div>
+<div class="line"><a name="l00377"></a><span class="lineno"><a class="line" href="structsynctex__box__s.html#adc60eb705b3e8f2727a4313029e51d67">  377</a></span>&#160;        <a class="code" href="structsynctex__point__s.html">synctex_point_s</a> <a class="code" href="structsynctex__box__s.html#adc60eb705b3e8f2727a4313029e51d67">max</a>;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    } <a class="code" href="structsynctex__box__s.html">synctex_box_s</a>;</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    </div>
+<div class="line"><a name="l00384"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#ab78b275fcf6d1177d8074afadf4da492">  384</a></span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__box__s.html">synctex_box_s</a> * <a class="code" href="synctex__parser__advanced_8h.html#ab78b275fcf6d1177d8074afadf4da492">synctex_box_p</a>;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    </div>
+<div class="line"><a name="l00406"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">  406</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00408"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59ae29d1fed6844731df7b51339e21fe222">  408</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59ae29d1fed6844731df7b51339e21fe222">synctex_node_type_none</a> = 0,</div>
+<div class="line"><a name="l00410"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a3a8cabbc163b6d335233ff434f625fc4">  410</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a3a8cabbc163b6d335233ff434f625fc4">synctex_node_type_input</a>,</div>
+<div class="line"><a name="l00412"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a33ed7d45a57b103bda3203d22789123a">  412</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a33ed7d45a57b103bda3203d22789123a">synctex_node_type_sheet</a>,</div>
+<div class="line"><a name="l00414"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59afce6d44d47517d9deaf3c30a5682a36f">  414</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59afce6d44d47517d9deaf3c30a5682a36f">synctex_node_type_form</a>,</div>
+<div class="line"><a name="l00416"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59ad0c1eeab10a36d1fc4ba1eff993e6bac">  416</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59ad0c1eeab10a36d1fc4ba1eff993e6bac">synctex_node_type_ref</a>,</div>
+<div class="line"><a name="l00418"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a36a211986fab8dce042c5ef1fd12237f">  418</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a36a211986fab8dce042c5ef1fd12237f">synctex_node_type_vbox</a>,</div>
+<div class="line"><a name="l00420"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a22b3e178603cff9b651ef49d3d6effed">  420</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a22b3e178603cff9b651ef49d3d6effed">synctex_node_type_void_vbox</a>,</div>
+<div class="line"><a name="l00422"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a138a4b47beacca2adcdb6e881ff7236d">  422</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a138a4b47beacca2adcdb6e881ff7236d">synctex_node_type_hbox</a>,</div>
+<div class="line"><a name="l00424"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59aa5dfaf6dc39fe0de1e484a5f8db7117d">  424</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59aa5dfaf6dc39fe0de1e484a5f8db7117d">synctex_node_type_void_hbox</a>,</div>
+<div class="line"><a name="l00426"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59aafe4c6cc4d4af7b0a7b1239702b2d7cd">  426</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59aafe4c6cc4d4af7b0a7b1239702b2d7cd">synctex_node_type_kern</a>,</div>
+<div class="line"><a name="l00428"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59abd1f7a18072437c5aaee40e485885ec6">  428</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59abd1f7a18072437c5aaee40e485885ec6">synctex_node_type_glue</a>,</div>
+<div class="line"><a name="l00430"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59ab9dde54fec163d0460838491931d856f">  430</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59ab9dde54fec163d0460838491931d856f">synctex_node_type_rule</a>,</div>
+<div class="line"><a name="l00432"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59aae6087a351bc58f8b6cb56d27c23c1f3">  432</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59aae6087a351bc58f8b6cb56d27c23c1f3">synctex_node_type_math</a>,</div>
+<div class="line"><a name="l00434"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a885ab2d241d78e723bb828f1d4d625da">  434</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a885ab2d241d78e723bb828f1d4d625da">synctex_node_type_boundary</a>,</div>
+<div class="line"><a name="l00436"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a5af7870367e22a1297575d9abfb10439">  436</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a5af7870367e22a1297575d9abfb10439">synctex_node_type_box_bdry</a>,</div>
+<div class="line"><a name="l00438"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59abecc1068d80350263e49317a2b62a5e3">  438</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59abecc1068d80350263e49317a2b62a5e3">synctex_node_type_proxy</a>,</div>
+<div class="line"><a name="l00440"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a2fbb7b1515c263851e77ea0b5ea8ab0a">  440</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a2fbb7b1515c263851e77ea0b5ea8ab0a">synctex_node_type_proxy_last</a>,</div>
+<div class="line"><a name="l00442"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a1980c05a631c430e431d1c14398f37e2">  442</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a1980c05a631c430e431d1c14398f37e2">synctex_node_type_proxy_vbox</a>,</div>
+<div class="line"><a name="l00444"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a3e1282d39cc9737e7b2159e1075ec4a1">  444</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a3e1282d39cc9737e7b2159e1075ec4a1">synctex_node_type_proxy_hbox</a>,</div>
+<div class="line"><a name="l00446"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a07421579abc923377ee2c3ad23a52a6d">  446</a></span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a07421579abc923377ee2c3ad23a52a6d">synctex_node_type_handle</a>,</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59abad99a41f11fbb8af51a36c57c4b362a">synctex_node_number_of_types</a></div>
+<div class="line"><a name="l00449"></a><span class="lineno"><a class="line" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59abad99a41f11fbb8af51a36c57c4b362a">  449</a></span>&#160;    } <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a>;</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    </div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;    <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a> <a class="code" href="synctex__parser__advanced_8h.html#a99355f0edfe89fec43c29f2a8e137a57">synctex_node_type</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    </div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> * <a class="code" href="synctex__parser__advanced_8h.html#a7c733eebab0f8a24048a94483b9fd193">synctex_node_isa</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160; </div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    <a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a> <a class="code" href="synctex__parser__advanced_8h.html#a942c56afd58363e3f1347f71ac6072db">synctex_node_target_type</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;    </div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="synctex__parser__advanced_8h.html#a0c0e0eea821ca3be5db38a4ecde74671">synctex_node_log</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160; </div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="synctex__parser__advanced_8h.html#aac915619cbb97b8eb43d56b63702a814">synctex_node_display</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;    </div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;    <span class="comment">/*  Given a node, access to the location in the synctex file where it is defined.</span></div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160; </div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a33c068825bf1c04037cb892c081b0183">synctex_node_weight</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a434304cdf565b5acfd4dcc5333a80343">synctex_node_child_count</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    </div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;    <span class="keywordtype">int</span> synctex_node_h(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;    <span class="keywordtype">int</span> synctex_node_v(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;    <span class="keywordtype">int</span> synctex_node_width(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;    </div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a1d0d390f23c746fc86f31fde15e97a43">synctex_node_box_h</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#ac88852d6a6ba5e81d0079df702d85e56">synctex_node_box_v</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#ae1f5418b70c647741eb2d514031b4902">synctex_node_box_width</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a55ed29113e901f8c50b7afc265448dc8">synctex_node_box_height</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a5c22d913e6da509a014e82b1b4cd26ec">synctex_node_box_depth</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    </div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#ad75593b8421c942e316a384d29bcffe9">synctex_node_hbox_h</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a43455b4975ad42c4659daca52b376e3e">synctex_node_hbox_v</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a7b167f11d5a6eac88f2c31a4de818c52">synctex_node_hbox_width</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a7d48ebf2138b08c6f07f6e3007c16780">synctex_node_hbox_height</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a2ff1b1e8d204ad138b7358f72b899ea5">synctex_node_hbox_depth</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;    </div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160; </div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;    synctex_scanner_p <a class="code" href="synctex__parser__advanced_8h.html#ab0bc921ecfe0c296905d8e56f5153d30">synctex_scanner_new</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160; </div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> <a class="code" href="synctex__parser__advanced_8h.html#a96f3e6bfa1334094e6c65323346a5cfd">synctex_node_new</a>(synctex_scanner_p scanner,<a class="code" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a> type);</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160; </div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#af51ed1c751635df817709b92e0e98cd1">synctex_scanner_display_switcher</a>(synctex_scanner_p scanR);</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;    </div>
+<div class="line"><a name="l00535"></a><span class="lineno"><a class="line" href="group__Iterator.html#ga8ef08abd0c58b8f84371c06d72762f9a">  535</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="synctex__parser__advanced_8h.html#a082ba71579e7d54c4b8e3137085a4387">synctex_scanner_set_display_switcher</a>(synctex_scanner_p scanR, <span class="keywordtype">int</span> switcher);</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160; </div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span>synctex_iterator_t <a class="code" href="group__Iterator.html#ga8ef08abd0c58b8f84371c06d72762f9a">synctex_iterator_s</a>;</div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;    </div>
+<div class="line"><a name="l00557"></a><span class="lineno"><a class="line" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">  557</a></span>&#160;    <span class="keyword">typedef</span> <a class="code" href="group__Iterator.html#ga8ef08abd0c58b8f84371c06d72762f9a">synctex_iterator_s</a> * <a class="code" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a>;</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160; </div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;    <a class="code" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> <a class="code" href="group__Iterator.html#ga7df9f440b2cc1c7f2fe5f8ca1177ecd6">synctex_iterator_new_display</a>(synctex_scanner_p scanner,<span class="keyword">const</span> <span class="keywordtype">char</span> *  name,<span class="keywordtype">int</span> line,<span class="keywordtype">int</span> column, <span class="keywordtype">int</span> page_hint);</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;    <a class="code" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> <a class="code" href="group__Iterator.html#ga147d3e57ee5d7916b164b8b534bcbb48">synctex_iterator_new_edit</a>(synctex_scanner_p scanner,<span class="keywordtype">int</span> page,<span class="keywordtype">float</span> h,<span class="keywordtype">float</span> v);</div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160; </div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;<span class="comment">     *  </span></div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;<span class="comment">     *  - argument iterator: the object to free...</span></div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160; </div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="group__Iterator.html#gacd39b77f523004af3651841d004e701c">synctex_iterator_free</a>(<a class="code" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator);</div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160; </div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;    synctex_bool_t <a class="code" href="group__Iterator.html#ga8f4f778910682efa320b1b888f9094d4">synctex_iterator_has_next</a>(<a class="code" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator);</div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;    </div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;    <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> <a class="code" href="group__Iterator.html#ga6f494ee009c5a4c78edfe45dd1e89980">synctex_iterator_next_result</a>(<a class="code" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator);</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;    </div>
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="group__Iterator.html#ga52eda50ef0dcd7edcf131fb80d20c0a5">synctex_iterator_reset</a>(<a class="code" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator);</div>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;     <span class="comment">// end of group Iterator</span></div>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160; </div>
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="synctex__parser__advanced_8h.html#a2ee6386f691c4f4f8f7cb87505c7c4bc">synctex_iterator_count</a>(<a class="code" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator);</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160; </div>
+<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160; </div>
+<div class="line"><a name="l00653"></a><span class="lineno"><a class="line" href="group__Updater.html#gacc0782443caa14c6e6304b4f7bc6962d">  653</a></span>&#160;    <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> <a class="code" href="synctex__parser__advanced_8h.html#a25515e0ba1a0aae8242120e2b0dadd57">synctex_node_target</a>(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node);</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;    </div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;<span class="preprocessor">#ifndef SYNCTEX_NO_UPDATER</span></div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structsynctex__updater__t.html">synctex_updater_t</a> <a class="code" href="structsynctex__updater__t.html">synctex_updater_s</a>;</div>
+<div class="line"><a name="l00674"></a><span class="lineno"><a class="line" href="group__Updater.html#ga36b5ea17503e6f7e8ceadd2a9a3e8f2d">  674</a></span>&#160;    <span class="keyword">typedef</span> <a class="code" href="structsynctex__updater__t.html">synctex_updater_s</a> * <a class="code" href="group__Updater.html#ga36b5ea17503e6f7e8ceadd2a9a3e8f2d">synctex_updater_p</a>;</div>
+<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;    </div>
+<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;    <a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> <a class="code" href="group__Updater.html#gaa09269d7bb338c0a8ca55b105396f153">synctex_updater_new_with_output_file</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * output, <span class="keyword">const</span> <span class="keywordtype">char</span> * directory);</div>
+<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;    </div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="group__Updater.html#ga3623fe5567018ff6877730466c1e6335">synctex_updater_append_magnification</a>(<a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> updater, <span class="keywordtype">char</span> *  magnification);</div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160; </div>
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="group__Updater.html#gaa0a16637d08b0a580ca5189e1b6825ac">synctex_updater_append_x_offset</a>(<a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> updater, <span class="keywordtype">char</span> *  x_offset);</div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160; </div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="group__Updater.html#gae4b4db7799ea9742f63f4994f7f59dab">synctex_updater_append_y_offset</a>(<a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> updater, <span class="keywordtype">char</span> *  y_offset);</div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;    </div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;    <span class="comment">/*  You MUST free the updater, once everything is properly appended */</span></div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160; </div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="group__Updater.html#gab34aee6b4b7df7cf250c57fd719beec8">synctex_updater_free</a>(<a class="code" href="structsynctex__updater__t.html">synctex_updater_p</a> updater); <span class="comment">// end of group Updater</span></div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;    </div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;<span class="preprocessor">#if defined(SYNCTEX_DEBUG)</span></div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;<span class="preprocessor">#   include &quot;assert.h&quot;</span></div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;<span class="preprocessor">#   define SYNCTEX_ASSERT assert</span></div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;<span class="preprocessor">#   define SYNCTEX_ASSERT(UNUSED)</span></div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160; </div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;<span class="preprocessor">#if defined(SYNCTEX_TESTING)</span></div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;<span class="preprocessor">#warning TESTING IS PROHIBITED</span></div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;<span class="preprocessor">#if __clang__</span></div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;<span class="preprocessor">#define __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \</span></div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;<span class="preprocessor">_Pragma(&quot;clang diagnostic push&quot;</span>) \</div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;_Pragma(&quot;clang diagnostic ignored \&quot;-Wformat-extra-args\&quot;&quot;)</div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;    </div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;<span class="preprocessor">#define __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS _Pragma(&quot;clang diagnostic pop&quot;</span>)</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;<span class="preprocessor">#define __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS</span></div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;<span class="preprocessor">#define __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS</span></div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;    </div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;<span class="preprocessor">#   define SYNCTEX_TEST_BODY(counter, condition, desc, ...) \</span></div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;<span class="preprocessor">    do {                \</span></div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;<span class="preprocessor">        __PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \</span></div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;<span class="preprocessor">        if (!(condition)) {     \</span></div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;<span class="preprocessor">            ++counter;  \</span></div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;<span class="preprocessor">            printf(&quot;**** Test failed: %s\nfile %s\nfunction %s\nline %i\n&quot;</span>,#condition,__FILE__,__FUNCTION__,__LINE__); \</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;            printf((desc), ##__VA_ARGS__); \</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;        }               \</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;        __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS \</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;    } while(0)</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;        </div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;<span class="preprocessor">#   define SYNCTEX_TEST_PARAMETER(counter, condition) SYNCTEX_TEST_BODY(counter, (condition), &quot;Invalid parameter not satisfying: %s&quot;</span>, #condition)</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;    </div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;    <span class="keywordtype">int</span> synctex_test_input(synctex_scanner_p scanner);</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;    <span class="keywordtype">int</span> synctex_test_proxy(synctex_scanner_p scanner);</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;    <span class="keywordtype">int</span> synctex_test_tree(synctex_scanner_p scanner);</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;    <span class="keywordtype">int</span> synctex_test_page(synctex_scanner_p scanner);</div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;    <span class="keywordtype">int</span> synctex_test_handle(synctex_scanner_p scanner);</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;    <span class="keywordtype">int</span> synctex_test_display_query(synctex_scanner_p scanner);</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;    <span class="keywordtype">int</span> synctex_test_charindex();</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;    <span class="keywordtype">int</span> synctex_test_sheet_1();</div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;    <span class="keywordtype">int</span> synctex_test_sheet_2();</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;    <span class="keywordtype">int</span> synctex_test_sheet_3();</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;    <span class="keywordtype">int</span> synctex_test_form();</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160; </div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;}</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160; </div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__Iterator_html_ga147d3e57ee5d7916b164b8b534bcbb48"><div class="ttname"><a href="group__Iterator.html#ga147d3e57ee5d7916b164b8b534bcbb48">synctex_iterator_new_edit</a></div><div class="ttdeci">synctex_iterator_p synctex_iterator_new_edit(synctex_scanner_p scanner, int page, float h, float v)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7492</div></div>
+<div class="ttc" id="agroup__Iterator_html_ga52eda50ef0dcd7edcf131fb80d20c0a5"><div class="ttname"><a href="group__Iterator.html#ga52eda50ef0dcd7edcf131fb80d20c0a5">synctex_iterator_reset</a></div><div class="ttdeci">int synctex_iterator_reset(synctex_iterator_p iterator)</div><div class="ttdoc">Reset the cursor position to the first result.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7484</div></div>
+<div class="ttc" id="agroup__Iterator_html_ga6f494ee009c5a4c78edfe45dd1e89980"><div class="ttname"><a href="group__Iterator.html#ga6f494ee009c5a4c78edfe45dd1e89980">synctex_iterator_next_result</a></div><div class="ttdeci">synctex_node_p synctex_iterator_next_result(synctex_iterator_p iterator)</div><div class="ttdoc">Get the next query result.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7473</div></div>
+<div class="ttc" id="agroup__Iterator_html_ga7df9f440b2cc1c7f2fe5f8ca1177ecd6"><div class="ttname"><a href="group__Iterator.html#ga7df9f440b2cc1c7f2fe5f8ca1177ecd6">synctex_iterator_new_display</a></div><div class="ttdeci">synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner, const char *name, int line, int column, int page_hint)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7689</div></div>
+<div class="ttc" id="agroup__Iterator_html_ga8ef08abd0c58b8f84371c06d72762f9a"><div class="ttname"><a href="group__Iterator.html#ga8ef08abd0c58b8f84371c06d72762f9a">synctex_iterator_s</a></div><div class="ttdeci">struct synctex_iterator_t synctex_iterator_s</div><div class="ttdoc">Structure used to traverse the answer to client queries.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:551</div></div>
+<div class="ttc" id="agroup__Iterator_html_ga8f4f778910682efa320b1b888f9094d4"><div class="ttname"><a href="group__Iterator.html#ga8f4f778910682efa320b1b888f9094d4">synctex_iterator_has_next</a></div><div class="ttdeci">synctex_bool_t synctex_iterator_has_next(synctex_iterator_p iterator)</div><div class="ttdoc">Whether the iterator actually points to a node.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7460</div></div>
+<div class="ttc" id="agroup__Iterator_html_gac40ff1b145686027df0603c3f8b28261"><div class="ttname"><a href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a></div><div class="ttdeci">synctex_iterator_s * synctex_iterator_p</div><div class="ttdoc">Pointer to an iterator structure.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:557</div></div>
+<div class="ttc" id="agroup__Iterator_html_gacd39b77f523004af3651841d004e701c"><div class="ttname"><a href="group__Iterator.html#gacd39b77f523004af3651841d004e701c">synctex_iterator_free</a></div><div class="ttdeci">void synctex_iterator_free(synctex_iterator_p iterator)</div><div class="ttdoc">Free all the resources associate to the iterator.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7454</div></div>
+<div class="ttc" id="agroup__Updater_html_ga3623fe5567018ff6877730466c1e6335"><div class="ttname"><a href="group__Updater.html#ga3623fe5567018ff6877730466c1e6335">synctex_updater_append_magnification</a></div><div class="ttdeci">void synctex_updater_append_magnification(synctex_updater_p updater, char *magnification)</div><div class="ttdoc">Append a magnification record.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:8754</div></div>
+<div class="ttc" id="agroup__Updater_html_ga36b5ea17503e6f7e8ceadd2a9a3e8f2d"><div class="ttname"><a href="group__Updater.html#ga36b5ea17503e6f7e8ceadd2a9a3e8f2d">synctex_updater_p</a></div><div class="ttdeci">synctex_updater_s * synctex_updater_p</div><div class="ttdoc">Pointer to a synctex_updater_s updater data structure.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:674</div></div>
+<div class="ttc" id="agroup__Updater_html_gaa09269d7bb338c0a8ca55b105396f153"><div class="ttname"><a href="group__Updater.html#gaa09269d7bb338c0a8ca55b105396f153">synctex_updater_new_with_output_file</a></div><div class="ttdeci">synctex_updater_p synctex_updater_new_with_output_file(const char *output, const char *directory)</div><div class="ttdoc">Updater designated creator.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:8709</div></div>
+<div class="ttc" id="agroup__Updater_html_gaa0a16637d08b0a580ca5189e1b6825ac"><div class="ttname"><a href="group__Updater.html#gaa0a16637d08b0a580ca5189e1b6825ac">synctex_updater_append_x_offset</a></div><div class="ttdeci">void synctex_updater_append_x_offset(synctex_updater_p updater, char *x_offset)</div><div class="ttdoc">Append an x-offset record.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:8764</div></div>
+<div class="ttc" id="agroup__Updater_html_gab34aee6b4b7df7cf250c57fd719beec8"><div class="ttname"><a href="group__Updater.html#gab34aee6b4b7df7cf250c57fd719beec8">synctex_updater_free</a></div><div class="ttdeci">void synctex_updater_free(synctex_updater_p updater)</div><div class="ttdoc">Updater designated destructor.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:8782</div></div>
+<div class="ttc" id="agroup__Updater_html_gae4b4db7799ea9742f63f4994f7f59dab"><div class="ttname"><a href="group__Updater.html#gae4b4db7799ea9742f63f4994f7f59dab">synctex_updater_append_y_offset</a></div><div class="ttdeci">void synctex_updater_append_y_offset(synctex_updater_p updater, char *y_offset)</div><div class="ttdoc">Append an y-offset record.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:8773</div></div>
+<div class="ttc" id="astructsynctex__box__s_html"><div class="ttname"><a href="structsynctex__box__s.html">synctex_box_s</a></div><div class="ttdoc">2D rectangle Used for boxes.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:373</div></div>
+<div class="ttc" id="astructsynctex__box__s_html_aad3923085c0f0bc17193c14d13c2c2d4"><div class="ttname"><a href="structsynctex__box__s.html#aad3923085c0f0bc17193c14d13c2c2d4">synctex_box_s::min</a></div><div class="ttdeci">synctex_point_s min</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:375</div></div>
+<div class="ttc" id="astructsynctex__box__s_html_adc60eb705b3e8f2727a4313029e51d67"><div class="ttname"><a href="structsynctex__box__s.html#adc60eb705b3e8f2727a4313029e51d67">synctex_box_s::max</a></div><div class="ttdeci">synctex_point_s max</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:377</div></div>
+<div class="ttc" id="astructsynctex__node__t_html"><div class="ttname"><a href="structsynctex__node__t.html">synctex_node_t</a></div><div class="ttdoc">Node data model.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:330</div></div>
+<div class="ttc" id="astructsynctex__node__t_html_a93dc2b476d7ff8e1e6cd40f667263493"><div class="ttname"><a href="structsynctex__node__t.html#a93dc2b476d7ff8e1e6cd40f667263493">synctex_node_t::data</a></div><div class="ttdeci">_synctex_data_u data[1]</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:338</div></div>
+<div class="ttc" id="astructsynctex__node__t_html_aee61654533623a3b72ec2eb5b446fe46"><div class="ttname"><a href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">synctex_node_t::class_</a></div><div class="ttdeci">SYNCTEX_DECLARE_CHARINDEX synctex_class_p class_</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:333</div></div>
+<div class="ttc" id="astructsynctex__point__s_html"><div class="ttname"><a href="structsynctex__point__s.html">synctex_point_s</a></div><div class="ttdoc">2D point with integer coordinates.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:356</div></div>
+<div class="ttc" id="astructsynctex__point__s_html_a9368c586a2e15fce6b64034b2c9d507d"><div class="ttname"><a href="structsynctex__point__s.html#a9368c586a2e15fce6b64034b2c9d507d">synctex_point_s::h</a></div><div class="ttdeci">int h</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:358</div></div>
+<div class="ttc" id="astructsynctex__point__s_html_ac2f769c24d71bdea85196c9a2ff5621d"><div class="ttname"><a href="structsynctex__point__s.html#ac2f769c24d71bdea85196c9a2ff5621d">synctex_point_s::v</a></div><div class="ttdeci">int v</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:360</div></div>
+<div class="ttc" id="astructsynctex__updater__t_html"><div class="ttname"><a href="structsynctex__updater__t.html">synctex_updater_t</a></div><div class="ttdoc">Update data structure.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:8631</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a082ba71579e7d54c4b8e3137085a4387"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a082ba71579e7d54c4b8e3137085a4387">synctex_scanner_set_display_switcher</a></div><div class="ttdeci">void synctex_scanner_set_display_switcher(synctex_scanner_p scanR, int switcher)</div><div class="ttdoc">Scanner display switcher setter.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:3332</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a></div><div class="ttdeci">synctex_node_type_t</div><div class="ttdoc">Types of the synctex nodes.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:406</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a07421579abc923377ee2c3ad23a52a6d"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a07421579abc923377ee2c3ad23a52a6d">synctex_node_type_handle</a></div><div class="ttdeci">@ synctex_node_type_handle</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:446</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a138a4b47beacca2adcdb6e881ff7236d"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a138a4b47beacca2adcdb6e881ff7236d">synctex_node_type_hbox</a></div><div class="ttdeci">@ synctex_node_type_hbox</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:422</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a1980c05a631c430e431d1c14398f37e2"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a1980c05a631c430e431d1c14398f37e2">synctex_node_type_proxy_vbox</a></div><div class="ttdeci">@ synctex_node_type_proxy_vbox</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:442</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a22b3e178603cff9b651ef49d3d6effed"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a22b3e178603cff9b651ef49d3d6effed">synctex_node_type_void_vbox</a></div><div class="ttdeci">@ synctex_node_type_void_vbox</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:420</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a2fbb7b1515c263851e77ea0b5ea8ab0a"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a2fbb7b1515c263851e77ea0b5ea8ab0a">synctex_node_type_proxy_last</a></div><div class="ttdeci">@ synctex_node_type_proxy_last</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:440</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a33ed7d45a57b103bda3203d22789123a"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a33ed7d45a57b103bda3203d22789123a">synctex_node_type_sheet</a></div><div class="ttdeci">@ synctex_node_type_sheet</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:412</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a36a211986fab8dce042c5ef1fd12237f"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a36a211986fab8dce042c5ef1fd12237f">synctex_node_type_vbox</a></div><div class="ttdeci">@ synctex_node_type_vbox</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:418</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a3a8cabbc163b6d335233ff434f625fc4"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a3a8cabbc163b6d335233ff434f625fc4">synctex_node_type_input</a></div><div class="ttdeci">@ synctex_node_type_input</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:410</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a3e1282d39cc9737e7b2159e1075ec4a1"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a3e1282d39cc9737e7b2159e1075ec4a1">synctex_node_type_proxy_hbox</a></div><div class="ttdeci">@ synctex_node_type_proxy_hbox</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:444</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a5af7870367e22a1297575d9abfb10439"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a5af7870367e22a1297575d9abfb10439">synctex_node_type_box_bdry</a></div><div class="ttdeci">@ synctex_node_type_box_bdry</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:436</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59a885ab2d241d78e723bb828f1d4d625da"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59a885ab2d241d78e723bb828f1d4d625da">synctex_node_type_boundary</a></div><div class="ttdeci">@ synctex_node_type_boundary</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:434</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59aa5dfaf6dc39fe0de1e484a5f8db7117d"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59aa5dfaf6dc39fe0de1e484a5f8db7117d">synctex_node_type_void_hbox</a></div><div class="ttdeci">@ synctex_node_type_void_hbox</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:424</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59aae6087a351bc58f8b6cb56d27c23c1f3"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59aae6087a351bc58f8b6cb56d27c23c1f3">synctex_node_type_math</a></div><div class="ttdeci">@ synctex_node_type_math</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:432</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59aafe4c6cc4d4af7b0a7b1239702b2d7cd"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59aafe4c6cc4d4af7b0a7b1239702b2d7cd">synctex_node_type_kern</a></div><div class="ttdeci">@ synctex_node_type_kern</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:426</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59ab9dde54fec163d0460838491931d856f"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59ab9dde54fec163d0460838491931d856f">synctex_node_type_rule</a></div><div class="ttdeci">@ synctex_node_type_rule</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:430</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59abad99a41f11fbb8af51a36c57c4b362a"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59abad99a41f11fbb8af51a36c57c4b362a">synctex_node_number_of_types</a></div><div class="ttdeci">@ synctex_node_number_of_types</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:448</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59abd1f7a18072437c5aaee40e485885ec6"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59abd1f7a18072437c5aaee40e485885ec6">synctex_node_type_glue</a></div><div class="ttdeci">@ synctex_node_type_glue</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:428</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59abecc1068d80350263e49317a2b62a5e3"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59abecc1068d80350263e49317a2b62a5e3">synctex_node_type_proxy</a></div><div class="ttdeci">@ synctex_node_type_proxy</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:438</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59ad0c1eeab10a36d1fc4ba1eff993e6bac"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59ad0c1eeab10a36d1fc4ba1eff993e6bac">synctex_node_type_ref</a></div><div class="ttdeci">@ synctex_node_type_ref</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:416</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59ae29d1fed6844731df7b51339e21fe222"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59ae29d1fed6844731df7b51339e21fe222">synctex_node_type_none</a></div><div class="ttdeci">@ synctex_node_type_none</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:408</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a085407d3cf15193e7db661749b83cf59afce6d44d47517d9deaf3c30a5682a36f"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59afce6d44d47517d9deaf3c30a5682a36f">synctex_node_type_form</a></div><div class="ttdeci">@ synctex_node_type_form</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:414</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a0c0e0eea821ca3be5db38a4ecde74671"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a0c0e0eea821ca3be5db38a4ecde74671">synctex_node_log</a></div><div class="ttdeci">void synctex_node_log(synctex_node_p node)</div><div class="ttdoc">Print some informations about the node.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:3122</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a1d0d390f23c746fc86f31fde15e97a43"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a1d0d390f23c746fc86f31fde15e97a43">synctex_node_box_h</a></div><div class="ttdeci">int synctex_node_box_h(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6647</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a25515e0ba1a0aae8242120e2b0dadd57"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a25515e0ba1a0aae8242120e2b0dadd57">synctex_node_target</a></div><div class="ttdeci">synctex_node_p synctex_node_target(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7800</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a2ee6386f691c4f4f8f7cb87505c7c4bc"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a2ee6386f691c4f4f8f7cb87505c7c4bc">synctex_iterator_count</a></div><div class="ttdeci">int synctex_iterator_count(synctex_iterator_p iterator)</div><div class="ttdoc">The number of objects left.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7463</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a2ff1b1e8d204ad138b7358f72b899ea5"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a2ff1b1e8d204ad138b7358f72b899ea5">synctex_node_hbox_depth</a></div><div class="ttdeci">int synctex_node_hbox_depth(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6770</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a33c068825bf1c04037cb892c081b0183"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a33c068825bf1c04037cb892c081b0183">synctex_node_weight</a></div><div class="ttdeci">int synctex_node_weight(synctex_node_p node)</div><div class="ttdoc">The weight of the node.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7181</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a434304cdf565b5acfd4dcc5333a80343"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a434304cdf565b5acfd4dcc5333a80343">synctex_node_child_count</a></div><div class="ttdeci">int synctex_node_child_count(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:7194</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a43455b4975ad42c4659daca52b376e3e"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a43455b4975ad42c4659daca52b376e3e">synctex_node_hbox_v</a></div><div class="ttdeci">int synctex_node_hbox_v(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6725</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a559dc1ff1ed81087a23487ffccea2b60"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a559dc1ff1ed81087a23487ffccea2b60">synctex_non_null_node_p</a></div><div class="ttdeci">synctex_node_p synctex_non_null_node_p</div><div class="ttdoc">Reminder that the argument must not be NULL.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:64</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a55ed29113e901f8c50b7afc265448dc8"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a55ed29113e901f8c50b7afc265448dc8">synctex_node_box_height</a></div><div class="ttdeci">int synctex_node_box_height(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6683</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a592f349f017881ca67014785a2f24885"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a592f349f017881ca67014785a2f24885">synctex_point_p</a></div><div class="ttdeci">synctex_point_s * synctex_point_p</div><div class="ttdoc">Pointer to a 2D point.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:367</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a5c22d913e6da509a014e82b1b4cd26ec"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a5c22d913e6da509a014e82b1b4cd26ec">synctex_node_box_depth</a></div><div class="ttdeci">int synctex_node_box_depth(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6695</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a71dbdb28b7806972de8299f35dafd557"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a71dbdb28b7806972de8299f35dafd557">synctex_node_r</a></div><div class="ttdeci">synctex_node_p * synctex_node_r</div><div class="ttdoc">A pointer to an node pointer.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:348</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a7b167f11d5a6eac88f2c31a4de818c52"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a7b167f11d5a6eac88f2c31a4de818c52">synctex_node_hbox_width</a></div><div class="ttdeci">int synctex_node_hbox_width(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6741</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a7c733eebab0f8a24048a94483b9fd193"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a7c733eebab0f8a24048a94483b9fd193">synctex_node_isa</a></div><div class="ttdeci">const char * synctex_node_isa(synctex_node_p node)</div><div class="ttdoc">The type of a given node, as a human readable text.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:3091</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a7d48ebf2138b08c6f07f6e3007c16780"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a7d48ebf2138b08c6f07f6e3007c16780">synctex_node_hbox_height</a></div><div class="ttdeci">int synctex_node_hbox_height(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6755</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a942c56afd58363e3f1347f71ac6072db"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a942c56afd58363e3f1347f71ac6072db">synctex_node_target_type</a></div><div class="ttdeci">synctex_node_type_t synctex_node_target_type(synctex_node_p node)</div><div class="ttdoc">The node type of the target.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:3080</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a96f3e6bfa1334094e6c65323346a5cfd"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a96f3e6bfa1334094e6c65323346a5cfd">synctex_node_new</a></div><div class="ttdeci">synctex_node_p synctex_node_new(synctex_scanner_p scanner, synctex_node_type_t type)</div><div class="ttdoc">Create a new node of the given type.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:955</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_a99355f0edfe89fec43c29f2a8e137a57"><div class="ttname"><a href="synctex__parser__advanced_8h.html#a99355f0edfe89fec43c29f2a8e137a57">synctex_node_type</a></div><div class="ttdeci">synctex_node_type_t synctex_node_type(synctex_node_p node)</div><div class="ttdoc">The type of a given node, as integer.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:3075</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_aac915619cbb97b8eb43d56b63702a814"><div class="ttname"><a href="synctex__parser__advanced_8h.html#aac915619cbb97b8eb43d56b63702a814">synctex_node_display</a></div><div class="ttdeci">void synctex_node_display(synctex_node_p node)</div><div class="ttdoc">Print some informations about the node.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:3350</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_ab0bc921ecfe0c296905d8e56f5153d30"><div class="ttname"><a href="synctex__parser__advanced_8h.html#ab0bc921ecfe0c296905d8e56f5153d30">synctex_scanner_new</a></div><div class="ttdeci">synctex_scanner_p synctex_scanner_new(void)</div><div class="ttdoc">Designated scanner constructor.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6193</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_ab78b275fcf6d1177d8074afadf4da492"><div class="ttname"><a href="synctex__parser__advanced_8h.html#ab78b275fcf6d1177d8074afadf4da492">synctex_box_p</a></div><div class="ttdeci">synctex_box_s * synctex_box_p</div><div class="ttdoc">Pointer to 2D rectangle Used for NULL terminated lists of boxes.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:384</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_abb34605b457b187173b2ae0c9c28e2b6"><div class="ttname"><a href="synctex__parser__advanced_8h.html#abb34605b457b187173b2ae0c9c28e2b6">synctex_class_p</a></div><div class="ttdeci">synctex_class_s * synctex_class_p</div><div class="ttdoc">Pointer to a pseudo class.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:287</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_ac88852d6a6ba5e81d0079df702d85e56"><div class="ttname"><a href="synctex__parser__advanced_8h.html#ac88852d6a6ba5e81d0079df702d85e56">synctex_node_box_v</a></div><div class="ttdeci">int synctex_node_box_v(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6659</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_ad75593b8421c942e316a384d29bcffe9"><div class="ttname"><a href="synctex__parser__advanced_8h.html#ad75593b8421c942e316a384d29bcffe9">synctex_node_hbox_h</a></div><div class="ttdeci">int synctex_node_hbox_h(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6708</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_ae1f5418b70c647741eb2d514031b4902"><div class="ttname"><a href="synctex__parser__advanced_8h.html#ae1f5418b70c647741eb2d514031b4902">synctex_node_box_width</a></div><div class="ttdeci">int synctex_node_box_width(synctex_node_p node)</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:6671</div></div>
+<div class="ttc" id="asynctex__parser__advanced_8h_html_af51ed1c751635df817709b92e0e98cd1"><div class="ttname"><a href="synctex__parser__advanced_8h.html#af51ed1c751635df817709b92e0e98cd1">synctex_scanner_display_switcher</a></div><div class="ttdeci">int synctex_scanner_display_switcher(synctex_scanner_p scanR)</div><div class="ttdoc">Scanner display switcher getter.</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:3329</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

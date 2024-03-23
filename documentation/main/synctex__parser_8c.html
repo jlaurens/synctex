@@ -75,221 +75,27 @@ $(function() {
 
 <p>SyncTeX file parser and controller.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
-<code>#include &lt;stdarg.h&gt;</code><br />
-<code>#include &lt;stdio.h&gt;</code><br />
-<code>#include &lt;string.h&gt;</code><br />
-<code>#include &lt;errno.h&gt;</code><br />
-<code>#include &lt;limits.h&gt;</code><br />
-<code>#include &lt;locale.h&gt;</code><br />
-<code>#include &quot;synctex_parser_advanced.h&quot;</code><br />
-<code>#include &lt;zlib.h&gt;</code><br />
-</div><table class="memberdecls">
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__tree__model__t.html">synctex_tree_model_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__data__model__t.html">synctex_data_model_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__tlcpector__t.html">synctex_tlcpector_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__inspector__t.html">synctex_inspector_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__vispector__t.html">synctex_vispector_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__class__t.html">synctex_class_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__reader__t.html">synctex_reader_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure fot a file reader.  <a href="structsynctex__reader__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__open__s.html">synctex_open_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__is__s.html">synctex_is_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return structure.  <a href="structsynctex__open__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__ss__s.html">synctex_ss_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__input__s.html">synctex_input_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__sheet__s.html">synctex_node_sheet_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__form__s.html">synctex_node_form_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__vbox__s.html">synctex_node_vbox_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__hbox__s.html">synctex_node_hbox_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__void__vbox__s.html">synctex_node_void_vbox_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__ref__s.html">synctex_node_ref_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__tlchv__s.html">synctex_node_tlchv_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__kern__s.html">synctex_node_kern_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__rule__s.html">synctex_node_rule_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__box__bdry__s.html">synctex_node_box_bdry_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__proxy__hbox__s.html">synctex_node_proxy_hbox_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__proxy__vbox__s.html">synctex_node_proxy_vbox_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__proxy__s.html">synctex_node_proxy_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__proxy__last__s.html">synctex_node_proxy_last_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__node__handle__s.html">synctex_node_handle_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__nns__t.html">synctex_nns_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__zs__s.html">synctex_zs_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">String+status structure.  <a href="structsynctex__ss__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__ns__t.html">synctex_ns_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__fs__s.html">synctex_fs_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__counted__node__s.html">synctex_counted_node_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__nd__s.html">synctex_nd_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__nd__lr__s.html">synctex_nd_lr_s</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unionsynctex__file__u.html">synctex_file_u</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">node+status structure  <a href="structsynctex__ns__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsynctex__updater__t.html">synctex_updater_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update data structure.  <a href="structsynctex__updater__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a369266c24eacffb87046522897a570d5"><td class="memItemLeft" align="right" valign="top"><a id="a369266c24eacffb87046522897a570d5"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>_GNU_SOURCE</b></td></tr>
-<tr class="separator:a369266c24eacffb87046522897a570d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec3873a23961f50c1d92c8f75a50bd40"><td class="memItemLeft" align="right" valign="top"><a id="aec3873a23961f50c1d92c8f75a50bd40"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>HAVE_LOCALE_H</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:aec3873a23961f50c1d92c8f75a50bd40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35914b3b3c7631b3df4458683f225093"><td class="memItemLeft" align="right" valign="top"><a id="a35914b3b3c7631b3df4458683f225093"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>HAVE_SETLOCALE</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a35914b3b3c7631b3df4458683f225093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e6a83e4cfa9a84d426855506d4c7eda"><td class="memItemLeft" align="right" valign="top"><a id="a8e6a83e4cfa9a84d426855506d4c7eda"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_INLINE</b>&#160;&#160;&#160;inline</td></tr>
-<tr class="separator:a8e6a83e4cfa9a84d426855506d4c7eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a19ffe7c9bbace8b8c16b559357b3c5"><td class="memItemLeft" align="right" valign="top"><a id="a5a19ffe7c9bbace8b8c16b559357b3c5"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_UNUSED</b>(x)&#160;&#160;&#160;(void)(x);</td></tr>
-<tr class="separator:a5a19ffe7c9bbace8b8c16b559357b3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60a01fbbebdf3210fc39324aef7a0533"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a60a01fbbebdf3210fc39324aef7a0533">SYNCTEX_MSG_SEND</a>(NODE,  SELECTOR)</td></tr>
-<tr class="memdesc:a60a01fbbebdf3210fc39324aef7a0533"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes care of sending the given message if possible.  <a href="synctex__parser_8c.html#a60a01fbbebdf3210fc39324aef7a0533">More...</a><br /></td></tr>
-<tr class="separator:a60a01fbbebdf3210fc39324aef7a0533"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8052f4deef5d73f795eab759a0bb1b8"><td class="memItemLeft" align="right" valign="top"><a id="ac8052f4deef5d73f795eab759a0bb1b8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_SCANNER_FREE_HANDLE</b>(SCANR)</td></tr>
-<tr class="separator:ac8052f4deef5d73f795eab759a0bb1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba8ec3c1a41906ccb58990f507884195"><td class="memItemLeft" align="right" valign="top"><a id="aba8ec3c1a41906ccb58990f507884195"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_SCANNER_REMOVE_HANDLE_TO</b>(WHAT)</td></tr>
-<tr class="separator:aba8ec3c1a41906ccb58990f507884195"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf17dd5219957061f22ef3a3ae3ab3bd"><td class="memItemLeft" align="right" valign="top"><a id="acf17dd5219957061f22ef3a3ae3ab3bd"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_REGISTER_HANDLE_TO</b>(NODE)</td></tr>
-<tr class="separator:acf17dd5219957061f22ef3a3ae3ab3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9dcf0816e49be1202251347fae0e1cd"><td class="memItemLeft" align="right" valign="top"><a id="ab9dcf0816e49be1202251347fae0e1cd"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_CHARINDEX</b>(NODE)&#160;&#160;&#160;0</td></tr>
-<tr class="separator:ab9dcf0816e49be1202251347fae0e1cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ebd4e10db5e8b16242f24b8d8b77217"><td class="memItemLeft" align="right" valign="top"><a id="a2ebd4e10db5e8b16242f24b8d8b77217"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_LINEINDEX</b>(NODE)&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a2ebd4e10db5e8b16242f24b8d8b77217"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77bebb411d73d5a64f1e1769e90c3b07"><td class="memItemLeft" align="right" valign="top"><a id="a77bebb411d73d5a64f1e1769e90c3b07"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_PRINT_CHARINDEX_FMT</b></td></tr>
-<tr class="separator:a77bebb411d73d5a64f1e1769e90c3b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb3a0e84a395b73945e0bdb2a7476a58"><td class="memItemLeft" align="right" valign="top"><a id="acb3a0e84a395b73945e0bdb2a7476a58"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_PRINT_CHARINDEX_WHAT</b></td></tr>
-<tr class="separator:acb3a0e84a395b73945e0bdb2a7476a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cf163be57ada4953dc0e0c38f7a5d9a"><td class="memItemLeft" align="right" valign="top"><a id="a5cf163be57ada4953dc0e0c38f7a5d9a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_PRINT_CHARINDEX</b></td></tr>
-<tr class="separator:a5cf163be57ada4953dc0e0c38f7a5d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cf163be57ada4953dc0e0c38f7a5d9a"><td class="memItemLeft" align="right" valign="top"><a id="a5cf163be57ada4953dc0e0c38f7a5d9a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_PRINT_CHARINDEX</b></td></tr>
-<tr class="separator:a5cf163be57ada4953dc0e0c38f7a5d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14e770547e279c0a5924ef657d66116a"><td class="memItemLeft" align="right" valign="top"><a id="a14e770547e279c0a5924ef657d66116a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_PRINT_LINEINDEX_FMT</b></td></tr>
-<tr class="separator:a14e770547e279c0a5924ef657d66116a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5d200b29eecf46da78292619cdda49b"><td class="memItemLeft" align="right" valign="top"><a id="ac5d200b29eecf46da78292619cdda49b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_PRINT_LINEINDEX_WHAT</b></td></tr>
-<tr class="separator:ac5d200b29eecf46da78292619cdda49b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee9ecfd6a1fbe7f354de4e66e2ca80ce"><td class="memItemLeft" align="right" valign="top"><a id="aee9ecfd6a1fbe7f354de4e66e2ca80ce"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_PRINT_LINEINDEX</b></td></tr>
-<tr class="separator:aee9ecfd6a1fbe7f354de4e66e2ca80ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e06b9f28eeabc5fbd9fc20fd743855a"><td class="memItemLeft" align="right" valign="top"><a id="a9e06b9f28eeabc5fbd9fc20fd743855a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_PRINT_CHARINDEX_NL</b>&#160;&#160;&#160;printf(&quot;\n&quot;)</td></tr>
-<tr class="separator:a9e06b9f28eeabc5fbd9fc20fd743855a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73ec8c73b9a1e389fa612c4b5e96dba5"><td class="memItemLeft" align="right" valign="top"><a id="a73ec8c73b9a1e389fa612c4b5e96dba5"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_PRINT_LINEINDEX_NL</b>&#160;&#160;&#160;printf(&quot;\n&quot;)</td></tr>
-<tr class="separator:a73ec8c73b9a1e389fa612c4b5e96dba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a172bbbc66256348ab6c2f977134a03e2"><td class="memItemLeft" align="right" valign="top"><a id="a172bbbc66256348ab6c2f977134a03e2"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_IMPLEMENT_CHARINDEX</b>(NODE,  CORRECTION)</td></tr>
-<tr class="separator:a172bbbc66256348ab6c2f977134a03e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70c741a9dfa09c75a6413540809b9f9d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a70c741a9dfa09c75a6413540809b9f9d">SYNCTEX_PARAMETER_ASSERT</a>(WHAT)</td></tr>
-<tr class="separator:a70c741a9dfa09c75a6413540809b9f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6176b3e48fcb289c82e7c5ed2d1e9e59"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE_HAS</b>(WHAT)</td></tr>
-<tr class="separator:a6176b3e48fcb289c82e7c5ed2d1e9e59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a213343d1e74292f02d7b833d7b717268"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE__GET</b>(WHAT)</td></tr>
-<tr class="separator:a213343d1e74292f02d7b833d7b717268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a629c95992a47d17e11e6381734be0a9c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE_GET</b>(WHAT)</td></tr>
-<tr class="separator:a629c95992a47d17e11e6381734be0a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac28b5b1a0b5caa71d06c53688af87f74"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE__RESET</b>(WHAT)</td></tr>
-<tr class="separator:ac28b5b1a0b5caa71d06c53688af87f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad93f7b91470ca80625008a8e0e1c7c49"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE_RESET</b>(WHAT)</td></tr>
-<tr class="separator:ad93f7b91470ca80625008a8e0e1c7c49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2ce031f19112302e60c0396786bb7f3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE__SET</b>(WHAT)</td></tr>
-<tr class="separator:ae2ce031f19112302e60c0396786bb7f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f4528ef56ccb8eadb2d6cebac231c1f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE_SET</b>(WHAT)</td></tr>
-<tr class="separator:a7f4528ef56ccb8eadb2d6cebac231c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67c30b51af981ebe40dc950523f3a290"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE__GETSETRESET</b>(WHAT)</td></tr>
-<tr class="separator:a67c30b51af981ebe40dc950523f3a290"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee1df77325dc6a323c2e708d4864f1b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE_GETSET</b>(WHAT)</td></tr>
-<tr class="separator:aee1df77325dc6a323c2e708d4864f1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51ce29b7b7f1709a974a927e8fcb04d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE_GETRESET</b>(WHAT)</td></tr>
-<tr class="separator:a51ce29b7b7f1709a974a927e8fcb04d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf25452778158b602fd0326e10a82654"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_SYNCTEX_TREE_GETSETRESET</b>(WHAT)</td></tr>
-<tr class="separator:abf25452778158b602fd0326e10a82654"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e4ef22a2fec26e35acdcadd6c047bf8"><td class="memItemLeft" align="right" valign="top"><a id="a1e4ef22a2fec26e35acdcadd6c047bf8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_DECLARE_NODE_COUNT</b></td></tr>
-<tr class="separator:a1e4ef22a2fec26e35acdcadd6c047bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb262a12d4a1d2654e2a97a748d12c13"><td class="memItemLeft" align="right" valign="top"><a id="adb262a12d4a1d2654e2a97a748d12c13"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_INIT_NODE_COUNT</b></td></tr>
-<tr class="separator:adb262a12d4a1d2654e2a97a748d12c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5484e8bcde1090385f7829e1ae799c26"><td class="memItemLeft" align="right" valign="top"><a id="a5484e8bcde1090385f7829e1ae799c26"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_DID_NEW</b>(N)</td></tr>
-<tr class="separator:a5484e8bcde1090385f7829e1ae799c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a6597255c8eadf709fe1551b3900f0b"><td class="memItemLeft" align="right" valign="top"><a id="a8a6597255c8eadf709fe1551b3900f0b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_WILL_FREE</b>(N)</td></tr>
-<tr class="separator:a8a6597255c8eadf709fe1551b3900f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a947c026ea7c3c319aa1631b61ae38bc6"><td class="memItemLeft" align="right" valign="top"><a id="a947c026ea7c3c319aa1631b61ae38bc6"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_HAS_CHILDREN</b>(NODE)&#160;&#160;&#160;(NODE &amp;&amp; _synctex_tree_child(NODE))</td></tr>
-<tr class="separator:a947c026ea7c3c319aa1631b61ae38bc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c0e3b046afbd2affc4f7e99da93e538"><td class="memItemLeft" align="right" valign="top"><a id="a5c0e3b046afbd2affc4f7e99da93e538"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_STATUS_EOF</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a5c0e3b046afbd2affc4f7e99da93e538"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5af5e1beeea605ac01f045a53e308c02"><td class="memItemLeft" align="right" valign="top"><a id="a5af5e1beeea605ac01f045a53e308c02"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_STATUS_NOT_OK</b>&#160;&#160;&#160;(SYNCTEX_STATUS_EOF+1)</td></tr>
-<tr class="separator:a5af5e1beeea605ac01f045a53e308c02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95de08b84c0664d58cc9128b0d3ecb34"><td class="memItemLeft" align="right" valign="top"><a id="a95de08b84c0664d58cc9128b0d3ecb34"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_STATUS_OK</b>&#160;&#160;&#160;(SYNCTEX_STATUS_NOT_OK+1)</td></tr>
-<tr class="separator:a95de08b84c0664d58cc9128b0d3ecb34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e84aa899ab8cc68f31d1e80a946deec"><td class="memItemLeft" align="right" valign="top"><a id="a3e84aa899ab8cc68f31d1e80a946deec"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_STATUS_ERROR</b>&#160;&#160;&#160;(SYNCTEX_STATUS_EOF-1)</td></tr>
-<tr class="separator:a3e84aa899ab8cc68f31d1e80a946deec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11a6ac64f223a09fc622f559f0c71d00"><td class="memItemLeft" align="right" valign="top"><a id="a11a6ac64f223a09fc622f559f0c71d00"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_STATUS_BAD_ARGUMENT</b>&#160;&#160;&#160;(SYNCTEX_STATUS_ERROR-1)</td></tr>
-<tr class="separator:a11a6ac64f223a09fc622f559f0c71d00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5ff23906b820f11de27a3a80673f64a"><td class="memItemLeft" align="right" valign="top"><a id="af5ff23906b820f11de27a3a80673f64a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_BUFFER_MIN_SIZE</b>&#160;&#160;&#160;32</td></tr>
-<tr class="separator:af5ff23906b820f11de27a3a80673f64a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ba4d0414eda0c55bbecb4b00478185c"><td class="memItemLeft" align="right" valign="top"><a id="a8ba4d0414eda0c55bbecb4b00478185c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_BUFFER_SIZE</b>&#160;&#160;&#160;32768</td></tr>
-<tr class="separator:a8ba4d0414eda0c55bbecb4b00478185c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab805dfa4a46440c4e39467842029dc73"><td class="memItemLeft" align="right" valign="top"><a id="ab805dfa4a46440c4e39467842029dc73"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_DECLARE_HANDLE</b></td></tr>
-<tr class="separator:ab805dfa4a46440c4e39467842029dc73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8903dc05455e1bdc06ad7ade66eb4a4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#ac8903dc05455e1bdc06ad7ade66eb4a4">SYNCTEX_CUR</a>&#160;&#160;&#160;(scanner-&gt;reader-&gt;current)</td></tr>
 <tr class="separator:ac8903dc05455e1bdc06ad7ade66eb4a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5059b51070195594a0a8fd90a6c28f0"><td class="memItemLeft" align="right" valign="top"><a id="ab5059b51070195594a0a8fd90a6c28f0"></a>
@@ -404,7 +210,7 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_DECODE_FAILED_V</b>(NODE,  WHAT)&#160;&#160;&#160;(_synctex_data_decode_##WHAT##_v(NODE)&lt;SYNCTEX_STATUS_OK)</td></tr>
 <tr class="separator:af86a6fccd26dfa0fe58cc6ebc9f0417b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06d152e88a7a982bdd598f797ec21084"><td class="memItemLeft" align="right" valign="top"><a id="a06d152e88a7a982bdd598f797ec21084"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_NS_NULL</b>&#160;&#160;&#160;(<a class="el" href="structsynctex__ns__t.html">synctex_ns_s</a>){NULL,SYNCTEX_STATUS_NOT_OK}</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_NS_NULL</b>&#160;&#160;&#160;(<a class="el" href="structsynctex__ns__t.html">_synctex_ns_s</a>){NULL,SYNCTEX_STATUS_NOT_OK}</td></tr>
 <tr class="separator:a06d152e88a7a982bdd598f797ec21084"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39e046b4fc8eb93888f3d76b53d2317d"><td class="memItemLeft" align="right" valign="top"><a id="a39e046b4fc8eb93888f3d76b53d2317d"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_SHOULD_DECODE_FAILED</b>(NODE,  WHAT)&#160;&#160;&#160;(_synctex_data_has_##WHAT(NODE) &amp;&amp;(_synctex_data_decode_##WHAT(NODE)&lt;SYNCTEX_STATUS_OK))</td></tr>
@@ -437,7 +243,7 @@ Macros</h2></td></tr>
 <tr class="memitem:a827bf88fdbbc6f64da898769aa474264"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a827bf88fdbbc6f64da898769aa474264">SYNCTEX_DEFINE_V</a>(WHAT)</td></tr>
 <tr class="separator:a827bf88fdbbc6f64da898769aa474264"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e0fc3388d0ecc956779da18f2e9dbf2"><td class="memItemLeft" align="right" valign="top"><a id="a7e0fc3388d0ecc956779da18f2e9dbf2"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_ND_0</b>&#160;&#160;&#160;(<a class="el" href="structsynctex__nd__s.html">synctex_nd_s</a>){NULL,INT_MAX}</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_ND_0</b>&#160;&#160;&#160;(_synctex_nd_s){NULL,INT_MAX}</td></tr>
 <tr class="separator:a7e0fc3388d0ecc956779da18f2e9dbf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ecbbb567720f18ab606c137cf641148"><td class="memItemLeft" align="right" valign="top"><a id="a9ecbbb567720f18ab606c137cf641148"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>SYNCTEX_BITS_PER_BYTE</b>&#160;&#160;&#160;8</td></tr>
@@ -445,98 +251,24 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a0cbf7bb0ec5a0b23bc10d2342c55ee4f"><td class="memItemLeft" align="right" valign="top"><a id="a0cbf7bb0ec5a0b23bc10d2342c55ee4f"></a>
-typedef <a class="el" href="structsynctex__node__t.html">synctex_node_p</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_new_f</b>) (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>)</td></tr>
-<tr class="separator:a0cbf7bb0ec5a0b23bc10d2342c55ee4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13c91903dd2d68f9454cf1038f1b909f"><td class="memItemLeft" align="right" valign="top"><a id="a13c91903dd2d68f9454cf1038f1b909f"></a>
-typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_fld_f</b>) (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a>)</td></tr>
-<tr class="separator:a13c91903dd2d68f9454cf1038f1b909f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab911339d8083c7955e827d187d11e2cb"><td class="memItemLeft" align="right" valign="top"><a id="ab911339d8083c7955e827d187d11e2cb"></a>
-typedef char *(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_str_f</b>) (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a>)</td></tr>
-<tr class="separator:ab911339d8083c7955e827d187d11e2cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11b4aad2cea2444c2211faf59903a438"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structsynctex__tree__model__t.html">synctex_tree_model_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a11b4aad2cea2444c2211faf59903a438">synctex_tree_model_s</a></td></tr>
-<tr class="separator:a11b4aad2cea2444c2211faf59903a438"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c250ec674f1ebdaf834c75f6cfda786"><td class="memItemLeft" align="right" valign="top"><a id="a2c250ec674f1ebdaf834c75f6cfda786"></a>
-typedef const <a class="el" href="synctex__parser_8c.html#a11b4aad2cea2444c2211faf59903a438">synctex_tree_model_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_tree_model_p</b></td></tr>
-<tr class="separator:a2c250ec674f1ebdaf834c75f6cfda786"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63f7c479226a61e80e47eba7d2d4f8cd"><td class="memItemLeft" align="right" valign="top"><a id="a63f7c479226a61e80e47eba7d2d4f8cd"></a>
-typedef struct <a class="el" href="structsynctex__data__model__t.html">synctex_data_model_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_data_model_s</b></td></tr>
-<tr class="separator:a63f7c479226a61e80e47eba7d2d4f8cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f5fb48ffdee50978dc35ebbf6ada59c"><td class="memItemLeft" align="right" valign="top"><a id="a0f5fb48ffdee50978dc35ebbf6ada59c"></a>
-typedef const <a class="el" href="structsynctex__data__model__t.html">synctex_data_model_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_data_model_p</b></td></tr>
-<tr class="separator:a0f5fb48ffdee50978dc35ebbf6ada59c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20bb30c938687530b4b898975df45ff1"><td class="memItemLeft" align="right" valign="top"><a id="a20bb30c938687530b4b898975df45ff1"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_int_getter_f</b>) (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a>)</td></tr>
-<tr class="separator:a20bb30c938687530b4b898975df45ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac78b0c2e576522a260a258c2a2758026"><td class="memItemLeft" align="right" valign="top"><a id="ac78b0c2e576522a260a258c2a2758026"></a>
-typedef struct <a class="el" href="structsynctex__tlcpector__t.html">synctex_tlcpector_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_tlcpector_s</b></td></tr>
-<tr class="separator:ac78b0c2e576522a260a258c2a2758026"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79c3d08326ed7ff85d86d4710b0eab55"><td class="memItemLeft" align="right" valign="top"><a id="a79c3d08326ed7ff85d86d4710b0eab55"></a>
-typedef const <a class="el" href="structsynctex__tlcpector__t.html">synctex_tlcpector_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_tlcpector_p</b></td></tr>
-<tr class="separator:a79c3d08326ed7ff85d86d4710b0eab55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21a92077b117743d4a5e6f198eeb2267"><td class="memItemLeft" align="right" valign="top"><a id="a21a92077b117743d4a5e6f198eeb2267"></a>
-typedef struct <a class="el" href="structsynctex__inspector__t.html">synctex_inspector_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_inspector_s</b></td></tr>
-<tr class="separator:a21a92077b117743d4a5e6f198eeb2267"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a411d1540603882868c723575c7965b44"><td class="memItemLeft" align="right" valign="top"><a id="a411d1540603882868c723575c7965b44"></a>
-typedef const <a class="el" href="structsynctex__inspector__t.html">synctex_inspector_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_inspector_p</b></td></tr>
-<tr class="separator:a411d1540603882868c723575c7965b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff514e0bca753113540b9ef94ed4149c"><td class="memItemLeft" align="right" valign="top"><a id="aff514e0bca753113540b9ef94ed4149c"></a>
-typedef float(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_float_getter_f</b>) (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a>)</td></tr>
-<tr class="separator:aff514e0bca753113540b9ef94ed4149c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebe8f202ac3e9d25eec6f9451a64b4c7"><td class="memItemLeft" align="right" valign="top"><a id="aebe8f202ac3e9d25eec6f9451a64b4c7"></a>
-typedef struct <a class="el" href="structsynctex__vispector__t.html">synctex_vispector_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_vispector_s</b></td></tr>
-<tr class="separator:aebe8f202ac3e9d25eec6f9451a64b4c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a034f3f5311d300b0bb3ca3a314780e98"><td class="memItemLeft" align="right" valign="top"><a id="a034f3f5311d300b0bb3ca3a314780e98"></a>
-typedef const <a class="el" href="structsynctex__vispector__t.html">synctex_vispector_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_vispector_p</b></td></tr>
-<tr class="separator:a034f3f5311d300b0bb3ca3a314780e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ac8f79e820084737d05f906b6533ad1"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a5ac8f79e820084737d05f906b6533ad1">synctex_proxy_p</a></td></tr>
-<tr class="separator:a5ac8f79e820084737d05f906b6533ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af120811917cf09c4c8ddfaac41d0c158"><td class="memItemLeft" align="right" valign="top"><a id="af120811917cf09c4c8ddfaac41d0c158"></a>
-typedef <a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_noxy_p</b></td></tr>
-<tr class="separator:af120811917cf09c4c8ddfaac41d0c158"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9125152337d7b4856af1086d2d8137d3"><td class="memItemLeft" align="right" valign="top"><a id="a9125152337d7b4856af1086d2d8137d3"></a>
-typedef struct <a class="el" href="structsynctex__reader__t.html">synctex_reader_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_reader_s</b></td></tr>
+typedef struct <a class="el" href="structsynctex__reader__t.html">synctex_reader_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a9125152337d7b4856af1086d2d8137d3">synctex_reader_s</a></td></tr>
+<tr class="memdesc:a9125152337d7b4856af1086d2d8137d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure fot a file reader. <br /></td></tr>
 <tr class="separator:a9125152337d7b4856af1086d2d8137d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4f00e3952ef28db7a1a59164c5abb6e"><td class="memItemLeft" align="right" valign="top"><a id="af4f00e3952ef28db7a1a59164c5abb6e"></a>
-typedef <a class="el" href="structsynctex__reader__t.html">synctex_reader_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_reader_p</b></td></tr>
+typedef <a class="el" href="synctex__parser_8c.html#a9125152337d7b4856af1086d2d8137d3">synctex_reader_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_reader_p</b></td></tr>
 <tr class="separator:af4f00e3952ef28db7a1a59164c5abb6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45a25948371b09d4fcf0caa19a553000"><td class="memItemLeft" align="right" valign="top"><a id="a45a25948371b09d4fcf0caa19a553000"></a>
-typedef <a class="el" href="structsynctex__node__void__vbox__s.html">synctex_node_void_vbox_s</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_void_hbox_s</b></td></tr>
-<tr class="separator:a45a25948371b09d4fcf0caa19a553000"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfc2d828c0b9c876d4efa6e1bd5ab23c"><td class="memItemLeft" align="right" valign="top"><a id="adfc2d828c0b9c876d4efa6e1bd5ab23c"></a>
-typedef <a class="el" href="structsynctex__node__tlchv__s.html">synctex_node_tlchv_s</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_math_s</b></td></tr>
-<tr class="separator:adfc2d828c0b9c876d4efa6e1bd5ab23c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69eb938e2c99cd3b37ddd43741f68e0c"><td class="memItemLeft" align="right" valign="top"><a id="a69eb938e2c99cd3b37ddd43741f68e0c"></a>
-typedef <a class="el" href="structsynctex__node__tlchv__s.html">synctex_node_tlchv_s</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_glue_s</b></td></tr>
-<tr class="separator:a69eb938e2c99cd3b37ddd43741f68e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1dc42db9fcbe971bccfc1fde091d71a"><td class="memItemLeft" align="right" valign="top"><a id="aa1dc42db9fcbe971bccfc1fde091d71a"></a>
-typedef <a class="el" href="structsynctex__node__tlchv__s.html">synctex_node_tlchv_s</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_boundary_s</b></td></tr>
-<tr class="separator:aa1dc42db9fcbe971bccfc1fde091d71a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a580360a41882ca208128908b3048f8dc"><td class="memItemLeft" align="right" valign="top"><a id="a580360a41882ca208128908b3048f8dc"></a>
-typedef struct <a class="el" href="structsynctex__nns__t.html">synctex_nns_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_nns_s</b></td></tr>
-<tr class="separator:a580360a41882ca208128908b3048f8dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6eb9312a7a186fde7b95d16bfb6fb6f"><td class="memItemLeft" align="right" valign="top"><a id="ad6eb9312a7a186fde7b95d16bfb6fb6f"></a>
-typedef struct <a class="el" href="structsynctex__ns__t.html">synctex_ns_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_ns_s</b></td></tr>
-<tr class="separator:ad6eb9312a7a186fde7b95d16bfb6fb6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f1832ade1278bdee9c14e923922b4d3"><td class="memItemLeft" align="right" valign="top"><a id="a5f1832ade1278bdee9c14e923922b4d3"></a>
-typedef <a class="el" href="structsynctex__is__s.html">synctex_is_s</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_decoder_t</b>) (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>)</td></tr>
+typedef synctex_is_s(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_decoder_t</b>) (synctex_scanner_p)</td></tr>
 <tr class="separator:a5f1832ade1278bdee9c14e923922b4d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6983df7c60f88f12e304c28cc7632c1"><td class="memItemLeft" align="right" valign="top"><a id="ac6983df7c60f88f12e304c28cc7632c1"></a>
 typedef <a class="el" href="structsynctex__node__t.html">synctex_node_p</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_processor_f</b>) (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
 <tr class="separator:ac6983df7c60f88f12e304c28cc7632c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5221b6383d7b69ab10a2d9231d9f8b4a"><td class="memItemLeft" align="right" valign="top"><a id="a5221b6383d7b69ab10a2d9231d9f8b4a"></a>
-typedef <a class="el" href="structsynctex__nd__s.html">synctex_nd_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_nd_p</b></td></tr>
-<tr class="separator:a5221b6383d7b69ab10a2d9231d9f8b4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a223de662492a4c7a66bae06ecb2e0694"><td class="memItemLeft" align="right" valign="top"><a id="a223de662492a4c7a66bae06ecb2e0694"></a>
-typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_print_f</b>) (<a class="el" href="structsynctex__updater__t.html">synctex_updater_p</a>, const char *,...)</td></tr>
-<tr class="separator:a223de662492a4c7a66bae06ecb2e0694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abad54aa4cd96e06b35fc3bcdd933664f"><td class="memItemLeft" align="right" valign="top"><a id="abad54aa4cd96e06b35fc3bcdd933664f"></a>
-typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_close_f</b>) (<a class="el" href="structsynctex__updater__t.html">synctex_updater_p</a>)</td></tr>
-<tr class="separator:abad54aa4cd96e06b35fc3bcdd933664f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a96f3e6bfa1334094e6c65323346a5cfd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a96f3e6bfa1334094e6c65323346a5cfd">synctex_node_new</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, synctex_node_type_t type)</td></tr>
+<tr class="memitem:a96f3e6bfa1334094e6c65323346a5cfd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a96f3e6bfa1334094e6c65323346a5cfd">synctex_node_new</a> (synctex_scanner_p scanner, <a class="el" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a> type)</td></tr>
+<tr class="memdesc:a96f3e6bfa1334094e6c65323346a5cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new node of the given type.  <a href="synctex__parser_8c.html#a96f3e6bfa1334094e6c65323346a5cfd">More...</a><br /></td></tr>
 <tr class="separator:a96f3e6bfa1334094e6c65323346a5cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a482843543ef716334b7674ae432427f3"><td class="memItemLeft" align="right" valign="top"><a id="a482843543ef716334b7674ae432427f3"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DEFINE_synctex_new_scanned_NODE</b> (sheet)</td></tr>
@@ -617,74 +349,77 @@ Functions</h2></td></tr>
 <tr class="memitem:ad66910c10f70d9a35c707113a16de341"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#ad66910c10f70d9a35c707113a16de341">synctex_node_arg_sibling</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
 <tr class="separator:ad66910c10f70d9a35c707113a16de341"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99355f0edfe89fec43c29f2a8e137a57"><td class="memItemLeft" align="right" valign="top"><a id="a99355f0edfe89fec43c29f2a8e137a57"></a>
-synctex_node_type_t&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_type</b> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<a class="el" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a99355f0edfe89fec43c29f2a8e137a57">synctex_node_type</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<tr class="memdesc:a99355f0edfe89fec43c29f2a8e137a57"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a given node, as integer. <br /></td></tr>
 <tr class="separator:a99355f0edfe89fec43c29f2a8e137a57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a942c56afd58363e3f1347f71ac6072db"><td class="memItemLeft" align="right" valign="top"><a id="a942c56afd58363e3f1347f71ac6072db"></a>
-synctex_node_type_t&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_target_type</b> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<tr class="memitem:a942c56afd58363e3f1347f71ac6072db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a942c56afd58363e3f1347f71ac6072db">synctex_node_target_type</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<tr class="memdesc:a942c56afd58363e3f1347f71ac6072db"><td class="mdescLeft">&#160;</td><td class="mdescRight">The node type of the target.  <a href="synctex__parser_8c.html#a942c56afd58363e3f1347f71ac6072db">More...</a><br /></td></tr>
 <tr class="separator:a942c56afd58363e3f1347f71ac6072db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc88344576763c1b25239f30155e6433"><td class="memItemLeft" align="right" valign="top"><a id="afc88344576763c1b25239f30155e6433"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_isa</b> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
-<tr class="separator:afc88344576763c1b25239f30155e6433"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c0e0eea821ca3be5db38a4ecde74671"><td class="memItemLeft" align="right" valign="top"><a id="a0c0e0eea821ca3be5db38a4ecde74671"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_log</b> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<tr class="memitem:a7c733eebab0f8a24048a94483b9fd193"><td class="memItemLeft" align="right" valign="top"><a id="a7c733eebab0f8a24048a94483b9fd193"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a7c733eebab0f8a24048a94483b9fd193">synctex_node_isa</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<tr class="memdesc:a7c733eebab0f8a24048a94483b9fd193"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a given node, as a human readable text. <br /></td></tr>
+<tr class="separator:a7c733eebab0f8a24048a94483b9fd193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c0e0eea821ca3be5db38a4ecde74671"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a0c0e0eea821ca3be5db38a4ecde74671">synctex_node_log</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<tr class="memdesc:a0c0e0eea821ca3be5db38a4ecde74671"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print some informations about the node.  <a href="synctex__parser_8c.html#a0c0e0eea821ca3be5db38a4ecde74671">More...</a><br /></td></tr>
 <tr class="separator:a0c0e0eea821ca3be5db38a4ecde74671"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af51ed1c751635df817709b92e0e98cd1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#af51ed1c751635df817709b92e0e98cd1">synctex_scanner_display_switcher</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanR)</td></tr>
+<tr class="memitem:af51ed1c751635df817709b92e0e98cd1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#af51ed1c751635df817709b92e0e98cd1">synctex_scanner_display_switcher</a> (synctex_scanner_p scanR)</td></tr>
+<tr class="memdesc:af51ed1c751635df817709b92e0e98cd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scanner display switcher getter.  <a href="synctex__parser_8c.html#af51ed1c751635df817709b92e0e98cd1">More...</a><br /></td></tr>
 <tr class="separator:af51ed1c751635df817709b92e0e98cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a082ba71579e7d54c4b8e3137085a4387"><td class="memItemLeft" align="right" valign="top"><a id="a082ba71579e7d54c4b8e3137085a4387"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_set_display_switcher</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanR, int switcher)</td></tr>
+<tr class="memitem:a082ba71579e7d54c4b8e3137085a4387"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a082ba71579e7d54c4b8e3137085a4387">synctex_scanner_set_display_switcher</a> (synctex_scanner_p scanR, int switcher)</td></tr>
+<tr class="memdesc:a082ba71579e7d54c4b8e3137085a4387"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scanner display switcher setter.  <a href="synctex__parser_8c.html#a082ba71579e7d54c4b8e3137085a4387">More...</a><br /></td></tr>
 <tr class="separator:a082ba71579e7d54c4b8e3137085a4387"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac915619cbb97b8eb43d56b63702a814"><td class="memItemLeft" align="right" valign="top"><a id="aac915619cbb97b8eb43d56b63702a814"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_display</b> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<tr class="memitem:aac915619cbb97b8eb43d56b63702a814"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#aac915619cbb97b8eb43d56b63702a814">synctex_node_display</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<tr class="memdesc:aac915619cbb97b8eb43d56b63702a814"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print some informations about the node.  <a href="synctex__parser_8c.html#aac915619cbb97b8eb43d56b63702a814">More...</a><br /></td></tr>
 <tr class="separator:aac915619cbb97b8eb43d56b63702a814"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4ad0e58c7efe1b5991f70f4c8d0115d"><td class="memItemLeft" align="right" valign="top"><a id="ac4ad0e58c7efe1b5991f70f4c8d0115d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_pre_x_offset</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_pre_x_offset</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:ac4ad0e58c7efe1b5991f70f4c8d0115d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b59aabd742423750929826e5c58afcc"><td class="memItemLeft" align="right" valign="top"><a id="a2b59aabd742423750929826e5c58afcc"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_pre_y_offset</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_pre_y_offset</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:a2b59aabd742423750929826e5c58afcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5d932c18e8c80124739efb097f3e98e"><td class="memItemLeft" align="right" valign="top"><a id="aa5d932c18e8c80124739efb097f3e98e"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_output_fmt</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_output_fmt</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:aa5d932c18e8c80124739efb097f3e98e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf7951ab0834cf3df353226b22b9b152"><td class="memItemLeft" align="right" valign="top"><a id="abf7951ab0834cf3df353226b22b9b152"></a>
-<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_new</b> ()</td></tr>
+<tr class="memitem:abf7951ab0834cf3df353226b22b9b152"><td class="memItemLeft" align="right" valign="top">synctex_scanner_p&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#abf7951ab0834cf3df353226b22b9b152">synctex_scanner_new</a> ()</td></tr>
+<tr class="memdesc:abf7951ab0834cf3df353226b22b9b152"><td class="mdescLeft">&#160;</td><td class="mdescRight">Designated scanner constructor.  <a href="synctex__parser_8c.html#abf7951ab0834cf3df353226b22b9b152">More...</a><br /></td></tr>
 <tr class="separator:abf7951ab0834cf3df353226b22b9b152"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9aa89f44dbe832dfe173e90e4fa7d98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#aa9aa89f44dbe832dfe173e90e4fa7d98">synctex_scanner_new_with_output_file</a> (const char *output, const char *build_directory, int parse)</td></tr>
+<tr class="memitem:aa9aa89f44dbe832dfe173e90e4fa7d98"><td class="memItemLeft" align="right" valign="top">synctex_scanner_p&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#aa9aa89f44dbe832dfe173e90e4fa7d98">synctex_scanner_new_with_output_file</a> (const char *output, const char *build_directory, int parse)</td></tr>
 <tr class="separator:aa9aa89f44dbe832dfe173e90e4fa7d98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0266ec3d7125bffb00f8c8b1a1f1333e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a0266ec3d7125bffb00f8c8b1a1f1333e">synctex_scanner_free</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+<tr class="memitem:a0266ec3d7125bffb00f8c8b1a1f1333e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a0266ec3d7125bffb00f8c8b1a1f1333e">synctex_scanner_free</a> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:a0266ec3d7125bffb00f8c8b1a1f1333e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaeac229a48985adf018510c1b332685"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#acaeac229a48985adf018510c1b332685">synctex_scanner_parse</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+<tr class="memitem:acaeac229a48985adf018510c1b332685"><td class="memItemLeft" align="right" valign="top">synctex_scanner_p&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#acaeac229a48985adf018510c1b332685">synctex_scanner_parse</a> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:acaeac229a48985adf018510c1b332685"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa61998c5d233591e86980fdaf953013b"><td class="memItemLeft" align="right" valign="top"><a id="aa61998c5d233591e86980fdaf953013b"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_x_offset</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_x_offset</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:aa61998c5d233591e86980fdaf953013b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fbb4e5d11afcd6dc8bd7dd08cf96317"><td class="memItemLeft" align="right" valign="top"><a id="a2fbb4e5d11afcd6dc8bd7dd08cf96317"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_y_offset</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_y_offset</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:a2fbb4e5d11afcd6dc8bd7dd08cf96317"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02d7561c2a6ba9c78b1cc9b497357e40"><td class="memItemLeft" align="right" valign="top"><a id="a02d7561c2a6ba9c78b1cc9b497357e40"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_magnification</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_magnification</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:a02d7561c2a6ba9c78b1cc9b497357e40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc7fadf3768c566d2ef3e7b58684942f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#abc7fadf3768c566d2ef3e7b58684942f">synctex_scanner_display</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+<tr class="memitem:abc7fadf3768c566d2ef3e7b58684942f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#abc7fadf3768c566d2ef3e7b58684942f">synctex_scanner_display</a> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:abc7fadf3768c566d2ef3e7b58684942f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b9a1046883374367178f1b6633ec8ed"><td class="memItemLeft" align="right" valign="top"><a id="a3b9a1046883374367178f1b6633ec8ed"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_name</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, int tag)</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_name</b> (synctex_scanner_p scanner, int tag)</td></tr>
 <tr class="separator:a3b9a1046883374367178f1b6633ec8ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac69b17cdb9bb6aec06ec2c2b264d1123"><td class="memItemLeft" align="right" valign="top"><a id="ac69b17cdb9bb6aec06ec2c2b264d1123"></a>
 const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_node_get_name</b> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
 <tr class="separator:ac69b17cdb9bb6aec06ec2c2b264d1123"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60a88bd23e7281f1244347876f204207"><td class="memItemLeft" align="right" valign="top"><a id="a60a88bd23e7281f1244347876f204207"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_tag</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, const char *name)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_tag</b> (synctex_scanner_p scanner, const char *name)</td></tr>
 <tr class="separator:a60a88bd23e7281f1244347876f204207"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15ac39553ce50d92449ca9676204c75c"><td class="memItemLeft" align="right" valign="top"><a id="a15ac39553ce50d92449ca9676204c75c"></a>
-<a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_input</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+<a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_input</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:a15ac39553ce50d92449ca9676204c75c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29a7801d62fc7e7ef32b0bd64579ce91"><td class="memItemLeft" align="right" valign="top"><a id="a29a7801d62fc7e7ef32b0bd64579ce91"></a>
-<a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_input_with_tag</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, int tag)</td></tr>
+<a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_input_with_tag</b> (synctex_scanner_p scanner, int tag)</td></tr>
 <tr class="separator:a29a7801d62fc7e7ef32b0bd64579ce91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b62f8917b1219ca6ee7b23068ebff90"><td class="memItemLeft" align="right" valign="top"><a id="a0b62f8917b1219ca6ee7b23068ebff90"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_output</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_output</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:a0b62f8917b1219ca6ee7b23068ebff90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14a70f6449b4b2a68dd4b1048c94f100"><td class="memItemLeft" align="right" valign="top"><a id="a14a70f6449b4b2a68dd4b1048c94f100"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_synctex</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_get_synctex</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:a14a70f6449b4b2a68dd4b1048c94f100"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d0d390f23c746fc86f31fde15e97a43"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a1d0d390f23c746fc86f31fde15e97a43">synctex_node_box_h</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
 <tr class="separator:a1d0d390f23c746fc86f31fde15e97a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -737,76 +472,83 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scann
 <tr class="memitem:a204fb8e370e3f96279c7c40806be1196"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a204fb8e370e3f96279c7c40806be1196">synctex_node_mean_line</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
 <tr class="separator:a204fb8e370e3f96279c7c40806be1196"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33c068825bf1c04037cb892c081b0183"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a33c068825bf1c04037cb892c081b0183">synctex_node_weight</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
+<tr class="memdesc:a33c068825bf1c04037cb892c081b0183"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weight of the node.  <a href="synctex__parser_8c.html#a33c068825bf1c04037cb892c081b0183">More...</a><br /></td></tr>
 <tr class="separator:a33c068825bf1c04037cb892c081b0183"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a434304cdf565b5acfd4dcc5333a80343"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a434304cdf565b5acfd4dcc5333a80343">synctex_node_child_count</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
 <tr class="separator:a434304cdf565b5acfd4dcc5333a80343"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c583796d5d79fbfc871643fcdb34390"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a3c583796d5d79fbfc871643fcdb34390">synctex_sheet</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, int page)</td></tr>
+<tr class="memitem:a3c583796d5d79fbfc871643fcdb34390"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a3c583796d5d79fbfc871643fcdb34390">synctex_sheet</a> (synctex_scanner_p scanner, int page)</td></tr>
 <tr class="separator:a3c583796d5d79fbfc871643fcdb34390"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a518b3b76da2ad13a0e3626afafbcfbc2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a518b3b76da2ad13a0e3626afafbcfbc2">synctex_form</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, int tag)</td></tr>
+<tr class="memitem:a518b3b76da2ad13a0e3626afafbcfbc2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a518b3b76da2ad13a0e3626afafbcfbc2">synctex_form</a> (synctex_scanner_p scanner, int tag)</td></tr>
 <tr class="separator:a518b3b76da2ad13a0e3626afafbcfbc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9717915b95e3a8667a041ef66a6669aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a9717915b95e3a8667a041ef66a6669aa">synctex_sheet_content</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, int page)</td></tr>
+<tr class="memitem:a9717915b95e3a8667a041ef66a6669aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a9717915b95e3a8667a041ef66a6669aa">synctex_sheet_content</a> (synctex_scanner_p scanner, int page)</td></tr>
 <tr class="separator:a9717915b95e3a8667a041ef66a6669aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07b1010a7d15c1e2120973f944bdf422"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a07b1010a7d15c1e2120973f944bdf422">synctex_form_content</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, int tag)</td></tr>
+<tr class="memitem:a07b1010a7d15c1e2120973f944bdf422"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a07b1010a7d15c1e2120973f944bdf422">synctex_form_content</a> (synctex_scanner_p scanner, int tag)</td></tr>
 <tr class="separator:a07b1010a7d15c1e2120973f944bdf422"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd39b77f523004af3651841d004e701c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#acd39b77f523004af3651841d004e701c">synctex_iterator_free</a> (<a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator)</td></tr>
-<tr class="separator:acd39b77f523004af3651841d004e701c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f4f778910682efa320b1b888f9094d4"><td class="memItemLeft" align="right" valign="top">synctex_bool_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a8f4f778910682efa320b1b888f9094d4">synctex_iterator_has_next</a> (<a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator)</td></tr>
-<tr class="separator:a8f4f778910682efa320b1b888f9094d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ee6386f691c4f4f8f7cb87505c7c4bc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a2ee6386f691c4f4f8f7cb87505c7c4bc">synctex_iterator_count</a> (<a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator)</td></tr>
+<tr class="memitem:gacd39b77f523004af3651841d004e701c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#gacd39b77f523004af3651841d004e701c">synctex_iterator_free</a> (<a class="el" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator)</td></tr>
+<tr class="memdesc:gacd39b77f523004af3651841d004e701c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free all the resources associate to the iterator.  <a href="group__Iterator.html#gacd39b77f523004af3651841d004e701c">More...</a><br /></td></tr>
+<tr class="separator:gacd39b77f523004af3651841d004e701c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8f4f778910682efa320b1b888f9094d4"><td class="memItemLeft" align="right" valign="top">synctex_bool_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga8f4f778910682efa320b1b888f9094d4">synctex_iterator_has_next</a> (<a class="el" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator)</td></tr>
+<tr class="memdesc:ga8f4f778910682efa320b1b888f9094d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the iterator actually points to a node.  <a href="group__Iterator.html#ga8f4f778910682efa320b1b888f9094d4">More...</a><br /></td></tr>
+<tr class="separator:ga8f4f778910682efa320b1b888f9094d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ee6386f691c4f4f8f7cb87505c7c4bc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a2ee6386f691c4f4f8f7cb87505c7c4bc">synctex_iterator_count</a> (<a class="el" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator)</td></tr>
+<tr class="memdesc:a2ee6386f691c4f4f8f7cb87505c7c4bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of objects left.  <a href="synctex__parser_8c.html#a2ee6386f691c4f4f8f7cb87505c7c4bc">More...</a><br /></td></tr>
 <tr class="separator:a2ee6386f691c4f4f8f7cb87505c7c4bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f494ee009c5a4c78edfe45dd1e89980"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a6f494ee009c5a4c78edfe45dd1e89980">synctex_iterator_next_result</a> (<a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator)</td></tr>
-<tr class="separator:a6f494ee009c5a4c78edfe45dd1e89980"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52eda50ef0dcd7edcf131fb80d20c0a5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a52eda50ef0dcd7edcf131fb80d20c0a5">synctex_iterator_reset</a> (<a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a> iterator)</td></tr>
-<tr class="separator:a52eda50ef0dcd7edcf131fb80d20c0a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a147d3e57ee5d7916b164b8b534bcbb48"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a147d3e57ee5d7916b164b8b534bcbb48">synctex_iterator_new_edit</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, int page, float h, float v)</td></tr>
-<tr class="separator:a147d3e57ee5d7916b164b8b534bcbb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7df9f440b2cc1c7f2fe5f8ca1177ecd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a7df9f440b2cc1c7f2fe5f8ca1177ecd6">synctex_iterator_new_display</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, const char *name, int line, int column, int page_hint)</td></tr>
-<tr class="separator:a7df9f440b2cc1c7f2fe5f8ca1177ecd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6f494ee009c5a4c78edfe45dd1e89980"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga6f494ee009c5a4c78edfe45dd1e89980">synctex_iterator_next_result</a> (<a class="el" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator)</td></tr>
+<tr class="memdesc:ga6f494ee009c5a4c78edfe45dd1e89980"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next query result.  <a href="group__Iterator.html#ga6f494ee009c5a4c78edfe45dd1e89980">More...</a><br /></td></tr>
+<tr class="separator:ga6f494ee009c5a4c78edfe45dd1e89980"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga52eda50ef0dcd7edcf131fb80d20c0a5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga52eda50ef0dcd7edcf131fb80d20c0a5">synctex_iterator_reset</a> (<a class="el" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a> iterator)</td></tr>
+<tr class="memdesc:ga52eda50ef0dcd7edcf131fb80d20c0a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the cursor position to the first result.  <a href="group__Iterator.html#ga52eda50ef0dcd7edcf131fb80d20c0a5">More...</a><br /></td></tr>
+<tr class="separator:ga52eda50ef0dcd7edcf131fb80d20c0a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga147d3e57ee5d7916b164b8b534bcbb48"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga147d3e57ee5d7916b164b8b534bcbb48">synctex_iterator_new_edit</a> (synctex_scanner_p scanner, int page, float h, float v)</td></tr>
+<tr class="separator:ga147d3e57ee5d7916b164b8b534bcbb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7df9f440b2cc1c7f2fe5f8ca1177ecd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Iterator.html#ga7df9f440b2cc1c7f2fe5f8ca1177ecd6">synctex_iterator_new_display</a> (synctex_scanner_p scanner, const char *name, int line, int column, int page_hint)</td></tr>
+<tr class="separator:ga7df9f440b2cc1c7f2fe5f8ca1177ecd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a767c3d78324efb6dbebd42e76ed2349a"><td class="memItemLeft" align="right" valign="top"><a id="a767c3d78324efb6dbebd42e76ed2349a"></a>
-synctex_status_t&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_display_query</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, const char *name, int line, int column, int page_hint)</td></tr>
+synctex_status_t&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_display_query</b> (synctex_scanner_p scanner, const char *name, int line, int column, int page_hint)</td></tr>
 <tr class="separator:a767c3d78324efb6dbebd42e76ed2349a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bc1d2fc599b35acd431f7a33dcf98ef"><td class="memItemLeft" align="right" valign="top"><a id="a1bc1d2fc599b35acd431f7a33dcf98ef"></a>
-synctex_status_t&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_edit_query</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner, int page, float h, float v)</td></tr>
+synctex_status_t&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_edit_query</b> (synctex_scanner_p scanner, int page, float h, float v)</td></tr>
 <tr class="separator:a1bc1d2fc599b35acd431f7a33dcf98ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc6ab6442bb5689a09728e794519eeb8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#adc6ab6442bb5689a09728e794519eeb8">synctex_scanner_next_result</a> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+<tr class="memitem:adc6ab6442bb5689a09728e794519eeb8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#adc6ab6442bb5689a09728e794519eeb8">synctex_scanner_next_result</a> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:adc6ab6442bb5689a09728e794519eeb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a786d1c674c3229fb68b020dc214d6578"><td class="memItemLeft" align="right" valign="top"><a id="a786d1c674c3229fb68b020dc214d6578"></a>
-synctex_status_t&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_reset_result</b> (<a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner)</td></tr>
+synctex_status_t&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_scanner_reset_result</b> (synctex_scanner_p scanner)</td></tr>
 <tr class="separator:a786d1c674c3229fb68b020dc214d6578"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25515e0ba1a0aae8242120e2b0dadd57"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a25515e0ba1a0aae8242120e2b0dadd57">synctex_node_target</a> (<a class="el" href="structsynctex__node__t.html">synctex_node_p</a> node)</td></tr>
 <tr class="separator:a25515e0ba1a0aae8242120e2b0dadd57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60566d6507fcae8d95e003f3d36b72d9"><td class="memItemLeft" align="right" valign="top"><a id="a60566d6507fcae8d95e003f3d36b72d9"></a>
-<a class="el" href="structsynctex__updater__t.html">synctex_updater_p</a>&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_updater_new_with_output_file</b> (const char *output, const char *build_directory)</td></tr>
-<tr class="separator:a60566d6507fcae8d95e003f3d36b72d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3623fe5567018ff6877730466c1e6335"><td class="memItemLeft" align="right" valign="top"><a id="a3623fe5567018ff6877730466c1e6335"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_updater_append_magnification</b> (<a class="el" href="structsynctex__updater__t.html">synctex_updater_p</a> updater, char *magnification)</td></tr>
-<tr class="separator:a3623fe5567018ff6877730466c1e6335"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0a16637d08b0a580ca5189e1b6825ac"><td class="memItemLeft" align="right" valign="top"><a id="aa0a16637d08b0a580ca5189e1b6825ac"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_updater_append_x_offset</b> (<a class="el" href="structsynctex__updater__t.html">synctex_updater_p</a> updater, char *x_offset)</td></tr>
-<tr class="separator:aa0a16637d08b0a580ca5189e1b6825ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4b4db7799ea9742f63f4994f7f59dab"><td class="memItemLeft" align="right" valign="top"><a id="ae4b4db7799ea9742f63f4994f7f59dab"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_updater_append_y_offset</b> (<a class="el" href="structsynctex__updater__t.html">synctex_updater_p</a> updater, char *y_offset)</td></tr>
-<tr class="separator:ae4b4db7799ea9742f63f4994f7f59dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab34aee6b4b7df7cf250c57fd719beec8"><td class="memItemLeft" align="right" valign="top"><a id="ab34aee6b4b7df7cf250c57fd719beec8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_updater_free</b> (<a class="el" href="structsynctex__updater__t.html">synctex_updater_p</a> updater)</td></tr>
-<tr class="separator:ab34aee6b4b7df7cf250c57fd719beec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa09269d7bb338c0a8ca55b105396f153"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__Updater.html#ga36b5ea17503e6f7e8ceadd2a9a3e8f2d">synctex_updater_p</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Updater.html#gaa09269d7bb338c0a8ca55b105396f153">synctex_updater_new_with_output_file</a> (const char *output, const char *build_directory)</td></tr>
+<tr class="memdesc:gaa09269d7bb338c0a8ca55b105396f153"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updater designated creator.  <a href="group__Updater.html#gaa09269d7bb338c0a8ca55b105396f153">More...</a><br /></td></tr>
+<tr class="separator:gaa09269d7bb338c0a8ca55b105396f153"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3623fe5567018ff6877730466c1e6335"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Updater.html#ga3623fe5567018ff6877730466c1e6335">synctex_updater_append_magnification</a> (<a class="el" href="group__Updater.html#ga36b5ea17503e6f7e8ceadd2a9a3e8f2d">synctex_updater_p</a> updater, char *magnification)</td></tr>
+<tr class="memdesc:ga3623fe5567018ff6877730466c1e6335"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a magnification record.  <a href="group__Updater.html#ga3623fe5567018ff6877730466c1e6335">More...</a><br /></td></tr>
+<tr class="separator:ga3623fe5567018ff6877730466c1e6335"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa0a16637d08b0a580ca5189e1b6825ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Updater.html#gaa0a16637d08b0a580ca5189e1b6825ac">synctex_updater_append_x_offset</a> (<a class="el" href="group__Updater.html#ga36b5ea17503e6f7e8ceadd2a9a3e8f2d">synctex_updater_p</a> updater, char *x_offset)</td></tr>
+<tr class="memdesc:gaa0a16637d08b0a580ca5189e1b6825ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append an x-offset record.  <a href="group__Updater.html#gaa0a16637d08b0a580ca5189e1b6825ac">More...</a><br /></td></tr>
+<tr class="separator:gaa0a16637d08b0a580ca5189e1b6825ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae4b4db7799ea9742f63f4994f7f59dab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Updater.html#gae4b4db7799ea9742f63f4994f7f59dab">synctex_updater_append_y_offset</a> (<a class="el" href="group__Updater.html#ga36b5ea17503e6f7e8ceadd2a9a3e8f2d">synctex_updater_p</a> updater, char *y_offset)</td></tr>
+<tr class="memdesc:gae4b4db7799ea9742f63f4994f7f59dab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append an y-offset record.  <a href="group__Updater.html#gae4b4db7799ea9742f63f4994f7f59dab">More...</a><br /></td></tr>
+<tr class="separator:gae4b4db7799ea9742f63f4994f7f59dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab34aee6b4b7df7cf250c57fd719beec8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Updater.html#gab34aee6b4b7df7cf250c57fd719beec8">synctex_updater_free</a> (<a class="el" href="group__Updater.html#ga36b5ea17503e6f7e8ceadd2a9a3e8f2d">synctex_updater_p</a> updater)</td></tr>
+<tr class="memdesc:gab34aee6b4b7df7cf250c57fd719beec8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updater designated destructor.  <a href="group__Updater.html#gab34aee6b4b7df7cf250c57fd719beec8">More...</a><br /></td></tr>
+<tr class="separator:gab34aee6b4b7df7cf250c57fd719beec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a18f9ac2920ea32f1fc3a52b9c72ad9ca"><td class="memItemLeft" align="right" valign="top"><a id="a18f9ac2920ea32f1fc3a52b9c72ad9ca"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_suffix</b> = &quot;.synctex&quot;</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a18f9ac2920ea32f1fc3a52b9c72ad9ca">synctex_suffix</a> = &quot;.synctex&quot;</td></tr>
+<tr class="memdesc:a18f9ac2920ea32f1fc3a52b9c72ad9ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extension of uncompressed synctex file. <br /></td></tr>
 <tr class="separator:a18f9ac2920ea32f1fc3a52b9c72ad9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51a71dfd2f66a3012f3872cebaf701b7"><td class="memItemLeft" align="right" valign="top"><a id="a51a71dfd2f66a3012f3872cebaf701b7"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>synctex_suffix_gz</b> = &quot;.gz&quot;</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="synctex__parser_8c.html#a51a71dfd2f66a3012f3872cebaf701b7">synctex_suffix_gz</a> = &quot;.gz&quot;</td></tr>
+<tr class="memdesc:a51a71dfd2f66a3012f3872cebaf701b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extension of compressed synctex file. <br /></td></tr>
 <tr class="separator:a51a71dfd2f66a3012f3872cebaf701b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>SyncTeX file parser and controller. </p>
-<ul>
-<li>author: Jérôme LAURENS <dl class="section version"><dt>Version</dt><dd>1.21 </dd></dl>
+<dl class="section author"><dt>Author</dt><dd>: Jérôme LAURENS </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.22 </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>Tue Mar 5 21:16:33 UTC 2024</dd></dl>
-Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
-</ul>
+<p>Reads and parse *.synctex[.gz] files, performs edit and display queries.</p>
 <p>See</p><ul>
 <li>synctex_scanner_new_with_output_file</li>
 <li>synctex_scanner_parse</li>
@@ -816,7 +558,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 <li>synctex_scanner_next_result</li>
 <li>synctex_scanner_reset_result</li>
 </ul>
-<p>The data is organized in a graph with multiple entries. The root object is a scanner, it is created with the contents on a synctex file. Each node of the tree is a <a class="el" href="structsynctex__node__t.html">synctex_node_t</a> object. There are 3 subtrees, two of them sharing the same leaves. The first tree is the list of input records, where input file names are associated with tags. The second tree is the box tree as given by TeX when shipping pages out. First level objects are sheets and forms, containing boxes, glues, kerns... The third tree allows to browse leaves according to tag and line. </p>
+<p>The data is organized in a graph with multiple entries. The root object is a scanner, it is created with the contents on a synctex file. Each node of the tree is a <a class="el" href="structsynctex__node__t.html" title="Node data model.">synctex_node_t</a> object. There are 3 subtrees, two of them sharing the same leaves. The first tree is the list of input records, where input file names are associated with tags. The second tree is the box tree as given by TeX when shipping pages out. First level objects are sheets and forms, containing boxes, glues, kerns... The third tree allows to browse leaves according to tag and line. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ae40fff6a4de0cf62a034094af93e3c07"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae40fff6a4de0cf62a034094af93e3c07">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_DATA_HAS</h2>
@@ -834,12 +576,13 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">SYNCTEX_INLINE <span class="keyword">static</span> synctex_bool_t __synctex_data_has_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
-<div class="line">    return (node &amp;&amp; (node-&gt;class_-&gt;modelator-&gt;WHAT&gt;=0));\</div>
+<div class="line">    return (node &amp;&amp; (node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;modelator-&gt;WHAT&gt;=0));\</div>
 <div class="line">}\</div>
 <div class="line">SYNCTEX_INLINE <span class="keyword">static</span> synctex_bool_t _synctex_data_has_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
 <div class="line">    return __synctex_data_has_##WHAT(node);\</div>
 <div class="line">}</div>
-<div class="ttc" id="astructsynctex__node__t_html"><div class="ttname"><a href="structsynctex__node__t.html">synctex_node_t</a></div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:291</div></div>
+<div class="ttc" id="astructsynctex__node__t_html"><div class="ttname"><a href="structsynctex__node__t.html">synctex_node_t</a></div><div class="ttdoc">Node data model.</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:330</div></div>
+<div class="ttc" id="astructsynctex__node__t_html_aee61654533623a3b72ec2eb5b446fe46"><div class="ttname"><a href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">synctex_node_t::class_</a></div><div class="ttdeci">SYNCTEX_DECLARE_CHARINDEX synctex_class_p class_</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:333</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -860,7 +603,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> synctex_status_t _synctex_data_decode_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
 <div class="line">    if (_synctex_data_has_##WHAT(node)) {\</div>
-<div class="line">        synctex_is_s is = _synctex_decode_int(node-&gt;class_-&gt;scanner);\</div>
+<div class="line">        synctex_is_s is = _synctex_decode_int(node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;scanner);\</div>
 <div class="line">        if (is.status == SYNCTEX_STATUS_OK) {\</div>
 <div class="line">            _synctex_data_set_##WHAT(node,is.integer);\</div>
 <div class="line">        } \</div>
@@ -888,7 +631,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> synctex_status_t _synctex_data_decode_##WHAT##_v(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
 <div class="line">    if (_synctex_data_has_##WHAT(node)) {\</div>
-<div class="line">        synctex_is_s is = _synctex_decode_int_v(node-&gt;class_-&gt;scanner);\</div>
+<div class="line">        synctex_is_s is = _synctex_decode_int_v(node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;scanner);\</div>
 <div class="line">        if (is.status == SYNCTEX_STATUS_OK) {\</div>
 <div class="line">            _synctex_data_set_##WHAT(node,is.integer);\</div>
 <div class="line">        } \</div>
@@ -917,15 +660,15 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 <b>Value:</b><div class="fragment"><div class="line">DEFINE_SYNCTEX_DATA_HAS(WHAT)\</div>
 <div class="line">static <span class="keywordtype">int</span> _synctex_data_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
 <div class="line">    if (_synctex_data_has_##WHAT(node)) {\</div>
-<div class="line">        return __synctex_data(node)[node-&gt;class_-&gt;modelator-&gt;WHAT].as_integer;\</div>
+<div class="line">        return __synctex_data(node)[node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;modelator-&gt;WHAT].as_integer;\</div>
 <div class="line">    }\</div>
 <div class="line">    return 0;\</div>
 <div class="line">}\</div>
 <div class="line">static <span class="keywordtype">int</span> _synctex_data_set_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node, <span class="keywordtype">int</span> new_value) {\</div>
 <div class="line">    int old = 0;\</div>
 <div class="line">    if (_synctex_data_has_##WHAT(node)) {\</div>
-<div class="line">        old = __synctex_data(node)[node-&gt;class_-&gt;modelator-&gt;WHAT].as_integer;\</div>
-<div class="line">        __synctex_data(node)[node-&gt;class_-&gt;modelator-&gt;WHAT].as_integer=new_value;\</div>
+<div class="line">        old = __synctex_data(node)[node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;modelator-&gt;WHAT].as_integer;\</div>
+<div class="line">        __synctex_data(node)[node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;modelator-&gt;WHAT].as_integer=new_value;\</div>
 <div class="line">    }\</div>
 <div class="line">    return old;\</div>
 <div class="line">}</div>
@@ -989,7 +732,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> synctex_status_t _synctex_data_decode_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
 <div class="line">    if (_synctex_data_has_##WHAT(node)) {\</div>
-<div class="line">        synctex_ss_s ss = _synctex_decode_string(node-&gt;class_-&gt;scanner);\</div>
+<div class="line">        synctex_ss_s ss = _synctex_decode_string(node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;scanner);\</div>
 <div class="line">        if (ss.status == SYNCTEX_STATUS_OK) {\</div>
 <div class="line">            _synctex_data_set_##WHAT(node,ss.string);\</div>
 <div class="line">        } \</div>
@@ -1018,18 +761,19 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 <b>Value:</b><div class="fragment"><div class="line">DEFINE_SYNCTEX_DATA_HAS(WHAT)\</div>
 <div class="line">static <span class="keywordtype">char</span> * _synctex_data_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
 <div class="line">    if (_synctex_data_has_##WHAT(node)) {\</div>
-<div class="line">        return node-&gt;data[node-&gt;class_-&gt;navigator-&gt;size+node-&gt;class_-&gt;modelator-&gt;WHAT].as_string;\</div>
+<div class="line">        return node-&gt;<a class="code" href="structsynctex__node__t.html#a93dc2b476d7ff8e1e6cd40f667263493">data</a>[node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;navigator-&gt;size+node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;modelator-&gt;WHAT].as_string;\</div>
 <div class="line">    }\</div>
 <div class="line">    return NULL;\</div>
 <div class="line">}\</div>
 <div class="line">static <span class="keywordtype">char</span> * _synctex_data_set_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node, <span class="keywordtype">char</span> * new_value) {\</div>
 <div class="line">    char * old = <span class="stringliteral">&quot;&quot;</span>;\</div>
 <div class="line">    if (_synctex_data_has_##WHAT(node)) {\</div>
-<div class="line">        old = node-&gt;data[node-&gt;class_-&gt;navigator-&gt;size+node-&gt;class_-&gt;modelator-&gt;WHAT].as_string;\</div>
-<div class="line">        node-&gt;data[node-&gt;class_-&gt;navigator-&gt;size+node-&gt;class_-&gt;modelator-&gt;WHAT].as_string =new_value;\</div>
+<div class="line">        old = node-&gt;<a class="code" href="structsynctex__node__t.html#a93dc2b476d7ff8e1e6cd40f667263493">data</a>[node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;navigator-&gt;size+node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;modelator-&gt;WHAT].as_string;\</div>
+<div class="line">        node-&gt;data[node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;navigator-&gt;size+node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;modelator-&gt;WHAT].as_string =new_value;\</div>
 <div class="line">    }\</div>
 <div class="line">    return old;\</div>
 <div class="line">}</div>
+<div class="ttc" id="astructsynctex__node__t_html_a93dc2b476d7ff8e1e6cd40f667263493"><div class="ttname"><a href="structsynctex__node__t.html#a93dc2b476d7ff8e1e6cd40f667263493">synctex_node_t::data</a></div><div class="ttdeci">_synctex_data_u data[1]</div><div class="ttdef"><b>Definition:</b> synctex_parser_advanced.h:338</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1068,10 +812,10 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> _synctex_new_##NAME(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner) {\</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> _synctex_new_##NAME(synctex_scanner_p scanner) {\</div>
 <div class="line">    if (scanner) {\</div>
 <div class="line">        ++<a class="code" href="synctex__parser_8c.html#ac8903dc05455e1bdc06ad7ade66eb4a4">SYNCTEX_CUR</a>;\</div>
-<div class="line">        synctex_node_p node = _synctex_malloc(<span class="keyword">sizeof</span>(synctex_node_##NAME##_s));\</div>
+<div class="line">        synctex_node_p node = _synctex_malloc(<span class="keyword">sizeof</span>(_synctex_node_##NAME##_s));\</div>
 <div class="line">        if (node) {\</div>
 <div class="line">            node-&gt;class_ = scanner-&gt;class_+synctex_node_type_##NAME;\</div>
 <div class="line">            SYNCTEX_DID_NEW(node); \</div>
@@ -1082,8 +826,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 <div class="line">    }\</div>
 <div class="line">    return NULL;\</div>
 <div class="line">}</div>
-<div class="ttc" id="astructsynctex__scanner__t_html"><div class="ttname"><a href="structsynctex__scanner__t.html">synctex_scanner_t</a></div><div class="ttdef"><b>Definition:</b> synctex_parser.c:809</div></div>
-<div class="ttc" id="asynctex__parser_8c_html_ac8903dc05455e1bdc06ad7ade66eb4a4"><div class="ttname"><a href="synctex__parser_8c.html#ac8903dc05455e1bdc06ad7ade66eb4a4">SYNCTEX_CUR</a></div><div class="ttdeci">#define SYNCTEX_CUR</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:996</div></div>
+<div class="ttc" id="asynctex__parser_8c_html_ac8903dc05455e1bdc06ad7ade66eb4a4"><div class="ttname"><a href="synctex__parser_8c.html#ac8903dc05455e1bdc06ad7ade66eb4a4">SYNCTEX_CUR</a></div><div class="ttdeci">#define SYNCTEX_CUR</div><div class="ttdef"><b>Definition:</b> synctex_parser.c:1104</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1102,9 +845,9 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">SYNCTEX_INLINE <span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> _synctex_new_##NAME(<a class="code" href="structsynctex__scanner__t.html">synctex_scanner_p</a> scanner) {\</div>
+<b>Value:</b><div class="fragment"><div class="line">SYNCTEX_INLINE <span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> _synctex_new_##NAME(synctex_scanner_p scanner) {\</div>
 <div class="line">    if (scanner) {\</div>
-<div class="line">        synctex_node_p node = _synctex_malloc(<span class="keyword">sizeof</span>(synctex_node_##NAME##_s));\</div>
+<div class="line">        synctex_node_p node = _synctex_malloc(<span class="keyword">sizeof</span>(_synctex_node_##NAME##_s));\</div>
 <div class="line">        if (node) {\</div>
 <div class="line">            node-&gt;class_ = scanner-&gt;class_+synctex_node_type_##NAME;\</div>
 <div class="line">            SYNCTEX_DID_NEW(node); \</div>
@@ -1133,250 +876,6 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    scanner-&gt;class_[synctex_node_type_##NAME] = synctex_class_##NAME;\</div>
 <div class="line">(scanner-&gt;class_[synctex_node_type_##NAME]).scanner = scanner</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a213343d1e74292f02d7b833d7b717268"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a213343d1e74292f02d7b833d7b717268">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE__GET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE__GET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">SYNCTEX_INLINE <span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> __synctex_tree_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_non_null_node_p</a> node) {\</div>
-<div class="line">    return node-&gt;data[node-&gt;class_-&gt;navigator-&gt;WHAT].as_node;\</div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a67c30b51af981ebe40dc950523f3a290"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67c30b51af981ebe40dc950523f3a290">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE__GETSETRESET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE__GETSETRESET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">DEFINE_SYNCTEX_TREE__GET(WHAT) \</div>
-<div class="line">DEFINE_SYNCTEX_TREE__SET(WHAT) \</div>
-<div class="line">DEFINE_SYNCTEX_TREE__RESET(WHAT)</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ac28b5b1a0b5caa71d06c53688af87f74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac28b5b1a0b5caa71d06c53688af87f74">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE__RESET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE__RESET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">SYNCTEX_INLINE <span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> __synctex_tree_reset_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_non_null_node_p</a> node) {\</div>
-<div class="line">    synctex_node_p old = node-&gt;data[node-&gt;class_-&gt;navigator-&gt;WHAT].as_node;\</div>
-<div class="line">    node-&gt;data[node-&gt;class_-&gt;navigator-&gt;WHAT].as_node=NULL;\</div>
-<div class="line">    return old;\</div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ae2ce031f19112302e60c0396786bb7f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2ce031f19112302e60c0396786bb7f3">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE__SET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE__SET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">SYNCTEX_INLINE <span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> __synctex_tree_set_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_non_null_node_p</a> node, <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> new_value) {\</div>
-<div class="line">    synctex_node_p old = __synctex_tree_##WHAT(node);\</div>
-<div class="line">    node-&gt;data[node-&gt;class_-&gt;navigator-&gt;WHAT].as_node=new_value;\</div>
-<div class="line">    return old;\</div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a629c95992a47d17e11e6381734be0a9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a629c95992a47d17e11e6381734be0a9c">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE_GET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE_GET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">DEFINE_SYNCTEX_TREE__GET(WHAT) \</div>
-<div class="line">SYNCTEX_INLINE <span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> _synctex_tree_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
-<div class="line">    if (_synctex_tree_has_##WHAT(node)) {\</div>
-<div class="line">        return __synctex_tree_##WHAT(node);\</div>
-<div class="line">    }\</div>
-<div class="line">    return 0;\</div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a51ce29b7b7f1709a974a927e8fcb04d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51ce29b7b7f1709a974a927e8fcb04d8">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE_GETRESET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE_GETRESET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">DEFINE_SYNCTEX_TREE_HAS(WHAT) \</div>
-<div class="line">DEFINE_SYNCTEX_TREE_GET(WHAT) \</div>
-<div class="line">DEFINE_SYNCTEX_TREE_RESET(WHAT)</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aee1df77325dc6a323c2e708d4864f1b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee1df77325dc6a323c2e708d4864f1b5">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE_GETSET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE_GETSET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">DEFINE_SYNCTEX_TREE_HAS(WHAT) \</div>
-<div class="line">DEFINE_SYNCTEX_TREE_GET(WHAT) \</div>
-<div class="line">DEFINE_SYNCTEX_TREE_SET(WHAT)</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="abf25452778158b602fd0326e10a82654"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf25452778158b602fd0326e10a82654">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE_GETSETRESET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE_GETSETRESET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">DEFINE_SYNCTEX_TREE_HAS(WHAT) \</div>
-<div class="line">DEFINE_SYNCTEX_TREE_GET(WHAT) \</div>
-<div class="line">DEFINE_SYNCTEX_TREE_SET(WHAT) \</div>
-<div class="line">DEFINE_SYNCTEX_TREE_RESET(WHAT)</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a6176b3e48fcb289c82e7c5ed2d1e9e59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6176b3e48fcb289c82e7c5ed2d1e9e59">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE_HAS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE_HAS</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">SYNCTEX_INLINE <span class="keyword">static</span> synctex_bool_t _synctex_tree_has_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
-<div class="line">    return (node &amp;&amp; (node-&gt;class_-&gt;navigator-&gt;WHAT&gt;=0));\</div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ad93f7b91470ca80625008a8e0e1c7c49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad93f7b91470ca80625008a8e0e1c7c49">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE_RESET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE_RESET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">DEFINE_SYNCTEX_TREE__RESET(WHAT) \</div>
-<div class="line">SYNCTEX_INLINE <span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> _synctex_tree_reset_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) {\</div>
-<div class="line">        return _synctex_tree_has_##WHAT(node)? \</div>
-<div class="line">            __synctex_tree_reset_##WHAT(node): NULL; \</div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a7f4528ef56ccb8eadb2d6cebac231c1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f4528ef56ccb8eadb2d6cebac231c1f">&#9670;&nbsp;</a></span>DEFINE_SYNCTEX_TREE_SET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFINE_SYNCTEX_TREE_SET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">DEFINE_SYNCTEX_TREE__SET(WHAT) \</div>
-<div class="line">SYNCTEX_INLINE <span class="keyword">static</span> <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> _synctex_tree_set_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node, <a class="code" href="structsynctex__node__t.html">synctex_node_p</a> new_value) {\</div>
-<div class="line">    return _synctex_tree_has_##WHAT(node)?\</div>
-<div class="line">        __synctex_tree_set_##WHAT(node,new_value):NULL;\</div>
-<div class="line">}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1432,7 +931,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keywordtype">int</span> synctex_node_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_node_p</a> node) { \</div>
-<div class="line">    return (node &amp;&amp; node-&gt;class_-&gt;inspector-&gt;WHAT)? \</div>
+<div class="line">    return (node &amp;&amp; node-&gt;<a class="code" href="structsynctex__node__t.html#aee61654533623a3b72ec2eb5b446fe46">class_</a>-&gt;inspector-&gt;WHAT)? \</div>
 <div class="line">        node-&gt;class_-&gt;inspector-&gt;WHAT(node): 0; \</div>
 <div class="line">}</div>
 </div><!-- fragment -->
@@ -1453,7 +952,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">int</span> _synctex_proxy_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_proxy_p</a> proxy) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">int</span> _synctex_proxy_##WHAT(_synctex_proxy_p proxy) { \</div>
 <div class="line">    synctex_node_p target = _synctex_tree_target(proxy); \</div>
 <div class="line">    if (target) { \</div>
 <div class="line">        return _synctex_data_##WHAT(proxy)+synctex_node_##WHAT(target); \</div>
@@ -1479,7 +978,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">int</span> _synctex_proxy_##WHAT(<a class="code" href="structsynctex__node__t.html">synctex_proxy_p</a> proxy) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">int</span> _synctex_proxy_##WHAT(_synctex_proxy_p proxy) { \</div>
 <div class="line">    synctex_node_p target = _synctex_tree_target(proxy); \</div>
 <div class="line">    return target? synctex_node_##WHAT(target): 0; \</div>
 <div class="line">}</div>
@@ -1519,67 +1018,6 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 
 </div>
 </div>
-<a id="a60a01fbbebdf3210fc39324aef7a0533"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60a01fbbebdf3210fc39324aef7a0533">&#9670;&nbsp;</a></span>SYNCTEX_MSG_SEND</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SYNCTEX_MSG_SEND</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">NODE, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">SELECTOR&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span> {\</div>
-<div class="line">    synctex_node_p N__ = NODE;\</div>
-<div class="line">    if (N__ &amp;&amp; N__-&gt;class_-&gt;SELECTOR) {\</div>
-<div class="line">        (*(N__-&gt;class_-&gt;SELECTOR))(N__);\</div>
-<div class="line">    }\</div>
-<div class="line">} <span class="keywordflow">while</span> (synctex_NO)</div>
-</div><!-- fragment -->
-<p>Takes care of sending the given message if possible. </p>
-<ul>
-<li>parameter NODE: of type synctex_node_p</li>
-<li>parameter SELECTOR: one of the class_ pointer properties </li>
-</ul>
-
-</div>
-</div>
-<a id="a70c741a9dfa09c75a6413540809b9f9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70c741a9dfa09c75a6413540809b9f9d">&#9670;&nbsp;</a></span>SYNCTEX_PARAMETER_ASSERT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SYNCTEX_PARAMETER_ASSERT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">WHAT</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The next macros are used to access the node tree info <a class="el" href="synctex__parser_8c.html#a1781d326e6564d42be1c77bf42282ac8">SYNCTEX_DATA(node)</a> points to the first synctex integer or pointer data of node <a class="el" href="synctex__parser_8c.html#a1781d326e6564d42be1c77bf42282ac8">SYNCTEX_DATA(node)</a>[index] is the information at index for example, the page of a sheet is stored in <a class="el" href="synctex__parser_8c.html#a1781d326e6564d42be1c77bf42282ac8">SYNCTEX_DATA(sheet)</a>[_synctex_data_page_idx]</p><ul>
-<li>parameter NODE: of type synctex_node_p If the name starts with "__", the argument is nonullable </li>
-</ul>
-
-</div>
-</div>
 <a id="af6e34d508936a01bece23da71b8ab89a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af6e34d508936a01bece23da71b8ab89a">&#9670;&nbsp;</a></span>SYNCTEX_RETURN</h2>
 
@@ -1595,43 +1033,9 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">        synctex_node_free(x_handle);\</div>
+<b>Value:</b><div class="fragment"><div class="line">        _synctex_node_free(x_handle);\</div>
 <div class="line">        return STATUS</div>
 </div><!-- fragment -->
-</div>
-</div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a5ac8f79e820084737d05f906b6533ad1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ac8f79e820084737d05f906b6533ad1">&#9670;&nbsp;</a></span>synctex_proxy_p</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef <a class="el" href="structsynctex__node__t.html">synctex_node_p</a> <a class="el" href="synctex__parser_8c.html#a5ac8f79e820084737d05f906b6533ad1">synctex_proxy_p</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Nota bene: naming convention. For static API, when the name contains "proxy", it applies to proxies. When the name contains "noxy", it applies to non proxies only. When the name contains "node", well it depends... </p>
-
-</div>
-</div>
-<a id="a11b4aad2cea2444c2211faf59903a438"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11b4aad2cea2444c2211faf59903a438">&#9670;&nbsp;</a></span>synctex_tree_model_s</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct <a class="el" href="structsynctex__tree__model__t.html">synctex_tree_model_t</a> <a class="el" href="synctex__parser_8c.html#a11b4aad2cea2444c2211faf59903a438">synctex_tree_model_s</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Pseudo class.</p><ul>
-<li>author: J. Laurens</li>
-</ul>
-<p>Each nodes has a class, it is therefore called an object. Each class has a unique scanner. Each class has a type which is a unique identifier. The class points to various methods, each of them vary amongst objects. Each class has a data model which stores node's attributes. Each class has an tree model which stores children and parent. Inspectors give access to data and tree elements. </p>
-
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
@@ -1644,7 +1048,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         <tr>
           <td class="memname"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a> synctex_form </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanner</em>, </td>
         </tr>
         <tr>
@@ -1678,7 +1082,7 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         <tr>
           <td class="memname"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a> synctex_form_content </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanner</em>, </td>
         </tr>
         <tr>
@@ -1712,185 +1116,21 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         <tr>
           <td class="memname">int synctex_iterator_count </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__Iterator.html#gac40ff1b145686027df0603c3f8b28261">synctex_iterator_p</a>&#160;</td>
           <td class="paramname"><em>iterator</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The number of objects left for traversal.</p><ul>
-<li>argument iterator: the object to iterate on... </li>
-</ul>
 
-</div>
-</div>
-<a id="acd39b77f523004af3651841d004e701c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd39b77f523004af3651841d004e701c">&#9670;&nbsp;</a></span>synctex_iterator_free()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void synctex_iterator_free </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a>&#160;</td>
-          <td class="paramname"><em>iterator</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Free all the resources.</p><ul>
-<li>argument iterator: the object to free... You should free the iterator before the scanner owning the nodes it iterates with. </li>
-</ul>
-
-</div>
-</div>
-<a id="a8f4f778910682efa320b1b888f9094d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f4f778910682efa320b1b888f9094d4">&#9670;&nbsp;</a></span>synctex_iterator_has_next()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">synctex_bool_t synctex_iterator_has_next </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a>&#160;</td>
-          <td class="paramname"><em>iterator</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Whether the iterator actually points to an object.</p><ul>
-<li>argument iterator: the object to iterate on... </li>
-</ul>
-
-</div>
-</div>
-<a id="a7df9f440b2cc1c7f2fe5f8ca1177ecd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7df9f440b2cc1c7f2fe5f8ca1177ecd6">&#9670;&nbsp;</a></span>synctex_iterator_new_display()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a> synctex_iterator_new_display </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
-          <td class="paramname"><em>scanner</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>line</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>column</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>page_hint</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Designated creator for a display query, id est, forward navigation from source to output. Returns NULL if the query has no answer. Code example: synctex_iterator_p iterator = NULL; if ((iterator = synctex_iterator_new_display(...)) { synctex_node_p node = NULL; while((node = synctex_iterator_next_result(iterator))) { do something with node... } </p>
-
-</div>
-</div>
-<a id="a147d3e57ee5d7916b164b8b534bcbb48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a147d3e57ee5d7916b164b8b534bcbb48">&#9670;&nbsp;</a></span>synctex_iterator_new_edit()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a> synctex_iterator_new_edit </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
-          <td class="paramname"><em>scanner</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>page</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>h</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>v</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Designated creator for an edit query, id est, backward navigation from output to source. Code example: synctex_iterator_p iterator = NULL; if ((iterator = synctex_iterator_new_edit(...)) { synctex_node_p node = NULL; while((node = synctex_iterator_next_result(iterator))) { do something with node... } </p>
-
-</div>
-</div>
-<a id="a6f494ee009c5a4c78edfe45dd1e89980"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f494ee009c5a4c78edfe45dd1e89980">&#9670;&nbsp;</a></span>synctex_iterator_next_result()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a> synctex_iterator_next_result </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a>&#160;</td>
-          <td class="paramname"><em>iterator</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The next result of the iterator. Internally, the iterator stores handles to nodes. Externally, it returns the targets, such that the caller only sees nodes. </p>
-
-</div>
-</div>
-<a id="a52eda50ef0dcd7edcf131fb80d20c0a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52eda50ef0dcd7edcf131fb80d20c0a5">&#9670;&nbsp;</a></span>synctex_iterator_reset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int synctex_iterator_reset </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__iterator__t.html">synctex_iterator_p</a>&#160;</td>
-          <td class="paramname"><em>iterator</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Reset the cursor position to the first result.</p><ul>
-<li>argument iterator: the object to iterate on... </li>
-</ul>
+<p>The number of objects left. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iterator</td><td>the object to iterate on... </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
 </div>
 </div>
@@ -2211,6 +1451,33 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 
 </div>
 </div>
+<a id="aac915619cbb97b8eb43d56b63702a814"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac915619cbb97b8eb43d56b63702a814">&#9670;&nbsp;</a></span>synctex_node_display()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void synctex_node_display </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print some informations about the node. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="synctex__parser__advanced_8h.html#a0c0e0eea821ca3be5db38a4ecde74671" title="Print some informations about the node.">synctex_node_log</a></code> </dd></dl>
+
+</div>
+</div>
 <a id="a2ff1b1e8d204ad138b7358f72b899ea5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2ff1b1e8d204ad138b7358f72b899ea5">&#9670;&nbsp;</a></span>synctex_node_hbox_depth()</h2>
 
@@ -2371,6 +1638,33 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
 
 </div>
 </div>
+<a id="a0c0e0eea821ca3be5db38a4ecde74671"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c0e0eea821ca3be5db38a4ecde74671">&#9670;&nbsp;</a></span>synctex_node_log()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void synctex_node_log </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print some informations about the node. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="synctex__parser__advanced_8h.html#aac915619cbb97b8eb43d56b63702a814" title="Print some informations about the node.">synctex_node_display</a></code> </dd></dl>
+
+</div>
+</div>
 <a id="a204fb8e370e3f96279c7c40806be1196"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a204fb8e370e3f96279c7c40806be1196">&#9670;&nbsp;</a></span>synctex_node_mean_line()</h2>
 
@@ -2403,13 +1697,13 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         <tr>
           <td class="memname"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a> synctex_node_new </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanner</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">synctex_node_type_t&#160;</td>
+          <td class="paramtype"><a class="el" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a>&#160;</td>
           <td class="paramname"><em>type</em>&#160;</td>
         </tr>
         <tr>
@@ -2419,10 +1713,16 @@ Reads and parse *.synctex[.gz] files, performs edit and display queries.</li>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Create a new node of the given type.</p><ul>
-<li>parameter scanner: of type synctex_node_p</li>
-<li>parameter type: a type, the client is responsible to ask for an acceptable type. </li>
-</ul>
+
+<p>Create a new node of the given type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scanner</td><td></td></tr>
+    <tr><td class="paramname">type</td><td>no type checking </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>synctex_node_p </dd></dl>
 
 </div>
 </div>
@@ -2551,6 +1851,33 @@ Browsing the nodes</h2>
       </table>
 </div><div class="memdoc">
 <p>The target of the node, either a handle or a proxy. </p>
+
+</div>
+</div>
+<a id="a942c56afd58363e3f1347f71ac6072db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a942c56afd58363e3f1347f71ac6072db">&#9670;&nbsp;</a></span>synctex_node_target_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="synctex__parser__advanced_8h.html#a085407d3cf15193e7db661749b83cf59">synctex_node_type_t</a> synctex_node_target_type </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a>&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The node type of the target. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>synctex_node_type_t </dd></dl>
 
 </div>
 </div>
@@ -2684,11 +2011,16 @@ Browsing the nodes</h2>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The weight of the node.</p><ul>
-<li>parameter node: a node.</li>
-<li>returns: the weight or -1 if node is NULL.</li>
-<li>author: JL </li>
-</ul>
+
+<p>The weight of the node. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int. -1 if node is NULL, 0 if the node is not an hbox. </dd></dl>
+<dl class="section author"><dt>Author</dt><dd>Jérôme LAURENS </dd></dl>
 
 </div>
 </div>
@@ -2701,7 +2033,7 @@ Browsing the nodes</h2>
         <tr>
           <td class="memname">void synctex_scanner_display </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanner</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2720,16 +2052,22 @@ Browsing the nodes</h2>
         <tr>
           <td class="memname">int synctex_scanner_display_switcher </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanR</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Scanner display switcher getter. If the switcher is 0, synctex_node_display is disabled. If the switcher is &lt;0, synctex_node_display has no limit. If the switcher is &gt;0, only the first switcher (as number) nodes are displayed.</p><ul>
-<li>parameter: a scanner</li>
-<li>returns: an integer </li>
-</ul>
+
+<p>Scanner display switcher getter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scanR</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="synctex__parser__advanced_8h.html#a082ba71579e7d54c4b8e3137085a4387" title="Scanner display switcher setter.">synctex_scanner_set_display_switcher</a></code> </dd></dl>
 
 </div>
 </div>
@@ -2742,7 +2080,7 @@ Browsing the nodes</h2>
         <tr>
           <td class="memname">int synctex_scanner_free </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanner</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2755,6 +2093,27 @@ Browsing the nodes</h2>
 
 </div>
 </div>
+<a id="abf7951ab0834cf3df353226b22b9b152"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf7951ab0834cf3df353226b22b9b152">&#9670;&nbsp;</a></span>synctex_scanner_new()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">synctex_scanner_p synctex_scanner_new </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Designated scanner constructor. </p>
+<dl class="section return"><dt>Returns</dt><dd>synctex_scanner_p </dd></dl>
+
+</div>
+</div>
 <a id="aa9aa89f44dbe832dfe173e90e4fa7d98"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa9aa89f44dbe832dfe173e90e4fa7d98">&#9670;&nbsp;</a></span>synctex_scanner_new_with_output_file()</h2>
 
@@ -2762,7 +2121,7 @@ Browsing the nodes</h2>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> synctex_scanner_new_with_output_file </td>
+          <td class="memname">synctex_scanner_p synctex_scanner_new_with_output_file </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>output</em>, </td>
@@ -2806,7 +2165,7 @@ Browsing the nodes</h2>
         <tr>
           <td class="memname"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a> synctex_scanner_next_result </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanner</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2823,9 +2182,9 @@ Browsing the nodes</h2>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a> synctex_scanner_parse </td>
+          <td class="memname">synctex_scanner_p synctex_scanner_parse </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanner</em></td><td>)</td>
           <td></td>
         </tr>
@@ -2834,6 +2193,43 @@ Browsing the nodes</h2>
 <p>Send this message to force the scanner to parse the contents of the synctex output file. Nothing is performed if the file was already parsed. In each query below, this message is sent, but if you need to access information more directly, you must ensure that the parsing did occur. Usage: if((my_scanner = synctex_scanner_parse(my_scanner))) { continue with my_scanner... } else { there was a problem }</p><ul>
 <li>returns: the argument on success. On failure, frees scanner and returns NULL. </li>
 </ul>
+
+</div>
+</div>
+<a id="a082ba71579e7d54c4b8e3137085a4387"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a082ba71579e7d54c4b8e3137085a4387">&#9670;&nbsp;</a></span>synctex_scanner_set_display_switcher()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void synctex_scanner_set_display_switcher </td>
+          <td>(</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
+          <td class="paramname"><em>scanR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>switcher</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Scanner display switcher setter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scanR</td><td></td></tr>
+    <tr><td class="paramname">switcher</td><td>If the switcher is 0, <code>synctex_node_display</code> is disabled. If the switcher is &lt;0, <code>synctex_node_display</code> has no limit. If the switcher is &gt;0, only the first switcher (as number) nodes are displayed. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -2846,7 +2242,7 @@ Browsing the nodes</h2>
         <tr>
           <td class="memname"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a> synctex_sheet </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanner</em>, </td>
         </tr>
         <tr>
@@ -2880,7 +2276,7 @@ Browsing the nodes</h2>
         <tr>
           <td class="memname"><a class="el" href="structsynctex__node__t.html">synctex_node_p</a> synctex_sheet_content </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsynctex__scanner__t.html">synctex_scanner_p</a>&#160;</td>
+          <td class="paramtype">synctex_scanner_p&#160;</td>
           <td class="paramname"><em>scanner</em>, </td>
         </tr>
         <tr>
