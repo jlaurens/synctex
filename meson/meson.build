@@ -73,6 +73,15 @@ synctex_exe = executable(synctex_name,
   c_args: [ '-DSYNCTEX_STANDALONE' ]
 )
 
+
+test_main_lua = '../test standalone/test_main.lua'
+
+dot_exe = ''
+if build_machine.system() == 'windows'
+  dot_exe = '.exe'
+endif
+texlua = find_program('texlua'+dot_exe)
+
 synctex_test_exe = executable('synctex_test',
   synctex_main,
   include_directories: [ synctex_inc ],
@@ -82,19 +91,27 @@ synctex_test_exe = executable('synctex_test',
   c_args: [ '-DSYNCTEX_STANDALONE', '-DSYNCTEX_TEST' ]
 )
 
-dot_exe = ''
-if build_machine.system() == 'windows'
-  dot_exe = '.exe'
-endif
-texlua = find_program('texlua'+dot_exe)
+base_args = [
+  '--build_os="'+build_machine.system()+'"',
+  '--build_dir="'+meson.current_build_dir()+'"',
+]
 
-synctex_no_malloc = environment({'MALLOC_PERTURB_': '0'})
+session_id_target = custom_target(
+  'session_id',
+  build_always       : true,
+  command            : [ texlua, meson.current_source_dir() / test_main_lua, '--setup']+base_args,
+  output             : 'session_id'
+)
+
+shared_library_env = environment()
+shared_library_env.set('MALLOC_PERTURB_', '0')
+shared_library_env.prepend('PATH', meson.current_build_dir())
+
 synctex_test_dir = meson.current_source_dir() / synctex_dir / 'test standalone'
 
 synctex_auplib_dir = synctex_test_dir / 'auplib' / ''
 synctex_auplib_doc_dir = synctex_auplib_dir / 'doc'
 
-fs = import('fs')
 if not fs.is_dir(synctex_auplib_doc_dir)
   message(synctex_auplib_doc_dir+' does not exist')
   runresult = run_command(
@@ -105,63 +122,10 @@ if not fs.is_dir(synctex_auplib_doc_dir)
 )
 endif
 
-
-shared_library_args = [
-  'test_main.lua',
-  '--build_dir="'+meson.current_build_dir()+'"',
-  '--library'
-]
-
+# Whether the synctex executable is available
+# Uses the old test files
 test(
-  'library/gh',
-  texlua,
-  args: shared_library_args + '--suite=gh',
-  workdir: synctex_test_dir,
-  env: synctex_no_malloc,
-)
-
-test(
-  'library/gh/...',
-  texlua,
-  args: shared_library_args + ['--suite=gh', '--unit=gh78'],
-  workdir: synctex_test_dir,
-  env: synctex_no_malloc,
-)
-
-shared_engine_args = [
-  'test_main.lua',
-  '--build_dir="'+meson.current_build_dir()+'"',
-  '--engine'
-]
-
-test(
-  'engine/gh',
-  texlua,
-  args: shared_engine_args + '--suite=gh',
-  workdir: synctex_test_dir,
-  env: synctex_no_malloc,
-)
-
-test(
-  'engine/gh/...',
-  texlua,
-  args: shared_engine_args + ['--suite=gh', '--unit=gh30'],
-  workdir: synctex_test_dir,
-  env: synctex_no_malloc,
-)
-
-test(
-  'library/foo/bar',
-  texlua,
-  args: shared_library_args + [
-    '--suite="foo"',
-    '--unit="bar"'
-  ],
-  workdir: synctex_test_dir,
-  env: synctex_no_malloc,
-)
-
-test('first test',
+  'first test',
   synctex_exe,
   args: [
     'edit',
@@ -169,4 +133,234 @@ test('first test',
     '1:100:100:synctex test files/1/edit query/1.pdf'
   ],
   workdir: meson.current_source_dir() / synctex_dir,
+  priority: 100000,
+  is_parallel : true,
+  depends: [session_id_target]
 )
+test(
+  'second test',
+  synctex_test_exe,
+  args: [
+    'edit',
+    '-o',
+    '1:100:100:synctex test files/1/edit query/1.pdf'
+  ],
+  workdir: meson.current_source_dir() / synctex_dir,
+  priority: 100000,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+shared_library_env = environment()
+shared_library_env.set('MALLOC_PERTURB_', '0')
+shared_library_env.prepend('PATH', meson.current_build_dir())
+
+shared_args = [
+  'test_main.lua',
+] + base_args
+
+shared_library_args = shared_args + '--library'
+
+name = 'library/config'
+test(
+  name,
+  texlua,
+  args: shared_library_args + ['--name="'+name+'"'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 100000-2111,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'library/dump/...'
+test(
+  name,
+  texlua,
+  args: shared_library_args + ['--name="'+name+'"', '--suite=dump', '--unit=form1'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 100000-2221,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'library/dump'
+test(
+  name,
+  texlua,
+  args: shared_library_args + ['--name="'+name+'"', '--suite=dump'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 100000-2211,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'library/mark/...'
+test(
+  name,
+  texlua,
+  args: shared_library_args + ['--name="'+name+'"', '--suite=mark', '--unit=base'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 100000-2321,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'library/mark'
+test(
+  name,
+  texlua,
+  args: shared_library_args + ['--name="'+name+'"', '--suite=mark'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 100000-2311,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'library/input'
+test(
+  name,
+  texlua,
+  args: shared_library_args + ['--name="'+name+'"', '--suite=input'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 100000-2411,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'library/input/...'
+test(
+  name,
+  texlua,
+  args: shared_library_args + ['--name="'+name+'"', '--suite=input', '--unit=many'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 100000-2421,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'library/gh/...'
+test(
+  name,
+  texlua,
+  args: shared_library_args + ['--name="'+name+'"', '--suite=gh', '--unit=gh78'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 100000-2511,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'library/gh'
+test(
+  name,
+  texlua,
+  args: shared_library_args + ['--name="'+name+'"', '--suite=gh'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 100000-2521,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+shared_engine_env = environment()
+shared_engine_env.set('MALLOC_PERTURB_', '0')
+shared_engine_args = shared_args + '--engine'
+
+name = 'engine/minimal'
+test(
+  name,
+  texlua,
+  args: shared_engine_args + ['--name="'+name+'"', '--suite=minimal'],
+  workdir: synctex_test_dir,
+  env: shared_engine_env,
+  priority: 100000-1111,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'engine/gh/...'
+test(
+  name,
+  texlua,
+  args: shared_engine_args + ['--name="'+name+'"', '--suite=gh', '--unit=gh30-84'],
+  workdir: synctex_test_dir,
+  env: shared_engine_env,
+  priority: 100000-1211,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'engine/gh'
+test(
+  name,
+  texlua,
+  args: shared_engine_args + ['--name="'+name+'"', '--suite=gh'],
+  workdir: synctex_test_dir,
+  env: shared_engine_env,
+  priority: 100000-1221,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'engine/global_options'
+test(
+  name,
+  texlua,
+  args: shared_engine_args + ['--name="'+name+'"', '--suite=global_options'],
+  workdir: synctex_test_dir,
+  env: shared_engine_env,
+  priority: 100000-1311,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+# Testing for development:
+# The `AUP` testing framework recognizes some special arguments
+# Calling sequence:
+# meson test -C build --test-args='--debug=10000 --local...=... --dev_suite=... --dev_unit=...' "dev" 
+
+shared_dev_env = environment()
+shared_dev_env.set('MALLOC_PERTURB_', '0')
+shared_dev_args = shared_args + '--dev'
+
+# Testing the pdftex engine
+# This is useful when developing pdftex
+# Usage from the directory containing `meson.build`:
+#
+#  meson test -C Build --test-args="--debug=10 --local=JL" "dev"
+#
+# Explanation of test arguments
+# --local=JL Read the `local/.../.../user/JL.lua`
+#
+# Other engines are tested as well
+#
+name = 'dev'
+test(
+  name,
+  texlua,
+  args: shared_dev_args + ['--name="'+name+'"'],
+  workdir: synctex_test_dir,
+  env: shared_dev_env,
+  priority: 100000-3000,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+
+name = 'last test'
+test(
+  name,
+  texlua,
+  args: shared_args + [ '--name="'+name+'"', '--teardown'],
+  workdir: synctex_test_dir,
+  priority: 100000-10000,
+  is_parallel : true,
+  depends: [session_id_target],
+)
+

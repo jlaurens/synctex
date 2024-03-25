@@ -41,7 +41,7 @@ local AUP = package.loaded.AUP
 local PL = AUP.PL
 local class = PL.class
 
-local dbg = AUP.module.dbg()
+local dbg = AUP.dbg
 
 --- @class AUPDoc
 --- @field _init fun(self: AUPDoc, args: AUPArguments)
@@ -66,7 +66,7 @@ function AUPDoc:make()
 end
 
 return {
-  AUPDoc = AUPDoc
+  Doc = AUPDoc
 }
 
 --[===[
@@ -93,7 +93,7 @@ local app = require 'pl.app'
 local path = require 'pl.path'
 local dir = require 'pl.dir'
 local utils = require 'pl.utils'
-local List = require 'pl.List'
+local PLList = require 'pl.List'
 local stringx = require 'pl.stringx'
 local tablex = require 'pl.tablex'
 
@@ -406,7 +406,7 @@ end
 local quote = tools.quote
 --- processing command line and preparing for output ---
 
-local file_list = List()
+local file_list = PLList()
 File.list = file_list
 local config_dir
 
@@ -607,7 +607,7 @@ if type(args.file) == 'table' then
 elseif path.isdir(args.file) then
    -- use any configuration file we find, if not already specified
    if not config_dir then
-      local files = List(dir.getallfiles(args.file,'*.*'))
+      local files = PLList(dir.getallfiles(args.file,'*.*'))
       local config_files = files:filter(function(f)
          return path.basename(f) == args.config
       end)
@@ -697,13 +697,13 @@ end
 ldoc.is_file_prettified = {}
 
 if ldoc.prettify_files then
-   local files = List()
+   local files = PLList()
    local linemap = {}
    for F in file_list:iter() do
       files:append(F.filename)
       local mod = F.modules[1]
       if mod then
-        local ls = List()
+        local ls = PLList()
         for item in mod.items:iter() do
            ls:append(item.lineno)
         end
@@ -759,7 +759,7 @@ end
 
 local first_module
 local project = ProjectMap()
-local module_list = List()
+local module_list = PLList()
 module_list.by_name = {}
 
 local modcount = 0

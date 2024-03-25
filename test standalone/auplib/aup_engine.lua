@@ -34,91 +34,182 @@ This file is part of the __SyncTeX__ package testing framework.
 
 --- @type AUP
 local AUP = package.loaded.AUP
+local lfs = package.loaded.lfs
 local PL = AUP.PL
 
-local List = PL.List
-local PL_path = PL.path
+local PLList = PL.List
 local PL_utils = PL.utils
 local assert_string = PL_utils.assert_string
-local executeex = PL_utils.executeex
 
---- @enum (key) AUPInteractionMode
-local AUPInteractionMode = {
+local AUPCommand = AUP.Command
+
+local state = AUP.state
+
+--- @enum (key) AUPEngineInteractionMode
+local AUPEngineInteractionMode = {
   batchmode   = 'batchmode',
   nonstopmode = 'nonstopmode',
   scrollmode  = 'scrollmode',
   errorstopmode = 'errorstopmode'
 }
 
---- @class AUPEngine
+--- @class AUPEngine: AUPCommand
 --- @field _init fun(self: AUPEngine, name: string)
+--- @field reset fun(self: AUPEngine)
 --- @field synctex fun(self: AUPEngine, value: integer): AUPEngine
---- @field interaction fun(self: AUPEngine, value: AUPInteractionMode): AUPEngine
---- @field which fun(self: AUPEngine, file: string): string?
---- @field run fun(file: string): boolean, integer, string, string
+--- @field interaction fun(self: AUPEngine, value: AUPEngineInteractionMode): AUPEngine
+--- @field file fun(self: AUPEngine, file: string): AUPEngine
+--- @field cmd fun(self: AUPEngine): string
 
-local AUPEngine = PL.class.AUPEngine()
+local AUPEngine = PL.class.AUPEngine(AUPCommand)
 
-local arguments = AUP.arguments
+---@class AUPK
+---@field engine string
+---@field engines string
+---@field exclude_engine string
+---@field exclude_engines string
 
-local PATH = nil
+AUP.K.engine = 'engine'
+AUP.K.engines = 'engines'
+AUP.K.exclude_engine = 'exclude_engine'
+AUP.K.exclude_engines = 'exclude_engines'
 
---- Initialize an AUPEngine instance
---- @param name string
---- @param synctex_mode integer?
---- @param ... string
-function AUPEngine:_init(name, synctex_mode, ...)
-  assert_string(2, name)
-  self._engine = name
-  self._PATH = List()
-  local bin_dirs = List({synctex_mode, ...}):filter(
-    function(x) return type(x)=='string' and #x>0 end
-  )
-  if #bin_dirs then
-    self._PATH:extend(bin_dirs)
+AUPEngine._tex_all = PLList()
+
+do
+  local l = PLList({'pdftex', 'euptex', 'xetex', 'luatex', 'luahbtex', 'luajittex'})
+  local iterator = AUP.arguments:iterator()
+  local entry = iterator:next()
+  while(entry) do
+    if entry.key == AUP.K.engine then
+      assert(entry:value_is_string(), "Expected: --%s=⟨cslist⟩"%{entry.key})
+      if not l:contains((entry:string_value())) then
+        l:append(entry:string_value())
+      end
+      entry:consume()
+    elseif entry.key == AUP.K.engines then
+      assert(entry:value_is_string(), "Expected: --%s=⟨cslist⟩"%{entry.key})
+      l = PL.stringx.split(entry:string_value(), ',')
+      entry:consume()
+    elseif entry.key == AUP.K.exclude_engine then
+      assert(entry:value_is_string(), "Expected: --%s=⟨cslist⟩"%{entry.key})
+      local ll = l:remove_value(((entry:string_value())))
+      while ll ~= nil do
+        ll = ll:remove_value(entry:string_value())
+      end
+      entry:consume()
+    elseif entry.key == AUP.K.exclude_engines then
+      assert(entry:value_is_string(), "Expected: --%s=⟨cslist⟩"%{entry.key})
+      for x in PL.stringx.split(entry:string_value(), ','):iter() do
+        local ll = l:remove_value(x)
+        while ll ~= nil do
+          ll = ll:remove_value(x)
+        end
+      end
+      entry:consume()
+    end
+    entry = iterator:next()
   end
-  if type(synctex_mode) == 'number' then
-    self:synctex(synctex_mode)
+  AUPEngine._tex_all = l
+end
+
+AUPEngine._latex_all = PLList()
+
+for prefix in PL.seq.list {'pdf', 'eup', 'xe', 'lua'} do
+  if AUPEngine._tex_all:contains(prefix..'tex') then
+    AUPEngine._latex_all:append(prefix..'latex')
   end
 end
 
---- A simple implementation of the which command.
---- This looks for
---- the given file on the path. On windows, it will assume an extension
---- of `.exe` if no extension is given.
---- rom https://stevedonovan.github.io/Penlight/api/examples/which.lua.html
---- @param file string
---- @return string?
-function AUPEngine:which(file)
-  assert_string(2, file)
-  if PL_path.is_windows and PL_path.extension(file) then
-    file = file..'.exe'
-  end
-  local res = self._PATH:map(PL_path.join, file)
-  res = res:filter(PL_path.exists)
-  if #res > 0 then return res[1] end
-  if not PATH then
-    PATH = List()
-    if arguments then
-      local iterator = arguments:iterator()
-      local entry = iterator:next()
-      while(entry) do
-        if entry.key == 'bin_dir' then
-          if  type(entry.value) == 'string' then
-            PATH:append(entry.value)
-          end
-          iterator:consume()
+---@class AUPEngine
+---@field tex_all fun():fun()
+---@field latex_all fun():fun()
+
+---An iterator over the tex engines
+---@return fun()
+function AUPEngine.tex_all()
+  return AUPEngine._tex_all:iter()
+end
+
+---An iterator over the tex engines
+---@return fun()
+function AUPEngine.latex_all()
+  return AUPEngine._latex_all:iter()
+end
+
+--- Initialize an AUPEngine instance
+--- @param name string
+function AUPEngine:_init(name)
+  assert_string(2, name)
+  local bin_p = AUPCommand.which(name, AUPCommand.tex_bin_get(), true)
+  assert(bin_p, "Unknown engine "..name)
+  if AUPCommand.dev and not name:find('latex') then
+    local dev_p, d = AUPCommand.which_dev(name)
+    if d ~= nil then
+      assert(dev_p, "Missing %s in %s"%{name, d})
+    end
+    if dev_p ~= nil then
+      local touch_p = bin_p..".synctex_touch"
+      local dev_mtime = lfs.attributes(dev_p, 'modification')
+      local touch_mtime = lfs.attributes(touch_p, 'modification')
+      if touch_mtime == nil or touch_mtime < dev_mtime then
+        local saved_p = bin_p..".synctex_saved"
+        if not PL.path.exists(saved_p) then
+          assert(os.rename(bin_p, saved_p), "Unable to move %s to %s"%{bin_p, saved_p}, 2)
         end
-        entry = iterator:next()
+        os.remove(bin_p)
+        PL.dir.copyfile(dev_p, bin_p, true)
+        --lfs.link (dev_p, bin_p, true)
+        if PL.path.exists(touch_p) then
+          lfs.touch(touch_p)
+        else
+          PL.utils.writefile(touch_p, '')
+        end
+        assert(PL.path.exists(touch_p))
+        AUP.dbg:write(1, "Copy development engine: "..dev_p.."→"..bin_p)
+      end
+    else
+      local saved_p = bin_p..".synctex_saved"
+      if PL.path.exists(saved_p) then
+        assert(os.remove(bin_p), 'Remove manually: '..bin_p, 2)
+        assert(os.rename (saved_p, bin_p), "Unable to move a file", 2)
+        AUP.dbg:write(1, "Reset development engine: "..dev_p.."→"..bin_p)
       end
     end
-    PATH:extend(List.split(os.getenv('PATH'), PL_path.dirsep))
-    print(PATH)
-    PL.pretty.dump(PATH)
   end
-  res = PATH:map(PL_path.join, file)
-  res = res:filter(PL_path.exists)
-  if #res then return res[1] end
+  self:super(name)
+end
+
+--- Add an option.
+--- @param argument string
+--- @return AUPEngine
+function AUPEngine:add_argument(argument)
+  assert_string (2, argument)
+  self._arguments:append(argument)
+  return self
+end
+
+--- Add an option.
+--- @return AUPEngine
+function AUPEngine:clear_arguments()
+  self._arguments = PLList()
+  return self
+end
+
+local quote_arg = PL_utils.quote_arg
+
+--- Build the command on the fly.
+--- @return string 
+function AUPEngine:cmd()
+  assert(self._command, "Unknown command "..self._name)
+  return quote_arg(PLList({
+    self._command,
+    self._synctex or false,
+    self._interaction or false,
+    self._file or false
+  }):filter(function(x)
+    return type(x)=='string' and #x>0
+  end))
 end
 
 --- Set the `--synctex` option.
@@ -130,12 +221,12 @@ function AUPEngine:synctex(value)
     value = assert(tostring(value))
   end
   --assert_string (2, value)
-  self._synctex_mode = "--synctex="..value
+  self._synctex = "--synctex="..value
   return self
 end
 
---- Set the `--synctex` option.
---- @param value AUPInteractionMode
+--- Set the `--interaction` option.
+--- @param value AUPEngineInteractionMode
 --- @return AUPEngine
 function AUPEngine:interaction(value)
   assert_string(2, value)
@@ -143,27 +234,32 @@ function AUPEngine:interaction(value)
   return self
 end
 
-local quote_arg = PL_utils.quote_arg
---- Set the `--synctex` option.
---- @param file string
---- @return boolean status
---- @return integer code
---- @return string stdout
---- @return string errout
-function AUPEngine:run(file)
-  local cmd = self:which(self._engine)
-  if not cmd then
-    return false, -1, "", 'Unknown engine '..self._engine
-  end
-  cmd = quote_arg(List({cmd, self._synctex_mode, self._interaction, file}):filter(function(x)
-    return type(x)=='string' and #x>0
-  end))
-  print(cmd)
-  return executeex(cmd)
+--- Set the file name to typeset.
+--- @param value string
+--- @return AUPEngine
+function AUPEngine:file(value)
+  assert_string(2, value)
+  self._file = value
+  return self
 end
 
-AUPEngine.InteractionMode = AUPInteractionMode
+--- Reset the arguments.
+--- @return AUPEngine
+function AUPEngine:reset()
+  self._synctex = nil
+  self._interaction = nil
+  self._file = nil
+  return self
+end
 
-local l = AUPEngine('luatex')
+--- @class AUP
+--- @field Engine AUPEngine
 
-return AUPEngine
+AUP.Engine = AUPEngine
+
+AUPEngine.InteractionMode = AUPEngineInteractionMode
+
+return {
+  Engine = AUPEngine,
+  InteractionMode = AUPEngineInteractionMode
+}

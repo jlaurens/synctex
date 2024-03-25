@@ -214,7 +214,7 @@ typedef int (*_synctex_int_getter_f)(synctex_node_p);
  * @brief tlc inspector structure
  * 
  */
-typedef struct synctex_tlcpector_t {
+typedef struct _synctex_tlcpector_t {
     /** tag getter */
     _synctex_int_getter_f tag;
     /** line getter */
@@ -442,7 +442,7 @@ SYNCTEX_INLINE static synctex_node_p _synctex_tree_##WHAT(synctex_node_p node) {
     if (_synctex_tree_has_##WHAT(node)) {\
         return __synctex_tree_##WHAT(node);\
     }\
-    return 0;\
+    return NULL;\
 }
 #   define DEFINE_SYNCTEX_TREE__RESET(WHAT) \
 SYNCTEX_INLINE static synctex_node_p __synctex_tree_reset_##WHAT(synctex_non_null_node_p node) {\
@@ -499,6 +499,38 @@ DEFINE_SYNCTEX_TREE_RESET(WHAT)
  SYNCTEX_INLINE static synctex_node_p __synctex_tree_set_sibling(synctex_node_p node, synctex_node_p new_value)
  SYNCTEX_INLINE static synctex_node_p __synctex_tree_reset_sibling(synctex_node_p node)
  */
+/** @fn __synctex_tree_sibling
+    @brief Get the sibling of the given node.
+    @param node
+    @return node
+
+    Private function.
+    Get the sibling of the given node assuming the node type declares a sibling.
+*/
+/** @fn __synctex_tree_set_sibling
+    @brief Set the sibling of the given node.
+    @param node
+    @param sibling
+    @return old sibling if any
+    
+    Private function.
+    Set the sibling of the given node assuming the node type declares a sibling.
+    When the sibling is not `NULL`, it is owned by the node.
+    When the old sibling is not `NULL`, it is no longer owned by the node
+    and must be released somehow.
+*/
+/** @fn __synctex_tree_reset_sibling
+    @brief Reset the sibling of the given node.
+    @param node
+    @return sibling
+    
+    Private function.
+    Set the sibling of the given node to NULL assuming the node type
+    declares a sibling.
+    Returns the old sibling.
+    When the old sibling is not `NULL`, it is no longer owned by the node
+    and must be released somehow.
+*/
 DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
 /* The next macro call creates:
  SYNCTEX_INLINE static synctex_bool_t _synctex_tree_has_parent(synctex_node_p node);
@@ -509,8 +541,206 @@ DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
  SYNCTEX_INLINE static synctex_node_p __synctex_tree_reset_parent(synctex_node_p node);
  SYNCTEX_INLINE static synctex_node_p _synctex_tree_reset_parent(synctex_node_p node);
  */
+/** @fn __synctex_tree_has_parent
+    @brief Whether a node possibly has a parent.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a parent.
+*/
+/** @fn __synctex_tree_parent
+    @brief Get the parent of the given node.
+    @param node
+    @return parent
+
+    Private function.
+    Get the parent of the given node assuming the node type declares a parent.
+*/
+/** @fn _synctex_tree_parent
+    @brief Get the parent of the given node.
+    @param node
+    @return parent or NULL
+
+    Private function.
+    Get the parent of the given node.
+    If the node type does not declare a parent, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_parent
+    @brief Set the parent of the given node.
+    @param node
+    @param parent
+    @return node
+    
+    Private function.
+    Set the parent of the given node assuming the node type declares a parent.
+    The node is not yet the child of the parent: 
+    `__synctex_tree_set_child` must also be called.
+    When the parent is not `NULL`, it is the owner of the node.
+*/
+/** @fn _synctex_tree_set_parent
+    @brief Set the parent of the given node.
+    @param node
+    @param parent
+    @return node
+    
+    Private function.
+    If the the node type declares a parent, set it to the given node.
+    In that case, set the parent of the given node.
+    When the parent is not `NULL`, it becomes the owner of the node.
+    The node is not yet the child of the parent: 
+    `__synctex_tree_set_child` must also be called.
+    The old child must be managed as well, if any.
+    If the the node type does not declare a parent,
+    nothing is done.
+*/
+/** @fn __synctex_tree_reset_parent
+    @brief Reset the parent of the given node.
+    @param node
+    @return old parent
+    
+    Private function.
+    Synonym of `__synctex_tree_set_parent` to `NULL`.
+*/
+/** @fn _synctex_tree_reset_parent
+    @brief Reset the parent of the given node.
+    @param node
+    @return old parent
+    
+    Private function.
+    Synonym of `_synctex_tree_set_parent` to `NULL`.
+*/
 DEFINE_SYNCTEX_TREE_GETSETRESET(parent)
+/** @fn __synctex_tree_has_child
+    @brief Whether a node possibly has a child.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a child.
+*/
+/** @fn __synctex_tree_child
+    @brief Get the child of the given node.
+    @param node
+    @return child
+
+    Private function.
+    Get the child of the given node assuming the node type declares a child.
+*/
+/** @fn _synctex_tree_child
+    @brief Get the child of the given node.
+    @param node
+    @return child or NULL
+
+    Private function.
+    Get the child of the given node.
+    If the node type does not declare a child, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_child
+    @brief Set the child of the given node.
+    @param node
+    @param child
+    @return old child
+    
+    Private function.
+    Set the child of the given node assuming the node type declares a child.
+    The node is not yet the parent of the child: 
+    `__synctex_tree_set_parent` must also be called.
+    When the child is not `NULL`, it is owned by the node.
+*/
+/** @fn _synctex_tree_set_child
+    @brief Set the child of the given node.
+    @param node
+    @param child
+    @return old child
+    
+    Private function.
+    If the the node type declares a child, set it to the given node.
+    When the child is not `NULL`, it becomes owned by the node.
+    The node is not yet the parent of the child: 
+    `__synctex_tree_set_parent` must also be called.
+    The old child must be managed as well, if any.
+    If the the node type does not declare a child,
+    nothing is done.
+*/
+/** @fn __synctex_tree_reset_child
+    @brief Reset the child of the given node.
+    @param node
+    @return old child
+    
+    Private function.
+    Synonym of `__synctex_tree_set_child` to `NULL`.
+*/
+/** @fn _synctex_tree_reset_child
+    @brief Reset the child of the given node.
+    @param node
+    @return old child
+    
+    Private function.
+    Synonym of `_synctex_tree_set_child` to `NULL`.
+*/
 DEFINE_SYNCTEX_TREE_GETSETRESET(child)
+/** @fn __synctex_tree_has_friend
+    @brief Whether a node possibly has a friend.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a friend.
+*/
+/** @fn __synctex_tree_friend
+    @brief Get the friend of the given node.
+    @param node
+    @return friend
+
+    Private function.
+    Get the friend of the given node assuming the node type declares a friend.
+*/
+/** @fn _synctex_tree_friend
+    @brief Get the friend of the given node.
+    @param node
+    @return friend
+
+    Private function.
+    Get the friend of the given node.
+    If the node type does not declare a friend, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_friend
+    @brief Set the friend of the given node.
+    @param node
+    @param friend
+    @return old friend
+    
+    Private function.
+    Set the friend of the given node assuming the node type declares a friend.
+*/
+/** @fn _synctex_tree_set_friend
+    @brief Set the friend of the given node.
+    @param node
+    @param friend
+    @return old friend
+    
+    Private function.
+    If the the node type declares a friend, set it to the given node.
+    If the the node type does not declare a friend,
+    nothing is done.
+*/
+/** @fn __synctex_tree_reset_friend
+    @brief Reset the friend of the given node.
+    @param node
+    @return old friend
+    
+    Private function.
+    Synonym of `__synctex_tree_set_friend` to `NULL`.
+*/
+/** @fn _synctex_tree_reset_friend
+    @brief Reset the friend of the given node.
+    @param node
+    @return old friend
+    
+    Private function.
+    Synonym of `_synctex_tree_set_friend` to `NULL`.
+*/
 DEFINE_SYNCTEX_TREE_GETSETRESET(friend)
 /* The next macro call creates:
  SYNCTEX_INLINE static synctex_bool_t _synctex_tree_has_last(synctex_node_p node);
@@ -520,9 +750,189 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(friend)
  SYNCTEX_INLINE static synctex_node_p _synctex_tree_set_last(synctex_node_p node, synctex_node_p new_value);
  */
 DEFINE_SYNCTEX_TREE_GETSET(last)
+/** @fn __synctex_tree_has_last
+    @brief Whether a node possibly has a last.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a last.
+*/
+/** @fn __synctex_tree_last
+    @brief Get the last of the given node.
+    @param node
+    @return last node
+
+    Private function.
+    Get the last node of the given node assuming the node type declares a last node.
+*/
+/** @fn _synctex_tree_last
+    @brief Get the last of the given node.
+    @param node
+    @return last node or NULL
+
+    Private function.
+    Get the last node of the given node.
+    If the node type does not declare a last node, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_last
+    @brief Set the last of the given node.
+    @param node
+    @param last
+    @return old last
+    
+    Private function.
+    Set the last of the given node assuming the node type declares a last node.
+*/
+/** @fn _synctex_tree_set_last
+    @brief Set the last of the given node.
+    @param node
+    @param last
+    @return old last
+    
+    Private function.
+    If the the node type declares a last node, set it to the given node.
+    If the the node type does not declare a last node,
+    nothing is done.
+*/
 DEFINE_SYNCTEX_TREE_GETSET(next_hbox)
+/** @fn __synctex_tree_has_next_hbox
+    @brief Whether a node possibly has a next_hbox.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a next_hbox.
+*/
+/** @fn __synctex_tree_next_hbox
+    @brief Get the next_hbox of the given node.
+    @param node
+    @return next_hbox node
+
+    Private function.
+    Get the next_hbox node of the given node assuming the node type declares a next_hbox node.
+*/
+/** @fn _synctex_tree_next_hbox
+    @brief Get the next_hbox of the given node.
+    @param node
+    @return next_hbox node or NULL
+
+    Private function.
+    Get the next_hbox node of the given node.
+    If the node type does not declare a next_hbox node, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_next_hbox
+    @brief Set the next_hbox of the given node.
+    @param node
+    @param next_hbox
+    @return old next_hbox
+    
+    Private function.
+    Set the next_hbox of the given node assuming the node type declares a next_hbox node.
+*/
+/** @fn _synctex_tree_set_next_hbox
+    @brief Set the next_hbox of the given node.
+    @param node
+    @param next_hbox
+    @return old next_hbox
+    
+    Private function.
+    If the the node type declares a next_hbox node, set it to the given node.
+    If the the node type does not declare a next_hbox node,
+    nothing is done.
+*/
 DEFINE_SYNCTEX_TREE_GETSET(arg_sibling)
+/** @fn __synctex_tree_has_arg_sibling
+    @brief Whether a node possibly has a arg_sibling.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a arg_sibling.
+*/
+/** @fn __synctex_tree_arg_sibling
+    @brief Get the arg_sibling of the given node.
+    @param node
+    @return arg_sibling node
+
+    Private function.
+    Get the arg_sibling node of the given node assuming the node type declares a arg_sibling node.
+*/
+/** @fn _synctex_tree_arg_sibling
+    @brief Get the arg_sibling of the given node.
+    @param node
+    @return arg_sibling node or NULL
+
+    Private function.
+    Get the arg_sibling node of the given node.
+    If the node type does not declare a arg_sibling node, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_arg_sibling
+    @brief Set the arg_sibling of the given node.
+    @param node
+    @param arg_sibling
+    @return old arg_sibling
+    
+    Private function.
+    Set the arg_sibling of the given node assuming the node type declares a arg_sibling node.
+*/
+/** @fn _synctex_tree_set_arg_sibling
+    @brief Set the arg_sibling of the given node.
+    @param node
+    @param arg_sibling
+    @return old arg_sibling
+    
+    Private function.
+    If the the node type declares a arg_sibling node, set it to the given node.
+    If the the node type does not declare a arg_sibling node,
+    nothing is done.
+*/
 DEFINE_SYNCTEX_TREE_GETSETRESET(target)
+/** @fn __synctex_tree_has_target
+    @brief Whether a node possibly has a target.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a target.
+*/
+/** @fn __synctex_tree_target
+    @brief Get the target of the given node.
+    @param node
+    @return target node
+
+    Private function.
+    Get the target node of the given node assuming the node type declares a target node.
+*/
+/** @fn _synctex_tree_target
+    @brief Get the target of the given node.
+    @param node
+    @return target node or NULL
+
+    Private function.
+    Get the target node of the given node.
+    If the node type does not declare a target node, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_target
+    @brief Set the target of the given node.
+    @param node
+    @param target
+    @return old target
+    
+    Private function.
+    Set the target of the given node assuming the node type declares a target node.
+*/
+/** @fn _synctex_tree_set_target
+    @brief Set the target of the given node.
+    @param node
+    @param target
+    @return old target
+    
+    Private function.
+    If the the node type declares a target node, set it to the given node.
+    If the the node type does not declare a target node,
+    nothing is done.
+*/
 
 #if SYNCTEX_DEBUG > 1000
 #   undef SYNCTEX_USE_NODE_COUNT
@@ -904,7 +1314,7 @@ struct _synctex_scanner_t {
     struct {
         /**  Whether the scanner has parsed its underlying synctex file. */
         unsigned has_parsed:1;
-        /*  Whether the scanner has parsed its underlying synctex file. */
+        /*  Whether the scanner has parsed the postamble. */
         unsigned postamble:1;
         /*  alignment */
         unsigned reserved:sizeof(unsigned)-2;
@@ -1007,26 +1417,68 @@ SYNCTEX_INLINE static void _synctex_will_free(synctex_node_p node) {
 
 /**
  *  Free the given node.
- *  - parameter node: of type synctex_node_p
+ *  @param node of type synctex_node_p
+ *
  *  - note: a node is meant to own its child and sibling.
  *  It is not owned by its parent, unless it is its first child.
  *  This destructor is for all nodes with children.
  * 
- * Recursion only occurs from parent to children, which means
- * that there is a maximum depth determined by the calling stack size.
- * This is not managed.
+ * There is no recursion.
+ * TODO: Here we cherry pick nodes to be freed one by one.
+ * The memory management should be enhanced to free everything all at once,
+ * for example when we free a whole scanner.
  */
 static void _synctex_free_node(synctex_node_p node) {
-    while (node) {
-        synctex_node_p sibling = __synctex_tree_sibling(node);
-        SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
-        SYNCTEX_WILL_FREE(node);
-        _synctex_node_free(_synctex_tree_child(node));
-        _synctex_free(node);
-        node = sibling;
+    if (node) {
+        synctex_node_p sibling;
+        synctex_node_p child;
+        synctex_node_p parent = _synctex_tree_parent(node);
+        synctex_node_p top_parent = parent;
+        /* deep first traversal */
+find_deepest:
+        if ((child = _synctex_tree_child(node))) {
+            parent = node;
+            node = child;
+            goto find_deepest;
+        }
+        /* node is the deepest one */
+deepest_found:
+        if ((sibling = __synctex_tree_reset_sibling(node))) {
+            /* the sibling is detached */
+            if (parent) {
+                __synctex_tree_reset_parent(node);
+                /* The sibling is assumed to possibly have a parent*/
+                __synctex_tree_set_child(parent, sibling);
+                __synctex_tree_set_parent(sibling, parent);
+            }
+            SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
+            SYNCTEX_WILL_FREE(node);
+            _synctex_free(node);
+            node = sibling;
+            goto find_deepest;
+        } else {
+            if (parent) {
+                __synctex_tree_reset_parent(node);
+                __synctex_tree_reset_child(parent);
+                SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
+                SYNCTEX_WILL_FREE(node);
+                _synctex_free(node);
+                /* The parent is now the deepest node */
+                if (parent != top_parent) {
+                    node = parent;
+                    parent = _synctex_tree_parent(node);
+                    goto deepest_found;
+                }
+            } else {
+                SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
+                SYNCTEX_WILL_FREE(node);
+                _synctex_free(node);
+                /* The parent is now the deepest node */
+            }
+        }
     }
-    return;
 }
+
 #if 0
 static void _synctex_free_node(synctex_node_p node) {
     synctex_node_p sibling;
@@ -1135,6 +1587,7 @@ typedef struct {
     int integer;
     synctex_status_t status;
 } _synctex_is_s;
+/** @endcond */
 
 static _synctex_is_s _synctex_decode_int(synctex_scanner_p scanner);
 static _synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int default_value);
@@ -1533,6 +1986,13 @@ static const _synctex_data_model_s synctex_data_model_form = {
     -1, /* page */
     synctex_data_t_form_max
 };
+
+static const _synctex_tlcpector_s synctex_tlcpector_form = {
+    &_synctex_data_tag, /* tag */
+    &_synctex_int_none, /* line */
+    &_synctex_int_none, /* column */
+};;
+
 static _synctex_class_s _synctex_class_form = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_form,     /*  Node type */
@@ -1543,7 +2003,7 @@ static _synctex_class_s _synctex_class_form = {
     &_synctex_abstract_form,    /*  abstract */
     &synctex_tree_model_form,   /*  tree model */
     &synctex_data_model_form,   /*  data model */
-    &synctex_tlcpector_none,    /*  tlcpector */
+    &synctex_tlcpector_form,   /*  tnspector */
     &synctex_inspector_none,    /*  inspector */
     &synctex_vispector_none,    /*  vispector */
 };
@@ -3004,7 +3464,7 @@ synctex_node_p synctex_node_last_sibling(synctex_node_p node) {
 /**
  *  The next nodes corresponds to a deep first tree traversal.
  *  Does not create child proxies as side effect contrary to
- *  the synctex_node_next method above.
+ *  the synctex_node_next method below.
  *  May loop infinitely many times if the tree
  *  is not properly built (contains loops).
  */
@@ -4881,29 +5341,6 @@ static synctex_status_t _synctex_make_hbox_contain_box(synctex_node_p node,synct
 #   endif
 
 
-/*  Here are the control characters that strat each line of the synctex output file.
- *  Their values define the meaning of the line.
- */
-#   define SYNCTEX_CHAR_BEGIN_SHEET '{'
-#   define SYNCTEX_CHAR_END_SHEET   '}'
-#   define SYNCTEX_CHAR_BEGIN_FORM  '<'
-#   define SYNCTEX_CHAR_END_FORM    '>'
-#   define SYNCTEX_CHAR_BEGIN_VBOX  '['
-#   define SYNCTEX_CHAR_END_VBOX    ']'
-#   define SYNCTEX_CHAR_BEGIN_HBOX  '('
-#   define SYNCTEX_CHAR_END_HBOX    ')'
-#   define SYNCTEX_CHAR_ANCHOR      '!'
-#   define SYNCTEX_CHAR_VOID_VBOX   'v'
-#   define SYNCTEX_CHAR_VOID_HBOX   'h'
-#   define SYNCTEX_CHAR_KERN        'k'
-#   define SYNCTEX_CHAR_GLUE        'g'
-#   define SYNCTEX_CHAR_RULE        'r'
-#   define SYNCTEX_CHAR_MATH        '$'
-#   define SYNCTEX_CHAR_FORM_REF    'f'
-#   define SYNCTEX_CHAR_BOUNDARY    'x'
-#   define SYNCTEX_CHAR_CHARACTER   'c'
-#   define SYNCTEX_CHAR_COMMENT     '%'
-
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
 #       pragma mark SCANNERS & PARSERS
@@ -4948,12 +5385,14 @@ static _synctex_ns_s _synctex_parse_new_sheet(synctex_scanner_p scanner) {
 static _synctex_ns_s _synctex_parse_new_form(synctex_scanner_p scanner) {
     synctex_node_p node;
     if ((node = _synctex_new_form(scanner))) {
-        if (
-            SYNCTEX_DECODE_FAILED(node,tag)) {
-            _synctex_error("Bad sheet record.");
+        if ((_synctex_data_decode_tag(node)<SYNCTEX_STATUS_OK)) {
+//        if (SYNCTEX_DECODE_FAILED(node,tag)) {
+            _synctex_error("Bad form record.");
         } else if (_synctex_next_line(scanner)<SYNCTEX_STATUS_OK) {
             _synctex_error("Missing end of form.");
         } else {
+printf("FORM TAG: %i\n", synctex_node_tag(node));
+printf("FORM TAG: %i\n", _synctex_data_tag(node));
             /* Now set the owner */
             if (scanner->form) {
                 synctex_node_p last_form = scanner->form;
@@ -9191,3 +9630,193 @@ int synctex_test_form() {
     return TC;
 }
 #endif
+
+static void _synctex_node_dump(
+    synctex_node_p node,
+    synctex_printer_f printer,
+    int * depth);
+
+static const char * prefix = ".....................";
+int synctex_scanner_dump(synctex_scanner_p scanner, synctex_printer_f printer) {
+    (*printer)("BEGIN DUMP\n");
+    (*printer)("Ouput:%s\n", synctex_scanner_get_output(scanner));
+    (*printer)(".synctex:%s\n", synctex_scanner_get_synctex(scanner));
+    synctex_node_p N = synctex_scanner_input(scanner);
+    if (N) {
+        int NN = synctex_node_tag(N);
+        for (int i = 0; i<NN; ) {
+            ++i;
+            N = synctex_scanner_input(scanner);
+            do {
+                if(synctex_node_tag(N) == i) {
+                    (*printer)("Input:%i:%s\n", i, synctex_node_get_name(N));
+                    break;
+                }
+            } while ((N = synctex_node_sibling(N)));
+        }
+    }
+    (*printer)("magnification:%f\n", synctex_scanner_magnification(scanner));
+    (*printer)("x_offset:%i\n", synctex_scanner_x_offset(scanner));
+    (*printer)("y_offset:%i\n", synctex_scanner_y_offset(scanner));
+    synctex_node_p sheet = synctex_sheet(scanner, 0);
+    int depth = 0;
+    while (sheet) {
+        (*printer)("%csheet:%i\n", SYNCTEX_CHAR_BEGIN_SHEET, _synctex_data_page(sheet));
+        _synctex_node_dump(synctex_node_child(sheet), printer, &depth);
+        (*printer)("%csheet:%i\n", SYNCTEX_CHAR_END_SHEET, _synctex_data_page(sheet));
+        sheet = __synctex_tree_sibling(sheet);
+    }
+    synctex_node_p form = synctex_form(scanner, 0);
+    depth = 0;
+    while (form) {
+        (*printer)("%cform:%i\n", SYNCTEX_CHAR_BEGIN_FORM, synctex_node_tag(form));
+        _synctex_node_dump(synctex_node_child(form), printer, &depth);
+        (*printer)("%cform:%i\n", SYNCTEX_CHAR_END_FORM, synctex_node_tag(form));
+        form = __synctex_tree_sibling(form);
+    }
+    (*printer)("END DUMP\n");
+    return 0;
+}
+
+static void _synctex_node_dump(
+    synctex_node_p node,
+    synctex_printer_f printer,
+    int * depth
+) {
+    synctex_node_p N;
+    switch(synctex_node_type(node)) {
+        case synctex_node_type_vbox:
+            (*printer)(
+                "%s%c%s:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_BEGIN_VBOX,
+#define SYNCTEX_TMP_ITLHV \
+                synctex_node_isa(node),\
+                synctex_node_tag(node),\
+                synctex_node_line(node),\
+                synctex_node_h(node),\
+                synctex_node_v(node)
+#define SYNCTEX_TMP_ITLHVWHD \
+                SYNCTEX_TMP_ITLHV,\
+                synctex_node_width(node),\
+                synctex_node_height(node),\
+                synctex_node_depth(node)
+                SYNCTEX_TMP_ITLHVWHD
+            );
+            //
+            *depth = (*depth+1)%20;
+            if ((N = synctex_node_child(node))) {
+                do {
+                    _synctex_node_dump(N, printer, depth);
+                } while((N = synctex_node_sibling(N)));
+            }
+            *depth = (*depth+19)%20;
+            (*printer)("%s%c\n", prefix+20-*depth, SYNCTEX_CHAR_END_VBOX);
+            break;
+        case synctex_node_type_hbox:
+            (*printer)(
+                "%s%c%s:%i:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_BEGIN_HBOX,
+                SYNCTEX_TMP_ITLHVWHD
+            );
+            *depth = (*depth+1)%20;
+            if ((N = synctex_node_child(node))) {
+                do {
+                    _synctex_node_dump(N, printer, depth);
+                } while((N = synctex_node_sibling(N)));
+            }
+            *depth = (*depth+19)%20;
+            (*printer)("%s%c\n", prefix+20-*depth, SYNCTEX_CHAR_END_HBOX);
+            break;
+        case synctex_node_type_void_vbox:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_VOID_VBOX,
+                SYNCTEX_TMP_ITLHVWHD
+            );
+            break;
+        case synctex_node_type_void_hbox:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_VOID_HBOX,
+                SYNCTEX_TMP_ITLHVWHD
+            );
+            break;
+        case synctex_node_type_kern:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_KERN,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_glue:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_GLUE,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_rule:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_RULE,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_math:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_MATH,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_boundary:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_BOUNDARY,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_box_bdry:
+            (*printer)(
+                "%sb:%s:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_TMP_ITLHV
+            );
+            break;
+#if 0
+        case synctex_node_type_input:
+        case synctex_node_type_sheet:
+        case synctex_node_type_form:
+        case synctex_node_type_ref:
+        case synctex_node_type_box_bdry:
+        case synctex_node_type_proxy:
+        case synctex_node_type_proxy_last:
+        case synctex_node_type_proxy_vbox:
+        case synctex_node_type_proxy_hbox:
+        case synctex_node_type_handle:
+#endif
+        default:
+            (*printer)(
+                "%sDump unexpected node %s:%i%i\n",
+                prefix+20-*depth,
+                synctex_node_isa(node),
+                synctex_node_tag(node),
+                synctex_node_line(node)
+            );
+            break;
+    }
+}

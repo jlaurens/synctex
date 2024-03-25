@@ -47,8 +47,8 @@
  I would appreciate to be listed as contributor and see "__SyncTeX__" highlighted.
 */
 
-#ifndef __SYNCTEX_PARSER__
-#   define __SYNCTEX_PARSER__
+#ifndef _SYNCTEX_PARSER_H_
+#   define _SYNCTEX_PARSER_H_
 
 #include "synctex_version.h"
 
@@ -119,11 +119,6 @@ extern "C" {
      */
     synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, const char * build_directory, int parse);
     
-    /**
-     *  - argument scanner: a scanner.
-     *  - returns: an integer used for testing purposes.
-     */
-
     /**
      * @brief Scanner destructor
      *
@@ -415,6 +410,7 @@ extern "C" {
     const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag);
     
     int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
+    /** @} */
     
     /** @defgroup Tree Node tree
      * 
@@ -525,6 +521,16 @@ extern "C" {
      */
     float synctex_scanner_magnification(synctex_scanner_p scanner);
     
+    typedef int (synctex_printer_f) (const char *, ...);
+
+    /**
+     * @brief Dump the scanner
+     * 
+     * @param scanner 
+     * @param printer 
+     * @return int 
+     */
+    int synctex_scanner_dump(synctex_scanner_p scanner, synctex_printer_f printer);
     /** @} */
 
     /** @addtogroup Tree

@@ -130,4 +130,10 @@ function AUPDBG:level_increment(delta)
   return self._level
 end
 
-return AUPDBG
+--- @class AUP
+--- @field DBG AUPDBG
+AUP.DBG = AUPDBG
+
+return {
+  DBG = AUPDBG
+}
