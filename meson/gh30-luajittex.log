@@ -1,0 +1,40 @@
+This is LuajitTeX, Version 1.18.1 (TeX Live 2025/dev)  (format=luajittex 2024.4.13)  13 APR 2024 07:25
+ restricted system commands enabled.
+**"/Volumes/Users/GitHub/jlaurens/synctex/test standalone/test_engine/gh/gh30/g
+h30-luajittex.tex"
+
+("/Volumes/Users/GitHub/jlaurens/synctex/test standalone/test_engine/gh/gh30/gh
+30-luajittex.tex"
+Underfull \vbox (badness 10000) detected at line 9
+
+\vbox(0.0763+0.0)x0.0763, direction TLT
+.\kern-9.9237
+.\hbox(0.0+0.0)x0.0763, direction TLT
+..\hbox(0.0+0.0)x0.01526, direction TLT
+..\mathon, surrounded 0.01526
+..\hbox(0.0+0.0)x0.01526, direction TLT
+..\mathoff, surrounded 0.01526
+..\hbox(0.0+0.0)x0.01526, direction TLT
+
+[1{/Library/TeX/Distributions/.FactoryDefaults/TeXLive-GitHub/Contents/Root/texm
+f-dist/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \vbox (badness 10000) detected at line 19
+
+\vbox(0.0763+0.0)x0.0763, direction TLT
+.\kern-9.9237
+.\hbox(0.0+0.0)x0.0763, direction TLT
+..\hbox(0.0+0.0)x0.01526, direction TLT
+..\mathon, glued 0.01526
+..\hbox(0.0+0.0)x0.01526, direction TLT
+..\mathoff, glued 0.01526
+..\hbox(0.0+0.0)x0.01526, direction TLT
+
+[2])</Library/TeX/Distributions/.FactoryDefaults/TeXLive-GitHub/Contents/Root/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+Output written on gh30-luajittex.pdf (2 pages, 9035 bytes).
+
+PDF statistics: 15 PDF objects out of 1000 (max. 8388607)
+ 9 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 131072)
+ 1 words of extra memory for PDF output out of 10000 (max. 100000000)
+

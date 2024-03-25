@@ -1,6 +1,6 @@
---[==[
+--[[
 Copyright (c) 2024 jerome DOT laurens AT u-bourgogne DOT fr
-This file is part of the __SyncTeX__ package testing framework.
+This file is a bridge to the __SyncTeX__ package testing framework.
 
 ## License
  
@@ -30,7 +30,23 @@ This file is part of the __SyncTeX__ package testing framework.
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
  
---]==]
+--]]
 
-local AUP  = package.loaded.AUP
-AUP.units:teardown_tmp_dir()
+local AUP = package.loaded.AUP
+AUP.test_library_dump('pdflatex', 'form2', [==[
+\documentclass[french,a4paper,]{article}
+\usepackage{hyperref}
+\begin{document}
+\begin{Form}
+1 non = -1 , oui = +2
+\CheckBox[name=cleune,default=-1,value=2]{Cette question vous plait-elle?}
+2 non = -2 , oui = +3
+\CheckBox[name=cledeux]{Et celle-ci?}{}
+\TextField[readonly=true,name=sum,default=-3,calculate = {
+  event.value= 
+    (this.getField("cleune").value=="Yes")*3-1 + 
+    (this.getField("cledeux").value=="Yes")*5-2 ;
+}]{}
+\end{Form}
+\end{document}
+]==])

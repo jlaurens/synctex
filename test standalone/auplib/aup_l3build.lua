@@ -74,7 +74,7 @@ local function importer(env)
     activate = function()
       if _ENV ~= env then
         insert(stack, _ENV)
-        _ENV = setmetatable(env, { __index = _ENV } )
+        _ENV = setmetatable(env, { __index = _ENV } )--?
       else
         insert(stack, true)
       end

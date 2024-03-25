@@ -38,6 +38,7 @@ print("Launching the SyncTeX testing framework...")
 
 -- The current directory
 local lfs = package.loaded.lfs
+local exit = os.exit
 
 local separator = package.config:sub(1,1)
 
@@ -53,12 +54,10 @@ else
   AUP = require('auplib')
 end
 
-AUP:import_l3build()
-
-local proxy = AUP.l3build_proxy
-assert(proxy)
-
-AUP.PL.pretty.write(proxy)
+-- AUP:import_l3build()
+-- local proxy = AUP.l3build_proxy
+-- assert(proxy)
+-- AUP.PL.pretty.write(proxy)
 
 AUP.arguments = AUP.module.arguments.AUPArguments(arg)
 AUP.units = AUP.module.units.AUPUnits(AUP.arguments)
@@ -67,4 +66,10 @@ AUP.PL.pretty.write(AUP.units)
 
 AUP.units:check()
 
+local number_of_failures = AUP.units:print_failed()
+
 print("SyncTeX testing DONE")
+
+if number_of_failures>0 then
+  exit(1)
+end

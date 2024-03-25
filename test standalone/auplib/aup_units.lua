@@ -42,23 +42,35 @@ local dbg = AUP.dbg
 
 local PL = AUP.PL
 
+local PL_path = PL.path
+local currentdir = PL_path.currentdir
+local relpath = PL_path.relpath
+local basename = PL_path.basename
+
+local PL_dir = PL.dir
+local getdirectories = PL_dir.getdirectories
+local makepath = PL_dir.makepath
+
+local List = PL.List
+--- @alias List {}
+
 --- @alias StringsByString { string: string[] }
 
 --- @class AUPUnits
---- @field _engine_suites string[]
---- @field _library_suites string[]
---- @field _test_suites { engine: string[], library: string[] }
---- @field _units_by_suite { engine: StringsByString, library: StringsByString }
---- @field _engine { test_suites: string[], units_by_suite: StringsByString }
---- @field _library { test_suites: string[], units_by_suite: StringsByString }
+--- @field uuid string
+--- @field build_dir string
 --- @field check fun(self: AUPUnits)
 --- @field check_suite fun(self: AUPUnits, dir: string?, units: string[]?)
 --- @field check_unit fun(self: AUPUnits, unit: string)
---- @field load fun(self: unknown, name: string), class methods
---- @field test_setup fun(self: unknown)
---- @field test fun(self: unknown)
---- @field test_teardown fun(self: unknown)
---- @field test_currentdir fun(self: unknown, exclude: table?)
+--- @field load fun(self: AUPUnits, name: string), class methods
+--- @field test_setup fun(self: AUPUnits)
+--- @field test fun(self: AUPUnits)
+--- @field test_teardown fun(self: AUPUnits)
+--- @field test_currentdir fun(self: AUPUnits, exclude: table?)
+--- @field get_current_tmp_dir fun(self: AUPUnits)
+--- @field fail fun(self: AUPUnits, message: string)
+--- @field print_failed fun(self: AUPUnits): integer
+--- @field _failures List
 
 local AUPUnits = PL.class.AUPUnits()
 
@@ -66,6 +78,8 @@ local AUPUnits = PL.class.AUPUnits()
 --- @param arguments AUPArguments
 function AUPUnits:_init(arguments)
   --self:super()   -- call the ancestor initializer if needed
+  self.build_dir = assert(arguments.build_dir)
+  self.uuid = assert(arguments.uuid)
   local engine_suites = {}
   local library_suites = {}
   local units_by_engine_suite = {}
@@ -145,16 +159,17 @@ function AUPUnits:_init(arguments)
   }
   dbg:printf(10, "%s\n", self)
   dbg:write(10, self)
+  self._cwd = currentdir()
+  self._tmp_dir = PL_path.join(AUP.tmp_dir, "SyncTeX", self.uuid)
+  self._current_suite = nil
+  self._current_unit = nil
+  self._failures = List.new()
 end
-
 
 function AUPUnits:__tostring()
   local ans = PL.pretty.write (self)
   return 'AUPUnits: '..ans
 end
-
-local PL_path = PL.path
-local currentdir = PL_path.currentdir
 
 --- Load a file in the current directory.
 --- Class method.
@@ -224,6 +239,8 @@ function AUPUnits:check_suite(suite, units)
     suite = "."
   end
   if pushd(suite) then
+    ---@diagnostic disable-next-line: inject-field
+    self._current_suite = suite
     print('▶︎ Tests in directory: '..currentdir())
     self:test_setup()
     if units and #units > 0 then
@@ -234,6 +251,8 @@ function AUPUnits:check_suite(suite, units)
       self:test()
     end
     self:test_teardown()
+    ---@diagnostic disable-next-line: inject-field
+    self._current_suite = nil
     popd()
   else
     print('▶︎ No test for suite: "'..suite..'".')
@@ -246,17 +265,17 @@ end
 --- @param unit string
 function AUPUnits:check_unit(unit)
   if pushd(unit) then
-    print('▬▬▶︎ Unit '..unit..':')
+    ---@diagnostic disable-next-line: inject-field
+    self._current_unit = unit
+    print('▶︎▶︎▶︎ Unit '..unit..':')
     self:test()
+    ---@diagnostic disable-next-line: inject-field
+    self._current_unit = nil
     popd()
   else
-    print('▬▬▶︎ No test for unit "'..unit..'".')
+    print('▶︎▶︎▶︎ No test for unit "'..unit..'".')
   end
 end
-
-local getdirectories = PL.dir.getdirectories
-local basename = PL_path.basename
-local List = PL.List
 
 --- Run tests in the current working directory.
 --- @param exclude table?
@@ -270,6 +289,76 @@ function AUPUnits:test_currentdir(exclude)
     end
   end
 end
+
+--- Setup the overall temporary directory.
+function AUPUnits:setup_tmp_dir()
+  if not self._tmp_dir then
+    -- create a temporary file
+    local tmp_dir = PL_path.splitpath(PL_path.tmpname())
+    self._tmp_dir = PL_path.join(tmp_dir, 'SyncTeX Test', self.uuid)
+    makepath(self._tmp_dir)
+  end
+end
+
+--- Teardown the overall temporary directory.
+function AUPUnits:teardown_tmp_dir()
+  local keep_tmp = false
+  for _,a in ipairs(arg) do
+    if a == "--keep_tmp" then
+      keep_tmp = true
+      break
+    end
+  end
+  if keep_tmp then
+    print( 'Temporary directory: %s'%{self._tmp_dir})
+  else
+    dbg:write(1, 'Removing directory ', self._tmp_dir)
+    PL_dir.rmtree(self._tmp_dir)
+  end
+end
+
+--- Run tests in the current working directory.
+--- @return string
+function AUPUnits:get_current_tmp_dir()
+  local relative = relpath(currentdir(), self._cwd)
+  self:setup_tmp_dir()
+  local p = PL_path.join(self._tmp_dir, relative)
+  makepath(p)
+  return p
+end
+
+--- Declares a failure.
+--- @param message string
+function AUPUnits:fail(message)
+  self._failures:append({
+    suite = self._current_suite,
+    unit = self._current_unit,
+    message = message,
+  })
+end
+
+--- Declares a failure.
+--- @return integer
+function AUPUnits:print_failed()
+  if self._failures:len() then
+    print("FAIL:")
+    for _,t in ipairs(self._failures) do
+      local l = List.new()
+      if t.suite then
+        l:append("suite: "..t.suite)
+      end
+      if t.unit then
+        l:append("unit: "..t.unit)
+      end
+      if t.message then
+        l:append("message: "..t.message)
+      end
+      print("  "..l:concat("/"))
+    end
+  end
+  return self._failures:len()
+end
+
 
 return {
   AUPUnits = AUPUnits

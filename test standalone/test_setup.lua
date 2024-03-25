@@ -33,11 +33,5 @@ This file is part of the __SyncTeX__ package testing framework.
 --]==]
 
 local AUP = package.loaded.AUP
-local PL = AUP.PL
-local path = PL.path
-local dir = PL.dir
 
--- create a temporary file
-local tmp_dir = path.splitpath(path.tmpname())
-AUP.tmp_dir = path.join(tmp_dir,'SyncTeX Test', AUP:uuid())
-dir.makepath(AUP.tmp_dir)
+AUP.units:setup_tmp_dir()

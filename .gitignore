@@ -76,3 +76,8 @@ test standalone/**/lua_modules/lib/luarocks/rocks-5.3/luafilesystem
 test standalone/**/lua_modules/lib/luarocks/rocks-5.3/penlight/**/tests
 test standalone/**/lua_modules/**/*.rockspec
 test standalone/**/lua_modules/**/rock_manifest
+
+__pycache__/
+meson/__pycache__/
+meson/utils/__pycache__/
+meson/utils/__pycache__/uuid.cpython-310.pyc

@@ -73,6 +73,36 @@ synctex_exe = executable(synctex_name,
   c_args: [ '-DSYNCTEX_STANDALONE' ]
 )
 
+# Testing requires a preliminary step to gather the temporary files in one place.
+# We have a command to write a uuid in a text file in the build folder.
+# This uuid is used by the `AUP.units` object.
+
+generate_uuid_py = 'utils/generate_uuid.py'
+
+python_exe = find_program('python3', 'python')
+uuid_txt = 'uuid.txt'
+generated_uuid_txt = meson.current_build_dir() / uuid_txt
+
+r = run_command(
+  python_exe,
+  generate_uuid_py,
+  generated_uuid_txt,
+  check: true)
+if r.returncode() != 0
+    error('No uuid available')
+endif
+
+generate_uuid_tgt = custom_target(
+  'uuid',   # The *unique* id of the custom target
+  build_always_stale : true,                                       # If `true` the target is always considered out of date
+  build_by_default   : false,                                       # Causes, when set to true, to
+  capture            : false,                                       # There are some compilers that can't be told to write
+  input: [generate_uuid_py],
+  command            : [python_exe,  '@INPUT@',  generated_uuid_txt, 'TARGET'],  # Command to run to create outputs from inputs
+  install            : false,                                       # When true, one or more files of this target are installed during the install step (see `install_dir` for details)
+  output             : 'fake'
+)
+
 synctex_test_exe = executable('synctex_test',
   synctex_main,
   include_directories: [ synctex_inc ],
@@ -88,13 +118,15 @@ if build_machine.system() == 'windows'
 endif
 texlua = find_program('texlua'+dot_exe)
 
-synctex_no_malloc = environment({'MALLOC_PERTURB_': '0'})
+shared_library_env = environment()
+shared_library_env.set('MALLOC_PERTURB_', '0')
+shared_library_env.prepend('PATH', meson.current_build_dir())
+
 synctex_test_dir = meson.current_source_dir() / synctex_dir / 'test standalone'
 
 synctex_auplib_dir = synctex_test_dir / 'auplib' / ''
 synctex_auplib_doc_dir = synctex_auplib_dir / 'doc'
 
-fs = import('fs')
 if not fs.is_dir(synctex_auplib_doc_dir)
   message(synctex_auplib_doc_dir+' does not exist')
   runresult = run_command(
@@ -105,19 +137,66 @@ if not fs.is_dir(synctex_auplib_doc_dir)
 )
 endif
 
-
-shared_library_args = [
+shared_args = [
   'test_main.lua',
-  '--build_dir="'+meson.current_build_dir()+'"',
-  '--library'
+  '--uuid_txt="'+generated_uuid_txt+'"',
 ]
+
+test(
+  'uuid',
+  texlua,
+  args: shared_args + ['--update_uuid="'+meson.current_source_dir() / generate_uuid_py+'"'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 10000,
+)
+
+
+shared_library_args = shared_args + '--library'
+
+test(
+  'library/mark',
+  texlua,
+  args: shared_library_args + '--suite=mark',
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 2,
+)
+
+test(
+  'library/mark/...',
+  texlua,
+  args: shared_library_args + ['--suite=mark', '--unit=base'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 2,
+)
+
+test(
+  'library/dump',
+  texlua,
+  args: shared_library_args + '--suite=dump',
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 2,
+)
+
+test(
+  'library/dump/...',
+  texlua,
+  args: shared_library_args + ['--suite=dump', '--unit=form1'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 2,
+)
 
 test(
   'library/gh',
   texlua,
   args: shared_library_args + '--suite=gh',
   workdir: synctex_test_dir,
-  env: synctex_no_malloc,
+  env: shared_library_env,
+  priority: 3,
 )
 
 test(
@@ -125,21 +204,39 @@ test(
   texlua,
   args: shared_library_args + ['--suite=gh', '--unit=gh78'],
   workdir: synctex_test_dir,
-  env: synctex_no_malloc,
+  env: shared_library_env,
+  priority: 4,
 )
 
-shared_engine_args = [
-  'test_main.lua',
-  '--build_dir="'+meson.current_build_dir()+'"',
-  '--engine'
-]
+test(
+  'library/input',
+  texlua,
+  args: shared_library_args + '--suite=input',
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 5,
+)
+
+test(
+  'library/input/...',
+  texlua,
+  args: shared_library_args + ['--suite=input', '--unit=many'],
+  workdir: synctex_test_dir,
+  env: shared_library_env,
+  priority: 6,
+)
+
+shared_engine_env = environment()
+shared_engine_env.set('MALLOC_PERTURB_', '0')
+shared_engine_args = shared_args + '--engine'
 
 test(
   'engine/gh',
   texlua,
   args: shared_engine_args + '--suite=gh',
   workdir: synctex_test_dir,
-  env: synctex_no_malloc,
+  env: shared_engine_env,
+  priority: 5,
 )
 
 test(
@@ -147,7 +244,8 @@ test(
   texlua,
   args: shared_engine_args + ['--suite=gh', '--unit=gh30'],
   workdir: synctex_test_dir,
-  env: synctex_no_malloc,
+  env: shared_engine_env,
+  priority: 6,
 )
 
 test(
@@ -158,7 +256,8 @@ test(
     '--unit="bar"'
   ],
   workdir: synctex_test_dir,
-  env: synctex_no_malloc,
+  env: shared_library_env,
+  priority: 7,
 )
 
 test('first test',
@@ -169,4 +268,5 @@ test('first test',
     '1:100:100:synctex test files/1/edit query/1.pdf'
   ],
   workdir: meson.current_source_dir() / synctex_dir,
+  priority: 8,
 )

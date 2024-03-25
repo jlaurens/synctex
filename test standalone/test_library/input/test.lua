@@ -1,6 +1,6 @@
---[==[
+--[[
 Copyright (c) 2024 jerome DOT laurens AT u-bourgogne DOT fr
-This file is part of the __SyncTeX__ package testing framework.
+This file is a bridge to the __SyncTeX__ package testing framework.
 
 ## License
  
@@ -30,7 +30,15 @@ This file is part of the __SyncTeX__ package testing framework.
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
  
---]==]
+--]]
 
-local AUP  = package.loaded.AUP
-AUP.units:teardown_tmp_dir()
+local AUP = package.loaded.AUP
+local lfs = package.loaded.lfs
+
+print(lfs.currentdir())
+print(AUP._VERSION)
+print(AUP._DESCRIPTION)
+
+local AUP_units = AUP.units
+local exclude = {}
+AUP_units:test_currentdir(exclude)

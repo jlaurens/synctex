@@ -1,6 +1,6 @@
---[===[
-Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
-This file is part of the __SyncTeX__ package testing facilities.
+--[[
+Copyright (c) 2024 jerome DOT laurens AT u-bourgogne DOT fr
+This file is a bridge to the __SyncTeX__ package testing framework.
 
 ## License
  
@@ -30,55 +30,14 @@ This file is part of the __SyncTeX__ package testing facilities.
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
  
-]===]
-
-print("This test always passes")
-print("=======================")
+--]]
 
 local AUP = package.loaded.AUP
-local PL = AUP.PL
-local dir = PL.dir
-local path = PL.path
-local file = PL.file
-local seq = PL.seq
-local PL_utils = PL.utils
-local stringx = PL.stringx
-
-local AUPEngine = AUP.module.engine
-local InteractionMode = AUPEngine.InteractionMode
-
-local match = string.match
-local join = path.join
-local makepath = dir.makepath
-local write = file.write
-local read = file.read
-local splitlines = stringx.splitlines
-local printf = PL_utils.printf
-local cwd = path.currentdir()
-
-local units = AUP.units
-
-local my_path = join(units:get_current_tmp_dir(), '¡¢£¤¥¦§', '¨©ª«¬­®')
-makepath(my_path)
-AUP.pushd_or_raise(my_path)
-write ("gh78.tex", [==[
-A
-B
-C
+AUP.test_library_dump('pdftex', "base", [==[
+a
+\vfill\eject
+$b$
+\vfill\eject
+c
 \bye
 ]==])
-for name in seq.list {'pdftex', 'luatex', 'xetex'} do
-  makepath(name)
-  if AUP.pushd(name) then
-    local _ = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file('../gh78.tex'):run()
-    local s = assert(read("gh78.synctex"))
-    for _,l in ipairs(splitlines(s)) do
-      if match(l, "gh78.tex") then
-        printf("%s->\n<%s>\n", path.join(path.currentdir(), "gh78.synctex"), l)
-        break
-      end
-    end
-    AUP.popd()
-  end
-end
-path.chdir(cwd)

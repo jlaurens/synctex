@@ -47,11 +47,37 @@
  * @copyright Copyright (c) 2024
  * 
  */
+
+/*  Here are the control characters that strat each line of the synctex output file.
+ *  Their values define the meaning of the line.
+ */
+#   define SYNCTEX_CHAR_BEGIN_SHEET '{'
+#   define SYNCTEX_CHAR_END_SHEET   '}'
+#   define SYNCTEX_CHAR_BEGIN_FORM  '<'
+#   define SYNCTEX_CHAR_END_FORM    '>'
+#   define SYNCTEX_CHAR_BEGIN_VBOX  '['
+#   define SYNCTEX_CHAR_END_VBOX    ']'
+#   define SYNCTEX_CHAR_BEGIN_HBOX  '('
+#   define SYNCTEX_CHAR_END_HBOX    ')'
+#   define SYNCTEX_CHAR_ANCHOR      '!'
+#   define SYNCTEX_CHAR_VOID_VBOX   'v'
+#   define SYNCTEX_CHAR_VOID_HBOX   'h'
+#   define SYNCTEX_CHAR_KERN        'k'
+#   define SYNCTEX_CHAR_GLUE        'g'
+#   define SYNCTEX_CHAR_RULE        'r'
+#   define SYNCTEX_CHAR_MATH        '$'
+#   define SYNCTEX_CHAR_FORM_REF    'f'
+#   define SYNCTEX_CHAR_BOUNDARY    'x'
+#   define SYNCTEX_CHAR_CHARACTER   'c'
+#   define SYNCTEX_CHAR_COMMENT     '%'
+
+#   if !defined(_SYNCTEX_ONLY_CHAR_DEFINITION_)
+
 #include "synctex_parser.h"
 #include "synctex_parser_utils.h"
 
-#ifndef __SYNCTEX_PARSER_PRIVATE__
-#   define __SYNCTEX_PARSER_PRIVATE__
+#ifndef _SYNCTEX_PARSER_ADVANCED_H_
+#   define _SYNCTEX_PARSER_ADVANCED_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -269,7 +295,7 @@ extern "C" {
     };
 
     /*  each synctex node has a class */
-    typedef struct synctex_class_t synctex_class_s;
+    typedef struct _synctex_class_t _synctex_class_s;
     
     /**
      * @brief Pointer to a pseudo class.
@@ -285,7 +311,7 @@ extern "C" {
      * Each class has an tree model which stores children and parent.
      * Inspectors give access to data and tree elements.
      */
-    typedef synctex_class_s * synctex_class_p;
+    typedef _synctex_class_s * synctex_class_p;
     
     /**
      * @typedef synctex_node_p
@@ -338,7 +364,7 @@ extern "C" {
         /** Each node has an associate class. */
         synctex_class_p class_;
 #ifdef DEBUG
-        synctex_data_u data[22];
+        _synctex_data_u data[22];
 #else
         /** Each node has associate data. */
         _synctex_data_u data[1];
@@ -421,7 +447,7 @@ extern "C" {
         /** line starting with `f` */
         synctex_node_type_ref,
         /** line starting with `[` */
-        synctex_node_type_vbox,
+        synctex_node_type_vbox,/*5*/
         /** line starting with `v` */
         synctex_node_type_void_vbox,
         /** line starting with `(` */
@@ -431,7 +457,7 @@ extern "C" {
         /** line starting with `k` */
         synctex_node_type_kern,
         /** line starting with `g` */
-        synctex_node_type_glue,
+        synctex_node_type_glue,/*10*/
         /** line starting with `r` */
         synctex_node_type_rule,
         /** line starting with `$` */
@@ -441,7 +467,7 @@ extern "C" {
         /** Undocumented */
         synctex_node_type_box_bdry,
         /** Undocumented */
-        synctex_node_type_proxy,
+        synctex_node_type_proxy,/*15*/
         /** Undocumented */
         synctex_node_type_proxy_last,
         /** Undocumented */
@@ -521,6 +547,12 @@ extern "C" {
     synctex_scanner_p synctex_scanner_new(void);
 
     synctex_node_p synctex_node_new(synctex_scanner_p scanner,synctex_node_type_t type);
+
+/** @defgroup Iterator Managing the answer to queries.
+ *  
+ * Answers to edit and view queries are special structure.
+ * @{
+ */
 
     /**
      * @brief Scanner display switcher getter
@@ -779,6 +811,8 @@ _Pragma("clang diagnostic ignored \"-Wformat-extra-args\"")
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif
