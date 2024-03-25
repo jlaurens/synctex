@@ -1,6 +1,6 @@
---[==[
+--[[
 Copyright (c) 2024 jerome DOT laurens AT u-bourgogne DOT fr
-This file is part of the __SyncTeX__ package testing framework.
+This file is a bridge to the __SyncTeX__ package testing framework.
 
 ## License
  
@@ -30,7 +30,63 @@ This file is part of the __SyncTeX__ package testing framework.
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
  
---]==]
+--]]
 
-local AUP  = package.loaded.AUP
-AUP.units:teardown_tmp_dir()
+local AUP = package.loaded.AUP
+local lfs = package.loaded.lfs
+
+print(lfs.currentdir())
+print(AUP._VERSION)
+print(AUP._DESCRIPTION)
+
+local AUP_units = AUP.units
+local exclude = {}
+AUP_units:test_currentdir(exclude)
+
+local PL = AUP.PL
+local dir = PL.dir
+local path = PL.path
+local file = PL.file
+local seq = PL.seq
+local utils = PL.utils
+local stringx = PL.stringx
+
+
+local match = string.match
+local join = path.join
+local makepath = dir.makepath
+local write = file.write
+local read = file.read
+local splitlines = stringx.splitlines
+local printf = utils.printf
+local cwd = path.currentdir()
+local units = AUP.units
+assert(units)
+local my_path = units:get_current_tmp_dir()
+makepath(my_path)
+AUP.pushd_or_raise(my_path)
+write ("dump.tex", [==[
+
+]==])
+
+--[[
+
+for name in seq.list {'pdftex', 'luatex', 'xetex'} do
+  local p_2 = join(my_path, name)
+  makepath(p_2)
+  if AUP.pushd(p_2) then
+    local _ = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file('../gh78.tex'):run()
+    local p_3 = join(p_2, "gh78.synctex")
+    local s = assert(read(p_3))
+    for _,l in ipairs(splitlines(s)) do
+      if match(l, "gh78.tex") then
+        printf("%s->\n<%s>\n", p_3, l)
+        break
+      end
+    end
+    AUP.popd()
+  end
+end
+path.chdir(cwd)
+]]
+

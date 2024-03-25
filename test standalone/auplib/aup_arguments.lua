@@ -41,8 +41,9 @@ local AUP = package.loaded.AUP
 local dbg = AUP.dbg
 
 local PL = AUP.PL
-local path = PL.path
-local class = PL.class
+local PL_path = PL.path
+local dirname = PL_path.dirname
+local PL_class = PL.class
 
 local lpeg = package.loaded.lpeg -- built into texlua
 
@@ -50,7 +51,7 @@ local lpeg = package.loaded.lpeg -- built into texlua
 --- @field _init fun(self: AUPArgumentEntry, key: string, value: string|true)
 --- @field key string the `⟨key⟩` in `--test-⟨key⟩=⟨value⟩` or `--test-⟨key⟩`
 --- @field value string|true the `⟨value⟩` in `--test-⟨key⟩=⟨value⟩` or `true` for `--test-⟨key⟩`
-local AUPArgumentEntry = class.AUPArgumentEntry()
+local AUPArgumentEntry = PL_class.AUPArgumentEntry()
 
 --- nitialize a new argument entry instance
 --- @param key string
@@ -79,7 +80,8 @@ end
 --- @field _all AUPArgumentEntry[]
 --- @field _consumed { [string]: boolean }
 --- @field build_dir string
-local AUPArguments = class.AUPArguments()
+--- @field uuid string
+local AUPArguments = PL_class.AUPArguments()
 
 --- Initialize a new AUPArguments instance from a list of command arguments
 --- Only `--debug=⟨level⟩` and `--debug` arguments are consumed.
@@ -109,7 +111,20 @@ function AUPArguments:_init(arg_list)
   for i,argument in ipairs(arg_list) do
     dbg:printf(1, "argument: %i -> %s\n", i, argument)
     local k,v = match(argument, "^%-%-?([^=]+)=(.*)$")
-    if k == "build_dir" then
+    if k == "uuid_txt" then
+      local p = lpeg.S([=['"]=])^0
+      local open = lpeg.Cg(p, "init")
+      local close = lpeg.C(p)
+      local closeeq = lpeg.Cmt(close * lpeg.Cb("init"), function (_s, _i, a, b) return a == b end)
+      local string = open * lpeg.C((lpeg.P(1) - closeeq)^0) * close / 1
+      local path = string:match(v)
+      self.build_dir = dirname(path)
+      local f = io.open(path, "r")
+      assert(f)
+      self.uuid = f:read()
+      f:close()
+      dbg:printf(1, "AUP: UUID: %s\n", self.uuid)
+    elseif k == "build_dir" then
       local p = lpeg.S([=['"]=])^0
       local open = lpeg.Cg(p, "init")
       local close = lpeg.C(p)
@@ -135,7 +150,7 @@ function AUPArguments:_init(arg_list)
   end
   self._all = all
   self._consumed = {}
-  assert(self.build_dir and path.isdir(self.build_dir) and path.exists(self.build_dir))
+  assert(self.build_dir and PL_path.isdir(self.build_dir) and PL_path.exists(self.build_dir))
 end
 
 --- Consume the argument at the given index
@@ -166,7 +181,7 @@ end
 --- @field _i integer The next argument
 --- @field next fun(self: AUPArgumentsIterator): AUPArgumentEntry|nil The next argument is any
 --- @field consume fun(self: AUPArgumentsIterator) consume the argument at the given index
-local AUPArgumentsIterator = class.AUPArgumentsIterator()
+local AUPArgumentsIterator = PL_class.AUPArgumentsIterator()
 
 -- Patch the `__call` function
 do

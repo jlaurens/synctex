@@ -904,7 +904,7 @@ struct _synctex_scanner_t {
     struct {
         /**  Whether the scanner has parsed its underlying synctex file. */
         unsigned has_parsed:1;
-        /*  Whether the scanner has parsed its underlying synctex file. */
+        /*  Whether the scanner has parsed the postamble. */
         unsigned postamble:1;
         /*  alignment */
         unsigned reserved:sizeof(unsigned)-2;

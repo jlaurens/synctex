@@ -133,17 +133,13 @@ void synctex_help_view(const char * error,...);
 void synctex_help_edit(const char * error,...);
 void synctex_help_update(const char * error,...);
 void synctex_help_options(const char * error,...);
-#if SYNCTEX_DUMP
 void synctex_help_dump(const char * error,...);
-#endif
 
 int synctex_view(int argc, char *argv[]);
 int synctex_edit(int argc, char *argv[]);
 int synctex_update(int argc, char *argv[]);
 int synctex_test(int argc, char *argv[]);
-#if SYNCTEX_DUMP
 int synctex_dump(int argc, char *argv[]);
-#endif
 
 int g_interactive = 0;
 /**
@@ -193,11 +189,9 @@ int main(int argc, char *argv[])
                 } else if(0==strcmp("options",argv[i])) {
                     synctex_help_options(NULL);
                     return 0;
-#if SYNCTEX_DUMP
-                } else if(0==strcmp("dump",argv[i])) {
+               } else if(0==strcmp("dump",argv[i])) {
                     synctex_help_dump(NULL);
                     return 0;
-#endif
                 }
             }
             synctex_help(NULL);
@@ -212,10 +206,8 @@ int main(int argc, char *argv[])
             return synctex_update(argc-i-1,argv+i+1);
         } else if(0==strcmp("test",argv[i])) {
             return synctex_test(argc-i-1,argv+i+1);
-#if SYNCTEX_DUMP
         } else if(0==strcmp("dump",argv[i])) {
             return synctex_dump(argc-i-1,argv+i+1);
-#endif
         }
     }
     synctex_help("No command available.");
@@ -235,9 +227,7 @@ int synctex_synchronize();
 
 char * g_output   = NULL;
 char * g_directory = NULL;
-#if SYNCTEX_DUMP
 char * g_file = NULL;
-#endif
 
 int synctex_synchronize() {
     const char * dot_synctex;
@@ -1185,8 +1175,8 @@ int synctex_test_file (int argc, char *argv[])
     return 0;
 }
 
-#if SYNCTEX_DUMP
 int synctex_dump(int argc, char *argv[]) {
+    int i = argc;
     if((++i>=argc) || strcmp("-o",argv[i]) || (++i>=argc)) {
         synctex_help_dump("Missing -o required argument");
         return -1;
@@ -1210,17 +1200,86 @@ int synctex_dump(int argc, char *argv[]) {
                 g_file = getenv("SYNCTEX_BUILD_DIRECTORY");
             }
         } else {
-            synctex_help_dump("Unsupported argument")
+            synctex_help_dump("Unsupported argument");
             return(-1);
         }
     }
     if (synctex_synchronize()<0) {
-        _synctex_error("Something wrong happened!")
+        _synctex_error("Something wrong happened!");
         return(-1);
     }
+#if 0
+/*
+    struct _synctex_scanner_t {
+    /** Auxiliary reader object discarded when used */
+    synctex_reader_p reader;
+    SYNCTEX_DECLARE_NODE_COUNT
+    SYNCTEX_DECLARE_HANDLE
+    /** "dvi" or "pdf", not yet used */
+    char * output_fmt;
+    /** result iterator */
+    synctex_iterator_p iterator;
+    /** allways 1, not yet used */
+    int version;
+    /** various flags */
+    struct {
+        /**  Whether the scanner has parsed its underlying synctex file. */
+        unsigned has_parsed:1;
+        /*  Whether the scanner has parsed its underlying synctex file. */
+        unsigned postamble:1;
+        /*  alignment */
+        unsigned reserved:sizeof(unsigned)-2;
+    } flags;
+    /** magnification from the synctex preamble */
+    int pre_magnification;
+    /** unit from the synctex preamble */
+    int pre_unit;
+    /** X offset from the synctex preamble */
+    int pre_x_offset;
+    /** Y offset from the synctex preamble */
+    int pre_y_offset;
+    /** Number of records, from the synctex postamble */
+    int count;
+    /** real unit, from synctex preamble or post scriptum */
+    float unit;
+    /** X offset, from synctex preamble or post scriptum */
+    float x_offset;
+    /** Y Offset, from synctex preamble or post scriptum */
+    float y_offset;
+    /** The first input node, its siblings are the other input nodes */
+    synctex_node_p input;
+    /** The first sheet node, its siblings are the other sheet nodes */
+    synctex_node_p sheet;
+    /** The first form, its siblings are the other forms */
+    synctex_node_p form;
+    /** The first form ref node in sheet, its friends are the other form ref nodes */    
+    synctex_node_p ref_in_sheet;
+    /** The first form ref node, its friends are the other form ref nodes in sheet */
+    synctex_node_p ref_in_form;
+    /** The number of friend lists */
+    int number_of_lists;
+    /** The friend lists */
+    synctex_node_r lists_of_friends;
+    /** The classes of the nodes of the scanner */
+    _synctex_class_s class_[synctex_node_number_of_types];
+    /** The display switcher value*/
+    int display_switcher;
+    /** The display prompt */
+    char * display_prompt;
+};
+*/
+#endif
+    printf("Ouput:%s", synctex_scanner_get_output(g_scanner));
+    printf(".synctex:%s", synctex_scanner_get_synctex(g_scanner));
+    synctex_node_p N = synctex_scanner_input(g_scanner);
+    while (N) {
+        printf("Input:%i:%s\n", synctex_node_tag(N), synctex_node_get_name(N));
+        N = synctex_node_next(N);
+    };
     
     synctex_scanner_free(g_scanner);
     g_scanner = NULL;
+    return(0);
 }
 
 void synctex_help_dump(const char * error,...) {
@@ -1242,9 +1301,8 @@ void synctex_help_dump(const char * error,...) {
         "        The other ones are simply removed, if the authorization is granted\n"
         "       \n"
         "-f <file>\n"
-        "   when provided, writes the dumped data to <file>.\n",
+        "   when provided, writes the dumped data to <file>.\n"
         "   By default dumped data are written to stdout.\n",
         (error?stderr:stdout)
     );
 }
-#endif

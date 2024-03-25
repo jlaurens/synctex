@@ -73,6 +73,28 @@ synctex_exe = executable(synctex_name,
   c_args: [ '-DSYNCTEX_STANDALONE' ]
 )
 
+# Testing requires a preliminary step to gather the temporary files in one place.
+# We have a command to write a uuid in a text file in the build folder.
+# This uuid is used by the `AUP.units` object.
+
+generate_uuid_py = 'utils/generate_uuid.py'
+copy = fs.copyfile(files(generate_uuid_py))
+
+python_exe = find_program('python3', 'python')
+uuid_txt = 'uuid.txt'
+generated_uuid_txt = meson.current_build_dir() / uuid_txt
+
+generate_uuid = custom_target(
+  'generate_uuid',
+  output : uuid_txt,
+  build_always_stale: true,
+  command : [
+    python_exe,
+    meson.current_build_dir() / 'utils/generate_uuid.py',
+    generated_uuid_txt
+  ]
+)
+
 synctex_test_exe = executable('synctex_test',
   synctex_main,
   include_directories: [ synctex_inc ],
@@ -94,7 +116,6 @@ synctex_test_dir = meson.current_source_dir() / synctex_dir / 'test standalone'
 synctex_auplib_dir = synctex_test_dir / 'auplib' / ''
 synctex_auplib_doc_dir = synctex_auplib_dir / 'doc'
 
-fs = import('fs')
 if not fs.is_dir(synctex_auplib_doc_dir)
   message(synctex_auplib_doc_dir+' does not exist')
   runresult = run_command(
@@ -105,12 +126,19 @@ if not fs.is_dir(synctex_auplib_doc_dir)
 )
 endif
 
-
 shared_library_args = [
   'test_main.lua',
-  '--build_dir="'+meson.current_build_dir()+'"',
+  '--uuid_txt="'+generated_uuid_txt+'"',
   '--library'
 ]
+
+test(
+  'library/dump',
+  texlua,
+  args: shared_library_args + '--suite=dump',
+  workdir: synctex_test_dir,
+  env: synctex_no_malloc,
+)
 
 test(
   'library/gh',
@@ -130,7 +158,7 @@ test(
 
 shared_engine_args = [
   'test_main.lua',
-  '--build_dir="'+meson.current_build_dir()+'"',
+  '--uuid_txt="'+generated_uuid_txt+'"',
   '--engine'
 ]
 
