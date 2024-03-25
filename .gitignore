@@ -77,4 +77,7 @@ test standalone/**/lua_modules/lib/luarocks/rocks-5.3/penlight/**/tests
 test standalone/**/lua_modules/**/*.rockspec
 test standalone/**/lua_modules/**/rock_manifest
 
-**/__pycache__
+__pycache__/
+meson/__pycache__/
+meson/utils/__pycache__/
+
