@@ -338,7 +338,7 @@ extern "C" {
         /** Each node has an associate class. */
         synctex_class_p class_;
 #ifdef DEBUG
-        synctex_data_u data[22];
+        _synctex_data_u data[22];
 #else
         /** Each node has associate data. */
         _synctex_data_u data[1];
