@@ -214,7 +214,7 @@ typedef int (*_synctex_int_getter_f)(synctex_node_p);
  * @brief tlc inspector structure
  * 
  */
-typedef struct synctex_tlcpector_t {
+typedef struct _synctex_tlcpector_t {
     /** tag getter */
     _synctex_int_getter_f tag;
     /** line getter */
@@ -904,7 +904,7 @@ struct _synctex_scanner_t {
     struct {
         /**  Whether the scanner has parsed its underlying synctex file. */
         unsigned has_parsed:1;
-        /*  Whether the scanner has parsed its underlying synctex file. */
+        /*  Whether the scanner has parsed the postamble. */
         unsigned postamble:1;
         /*  alignment */
         unsigned reserved:sizeof(unsigned)-2;
@@ -1135,6 +1135,7 @@ typedef struct {
     int integer;
     synctex_status_t status;
 } _synctex_is_s;
+/** @endcond */
 
 static _synctex_is_s _synctex_decode_int(synctex_scanner_p scanner);
 static _synctex_is_s _synctex_decode_int_opt(synctex_scanner_p scanner, int default_value);
@@ -1533,6 +1534,13 @@ static const _synctex_data_model_s synctex_data_model_form = {
     -1, /* page */
     synctex_data_t_form_max
 };
+
+static const _synctex_tlcpector_s synctex_tlcpector_form = {
+    &_synctex_data_tag, /* tag */
+    &_synctex_int_none, /* line */
+    &_synctex_int_none, /* column */
+};;
+
 static _synctex_class_s _synctex_class_form = {
     NULL,                       /*  No scanner yet */
     synctex_node_type_form,     /*  Node type */
@@ -1543,7 +1551,7 @@ static _synctex_class_s _synctex_class_form = {
     &_synctex_abstract_form,    /*  abstract */
     &synctex_tree_model_form,   /*  tree model */
     &synctex_data_model_form,   /*  data model */
-    &synctex_tlcpector_none,    /*  tlcpector */
+    &synctex_tlcpector_form,   /*  tnspector */
     &synctex_inspector_none,    /*  inspector */
     &synctex_vispector_none,    /*  vispector */
 };
@@ -4881,29 +4889,6 @@ static synctex_status_t _synctex_make_hbox_contain_box(synctex_node_p node,synct
 #   endif
 
 
-/*  Here are the control characters that strat each line of the synctex output file.
- *  Their values define the meaning of the line.
- */
-#   define SYNCTEX_CHAR_BEGIN_SHEET '{'
-#   define SYNCTEX_CHAR_END_SHEET   '}'
-#   define SYNCTEX_CHAR_BEGIN_FORM  '<'
-#   define SYNCTEX_CHAR_END_FORM    '>'
-#   define SYNCTEX_CHAR_BEGIN_VBOX  '['
-#   define SYNCTEX_CHAR_END_VBOX    ']'
-#   define SYNCTEX_CHAR_BEGIN_HBOX  '('
-#   define SYNCTEX_CHAR_END_HBOX    ')'
-#   define SYNCTEX_CHAR_ANCHOR      '!'
-#   define SYNCTEX_CHAR_VOID_VBOX   'v'
-#   define SYNCTEX_CHAR_VOID_HBOX   'h'
-#   define SYNCTEX_CHAR_KERN        'k'
-#   define SYNCTEX_CHAR_GLUE        'g'
-#   define SYNCTEX_CHAR_RULE        'r'
-#   define SYNCTEX_CHAR_MATH        '$'
-#   define SYNCTEX_CHAR_FORM_REF    'f'
-#   define SYNCTEX_CHAR_BOUNDARY    'x'
-#   define SYNCTEX_CHAR_CHARACTER   'c'
-#   define SYNCTEX_CHAR_COMMENT     '%'
-
 #	ifdef SYNCTEX_NOTHING
 #       pragma mark -
 #       pragma mark SCANNERS & PARSERS
@@ -4948,12 +4933,14 @@ static _synctex_ns_s _synctex_parse_new_sheet(synctex_scanner_p scanner) {
 static _synctex_ns_s _synctex_parse_new_form(synctex_scanner_p scanner) {
     synctex_node_p node;
     if ((node = _synctex_new_form(scanner))) {
-        if (
-            SYNCTEX_DECODE_FAILED(node,tag)) {
-            _synctex_error("Bad sheet record.");
+        if ((_synctex_data_decode_tag(node)<SYNCTEX_STATUS_OK)) {
+//        if (SYNCTEX_DECODE_FAILED(node,tag)) {
+            _synctex_error("Bad form record.");
         } else if (_synctex_next_line(scanner)<SYNCTEX_STATUS_OK) {
             _synctex_error("Missing end of form.");
         } else {
+printf("FORM TAG: %i\n", synctex_node_tag(node));
+printf("FORM TAG: %i\n", _synctex_data_tag(node));
             /* Now set the owner */
             if (scanner->form) {
                 synctex_node_p last_form = scanner->form;
@@ -9191,3 +9178,193 @@ int synctex_test_form() {
     return TC;
 }
 #endif
+
+static void _synctex_node_dump(
+    synctex_node_p node,
+    synctex_printer_f printer,
+    int * depth);
+
+static const char * prefix = ".....................";
+int synctex_scanner_dump(synctex_scanner_p scanner, synctex_printer_f printer) {
+    (*printer)("BEGIN DUMP\n");
+    (*printer)("Ouput:%s\n", synctex_scanner_get_output(scanner));
+    (*printer)(".synctex:%s\n", synctex_scanner_get_synctex(scanner));
+    synctex_node_p N = synctex_scanner_input(scanner);
+    if (N) {
+        int NN = synctex_node_tag(N);
+        for (int i = 0; i<NN; ) {
+            ++i;
+            N = synctex_scanner_input(scanner);
+            do {
+                if(synctex_node_tag(N) == i) {
+                    (*printer)("Input:%i:%s\n", i, synctex_node_get_name(N));
+                    break;
+                }
+            } while ((N = synctex_node_sibling(N)));
+        }
+    }
+    (*printer)("magnification:%f\n", synctex_scanner_magnification(scanner));
+    (*printer)("x_offset:%i\n", synctex_scanner_x_offset(scanner));
+    (*printer)("y_offset:%i\n", synctex_scanner_y_offset(scanner));
+    synctex_node_p sheet = synctex_sheet(scanner, 0);
+    int depth = 0;
+    while (sheet) {
+        (*printer)("%csheet:%i\n", SYNCTEX_CHAR_BEGIN_SHEET, _synctex_data_page(sheet));
+        _synctex_node_dump(synctex_node_child(sheet), printer, &depth);
+        (*printer)("%csheet:%i\n", SYNCTEX_CHAR_END_SHEET, _synctex_data_page(sheet));
+        sheet = __synctex_tree_sibling(sheet);
+    }
+    synctex_node_p form = synctex_form(scanner, 0);
+    depth = 0;
+    while (form) {
+        (*printer)("%cform:%i\n", SYNCTEX_CHAR_BEGIN_FORM, synctex_node_tag(form));
+        _synctex_node_dump(synctex_node_child(form), printer, &depth);
+        (*printer)("%cform:%i\n", SYNCTEX_CHAR_END_FORM, synctex_node_tag(form));
+        form = __synctex_tree_sibling(form);
+    }
+    (*printer)("END DUMP\n");
+    return 0;
+}
+
+static void _synctex_node_dump(
+    synctex_node_p node,
+    synctex_printer_f printer,
+    int * depth
+) {
+    synctex_node_p N;
+    switch(synctex_node_type(node)) {
+        case synctex_node_type_vbox:
+            (*printer)(
+                "%s%c%s:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_BEGIN_VBOX,
+#define SYNCTEX_TMP_ITLHV \
+                synctex_node_isa(node),\
+                synctex_node_tag(node),\
+                synctex_node_line(node),\
+                synctex_node_h(node),\
+                synctex_node_v(node)
+#define SYNCTEX_TMP_ITLHVWHD \
+                SYNCTEX_TMP_ITLHV,\
+                synctex_node_width(node),\
+                synctex_node_height(node),\
+                synctex_node_depth(node)
+                SYNCTEX_TMP_ITLHVWHD
+            );
+            //
+            *depth = (*depth+1)%20;
+            if ((N = synctex_node_child(node))) {
+                do {
+                    _synctex_node_dump(N, printer, depth);
+                } while((N = synctex_node_sibling(N)));
+            }
+            *depth = (*depth+19)%20;
+            (*printer)("%s%c\n", prefix+20-*depth, SYNCTEX_CHAR_END_VBOX);
+            break;
+        case synctex_node_type_hbox:
+            (*printer)(
+                "%s%c%s:%i:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_BEGIN_HBOX,
+                SYNCTEX_TMP_ITLHVWHD
+            );
+            *depth = (*depth+1)%20;
+            if ((N = synctex_node_child(node))) {
+                do {
+                    _synctex_node_dump(N, printer, depth);
+                } while((N = synctex_node_sibling(N)));
+            }
+            *depth = (*depth+19)%20;
+            (*printer)("%s%c\n", prefix+20-*depth, SYNCTEX_CHAR_END_HBOX);
+            break;
+        case synctex_node_type_void_vbox:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_VOID_VBOX,
+                SYNCTEX_TMP_ITLHVWHD
+            );
+            break;
+        case synctex_node_type_void_hbox:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_VOID_HBOX,
+                SYNCTEX_TMP_ITLHVWHD
+            );
+            break;
+        case synctex_node_type_kern:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_KERN,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_glue:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_GLUE,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_rule:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_RULE,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_math:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_MATH,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_boundary:
+            (*printer)(
+                "%s%c:%s:%i:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_CHAR_BOUNDARY,
+                SYNCTEX_TMP_ITLHV,
+                synctex_node_width(node)
+            );
+            break;
+        case synctex_node_type_box_bdry:
+            (*printer)(
+                "%sb:%s:%i:%i:%i:%i:%i\n",
+                prefix+20-*depth,
+                SYNCTEX_TMP_ITLHV
+            );
+            break;
+#if 0
+        case synctex_node_type_input:
+        case synctex_node_type_sheet:
+        case synctex_node_type_form:
+        case synctex_node_type_ref:
+        case synctex_node_type_box_bdry:
+        case synctex_node_type_proxy:
+        case synctex_node_type_proxy_last:
+        case synctex_node_type_proxy_vbox:
+        case synctex_node_type_proxy_hbox:
+        case synctex_node_type_handle:
+#endif
+        default:
+            (*printer)(
+                "%sDump unexpected node %s:%i%i\n",
+                prefix+20-*depth,
+                synctex_node_isa(node),
+                synctex_node_tag(node),
+                synctex_node_line(node)
+            );
+            break;
+    }
+}

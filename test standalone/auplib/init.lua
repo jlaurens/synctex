@@ -59,7 +59,7 @@ do
   end
   if not pl then
     local p = kpathsea:find_file('penlight.lua')
-    print('Penlight distribution at '..p)
+    print('Penlight distribution at '..(p or "?"))
     assert(p)
     local dir = match(p, "^(.*/)[^/"..separator.."]*/[^/"..separator.."]*$")
     package.path = dir.."?/?.lua;"..package.path
@@ -80,6 +80,7 @@ local raise = pl.utils.raise
 --- @class AUP
 --- @field _VERSION string
 --- @field _DESCRIPTION string
+--- @field tmp_dir string
 --- @field module table
 --- @field dbg AUPDBG
 --- @field PL table
@@ -88,8 +89,12 @@ local raise = pl.utils.raise
 --- @field l3build_proxy AUPL3BuildProxy
 --- @field uuid fun(): string
 --- @field pushd fun(dir: string):boolean, string?
+--- @field pushd_or_raise fun(dir: string)
 --- @field popd fun():boolean, string?
 --- @field arguments AUPArguments?
+--- @field Command AUPCommand
+--- @field Engine AUPEngine
+--- @field SyncTeX AUPSyncTeX
 
 local AUP = {
   _VERSION = '0.1',
@@ -113,7 +118,7 @@ setmetatable(AUP.module, {
   __index = function(t, key)
     print(key)
     local path = path_dir_auplib..'/aup_'..key..'.lua'
-    print("path: "..AUP:short_path(path))
+    print("Module path: "..AUP:short_path(path))
     local f, err = loadfile(path)
     if err then
       raise(err)
@@ -129,6 +134,7 @@ setmetatable(AUP.module, {
   end
 })
 
+--[[
 -- from https://gist.github.com/jrus/3197011
 local random = math.random
 local randomseed = math.randomseed
@@ -145,6 +151,7 @@ function AUP.uuid()
   end)
   return ans
 end
+]]
 
 function AUP:import_l3build(env)
   local importer = self.module.l3build
@@ -153,13 +160,15 @@ function AUP:import_l3build(env)
 end
 
 local PL = AUP.PL
-local path = PL.path
+local PL_path = PL.path
 local List = PL.List
-local currentdir = path.currentdir
-local chdir = path.chdir
-local relpath = path.relpath
+local currentdir = PL_path.currentdir
+local chdir = PL_path.chdir
+local relpath = PL_path.relpath
 
 local pushd_stack = List()
+
+PL.text.format_operator()
 
 --- Sort of command line pushd emulation.
 --- @param dir string
@@ -172,6 +181,15 @@ function AUP.pushd(dir)
     pushd_stack:append(cwd)
   end
   return ans, err
+end
+
+--- Sort of command line pushd emulation.
+--- @param dir string
+function AUP.pushd_or_raise(dir)
+  local ans, err = AUP.pushd(dir)
+  if not ans then
+    error("Improbable error: "..err)
+  end
 end
 
 --- Sort of command line popd emulation.
@@ -202,5 +220,8 @@ package.loaded.auplib = AUP
 package.loaded.AUP = AUP
 
 AUP.dbg = AUP.module.dbg()
+
+-- create a temporary file
+AUP.tmp_dir = PL_path.splitpath(PL_path.tmpname())
 
 print("AUP loaded")

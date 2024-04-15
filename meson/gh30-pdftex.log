@@ -1,0 +1,31 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev) (preloaded format=pdftex 2024.4.13)  13 APR 2024 07:34
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**"/Volumes/Users/GitHub/jlaurens/synctex/test standalone/test_engine/gh/gh30/g
+h30-pdftex.tex"
+
+(/Volumes/Users/GitHub/jlaurens/synctex/test standalone/test_engine/gh/gh30/gh3
+0-pdftex.tex
+Underfull \vbox (badness 10000) detected at line 9
+
+\vbox(0.0763+0.0)x0.0763
+.\kern -9.9237
+.\hbox(0.0+0.0)x0.0763
+..\hbox(0.0+0.0)x0.01526
+..\mathon, surrounded 0.01526
+..\hbox(0.0+0.0)x0.01526
+..\mathoff, surrounded 0.01526
+..\hbox(0.0+0.0)x0.01526
+
+[1{/Library/TeX/Distributions/.FactoryDefaults/TeXLive-GitHub/Contents/Root/tex
+mf-dist/fonts/map/pdftex/updmap/pdftex.map}] )</Library/TeX/Distributions/.Fact
+oryDefaults/TeXLive-GitHub/Contents/Root/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr10.pfb>
+Output written on gh30-pdftex.pdf (1 page, 8183 bytes).
+PDF statistics:
+ 12 PDF objects out of 1000 (max. 8388607)
+ 7 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

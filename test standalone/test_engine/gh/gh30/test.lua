@@ -32,51 +32,72 @@ This file is part of the __SyncTeX__ package testing facilities.
  
 ]===]
 
-print("This test always passes")
-print("=======================")
+local lfs = package.loaded.lfs
 
 local AUP = package.loaded.AUP
+
+local dbg = AUP.dbg
+
+dbg:write(1, "Testing mathsurround")
+
 local PL = AUP.PL
-local dir = PL.dir
-local path = PL.path
-local file = PL.file
-local seq = PL.seq
-local utils = PL.utils
-local stringx = PL.stringx
+local PL_dir = PL.dir
+local PL_path = PL.path
+local PL_file = PL.file
+local PL_seq = PL.seq
+local PL_utils = PL.utils
+local PL_stringx = PL.stringx
 
 local AUPEngine = AUP.module.engine
 local InteractionMode = AUPEngine.InteractionMode
 
 local match = string.match
-local join = path.join
-local makepath = dir.makepath
-local write = file.write
-local read = file.read
-local splitlines = stringx.splitlines
-local printf = utils.printf
-local my_path = join(AUP.tmp_dir, '¡¢£¤¥¦§', '¨©ª«¬­®')
-makepath(my_path)
-local p_1 = join(my_path, "gh30.tex")
-write (p_1, [==[
-%\documentclass{article}
-%\begin{document}
-\mathsurroundskip=1cm
-$y$%
-\bye
-%\end{document}
-]==])
-for name in seq.list {'luatex'} do
-  local p_2 = join(my_path, name)
-  makepath(p_2)
-  if AUP.pushd(p_2) then
-    local _status, _ans, stdout, _errout = AUPEngine('luatex'):synctex(-1):interaction(InteractionMode.nonstopmode):run('../gh30.tex')
-    for i,l in ipairs(splitlines(stdout)) do
-      if match(l, "Synchronize ERROR") then
-        printf("Unexpected at line %i: <%s>\n", i, l)
+local join = PL_path.join
+local makepath = PL_dir.makepath
+local write = PL_file.write
+local read = PL_file.read
+local splitlines = PL_stringx.splitlines
+local printf = PL_utils.printf
+
+local units = AUP.units
+
+local cwd = lfs.currentdir();
+
+AUP.pushd_or_raise(units:get_current_tmp_dir())
+for _,name in ipairs({
+  'euptex', 'pdftex', 'xetex', 'luatex', 'luahbtex', 'luajittex'
+}) do
+  local base = 'gh30-'..name
+  local source = join(cwd, base..".tex")
+  makepath(name)
+  AUP.pushd_or_raise(name)
+  print(lfs.currentdir())
+  local _status, _ans, stdout, _errout = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source):run()
+  for i,l in ipairs(splitlines(stdout)) do
+    if match(l, "Synchronize ERROR") then
+      printf("Unexpected at line %i: <%s>\n", i, l)
+    end
+  end
+  print(stdout)
+  local s = read(base..".synctex")
+  if string.find(name, "lua") then
+    local i = string.find(s, "$1,7:1000,")
+    if i==nil then
+      units:fail("Wrong "..base..".synctex")
+      print(s)
+    else
+      i = string.find(s, "$1,17:2000,")
+      if i==nil then
+        units:fail("Wrong "..base..".synctex")
+        print(s)
       end
     end
-    local s = read("gh30.synctex")
-    print(s)
-    AUP.popd()
+  else
+    local i = string.find(s, "$1,7:2000,")
+    if i==nil then
+      units:fail("Wrong "..base..".synctex")
+      print(s)
+    end
   end
+  AUP.popd()
 end

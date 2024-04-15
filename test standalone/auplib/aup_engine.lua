@@ -37,88 +37,65 @@ local AUP = package.loaded.AUP
 local PL = AUP.PL
 
 local List = PL.List
-local PL_path = PL.path
 local PL_utils = PL.utils
 local assert_string = PL_utils.assert_string
-local executeex = PL_utils.executeex
 
---- @enum (key) AUPInteractionMode
-local AUPInteractionMode = {
+local AUPCommand = AUP.module.command
+
+--- @enum (key) AUPTeXInteractionMode
+local AUPTeXInteractionMode = {
   batchmode   = 'batchmode',
   nonstopmode = 'nonstopmode',
   scrollmode  = 'scrollmode',
   errorstopmode = 'errorstopmode'
 }
 
---- @class AUPEngine
+--- @class AUPEngine: AUPCommand
 --- @field _init fun(self: AUPEngine, name: string)
+--- @field reset fun(self: AUPEngine)
 --- @field synctex fun(self: AUPEngine, value: integer): AUPEngine
---- @field interaction fun(self: AUPEngine, value: AUPInteractionMode): AUPEngine
---- @field which fun(self: AUPEngine, file: string): string?
---- @field run fun(file: string): boolean, integer, string, string
+--- @field interaction fun(self: AUPEngine, value: AUPTeXInteractionMode): AUPEngine
+--- @field file fun(self: AUPEngine, file: string): AUPEngine
+--- @field cmd fun(self: AUPEngine): string
 
-local AUPEngine = PL.class.AUPEngine()
+local AUPEngine = PL.class.AUPEngine(AUPCommand)
 
-local arguments = AUP.arguments
-
-local PATH = nil
-
---- Initialize an AUPEngine instance
+--- Initialize anAUPEngine instance
 --- @param name string
---- @param synctex_mode integer?
---- @param ... string
-function AUPEngine:_init(name, synctex_mode, ...)
+function AUPEngine:_init(name)
   assert_string(2, name)
-  self._engine = name
-  self._PATH = List()
-  local bin_dirs = List({synctex_mode, ...}):filter(
-    function(x) return type(x)=='string' and #x>0 end
-  )
-  if #bin_dirs then
-    self._PATH:extend(bin_dirs)
-  end
-  if type(synctex_mode) == 'number' then
-    self:synctex(synctex_mode)
-  end
+  self:super(name)
 end
 
---- A simple implementation of the which command.
---- This looks for
---- the given file on the path. On windows, it will assume an extension
---- of `.exe` if no extension is given.
---- rom https://stevedonovan.github.io/Penlight/api/examples/which.lua.html
---- @param file string
---- @return string?
-function AUPEngine:which(file)
-  assert_string(2, file)
-  if PL_path.is_windows and PL_path.extension(file) then
-    file = file..'.exe'
-  end
-  local res = self._PATH:map(PL_path.join, file)
-  res = res:filter(PL_path.exists)
-  if #res > 0 then return res[1] end
-  if not PATH then
-    PATH = List()
-    if arguments then
-      local iterator = arguments:iterator()
-      local entry = iterator:next()
-      while(entry) do
-        if entry.key == 'bin_dir' then
-          if  type(entry.value) == 'string' then
-            PATH:append(entry.value)
-          end
-          iterator:consume()
-        end
-        entry = iterator:next()
-      end
-    end
-    PATH:extend(List.split(os.getenv('PATH'), PL_path.dirsep))
-    print(PATH)
-    PL.pretty.dump(PATH)
-  end
-  res = PATH:map(PL_path.join, file)
-  res = res:filter(PL_path.exists)
-  if #res then return res[1] end
+--- Add an option.
+--- @param argument string
+--- @return AUPEngine
+function AUPEngine:add_argument(argument)
+  assert_string (2, argument)
+  self._arguments:append(argument)
+  return self
+end
+
+--- Add an option.
+--- @return AUPEngine
+function AUPEngine:clear_arguments()
+  self._arguments = List()
+  return self
+end
+
+local quote_arg = PL_utils.quote_arg
+
+--- Build the command on the fly.
+--- @return string 
+function AUPEngine:cmd()
+  return quote_arg(List({
+    self._engine,
+    self._synctex,
+    self._interaction,
+    self._file
+  }):filter(function(x)
+    return type(x)=='string' and #x>0
+  end))
 end
 
 --- Set the `--synctex` option.
@@ -130,12 +107,12 @@ function AUPEngine:synctex(value)
     value = assert(tostring(value))
   end
   --assert_string (2, value)
-  self._synctex_mode = "--synctex="..value
+  self._synctex = "--synctex="..value
   return self
 end
 
---- Set the `--synctex` option.
---- @param value AUPInteractionMode
+--- Set the `--interaction` option.
+--- @param value AUPTeXInteractionMode
 --- @return AUPEngine
 function AUPEngine:interaction(value)
   assert_string(2, value)
@@ -143,27 +120,26 @@ function AUPEngine:interaction(value)
   return self
 end
 
-local quote_arg = PL_utils.quote_arg
---- Set the `--synctex` option.
---- @param file string
---- @return boolean status
---- @return integer code
---- @return string stdout
---- @return string errout
-function AUPEngine:run(file)
-  local cmd = self:which(self._engine)
-  if not cmd then
-    return false, -1, "", 'Unknown engine '..self._engine
-  end
-  cmd = quote_arg(List({cmd, self._synctex_mode, self._interaction, file}):filter(function(x)
-    return type(x)=='string' and #x>0
-  end))
-  print(cmd)
-  return executeex(cmd)
+--- Set the `--interaction` option.
+--- @param value string
+--- @return AUPEngine
+function AUPEngine:file(value)
+  assert_string(2, value)
+  self._file = value
+  return self
 end
 
-AUPEngine.InteractionMode = AUPInteractionMode
+--- Reset the arguments.
+--- @return AUPEngine
+function AUPEngine:reset()
+  self._synctex = nil
+  self._interaction = nil
+  self._file = nil
+  return self
+end
 
-local l = AUPEngine('luatex')
+AUP.Engine = AUPEngine
+
+AUPEngine.InteractionMode = AUPTeXInteractionMode
 
 return AUPEngine
