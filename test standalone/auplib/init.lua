@@ -33,8 +33,6 @@ This file is part of the __SyncTeX__ package testing framework.
 --]==]
 
 local match = string.match
-local gsub = string.gsub
-local format = string.format
 local ipairs = ipairs
 
 local separator = package.config:sub(1,1)
@@ -73,13 +71,15 @@ do
     end
   end
 end
-assert(pl)
+print("loading auplib...3")
+assert(pl, "No penlight available")
 package.path = path_dir_auplib.."?.lua;"..package.path
 local raise = pl.utils.raise
 
 --- @class AUP
 --- @field _VERSION string
 --- @field _DESCRIPTION string
+--- @field test_standalone_dir string
 --- @field tmp_dir string
 --- @field module table
 --- @field dbg AUPDBG
@@ -116,8 +116,9 @@ setmetatable(AUP, {
 setmetatable(AUP.module, {
   -- lazy table
   __index = function(t, key)
-    print(key)
-    local path = path_dir_auplib..'/aup_'..key..'.lua'
+    local lower_key = string.lower(key)
+    print(lower_key)
+    local path = path_dir_auplib..'/aup_'..lower_key..'.lua'
     print("Module path: "..AUP:short_path(path))
     local f, err = loadfile(path)
     if err then
@@ -129,7 +130,8 @@ setmetatable(AUP.module, {
     end
     local value = assert(f())
     t[key] = value
-    package.loaded['auplib/'..key] = value
+    t[lower_key] = value
+    package.loaded['auplib/'..lower_key] = value
     return value
   end
 })
@@ -160,11 +162,10 @@ function AUP:import_l3build(env)
 end
 
 local PL = AUP.PL
-local PL_path = PL.path
 local List = PL.List
-local currentdir = PL_path.currentdir
-local chdir = PL_path.chdir
-local relpath = PL_path.relpath
+local currentdir = PL.path.currentdir
+local chdir = PL.path.chdir
+local relpath = PL.path.relpath
 
 local pushd_stack = List()
 
@@ -202,7 +203,9 @@ function AUP.popd()
   return chdir(assert(pushd_stack:pop()))
 end
 
-AUP._cwd = currentdir()
+AUP.test_standalone_dir = currentdir()
+
+print(AUP.test_standalone_dir)
 
 --- Return the argument relative to the initial current directory.
 --- This is used to keep some information private.
@@ -211,7 +214,7 @@ AUP._cwd = currentdir()
 --- @return string
 function AUP:short_path(p)
   p = p or currentdir()
-  return List({'...', relpath(p, self._cwd)})
+  return List({'...', relpath(p, self.test_standalone_dir)})
     :filter(function(x) return #x >0 end)
     :join('/')
 end
@@ -222,6 +225,6 @@ package.loaded.AUP = AUP
 AUP.dbg = AUP.module.dbg()
 
 -- create a temporary file
-AUP.tmp_dir = PL_path.splitpath(PL_path.tmpname())
+AUP.tmp_dir = PL.path.dirname(PL.path.tmpname())
 
 print("AUP loaded")

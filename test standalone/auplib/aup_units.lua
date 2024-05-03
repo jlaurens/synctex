@@ -35,6 +35,8 @@ This file is part of the __SyncTeX__ package testing framework.
 --- @type AUP
 local AUP = package.loaded.AUP
 
+local AUPCommand = AUP.module.Command
+
 local pushd = AUP.pushd
 local popd  = AUP.popd
 
@@ -42,14 +44,12 @@ local dbg = AUP.dbg
 
 local PL = AUP.PL
 
-local PL_path = PL.path
-local currentdir = PL_path.currentdir
-local relpath = PL_path.relpath
-local basename = PL_path.basename
+local currentdir = PL.path.currentdir
+local relpath = PL.path.relpath
+local basename = PL.path.basename
 
-local PL_dir = PL.dir
-local getdirectories = PL_dir.getdirectories
-local makepath = PL_dir.makepath
+local getdirectories = PL.dir.getdirectories
+local makepath = PL.dir.makepath
 
 local List = PL.List
 --- @alias List {}
@@ -67,7 +67,7 @@ local List = PL.List
 --- @field test fun(self: AUPUnits)
 --- @field test_teardown fun(self: AUPUnits)
 --- @field test_currentdir fun(self: AUPUnits, exclude: table?)
---- @field get_current_tmp_dir fun(self: AUPUnits)
+--- @field get_current_tmp_dir fun(self: AUPUnits): string
 --- @field fail fun(self: AUPUnits, message: string)
 --- @field print_failed fun(self: AUPUnits): integer
 --- @field _failures List
@@ -75,15 +75,19 @@ local List = PL.List
 local AUPUnits = PL.class.AUPUnits()
 
 --- Initialize an `AUPUnits` instance
---- @param arguments AUPArguments
-function AUPUnits:_init(arguments)
+function AUPUnits:_init()
+  local arguments = AUP.arguments
+  assert(arguments, "Internal error")
   --self:super()   -- call the ancestor initializer if needed
   self.build_dir = assert(arguments.build_dir)
   self.uuid = assert(arguments.uuid)
+  self._keep_tmp = false
   local engine_suites = {}
   local library_suites = {}
+  local dev_suites = {}
   local units_by_engine_suite = {}
   local units_by_library_suite = {}
+  local units_by_dev_suite = {}
   local current_suite = nil
   local current_units = {}
   local current_suites = library_suites
@@ -92,6 +96,8 @@ function AUPUnits:_init(arguments)
   local entry = iterator:next()
   dbg:write(1, "**** Managing arguments")
   while(entry) do
+    dbg:write(1, "entry.key:%s"%{entry.key})
+    dbg:write(1, "entry.value:%s"%{entry.value})
     if entry.key == 'suite' then
       table.insert(current_suites, entry.value)
       if current_suite then
@@ -133,6 +139,25 @@ function AUPUnits:_init(arguments)
         current_units = {}
       end
       iterator:consume()
+    elseif entry.key == 'dev' then
+      if current_suites ~= dev_suites then
+        dbg:write(1, "mode: dev")
+        if current_suite then
+          units_by_current_suite[current_suite] = current_units
+        end
+        current_suites = dev_suites
+        units_by_current_suite = units_by_dev_suite
+        -- no reasonable default value for current_suite
+        current_suite = nil
+        current_units = {}
+      end
+      iterator:consume()
+    elseif entry.key == 'keep_tmp' then
+      dbg:write(1, "keep tmp directory")
+      self._keep_tmp = true
+      iterator:consume()
+    else
+      dbg:write(1, "Unconsumed: %s->%s"%{entry.key, entry.value})
     end
     entry = iterator:next()
   end
@@ -144,10 +169,12 @@ function AUPUnits:_init(arguments)
   self._test_suites = {
     engine = engine_suites,
     library = library_suites,
+    dev = dev_suites,
   }
   self._units_by_suite = {
     engine = units_by_engine_suite,
     library = units_by_library_suite,
+    dev = units_by_dev_suite,
   }
   self._engine = {
     test_suites = self._test_suites.engine,
@@ -157,10 +184,13 @@ function AUPUnits:_init(arguments)
     test_suites = self._test_suites.library,
     units_by_suite = self._units_by_suite.library,
   }
+  self._dev = {
+    test_suites = self._test_suites.dev,
+    units_by_suite = self._units_by_suite.dev,
+  }
   dbg:printf(10, "%s\n", self)
   dbg:write(10, self)
   self._cwd = currentdir()
-  self._tmp_dir = PL_path.join(AUP.tmp_dir, "SyncTeX", self.uuid)
   self._current_suite = nil
   self._current_unit = nil
   self._failures = List.new()
@@ -178,7 +208,11 @@ end
 function AUPUnits:load(name)
   local f = loadfile(name..'.lua')
   if f then
-    dbg:write(1, "Loading "..name..'.lua')
+    if dbg:level_get()>1 then
+      print("Loading "..(PL.path.abspath(name..'.lua')))
+    else
+      dbg:write(1,"Loading "..name..'.lua')
+    end
     f()
   else
     dbg:write(1, "No "..name..'.lua')
@@ -207,7 +241,7 @@ end
 --- @param self AUPUnits
 function AUPUnits:check()
   self:test_setup()
-  for _,key in ipairs({'_library', '_engine'}) do
+  for _,key in ipairs({'_library', '_engine', '_dev'}) do
     if pushd('test'.. key ..'/') then
       self:test_setup()
       local mode = self[key]
@@ -292,28 +326,25 @@ end
 
 --- Setup the overall temporary directory.
 function AUPUnits:setup_tmp_dir()
-  if not self._tmp_dir then
+  if self._tmp_dir==nil then
     -- create a temporary file
-    local tmp_dir = PL_path.splitpath(PL_path.tmpname())
-    self._tmp_dir = PL_path.join(tmp_dir, 'SyncTeX', self.uuid)
-    PL_path.makepath(self._tmp_dir)
+    local tmp_dir = PL.path.splitpath(PL.path.tmpname())
+    self._tmp_dir = PL.path.join(tmp_dir, 'SyncTeX', self.uuid)
+    makepath(self._tmp_dir)
   end
 end
 
 --- Teardown the overall temporary directory.
 function AUPUnits:teardown_tmp_dir()
-  local keep_tmp = false
-  for _,a in ipairs(arg) do
-    if a == "--keep_tmp" then
-      keep_tmp = true
-      break
-    end
-  end
-  if keep_tmp then
-    print( 'Temporary directory: %s'%{self._tmp_dir})
-  else
+  if self._keep_tmp then
+    print('Temporary directory: %s'%{self._tmp_dir})
+  elseif self._tmp_dir~=nil then
     dbg:write(1, 'Removing directory ', self._tmp_dir)
-    PL_dir.rmtree(self._tmp_dir)
+    local status, error_msg = pcall(function() PL.dir.rmtree(self._tmp_dir) end)
+    if not status then
+      print('Could not complete action because of:')
+      print(error_msg)
+    end
   end
 end
 
@@ -322,7 +353,7 @@ end
 function AUPUnits:get_current_tmp_dir()
   local relative = relpath(currentdir(), self._cwd)
   self:setup_tmp_dir()
-  local p = PL_path.join(self._tmp_dir, relative)
+  local p = PL.path.join(self._tmp_dir, relative)
   makepath(p)
   return p
 end
@@ -359,7 +390,6 @@ function AUPUnits:print_failed()
   return self._failures:len()
 end
 
-
 return {
-  AUPUnits = AUPUnits
+  Units = AUPUnits
 }

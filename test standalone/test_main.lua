@@ -47,9 +47,9 @@ local dir = match(arg[0], "^(.*)/[^/"..separator.."]*$")
 local AUP
 if dir then
   local cwd = lfs.currentdir()
-  assert(lfs.chdir(dir))
+  assert(lfs.chdir(dir),"Cannot chdir to "..(dir or "nil"))
   AUP = require('auplib')
-  assert(lfs.chdir(cwd))
+  assert(lfs.chdir(cwd),"Cannot chdir back to "..(cwd or "nil"))
 else
   AUP = require('auplib')
 end
@@ -59,11 +59,9 @@ end
 -- assert(proxy)
 -- AUP.PL.pretty.write(proxy)
 
-AUP.arguments = AUP.module.arguments.AUPArguments(arg)
-AUP.units = AUP.module.units.AUPUnits(AUP.arguments)
-
+AUP.arguments = AUP.module.arguments.Arguments(arg)
+AUP.units = AUP.module.units.Units()
 AUP.PL.pretty.write(AUP.units)
-
 AUP.units:check()
 
 local number_of_failures = AUP.units:print_failed()

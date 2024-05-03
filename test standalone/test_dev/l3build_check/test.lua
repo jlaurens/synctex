@@ -32,14 +32,67 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
-
-
 local AUP = package.loaded.AUP
+local dbg = AUP.dbg
 local AUP_units = AUP.units
 local PL = AUP.PL
 local List = PL.List
 
 -- exclude directories in next list
-local exclude = List({"fake example", 'gh30'})
+local exclude = List({"pdftex"})
 
 AUP_units:test_currentdir(exclude)
+
+local errors = PL.List()
+local Arguments = AUP.module.arguments
+local arguments = AUP.arguments
+
+local L3Build = AUP.module.l3build
+
+local one_check = function (dirname)
+  if not string.match("^%.", dirname) then
+    if AUP.pushd(dirname) then
+      if PL.path.isfile('build.lua') then
+        print("DEBUG CHECKING "..dirname)
+        local l3build = L3Build(AUP.L3Build.Target.Check)
+        local status, ans, stdout, errout = l3build:run()
+        print("status")
+        print(status)
+        print("ans")
+        print(ans)
+        print("stdout")
+        print(stdout)
+        print("errout")
+        print(errout)
+      end
+      AUP.popd()
+    end
+  end
+end
+
+-- l3build check wrapper
+if #arguments:get("no_check", Arguments.GetMode.All)==0 then
+  local checks = arguments:get("check", Arguments.GetMode.All)
+  arguments:consume("check")
+  for _,check in ipairs(checks) do
+    if check.value == true then
+      -- get all the subfolders that have a `build.lua` file and run
+      -- the `l3build` command there
+      local _, dir_obj = PL.path.dir(".")
+      while true do
+        local dirname = dir_obj:next()
+        if dirname then
+          one_check(dirname)
+        else
+          break
+        end
+      end
+    else
+      one_check(check.value)
+    end
+    check:consume()
+  end
+else
+  dbg:write(10,"No l3build check")
+end
+arguments:consume("no_check")

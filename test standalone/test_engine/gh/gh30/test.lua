@@ -41,8 +41,6 @@ local dbg = AUP.dbg
 dbg:write(1, "Testing mathsurround")
 
 local PL = AUP.PL
-local PL_dir = PL.dir
-local PL_path = PL.path
 local PL_file = PL.file
 local PL_seq = PL.seq
 local PL_utils = PL.utils
@@ -52,8 +50,8 @@ local AUPEngine = AUP.module.engine
 local InteractionMode = AUPEngine.InteractionMode
 
 local match = string.match
-local join = PL_path.join
-local makepath = PL_dir.makepath
+local join = PL.path.join
+local makepath = PL.dir.makepath
 local write = PL_file.write
 local read = PL_file.read
 local splitlines = PL_stringx.splitlines

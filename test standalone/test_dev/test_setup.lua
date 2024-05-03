@@ -1,6 +1,6 @@
---[[
+--[==[
 Copyright (c) 2024 jerome DOT laurens AT u-bourgogne DOT fr
-This file is a bridge to the __SyncTeX__ package testing framework.
+This file is part of the __SyncTeX__ package testing framework.
 
 ## License
  
@@ -30,16 +30,38 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
  
---]]
+--]==]
 
+--[=====[
 
+--]=====]
 
 local AUP = package.loaded.AUP
-local AUP_units = AUP.units
+local AUPCommand = AUP.module.Command
 local PL = AUP.PL
-local List = PL.List
 
--- exclude directories in next list
-local exclude = List({"fake example", 'gh30'})
+-- loading the configuration file
 
-AUP_units:test_currentdir(exclude)
+if PL.path.exists("config-defaults.lua") then
+  dofile("config-defaults.lua")
+end
+local arguments = AUP.arguments
+assert(arguments)
+local entry = arguments:get('dev_mode')
+print(entry)
+if entry then
+  local p = "config-%s.lua"%{entry.value}
+  if PL.path.exists(p) then
+    dofile(p)
+  else
+    error("Bad dev_mode: %s"%{entry.value})
+  end
+end
+
+for _,engine in ipairs({
+  'euptex', 'pdftex', 'xetex', 'luatex', 'luahbtex', 'luajittex'
+}) do
+  print(engine)
+  local p = AUPCommand.which(engine)
+  local attr = PL.path.link_attrib(p)
+end

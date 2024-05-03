@@ -40,6 +40,6 @@ local PL = AUP.PL
 local List = PL.List
 
 -- exclude directories in next list
-local exclude = List({"fake example", 'gh30'})
+local exclude = List({"fake example"})
 
 AUP_units:test_currentdir(exclude)

@@ -1,6 +1,6 @@
---[[
-Copyright (c) 2024 jerome DOT laurens AT u-bourgogne DOT fr
-This file is a bridge to the __SyncTeX__ package testing framework.
+--[===[
+Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
+This file is part of the __SyncTeX__ package testing facilities.
 
 ## License
  
@@ -30,16 +30,9 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
  
---]]
-
-
+]===]
 
 local AUP = package.loaded.AUP
-local AUP_units = AUP.units
-local PL = AUP.PL
-local List = PL.List
+local dbg = AUP.dbg
 
--- exclude directories in next list
-local exclude = List({"fake example", 'gh30'})
-
-AUP_units:test_currentdir(exclude)
+dbg:write(1, "Testing unit template")

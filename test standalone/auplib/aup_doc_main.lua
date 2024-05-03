@@ -56,7 +56,7 @@ else
   AUP = require('auplib')
 end
 
-local arguments = AUP.module.arguments.AUPArguments(arg)
+local arguments = AUP.module.arguments.Arguments(arg)
 
 local doc = AUP.module.doc.AUPDoc(arguments)
 doc:make()

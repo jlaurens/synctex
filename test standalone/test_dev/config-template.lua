@@ -32,14 +32,32 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
+--[=====[
+If this file is not named `config-template.lua`,
+it is an amended copy of the original `config-template.lua`,
+renamed as `config-⟨mode⟩.lua`.
+Here `⟨mode⟩` is a unique spaceless string identifier.
+Usage
 
+  meson test -C build --test-args " --dev_mode=⟨mode⟩"
+
+
+The original file is tracked by the versioning system whereas the copies
+are not.
+
+A `config-defaults.lua` file is always loaded first, if it exists.
+Only then `config-⟨mode⟩.lua` is loaded, of course when `⟨mode⟩` is provided.
+
+Copies are meant to declare the setup for development of engines,
+in particular where is located the `TeX` distribution and where are located
+the binaries.
+
+--]=====]
 
 local AUP = package.loaded.AUP
-local AUP_units = AUP.units
-local PL = AUP.PL
-local List = PL.List
+local AUPCommand = AUP.module.Command
 
--- exclude directories in next list
-local exclude = List({"fake example", 'gh30'})
-
-AUP_units:test_currentdir(exclude)
+-- location of the reliable official binaries
+AUPCommand.set_tex_bin_dir("/usr/local/texlive/2222/bin/universal-darwin")
+-- location of the development binaries
+AUPCommand.set_tex_dev_bin_dir("⟨...⟩/texlive-source/Work/texk/web2c")

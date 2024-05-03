@@ -38,8 +38,6 @@ local AUP = package.loaded.AUP
 local AUP_units = AUP.units
 local PL = AUP.PL
 local List = PL.List
-local PL_path = PL.path
-local PL_dir = PL.dir
 
 -- exclude directories in next list
 local exclude = List({"fake example"})

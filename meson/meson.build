@@ -137,9 +137,11 @@ endif
 shared_library_env = environment()
 shared_library_env.set('MALLOC_PERTURB_', '0')
 shared_library_env.prepend('PATH', meson.current_build_dir())
-shared_library_args = [
+
+shared_args = [
   'test_main.lua',
   '--uuid_txt="'+generated_uuid_txt+'"',
+  '--build_os="'+build_machine.system()+'"',
 ]
 
 test(
@@ -255,6 +257,57 @@ test(
   workdir: synctex_test_dir,
   env: shared_engine_env,
   priority: 6,
+)
+
+shared_dev_env = environment()
+shared_dev_env.set('MALLOC_PERTURB_', '0')
+shared_dev_args = shared_args + '--dev'
+
+# Testing the pdftex engine
+# This is useful when developing pdftex
+# Usage from the directory containing `meson.build`:
+#
+#  meson test -C Build --test-args="--debug=10 --keep_tmp --dev_mode=JL" "dev/pdftex"
+#
+# Explanation of test arguments
+# --keep_tmp: do not remove the temporary directory
+# --dev_mode=JL Read the `engine/dev/config-JL.lua`
+#
+# Other engines are tested as well
+#
+test(
+  'dev/raw',
+  texlua,
+  args: shared_dev_args + ['--suite=raw'],
+  workdir: synctex_test_dir,
+  env: shared_dev_env,
+  priority: 6,
+)
+test(
+  'dev/raw/pdftex',
+  texlua,
+  args: shared_dev_args + ['--suite=raw', '--unit=pdftex'],
+  workdir: synctex_test_dir,
+  env: shared_dev_env,
+  priority: 6,
+)
+
+test(
+  'dev/l3build_check',
+  texlua,
+  args: shared_dev_args + ['--suite=l3build_check'],
+  workdir: synctex_test_dir,
+  env: shared_dev_env,
+  priority: 7,
+)
+
+test(
+  'dev/l3build_check/pdftex',
+  texlua,
+  args: shared_dev_args + ['--suite=l3build_check', '--unit=pdftex'],
+  workdir: synctex_test_dir,
+  env: shared_dev_env,
+  priority: 7,
 )
 
 test(

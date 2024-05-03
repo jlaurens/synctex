@@ -39,7 +39,7 @@ local PL = AUP.PL
 local List = PL.List
 local quote_arg = PL.utils.quote_arg
 
-local AUPCommand = AUP.module.command
+local AUPCommand = AUP.module.Command
 
 -- synctex -v
 -- synctex --version
@@ -60,9 +60,9 @@ end
 --- Build the command on the fly
 --- @return string errout
 function AUPSyncTeXGlobal:cmd()
-  assert(self._engine, "No engine available")
+  assert(self._command, "No engine available")
   assert(self._options, "No option available")
-  local L = List({self._engine})..self._options
+  local L = List({self._command})..self._options
   return quote_arg(L)
 end
 
@@ -154,10 +154,10 @@ end
 --- Build the command on the fly
 --- @return string errout
 function AUPSyncTeXEdit:cmd()
-  assert(self._engine)
+  assert(self._command)
   assert(self._o)
-  local L = List({self._engine, "edit", self._o}):extend(
-    List({self._d, self._x, self._h}):filter(
+  local L = List({self._command, "edit", self._o}):extend(
+    List({self._d or false, self._x or false, self._h or false}):filter(
       function(x)
         return type(x)=='string' and #x>0
       end
@@ -255,11 +255,11 @@ end
 --- Build the command on the fly
 --- @return string errout
 function AUPSyncTeXView:cmd()
-  assert(self._engine)
+  assert(self._command)
   assert(self._i)
   assert(self._o)
-  local L = List({self._engine, "view", self._i, self._o}):extend(
-    List({self._d, self._x, self._h}):filter(
+  local L = List({self._command, "view", self._i, self._o}):extend(
+    List({self._d or false, self._x or false, self._h or false}):filter(
       function(x)
         return type(x)=='string' and #x>0
       end
@@ -311,9 +311,9 @@ end
 --- Build the command on the fly
 --- @return string command
 function AUPSyncTeXDump:cmd()
-  assert(self._engine)
+  assert(self._command)
   assert(self._o)
-  local L = List({self._engine, "dump", "-o", self._o})
+  local L = List({self._command, "dump", "-o", self._o})
   if self._d then
     L:append("-d", self._d)
   end

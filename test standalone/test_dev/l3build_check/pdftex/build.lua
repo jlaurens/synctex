@@ -1,6 +1,6 @@
---[[
-Copyright (c) 2024 jerome DOT laurens AT u-bourgogne DOT fr
-This file is a bridge to the __SyncTeX__ package testing framework.
+--[===[
+Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
+This file is part of the __SyncTeX__ package testing facilities.
 
 ## License
  
@@ -30,16 +30,20 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
  
---]]
+]===]
 
+module = "synctex_test"
+_G.checkformat = "tex"
 
-
-local AUP = package.loaded.AUP
-local AUP_units = AUP.units
-local PL = AUP.PL
-local List = PL.List
-
--- exclude directories in next list
-local exclude = List({"fake example", 'gh30'})
-
-AUP_units:test_currentdir(exclude)
+-- Run a command after setting up the environmental variables
+-- This is a patch of the original command
+local runcmd_copy = runcmd
+function runcmd(cmd,dir,vars)
+  if checkformat~="context" then
+    local TEXMFCNF = os.getenv("TEXMFCNF")
+    if TEXMFCNF ~= nil then
+      cmd = os_setenv .. " TEXMFCNF=" .. TEXMFCNF .. os_concat .. cmd
+    end
+  end
+  return runcmd_copy(cmd,dir,vars)
+end

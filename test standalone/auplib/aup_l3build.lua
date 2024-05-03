@@ -32,72 +32,187 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
-local insert = table.insert
-local remove = table.remove
-
+--- @type AUP
 local AUP = package.loaded.AUP
+local lfs = package.loaded.lfs
 local PL = AUP.PL
-local kpse = package.loaded.kpse
-kpse.set_program_name('kpsewhich')
-local lookup = kpse.lookup
 
+local List = PL.List
+local PL_utils = PL.utils
+local assert_string = PL_utils.assert_string
 
---- @class AUPL3BuildProxy
---- @field env table
---- @field activate fun()
---- @field deactivate fun()
+local AUPCommand = AUP.module.Command
 
---- Imports l3build in the given environment or the current environment.
---- Locate the `l3buld.lua` in the TDS using `kpse`,
---- configure `package.path` accordingly,
---- finally `require('l3build')`.
---- Everything is imported in the current environment per `l3build` design.
---- nevertheless, one can play with environments to disable `l3build`
---- temporarily when there can be name conflicts.
---- change the environment before importing
---- @param env table? where `l3build` material is imported,
---- it defaults to a void table. Any ways its `__index` event points to the
---- current environment.
---- @return AUPL3BuildProxy
-local function importer(env)
-  local l3build_path = lookup("l3build.lua")
-  local l3build_dir = string.match(l3build_path,"(.*[/])")
-  package.path = l3build_dir.."?.lua;"..package.path
-  env = env or {}
-  setmetatable(env, {
-    __index = _ENV
-  })
-  --- @type (table|true)[]
-  local stack = {}
-  local l3build_proxy = {
-    env = env,
-    activate = function()
-      if _ENV ~= env then
-        insert(stack, _ENV)
-        _ENV = setmetatable(env, { __index = _ENV } )--?
-      else
-        insert(stack, true)
-      end
-    end,
-    deactivate = function()
-      --- @type table|true
-      local e = assert(remove(stack))
-      if e ~= true then
-        _ENV = e
-      end
-    end,
-  }
-  local _ENV = setmetatable(env, { __index = _ENV })
-  local l3build_lua = PL.file.read(l3build_path)
-  local ra = {}
-  for f in string.gmatch(l3build_lua, '_require%(.([^)]*).%)') do
-    table.insert(ra, f)
-  end
-  for _,f in ipairs(ra) do
-    AUP.dbg:printf(0, "Loading l3build-%s.lua\n", f)
-    require('l3build-'..f)
-  end
-  return l3build_proxy
+local dbg = AUP.dbg
+
+--- @enum (key) AUPL3BuildTarget
+local AUPL3BuildTarget = {
+  Check   = 'check'
+}
+
+--- @class AUPL3Build: AUPCommand
+--- @field _init fun(self: AUPL3Build, target: AUPL3BuildTarget)
+--- @field reset fun(self: AUPL3Build)
+--- @field synctex fun(self: AUPL3Build, value: integer): AUPL3Build
+--- @field interaction fun(self: AUPL3Build, value: AUPTeXInteractionMode): AUPL3Build
+--- @field file fun(self: AUPL3Build, file: string): AUPL3Build
+--- @field cmd fun(self: AUPL3Build): string
+
+local AUPL3Build = PL.class.AUPL3Build(AUPCommand)
+
+--- Initialize an AUPL3Build instance
+---@param target string
+function AUPL3Build:_init(target)
+  assert_string (2, target)
+  self:super("l3build")
+  self._target = target
 end
 
-return importer
+--- Add an option.
+--- @param argument string
+--- @return AUPL3Build
+function AUPL3Build:add_argument(argument)
+  assert_string (2, argument)
+  self._arguments:append(argument)
+  return self
+end
+
+--- Add an option.
+--- @return AUPL3Build
+function AUPL3Build:clear_arguments()
+  self._arguments = List()
+  return self
+end
+
+local quote_arg = PL_utils.quote_arg
+
+--- Build the command on the fly.
+--- @return string 
+function AUPL3Build:cmd()
+  return quote_arg(List({
+    self._command,
+    self._target,
+    self._config or false,
+    self._date or false,
+    self._debug or false,
+    self._dirty or false,
+    self._first or false,
+    self._last or false,
+    self._engine or false
+  }):filter(function(x)
+    return type(x)=='string' and #x>0
+  end))
+end
+
+--- Set the `--config` option.
+--- @param value string|number
+--- @return AUPL3Build
+function AUPL3Build:config(value)
+  if type(value) ~= 'string' then
+    --- @diagnostic disable-next-line: cast-local-type
+    value = assert(tostring(value))
+  end
+  --assert_string (2, value)
+  self._config = "--config="..value
+  return self
+end
+
+--- Set the `--config` option.
+--- @param value string|number
+--- @return AUPL3Build
+function AUPL3Build:date(value)
+  if type(value) ~= 'string' then
+    --- @diagnostic disable-next-line: cast-local-type
+    value = assert(tostring(value))
+  end
+  --assert_string (2, value)
+  self._date = "--date="..value
+  return self
+end
+
+--- Set the `--debug` option.
+--- @param value string|number
+--- @return AUPL3Build
+function AUPL3Build:debug(value)
+  if type(value) ~= 'string' then
+    --- @diagnostic disable-next-line: cast-local-type
+    value = assert(tostring(value))
+  end
+  --assert_string (2, value)
+  self._debug = "--debug="..value
+  return self
+end
+
+--- Set the `--debug` option.
+--- @param value string|number
+--- @return AUPL3Build
+function AUPL3Build:dirty(value)
+  if type(value) ~= 'string' then
+    --- @diagnostic disable-next-line: cast-local-type
+    value = assert(tostring(value))
+  end
+  --assert_string (2, value)
+  self._dirty = "--dirty="..value
+  return self
+end
+
+--- Set the `--engine` option.
+--- @param value string|number
+--- @return AUPL3Build
+function AUPL3Build:engine(value)
+  if type(value) ~= 'string' then
+    --- @diagnostic disable-next-line: cast-local-type
+    value = assert(tostring(value))
+  end
+  --assert_string (2, value)
+  self._command = "--engine="..value
+  return self
+end
+
+--- Set the `--first` option.
+--- @param value string|number
+--- @return AUPL3Build
+function AUPL3Build:first(value)
+  if type(value) ~= 'string' then
+    --- @diagnostic disable-next-line: cast-local-type
+    value = assert(tostring(value))
+  end
+  --assert_string (2, value)
+  self._first = "--first="..value
+  return self
+end
+
+--- Set the `--last` option.
+--- @param value string|number
+--- @return AUPL3Build
+function AUPL3Build:last(value)
+  if type(value) ~= 'string' then
+    --- @diagnostic disable-next-line: cast-local-type
+    value = assert(tostring(value))
+  end
+  --assert_string (2, value)
+  self._last = "--last="..value
+  return self
+end
+
+--- Reset the arguments.
+--- @return AUPL3Build
+function AUPL3Build:reset()
+  self._engine = nil
+  self._date = nil
+  self._first = nil
+  self._last = nil
+  self._debug = nil
+  self._dirty = nil
+  self._config = nil
+  return self
+end
+
+--- @class AUP
+--- @field L3Build AUPL3Build
+
+AUP.L3Build = AUPL3Build
+
+AUPL3Build.Target = AUPL3BuildTarget
+
+return AUPL3Build

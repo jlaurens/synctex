@@ -34,13 +34,16 @@ This file is part of the __SyncTeX__ package testing framework.
 
 --- @type AUP
 local AUP = package.loaded.AUP
+local lfs = package.loaded.lfs
 local PL = AUP.PL
 
 local List = PL.List
 local PL_utils = PL.utils
 local assert_string = PL_utils.assert_string
 
-local AUPCommand = AUP.module.command
+local AUPCommand = AUP.module.Command
+
+local dbg = AUP.dbg
 
 --- @enum (key) AUPTeXInteractionMode
 local AUPTeXInteractionMode = {
@@ -51,6 +54,7 @@ local AUPTeXInteractionMode = {
 }
 
 --- @class AUPEngine: AUPCommand
+--- @field all List
 --- @field _init fun(self: AUPEngine, name: string)
 --- @field reset fun(self: AUPEngine)
 --- @field synctex fun(self: AUPEngine, value: integer): AUPEngine
@@ -60,11 +64,30 @@ local AUPTeXInteractionMode = {
 
 local AUPEngine = PL.class.AUPEngine(AUPCommand)
 
---- Initialize anAUPEngine instance
+AUPEngine.all = PL.List({'pdftex', 'pdflatex', 'uptex', 'uplatex', 'xetex', 'xelatex', 'luatex', 'lualatex'})
+
+--- Initialize an AUPEngine instance
 --- @param name string
 function AUPEngine:_init(name)
   assert_string(2, name)
-  self:super(name)
+  -- special management of LaTeX related engines,
+  -- ConTeXt is not supported yet.
+  -- The first 
+  if name:find("latex") then
+    local base = name:gsub("latex", "tex")
+    local old = AUPCommand.which(base)
+    assert(old ~= nil, "No base engine: ".. base)
+    local dir = PL.path.dirname(old)
+    local new = PL.path.join(dir,name)
+    if not PL.path.exists(new) then
+      dbg:printf(0, "Link: %s->%s\n", new, base)
+      lfs.link (base, new, true)
+      assert(PL.path.exists(new), "Could not link")
+    end
+    self:super(name, new)
+  else
+    self:super(name)
+  end
 end
 
 --- Add an option.
@@ -89,10 +112,10 @@ local quote_arg = PL_utils.quote_arg
 --- @return string 
 function AUPEngine:cmd()
   return quote_arg(List({
-    self._engine,
-    self._synctex,
-    self._interaction,
-    self._file
+    self._command,
+    self._synctex or false,
+    self._interaction or false,
+    self._file or false
   }):filter(function(x)
     return type(x)=='string' and #x>0
   end))
@@ -120,7 +143,7 @@ function AUPEngine:interaction(value)
   return self
 end
 
---- Set the `--interaction` option.
+--- Set the file name to typeset.
 --- @param value string
 --- @return AUPEngine
 function AUPEngine:file(value)
