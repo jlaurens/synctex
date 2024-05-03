@@ -54,19 +54,18 @@ else
   AUP = require('auplib')
 end
 
--- AUP:import_l3build()
--- local proxy = AUP.l3build_proxy
--- assert(proxy)
--- AUP.PL.pretty.write(proxy)
+AUP.arguments = AUP.Arguments(arg)
+AUP.units = AUP.Units(AUP.test_standalone_dir, AUP.arguments)
 
-AUP.arguments = AUP.module.arguments.Arguments(arg)
-AUP.units = AUP.module.units.Units()
-AUP.PL.pretty.write(AUP.units)
+if AUP.arguments.setup then
+  AUP.units:setup_and_exit()
+end
 AUP.units:check()
-
 local number_of_failures = AUP.units:print_failed()
-
-print("SyncTeX testing DONE")
+AUP.units:print("SyncTeX testing DONE")
+if number_of_failures>0 then
+  exit(1)
+end
 
 if number_of_failures>0 then
   exit(1)

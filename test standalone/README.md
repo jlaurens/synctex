@@ -7,7 +7,7 @@ We have here two different kinds of tests: those that rely on TeX engines and th
 
 Test units are logically gathered in first level subfolders of `test_engine` or `test_library` directories. The name of these subfolders are designated by `⟨suite⟩`. Each subfolder corresponds to one test unit and is designated by `⟨unit⟩`.
 
-## Declaration
+## Declaration in `meson.build`
 
 For example, in order to test the whole library `⟨suite⟩`, we declare
 ```
@@ -66,6 +66,6 @@ After the `test.lua`,
 
 ## Testing framework
 
-The `auplib` folder contains goodies and material to perform the tests. These are `texlua` scripts called by the top level `test_main.lua` script of the `test standalone` folder.
+The `auplib` folder contains goodies and material to perform the tests. These are essentailly `texlua` scripts called by the top level `test_main.lua` script of the `test standalone` folder. We use the `penlight` library as well as `os.type` and `os.name` extensiopns to the `os` table provided by `texlua`.
 
-The documentation of the frameworks is available in `.../test standalone/doc/`.
+The documentation of the frameworks is available in `.../test standalone/doc/` and various `README.md` spread in subdirectories.

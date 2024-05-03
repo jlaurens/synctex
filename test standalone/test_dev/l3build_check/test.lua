@@ -55,7 +55,9 @@ local one_check = function (dirname)
       if PL.path.isfile('build.lua') then
         print("DEBUG CHECKING "..dirname)
         local l3build = L3Build(AUP.L3Build.Target.Check)
-        local status, ans, stdout, errout = l3build:run()
+        local status, ans, stdout, errout = l3build:run({
+          SYNCTEX_TEMP_DIR = AUP_units:get_current_tmp_dir()
+        })
         print("status")
         print(status)
         print("ans")

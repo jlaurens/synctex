@@ -371,12 +371,6 @@ Once you modify some source of pdftex, including synctex, run from `.../source/b
 make pdftex && fmtutil --sys --byfmt pdftex
 ```
 
-## keep the temporary files around
-During test, some temporary files are created that are deleted on teardown. To keep these files around, use
-```sh
-meson test -C build --test-args='--keep_tmp'
-```
-
 ## Print debug information
 During test, some supplemental information may help: use
 ```sh
