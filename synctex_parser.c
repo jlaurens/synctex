@@ -442,7 +442,7 @@ SYNCTEX_INLINE static synctex_node_p _synctex_tree_##WHAT(synctex_node_p node) {
     if (_synctex_tree_has_##WHAT(node)) {\
         return __synctex_tree_##WHAT(node);\
     }\
-    return 0;\
+    return NULL;\
 }
 #   define DEFINE_SYNCTEX_TREE__RESET(WHAT) \
 SYNCTEX_INLINE static synctex_node_p __synctex_tree_reset_##WHAT(synctex_non_null_node_p node) {\
@@ -499,6 +499,38 @@ DEFINE_SYNCTEX_TREE_RESET(WHAT)
  SYNCTEX_INLINE static synctex_node_p __synctex_tree_set_sibling(synctex_node_p node, synctex_node_p new_value)
  SYNCTEX_INLINE static synctex_node_p __synctex_tree_reset_sibling(synctex_node_p node)
  */
+/** @fn __synctex_tree_sibling
+    @brief Get the sibling of the given node.
+    @param node
+    @return node
+
+    Private function.
+    Get the sibling of the given node assuming the node type declares a sibling.
+*/
+/** @fn __synctex_tree_set_sibling
+    @brief Set the sibling of the given node.
+    @param node
+    @param sibling
+    @return old sibling if any
+    
+    Private function.
+    Set the sibling of the given node assuming the node type declares a sibling.
+    When the sibling is not `NULL`, it is owned by the node.
+    When the old sibling is not `NULL`, it is no longer owned by the node
+    and must be released somehow.
+*/
+/** @fn __synctex_tree_reset_sibling
+    @brief Reset the sibling of the given node.
+    @param node
+    @return sibling
+    
+    Private function.
+    Set the sibling of the given node to NULL assuming the node type
+    declares a sibling.
+    Returns the old sibling.
+    When the old sibling is not `NULL`, it is no longer owned by the node
+    and must be released somehow.
+*/
 DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
 /* The next macro call creates:
  SYNCTEX_INLINE static synctex_bool_t _synctex_tree_has_parent(synctex_node_p node);
@@ -509,8 +541,206 @@ DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
  SYNCTEX_INLINE static synctex_node_p __synctex_tree_reset_parent(synctex_node_p node);
  SYNCTEX_INLINE static synctex_node_p _synctex_tree_reset_parent(synctex_node_p node);
  */
+/** @fn __synctex_tree_has_parent
+    @brief Whether a node possibly has a parent.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a parent.
+*/
+/** @fn __synctex_tree_parent
+    @brief Get the parent of the given node.
+    @param node
+    @return parent
+
+    Private function.
+    Get the parent of the given node assuming the node type declares a parent.
+*/
+/** @fn _synctex_tree_parent
+    @brief Get the parent of the given node.
+    @param node
+    @return parent or NULL
+
+    Private function.
+    Get the parent of the given node.
+    If the node type does not declare a parent, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_parent
+    @brief Set the parent of the given node.
+    @param node
+    @param parent
+    @return node
+    
+    Private function.
+    Set the parent of the given node assuming the node type declares a parent.
+    The node is not yet the child of the parent: 
+    `__synctex_tree_set_child` must also be called.
+    When the parent is not `NULL`, it is the owner of the node.
+*/
+/** @fn _synctex_tree_set_parent
+    @brief Set the parent of the given node.
+    @param node
+    @param parent
+    @return node
+    
+    Private function.
+    If the the node type declares a parent, set it to the given node.
+    In that case, set the parent of the given node.
+    When the parent is not `NULL`, it becomes the owner of the node.
+    The node is not yet the child of the parent: 
+    `__synctex_tree_set_child` must also be called.
+    The old child must be managed as well, if any.
+    If the the node type does not declare a parent,
+    nothing is done.
+*/
+/** @fn __synctex_tree_reset_parent
+    @brief Reset the parent of the given node.
+    @param node
+    @return old parent
+    
+    Private function.
+    Synonym of `__synctex_tree_set_parent` to `NULL`.
+*/
+/** @fn _synctex_tree_reset_parent
+    @brief Reset the parent of the given node.
+    @param node
+    @return old parent
+    
+    Private function.
+    Synonym of `_synctex_tree_set_parent` to `NULL`.
+*/
 DEFINE_SYNCTEX_TREE_GETSETRESET(parent)
+/** @fn __synctex_tree_has_child
+    @brief Whether a node possibly has a child.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a child.
+*/
+/** @fn __synctex_tree_child
+    @brief Get the child of the given node.
+    @param node
+    @return child
+
+    Private function.
+    Get the child of the given node assuming the node type declares a child.
+*/
+/** @fn _synctex_tree_child
+    @brief Get the child of the given node.
+    @param node
+    @return child or NULL
+
+    Private function.
+    Get the child of the given node.
+    If the node type does not declare a child, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_child
+    @brief Set the child of the given node.
+    @param node
+    @param child
+    @return old child
+    
+    Private function.
+    Set the child of the given node assuming the node type declares a child.
+    The node is not yet the parent of the child: 
+    `__synctex_tree_set_parent` must also be called.
+    When the child is not `NULL`, it is owned by the node.
+*/
+/** @fn _synctex_tree_set_child
+    @brief Set the child of the given node.
+    @param node
+    @param child
+    @return old child
+    
+    Private function.
+    If the the node type declares a child, set it to the given node.
+    When the child is not `NULL`, it becomes owned by the node.
+    The node is not yet the parent of the child: 
+    `__synctex_tree_set_parent` must also be called.
+    The old child must be managed as well, if any.
+    If the the node type does not declare a child,
+    nothing is done.
+*/
+/** @fn __synctex_tree_reset_child
+    @brief Reset the child of the given node.
+    @param node
+    @return old child
+    
+    Private function.
+    Synonym of `__synctex_tree_set_child` to `NULL`.
+*/
+/** @fn _synctex_tree_reset_child
+    @brief Reset the child of the given node.
+    @param node
+    @return old child
+    
+    Private function.
+    Synonym of `_synctex_tree_set_child` to `NULL`.
+*/
 DEFINE_SYNCTEX_TREE_GETSETRESET(child)
+/** @fn __synctex_tree_has_friend
+    @brief Whether a node possibly has a friend.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a friend.
+*/
+/** @fn __synctex_tree_friend
+    @brief Get the friend of the given node.
+    @param node
+    @return friend
+
+    Private function.
+    Get the friend of the given node assuming the node type declares a friend.
+*/
+/** @fn _synctex_tree_friend
+    @brief Get the friend of the given node.
+    @param node
+    @return friend
+
+    Private function.
+    Get the friend of the given node.
+    If the node type does not declare a friend, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_friend
+    @brief Set the friend of the given node.
+    @param node
+    @param friend
+    @return old friend
+    
+    Private function.
+    Set the friend of the given node assuming the node type declares a friend.
+*/
+/** @fn _synctex_tree_set_friend
+    @brief Set the friend of the given node.
+    @param node
+    @param friend
+    @return old friend
+    
+    Private function.
+    If the the node type declares a friend, set it to the given node.
+    If the the node type does not declare a friend,
+    nothing is done.
+*/
+/** @fn __synctex_tree_reset_friend
+    @brief Reset the friend of the given node.
+    @param node
+    @return old friend
+    
+    Private function.
+    Synonym of `__synctex_tree_set_friend` to `NULL`.
+*/
+/** @fn _synctex_tree_reset_friend
+    @brief Reset the friend of the given node.
+    @param node
+    @return old friend
+    
+    Private function.
+    Synonym of `_synctex_tree_set_friend` to `NULL`.
+*/
 DEFINE_SYNCTEX_TREE_GETSETRESET(friend)
 /* The next macro call creates:
  SYNCTEX_INLINE static synctex_bool_t _synctex_tree_has_last(synctex_node_p node);
@@ -520,9 +750,189 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(friend)
  SYNCTEX_INLINE static synctex_node_p _synctex_tree_set_last(synctex_node_p node, synctex_node_p new_value);
  */
 DEFINE_SYNCTEX_TREE_GETSET(last)
+/** @fn __synctex_tree_has_last
+    @brief Whether a node possibly has a last.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a last.
+*/
+/** @fn __synctex_tree_last
+    @brief Get the last of the given node.
+    @param node
+    @return last node
+
+    Private function.
+    Get the last node of the given node assuming the node type declares a last node.
+*/
+/** @fn _synctex_tree_last
+    @brief Get the last of the given node.
+    @param node
+    @return last node or NULL
+
+    Private function.
+    Get the last node of the given node.
+    If the node type does not declare a last node, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_last
+    @brief Set the last of the given node.
+    @param node
+    @param last
+    @return old last
+    
+    Private function.
+    Set the last of the given node assuming the node type declares a last node.
+*/
+/** @fn _synctex_tree_set_last
+    @brief Set the last of the given node.
+    @param node
+    @param last
+    @return old last
+    
+    Private function.
+    If the the node type declares a last node, set it to the given node.
+    If the the node type does not declare a last node,
+    nothing is done.
+*/
 DEFINE_SYNCTEX_TREE_GETSET(next_hbox)
+/** @fn __synctex_tree_has_next_hbox
+    @brief Whether a node possibly has a next_hbox.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a next_hbox.
+*/
+/** @fn __synctex_tree_next_hbox
+    @brief Get the next_hbox of the given node.
+    @param node
+    @return next_hbox node
+
+    Private function.
+    Get the next_hbox node of the given node assuming the node type declares a next_hbox node.
+*/
+/** @fn _synctex_tree_next_hbox
+    @brief Get the next_hbox of the given node.
+    @param node
+    @return next_hbox node or NULL
+
+    Private function.
+    Get the next_hbox node of the given node.
+    If the node type does not declare a next_hbox node, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_next_hbox
+    @brief Set the next_hbox of the given node.
+    @param node
+    @param next_hbox
+    @return old next_hbox
+    
+    Private function.
+    Set the next_hbox of the given node assuming the node type declares a next_hbox node.
+*/
+/** @fn _synctex_tree_set_next_hbox
+    @brief Set the next_hbox of the given node.
+    @param node
+    @param next_hbox
+    @return old next_hbox
+    
+    Private function.
+    If the the node type declares a next_hbox node, set it to the given node.
+    If the the node type does not declare a next_hbox node,
+    nothing is done.
+*/
 DEFINE_SYNCTEX_TREE_GETSET(arg_sibling)
+/** @fn __synctex_tree_has_arg_sibling
+    @brief Whether a node possibly has a arg_sibling.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a arg_sibling.
+*/
+/** @fn __synctex_tree_arg_sibling
+    @brief Get the arg_sibling of the given node.
+    @param node
+    @return arg_sibling node
+
+    Private function.
+    Get the arg_sibling node of the given node assuming the node type declares a arg_sibling node.
+*/
+/** @fn _synctex_tree_arg_sibling
+    @brief Get the arg_sibling of the given node.
+    @param node
+    @return arg_sibling node or NULL
+
+    Private function.
+    Get the arg_sibling node of the given node.
+    If the node type does not declare a arg_sibling node, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_arg_sibling
+    @brief Set the arg_sibling of the given node.
+    @param node
+    @param arg_sibling
+    @return old arg_sibling
+    
+    Private function.
+    Set the arg_sibling of the given node assuming the node type declares a arg_sibling node.
+*/
+/** @fn _synctex_tree_set_arg_sibling
+    @brief Set the arg_sibling of the given node.
+    @param node
+    @param arg_sibling
+    @return old arg_sibling
+    
+    Private function.
+    If the the node type declares a arg_sibling node, set it to the given node.
+    If the the node type does not declare a arg_sibling node,
+    nothing is done.
+*/
 DEFINE_SYNCTEX_TREE_GETSETRESET(target)
+/** @fn __synctex_tree_has_target
+    @brief Whether a node possibly has a target.
+    @param node
+    @return boolean
+
+    Private function.
+    Whether the type of the given node declares a target.
+*/
+/** @fn __synctex_tree_target
+    @brief Get the target of the given node.
+    @param node
+    @return target node
+
+    Private function.
+    Get the target node of the given node assuming the node type declares a target node.
+*/
+/** @fn _synctex_tree_target
+    @brief Get the target of the given node.
+    @param node
+    @return target node or NULL
+
+    Private function.
+    Get the target node of the given node.
+    If the node type does not declare a target node, then `NULL` is returned.
+*/
+/** @fn __synctex_tree_set_target
+    @brief Set the target of the given node.
+    @param node
+    @param target
+    @return old target
+    
+    Private function.
+    Set the target of the given node assuming the node type declares a target node.
+*/
+/** @fn _synctex_tree_set_target
+    @brief Set the target of the given node.
+    @param node
+    @param target
+    @return old target
+    
+    Private function.
+    If the the node type declares a target node, set it to the given node.
+    If the the node type does not declare a target node,
+    nothing is done.
+*/
 
 #if SYNCTEX_DEBUG > 1000
 #   undef SYNCTEX_USE_NODE_COUNT
@@ -1007,26 +1417,68 @@ SYNCTEX_INLINE static void _synctex_will_free(synctex_node_p node) {
 
 /**
  *  Free the given node.
- *  - parameter node: of type synctex_node_p
+ *  @param node of type synctex_node_p
+ *
  *  - note: a node is meant to own its child and sibling.
  *  It is not owned by its parent, unless it is its first child.
  *  This destructor is for all nodes with children.
  * 
- * Recursion only occurs from parent to children, which means
- * that there is a maximum depth determined by the calling stack size.
- * This is not managed.
+ * There is no recursion.
+ * TODO: Here we cherry pick nodes to be freed one by one.
+ * The memory management should be enhanced to free everything all at once,
+ * for example when we free a whole scanner.
  */
 static void _synctex_free_node(synctex_node_p node) {
-    while (node) {
-        synctex_node_p sibling = __synctex_tree_sibling(node);
-        SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
-        SYNCTEX_WILL_FREE(node);
-        _synctex_node_free(_synctex_tree_child(node));
-        _synctex_free(node);
-        node = sibling;
+    if (node) {
+        synctex_node_p sibling;
+        synctex_node_p child;
+        synctex_node_p parent = _synctex_tree_parent(node);
+        synctex_node_p top_parent = parent;
+        /* deep first traversal */
+find_deepest:
+        if ((child = _synctex_tree_child(node))) {
+            parent = node;
+            node = child;
+            goto find_deepest;
+        }
+        /* node is the deepest one */
+deepest_found:
+        if ((sibling = __synctex_tree_reset_sibling(node))) {
+            /* the sibling is detached */
+            if (parent) {
+                __synctex_tree_reset_parent(node);
+                /* The sibling is assumed to possibly have a parent*/
+                __synctex_tree_set_child(parent, sibling);
+                __synctex_tree_set_parent(sibling, parent);
+            }
+            SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
+            SYNCTEX_WILL_FREE(node);
+            _synctex_free(node);
+            node = sibling;
+            goto find_deepest;
+        } else {
+            if (parent) {
+                __synctex_tree_reset_parent(node);
+                __synctex_tree_reset_child(parent);
+                SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
+                SYNCTEX_WILL_FREE(node);
+                _synctex_free(node);
+                /* The parent is now the deepest node */
+                if (parent != top_parent) {
+                    node = parent;
+                    parent = _synctex_tree_parent(node);
+                    goto deepest_found;
+                }
+            } else {
+                SYNCTEX_SCANNER_REMOVE_HANDLE_TO(node);
+                SYNCTEX_WILL_FREE(node);
+                _synctex_free(node);
+                /* The parent is now the deepest node */
+            }
+        }
     }
-    return;
 }
+
 #if 0
 static void _synctex_free_node(synctex_node_p node) {
     synctex_node_p sibling;
@@ -3012,7 +3464,7 @@ synctex_node_p synctex_node_last_sibling(synctex_node_p node) {
 /**
  *  The next nodes corresponds to a deep first tree traversal.
  *  Does not create child proxies as side effect contrary to
- *  the synctex_node_next method above.
+ *  the synctex_node_next method below.
  *  May loop infinitely many times if the tree
  *  is not properly built (contains loops).
  */
