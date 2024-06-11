@@ -41,6 +41,11 @@ local path_dir_auplib = lfs.currentdir() ..'/auplib/'
 local kpathsea = package.loaded.kpse.new("kpsewhich")
 local pl
 
+--[[
+  Sometimes debugging is complicated because the error is reported by penlight.
+  One possibility is to use a local penlight distribution installed with luarocks
+  at `.../test standalone/auplib/lua_modules/`.
+]]
 do
   local already = false
   for _,v in ipairs(arg) do
@@ -76,31 +81,31 @@ assert(pl, "No penlight available")
 package.path = path_dir_auplib.."?.lua;"..package.path
 local raise = pl.utils.raise
 
+--- @class AUPK
+
 --- @class AUP
 --- @field _VERSION string
 --- @field _DESCRIPTION string
+--- @field K AUPK
 --- @field test_standalone_dir string
---- @field tmp_dir string
---- @field module table
---- @field dbg AUPDBG
+--- @field loaded table
 --- @field PL table
---- @field short_path fun(self: AUP, p: string?)
+--- @field short_path fun(p: string?)
 --- @field import_l3build fun(self: AUP, env: table)
 --- @field l3build_proxy AUPL3BuildProxy
---- @field uuid fun(): string
---- @field pushd fun(dir: string):boolean, string?
---- @field pushd_or_raise fun(dir: string)
---- @field popd fun():boolean, string?
+--- @field pushd fun(dir: string, label: string):boolean, string?
+--- @field pushd_or_raise fun(dir: string, label: string)
+--- @field popd fun(label: string):boolean, string?
+--- @field popd_or_raise fun(label: string)
 --- @field arguments AUPArguments?
---- @field Command AUPCommand
---- @field Engine AUPEngine
---- @field SyncTeX AUPSyncTeX
+--- @field br fun(label: string, char: string?)
 
 local AUP = {
   _VERSION = '0.1',
   _DESCRIPTION = 'SyncTeX testing framework',
-  module = {},
+  loaded = {},
   PL = pl,
+  K = {},
 }
 setmetatable(AUP, {
   -- lazy table
@@ -110,97 +115,152 @@ setmetatable(AUP, {
       t.l3build_proxy = ans
       return ans
     end
-  end
-})
-
-setmetatable(AUP.module, {
-  -- lazy table
-  __index = function(t, key)
     local lower_key = string.lower(key)
-    print(lower_key)
-    local path = path_dir_auplib..'/aup_'..lower_key..'.lua'
-    print("Module path: "..AUP:short_path(path))
-    local f, err = loadfile(path)
-    if err then
-      raise(err)
+    if lower_key ~= key then
+      local module = t.loaded[lower_key]
+      if module == nil then
+        if AUP.dbg then
+          AUP.dbg:write(1, lower_key)
+        end
+        local path = pl.path.join(path_dir_auplib, 'aup_'..lower_key..'.lua')
+        if AUP.dbg then
+          AUP.dbg:write(1, "Module path: "..AUP.short_path(path))
+        end
+        local f, err = loadfile(path)
+        if err then
+          raise(err, 2)
+        end
+        if not f then
+          print(debug.traceback())
+          error('Unknown AUP module '.. key)
+        end
+        module = assert(f())
+        t.loaded[lower_key] = module
+      end
+      t[key] = module[key]
+      return module[key]
     end
-    if not f then
-      print(debug.traceback())
-      error('Unknown AUP module '.. key)
-    end
-    local value = assert(f())
-    t[key] = value
-    t[lower_key] = value
-    package.loaded['auplib/'..lower_key] = value
-    return value
   end
 })
 
---[[
 -- from https://gist.github.com/jrus/3197011
-local random = math.random
-local randomseed = math.randomseed
-local time = os.time
-local clock = os.clock
---- Build a uuid.
---- @return string
-function AUP.uuid()
-  randomseed(tonumber(tostring(time()):reverse():sub(1, 9))+clock()*1000000)
-  local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-  local ans = gsub(template, '[xy]', function (c)
-    local v = (c == 'x') and random(0, 0xf) or random(8, 0xb)
-    return format('%x', v)
-  end)
-  return ans
-end
-]]
 
 function AUP:import_l3build(env)
-  local importer = self.module.l3build
+  local importer = self.L3Build
   self.l3build_proxy = importer(env)
-  self.import_l3build = function(e) end
+  self.import_l3build = function(s,e) end
 end
 
 local PL = AUP.PL
-local List = PL.List
+
+--- @class PLList
+--- @field iter fun(): fun()
+--- @field append fun(self: PLList, x: any)
+--- @field contains fun(self: PLList, x: any): boolean
+--- @field sort fun(self: PLList, cmp:(string|fun(x: any, y:any): boolean)?)
+--- @field join fun(self: PLList, sep: string?): string
+--- @field foreach fun (self: PLList, fun: fun(x: any, ...), ...)
+--- @field map fun (self: PLList, fun: (fun(x: any, ...): any), ...)
+local PLList = PL.List
+
+--- @class PLMap
+--- @field keys PLList
+--- @field values PLList
+--- @field get fun(self: PLMap, key: any): any
+--- @field getvalues fun(self: PLMap, keys: PLList): PLList
+--- @field set fun(self: PLMap, key: any, value: any)
+--- @field iter fun(): any
+--- @field items fun(self: PLMap): PLList
+--- @field setdefault fun(self: PLMap, key: any, default: any)
+--- @field len fun(self: PLMap): number
+--- @field update fun(self: PLMap, t: table)
+
+--- @class PLOrderedMap: PLMap
+--- @field insert fun(self: PLOrderedMap, pos: number, key: any, val: any)
+--- @field keys fun(self: PLOrderedMap): PLList
+--- @field values fun(self: PLOrderedMap): PLList
+--- @field sort fun(self: PLMap, cmp:(string|(fun(x: any, y: any): boolean))?)
+
 local currentdir = PL.path.currentdir
 local chdir = PL.path.chdir
 local relpath = PL.path.relpath
 
-local pushd_stack = List()
+local pushd_stack = PLList()
 
 PL.text.format_operator()
 
 --- Sort of command line pushd emulation.
 --- @param dir string
+--- @param label string
 --- @return boolean
 --- @return string?
-function AUP.pushd(dir)
+function AUP.pushd(dir, label)
+  PL.utils.assert_string(1, dir)
+  PL.utils.assert_string(2, label)
   local cwd = currentdir()
   local ans, err = chdir(dir)
   if ans then
-    pushd_stack:append(cwd)
+    pushd_stack:append({ cwd = cwd, label = label})
+    if AUP.dbg then
+      AUP.dbg:write(999, "pushd (%s):\n  from: %s\n  to:   %s"%{label, cwd, PL.path.currentdir()})
+      -- if AUP.dbg:level_get() > 99 then
+      --   print(debug.traceback(3))
+      -- end
+    end
   end
   return ans, err
 end
 
 --- Sort of command line pushd emulation.
 --- @param dir string
-function AUP.pushd_or_raise(dir)
-  local ans, err = AUP.pushd(dir)
+--- @param label string
+function AUP.pushd_or_raise(dir, label)
+  local ans, err = AUP.pushd(dir, label)
   if not ans then
-    error("Improbable error: "..err)
+    -- print(lfs.currentdir())
+    -- print(debug.traceback(2))
+    error("Improbable error: "..err, 2)
   end
 end
 
 --- Sort of command line popd emulation.
+--- @param label string
 --- @return boolean
---- @return string
-function AUP.popd()
-  if not #pushd_stack then
-    return false, "popd without a pushd"
+--- @return string?
+function AUP.popd(label)
+  PL.utils.assert_string(1, label)
+  if #pushd_stack > 0 then
+    local pop = pushd_stack:pop()
+    if pop == nil then
+      return false, 'nothing to pop to'
+    end
+    if label and label ~= pop.label then
+      return false, "Unbalanced pop label: %s ~= %s"%{pop.label, label}
+    end
+    if AUP.dbg then
+      local cwd = lfs.currentdir()
+      local ans, err = chdir(pop.cwd)
+      AUP.dbg:write(999, "popd(%s):\n  from: %s\n  to:   %s"%{pop.label, cwd, pop.cwd})
+      -- if AUP.dbg:level_get() > 99 then
+      --   print(debug.traceback(3))
+      -- end
+      return ans, err
+    else
+      return chdir(pop.cwd)
+    end
   end
-  return chdir(assert(pushd_stack:pop()))
+  return false, "popd without a pushd"
+end
+
+--- Sort of command line popd emulation.
+--- @param label string
+function AUP.popd_or_raise(label)
+  local ans, err = AUP.popd(label)
+  if not ans then
+    print('cwd: %s'%{lfs.currentdir()})
+    print(debug.traceback(3))
+    error("Improbable error: "..err, 2)
+  end
 end
 
 AUP.test_standalone_dir = currentdir()
@@ -212,9 +272,9 @@ print(AUP.test_standalone_dir)
 --- This is not full proofed.
 --- @param p string?
 --- @return string
-function AUP:short_path(p)
+function AUP.short_path(p)
   p = p or currentdir()
-  return List({'...', relpath(p, self.test_standalone_dir)})
+  return PLList({'...', relpath(p, AUP.test_standalone_dir)})
     :filter(function(x) return #x >0 end)
     :join('/')
 end
@@ -222,9 +282,60 @@ end
 package.loaded.auplib = AUP
 package.loaded.AUP = AUP
 
-AUP.dbg = AUP.module.dbg()
+--- @class AUP
+--- @field open_file fun(path: string)
+--- @field dbg AUPDBG
+--- @field state AUPState
 
--- create a temporary file
-AUP.tmp_dir = PL.path.dirname(PL.path.tmpname())
+--- Open a file
+---
+--- Does nothing if `--only_term` has been specified.
+--- Forwards to `AUP.open_file` otherwise.
+--- @param path string
+function AUP.open_file(path)
+  if AUP.arguments and AUP.arguments.only_term then
+    return
+  end
+  AUP.do_open_file(path)
+end
+
+--- Open a file
+---
+--- Default implementation does nothing
+--- @param path string
+function AUP.do_open_file(path)
+  error("Must be overriden in a `test_setup_⟨os type⟩_⟨os name⟩.lua` file")
+  --PL.utils.executeex('open %s.pdf'%{jobname})
+end
+
+-- next definition is helpless in practice
+-- the lls does not recognize the AUP_br_arg type
+
+---@alias AUP_br_key
+---| '"label"' # The label to display
+---| '"ch"' # the character used in the separator
+
+--- @alias AUP_br_arg table<AUP_br_key, string>
+
+local separations = PL.Map()
+
+--- Print a break line
+---
+--- One can choose the character to draw the line
+--- One can also choose the label to display at the end of the line
+--- @param kvarg AUP_br_arg
+function AUP.br(kvarg)
+  local ch = kvarg.ch or '-'
+  local prefix = separations[ch]
+  if prefix == nil then
+    prefix = PL.stringx.rstrip(PL.stringx.indent(ch, 19, ch))
+    separations[ch] = prefix
+  end
+  print('%s %s'%{prefix, kvarg.label or ''})
+end
+
+AUP.dbg = AUP.DBG()
+AUP.state = AUP.State()
+AUP.Utils.patch_penlight()
 
 print("AUP loaded")

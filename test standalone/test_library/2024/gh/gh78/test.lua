@@ -36,49 +36,52 @@ print("This test always passes")
 print("=======================")
 
 local AUP = package.loaded.AUP
-local PL = AUP.PL
-local dir = PL.dir
-local path = PL.path
-local file = PL.file
-local seq = PL.seq
-local PL_utils = PL.utils
-local stringx = PL.stringx
 
-local AUPEngine = AUP.module.engine
+local PL = AUP.PL
+local PL_dir = PL.dir
+local PL_path = PL.path
+local file = PL.file
+local PL_seq = PL.seq
+local PL_utils = PL.utils
+local PL_stringx = PL.stringx
+
+local AUPEngine = AUP.Engine
 local InteractionMode = AUPEngine.InteractionMode
 
 local match = string.match
-local join = path.join
-local makepath = dir.makepath
+local join = PL_path.join
+local makepath = PL_dir.makepath
 local write = file.write
 local read = file.read
-local splitlines = stringx.splitlines
+local splitlines = PL_stringx.splitlines
 local printf = PL_utils.printf
-local cwd = path.currentdir()
 
 local units = AUP.units
 
-local my_path = join(units:get_current_tmp_dir(), '¡¢£¤¥¦§', '¨©ª«¬­®')
+local my_path = join(units:tmp_dir_current(), '¡¢£¤¥¦§', '¨©ª«¬­®')
 makepath(my_path)
-AUP.pushd_or_raise(my_path)
-write ("gh78.tex", [==[
+local unit = 'gh78'
+local unit_tex = unit..'.tex'
+local unit_synctex = unit..'.synctex'
+AUP.pushd_or_raise(my_path, unit)
+write (unit_tex, [==[
 A
 B
 C
 \bye
 ]==])
-for name in seq.list {'pdftex', 'luatex', 'xetex'} do
+for name in AUPEngine.tex_all() do
   makepath(name)
-  if AUP.pushd(name) then
-    local _ = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file('../gh78.tex'):run()
-    local s = assert(read("gh78.synctex"))
+  if AUP.pushd(name, 'engine') then
+    local _ = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(PL.path.join('..', unit_tex)):run()
+    local s = assert(read(unit_synctex))
     for _,l in ipairs(splitlines(s)) do
-      if match(l, "gh78.tex") then
-        printf("%s->\n<%s>\n", path.join(path.currentdir(), "gh78.synctex"), l)
+      if match(l, unit_tex) then
+        printf("%s->\n<%s>\n", PL_path.join(PL_path.currentdir(), unit_synctex), l)
         break
       end
     end
-    AUP.popd()
+    AUP.popd('engine')
   end
 end
-path.chdir(cwd)
+AUP.popd(unit)

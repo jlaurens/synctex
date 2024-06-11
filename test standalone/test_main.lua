@@ -66,7 +66,3 @@ AUP.units:print("SyncTeX testing DONE")
 if number_of_failures>0 then
   exit(1)
 end
-
-if number_of_failures>0 then
-  exit(1)
-end

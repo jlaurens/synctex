@@ -59,11 +59,12 @@ for name in AUPEngine.tex_all() do
     if PL.path.isabs(p) then
       local d, n = PL.path.splitpath(p)
       if AUP.pushd(d, 'test') then
-        result = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(n):run()
+        local engine = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(n)
+        result = engine:run()
         result:print_stdout()
         if not result.status then
           result:print_errout()
-          AUP_units:fail('Typesetting error')
+          AUP_units:fail('Typesetting error (cmd: %s)'%{engine:cmd()})
         end
         AUP.popd('test')
       else
@@ -75,27 +76,28 @@ end
 
 -- Typeset the files in the directories named after engine names
 -- Use cases are not straightforward yet
-for engine in AUPEngine.tex_all() do
-  local engine_dir = PL.path.abspath(engine)
+for name in AUPEngine.tex_all() do
+  local engine_dir = PL.path.abspath(name)
   status, iter, dir_obj = pcall(function()
     return PL.path.dir(engine_dir)
   end)
   if status then
-    local tmp_dir = PL.path.join(AUP_units:tmp_dir_current(), engine)
+    local tmp_dir = PL.path.join(AUP_units:tmp_dir_current(), name)
     PL.dir.makepath(tmp_dir)
     dbg:write(10,'tmp_dir: '..tmp_dir)
     if AUP.pushd(tmp_dir, 'tmp_raw') then
       while true do
-        local name = iter(dir_obj)
-        if name then
-          if PL.path.extension(name)=='.tex' then
-            dbg:write(10,"TYPESETTING "..name)
-            local p = PL.path.abspath(name, engine_dir)
-            result = AUPEngine(engine):synctex(-1):interaction(InteractionMode.nonstopmode):file(p):run()
+        local base = iter(dir_obj)
+        if base then
+          if PL.path.extension(base)=='.tex' then
+            dbg:write(10,"TYPESETTING "..base)
+            local p = PL.path.abspath(base, engine_dir)
+            local engine = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(p)
+            result = engine:run()
             result:print_stdout()
             if not result.status then
               result:print_errout()
-              AUP_units:fail('Typesetting error')
+              AUP_units:fail('Typesetting error (cmd: %s)'%{engine:cmd()})
             end
           end
         else

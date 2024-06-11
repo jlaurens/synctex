@@ -40,20 +40,22 @@ local AUP = package.loaded.AUP
 local dbg = AUP.dbg
 local PL = AUP.PL
 
-local List = PL.List
+local PLList = PL.List
 local PL_utils = PL.utils
 
 local arguments = AUP.arguments
 assert(arguments)
 
-local AUPCommand = AUP.module.Command
+local AUPCommand = AUP.Command
 
 --- @class AUPFmtUtil: AUPCommand
+--- @field super fun(self: AUPFmtUtil, name: string)
 --- @field _init fun(self: AUPFmtUtil)
 --- @field reset fun(self: AUPFmtUtil): AUPFmtUtil
 --- @field sys fun(self: AUPFmtUtil, yorn: boolean?): AUPFmtUtil
 --- @field user fun(self: AUPFmtUtil, yorn: boolean?): AUPFmtUtil
 --- @field n fun(self: AUPFmtUtil): AUPFmtUtil
+--- @field dry_run fun(self: AUPFmtUtil): AUPFmtUtil
 --- @field byengine fun(self: AUPFmtUtil, value: string): AUPFmtUtil
 --- @field byfmt fun(self: AUPFmtUtil, value: string): AUPFmtUtil
 --- @field cmd fun(self: AUPFmtUtil): string
@@ -63,7 +65,6 @@ local AUPFmtUtil = PL.class.AUPFmtUtil(AUPCommand)
 
 --- Initialize an AUPFmtUtil instance
 function AUPFmtUtil:_init()
----@diagnostic disable-next-line: undefined-field
   self:super("fmtutil")
   self:sys()
 end
@@ -73,7 +74,7 @@ local quote_arg = PL_utils.quote_arg
 --- Build the command on the fly.
 --- @return string 
 function AUPFmtUtil:cmd()
-  local list = List({
+  local list = PLList({
     self._command,
     self._sys or false,
     self._user or false,
@@ -87,9 +88,15 @@ function AUPFmtUtil:cmd()
   return quote_arg(list)
 end
 
---- Set the `-n` option.
+--- Set the `-n` option (dry run).
 --- @return AUPFmtUtil
 function AUPFmtUtil:n()
+  self._n = "-n"
+  return self
+end
+
+--- @return AUPFmtUtil
+function AUPFmtUtil:dry_run()
   self._n = "-n"
   return self
 end
@@ -159,14 +166,15 @@ function AUPFmtUtil:reset()
 end
 
 --- Format and engine to remake.
---- @return string?
+---
+--- Runs fmtutil in a dry mode and parses the output.
 --- @return string?
 function AUPFmtUtil:remaking()
   local _n = self._n
-  local status, __, stdout, errout = self:n():run()
+  local result = self:n():run()
   self._n = _n
-  if status then
-    for l in List.split(stdout, "\n"):iter() do
+  if result.status then
+    for l in PLList.split(result.stdout, "\n"):iter() do
       -- fmtutil [INFO]: --- remaking lualatex with luahbtex
       local fmt, engine = l:match("remaking%s+(%S+)%s+with%s+(%S+)$")
       if fmt ~= nil then
@@ -192,13 +200,16 @@ function AUPFmtUtil:remake_when_older()
   local fmt_p = PL.path.join(var_dir, engine, fmt)..".fmt"
   local fmt_mtime = PL.path.getmtime(fmt_p)
   if fmt_mtime == nil or fmt_mtime < engine_mtime then
-    print("engine_mtime", engine_p, engine_mtime)
-    print("fmt_mtime", fmt_p, fmt_mtime)
-    local status, code, stdout, errout = self:run()
-    if true or not status or dbg:level_get()>1 then
-      print("code:", code)
-      print("stdout:", stdout)
-      print("errout:", errout)
+    local result = self:run()
+    if dbg:level_get()>9 then
+      print('AUPFmtUtil:remake_when_older')
+      print("  engine_mtime", engine_p, engine_mtime)
+      print("  fmt_mtime", fmt_p, fmt_mtime)
+      if result then
+        result:print()
+      else
+        print("  status: false")
+      end
     end
   end
 end
@@ -207,8 +218,9 @@ local _texmf_sys_var_dir
 local _texmf_user_var_dir
 
 --- The location where formats are stored.
+---
+--- Runs the `fmtutil` tool in dry mode and parses its output.
 --- @param user boolean?
---- @return string?
 --- @return string?
 function AUPFmtUtil.texmf_var_dir(user)
   if user then
@@ -219,18 +231,16 @@ function AUPFmtUtil.texmf_var_dir(user)
     return _texmf_sys_var_dir
   end
   local fmtutil = AUPFmtUtil():user(user or false):n():byfmt("pdftex")
-  local status, __, stdout = fmtutil:run()
-  if status then
-    for l in List.split(stdout, "\n"):iter() do
-      local ans = l:match("writing formats under%s*(.*)$")
-      if ans ~= nil then
-        if user then
-          _texmf_user_var_dir = ans
-        else
-          _texmf_sys_var_dir = ans
-        end
-        return ans
+  local result = fmtutil:run()
+  for l in PLList.split(result.stdout, "\n"):iter() do
+    local ans = l:match("writing formats under%s*(.*)$")
+    if ans ~= nil then
+      if user then
+        _texmf_user_var_dir = ans
+      else
+        _texmf_sys_var_dir = ans
       end
+      return ans
     end
   end
 end
@@ -240,4 +250,14 @@ end
 
 AUP.FmtUtil = AUPFmtUtil
 
-return AUPFmtUtil
+--- @enum AUPFormat
+AUPFormat = {
+  Plain = "plain",
+  LaTeX = "latex",
+  ConTeXt = "context",
+}
+
+return {
+  FmtUtil = AUPFmtUtil,
+  Format = AUPFormat,
+}
