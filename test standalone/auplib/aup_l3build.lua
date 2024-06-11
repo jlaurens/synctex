@@ -37,11 +37,11 @@ local AUP = package.loaded.AUP
 local lfs = package.loaded.lfs
 local PL = AUP.PL
 
-local List = PL.List
+local PLList = PL.List
 local PL_utils = PL.utils
 local assert_string = PL_utils.assert_string
 
-local AUPCommand = AUP.module.Command
+local AUPCommand = AUP.Command
 
 local dbg = AUP.dbg
 
@@ -54,7 +54,7 @@ local AUPL3BuildTarget = {
 --- @field _init fun(self: AUPL3Build, target: AUPL3BuildTarget)
 --- @field reset fun(self: AUPL3Build)
 --- @field synctex fun(self: AUPL3Build, value: integer): AUPL3Build
---- @field interaction fun(self: AUPL3Build, value: AUPTeXInteractionMode): AUPL3Build
+--- @field interaction fun(self: AUPL3Build, value: AUPEngineInteractionMode): AUPL3Build
 --- @field file fun(self: AUPL3Build, file: string): AUPL3Build
 --- @field cmd fun(self: AUPL3Build): string
 
@@ -80,7 +80,7 @@ end
 --- Add an option.
 --- @return AUPL3Build
 function AUPL3Build:clear_arguments()
-  self._arguments = List()
+  self._arguments = PLList()
   return self
 end
 
@@ -89,7 +89,7 @@ local quote_arg = PL_utils.quote_arg
 --- Build the command on the fly.
 --- @return string 
 function AUPL3Build:cmd()
-  return quote_arg(List({
+  return quote_arg(PLList({
     self._command,
     self._target,
     self._config or false,

@@ -32,6 +32,8 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
-local AUP = package.loaded.AUP
+--[=====[
 
-AUP.units:setup_tmp_dir()
+--]=====]
+
+local AUP = package.loaded.AUP

@@ -32,27 +32,103 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
---- @type AUP
 local AUP = package.loaded.AUP
 local PL = AUP.PL
+local PL_path = PL.path
 
-local List = PL.List
+local PLList = PL.List
 local PL_utils = PL.utils
 local assert_string = PL_utils.assert_string
 local executeex = PL_utils.executeex
 
 local dbg = AUP.dbg
+local state = AUP.state
+
+--- The result of a comman d run
+--- @class AUPCommandResult
+--- @field status boolean
+--- @field code integer
+--- @field stdout string
+--- @field errout string
+--- @field _init fun(self: AUPCommandResult, status: boolean, code: integer, stdout: string, errout: string)
+--- @field print fun(self: AUPCommandResult, level: number|string?, ch: string?)
+--- @field print_errout fun(self: AUPCommandResult, level: number|string?, ch: string?)
+--- @field print_stdout fun(self: AUPCommandResult, level: number|string?, ch: string?)
+local AUPCommandResult = PL.class.AUPCommandResult()
+
+--- Initialize an instance
+--- @param status boolean
+--- @param code integer
+--- @param stdout string
+--- @param errout string
+function AUPCommandResult:_init(status, code, stdout, errout)
+  PL.utils.assert_arg (2, status, 'boolean')
+  PL.utils.assert_arg (3, code, 'number')
+  PL.utils.assert_string(4, stdout)
+  PL.utils.assert_string(5, errout)
+  self.status = status
+  self.code = code
+  self.stdout = stdout
+  self.errout = errout
+end
+
+--- Print the instance
+---
+--- @param level number|string? defaults to 0
+--- @param ch string? defaults to '-'
+function AUPCommandResult:print(level, ch)
+  if type(level) == 'string' then
+    ch = level
+    level = 0
+  end
+  if dbg:level_get()>9 then
+    print('status: '..(self.status and 'true' or 'false'))
+    print('code: '..(self.code ~= nil and self.code or 'nil'))
+  end
+  self:print_stdout(level, ch)
+  self:print_errout(level, ch)
+end
+
+--- Print the instance
+--- @param level number|string? defaults to 0
+--- @param ch string? defaults to '-'
+function AUPCommandResult:print_errout(level, ch)
+  if type(level) == 'string' then
+    ch = level
+    level = 0
+  end
+  if #self.errout>0 then
+    AUP.br{label='errout', ch=ch or '-'}
+    print(self.errout)
+    AUP.br{}
+  else
+    AUP.br{label='No errout', ch=ch or '-'}
+  end
+end
+
+--- Print the instance
+--- @param level number|string? defaults to 0
+--- @param ch string? defaults to '-'
+function AUPCommandResult:print_stdout(level, ch)
+  if type(level) == 'string' then
+    ch = level
+    level = 0
+  end
+  AUP.br{label='stdout',ch=ch or '-'}
+  print(self.stdout)
+end
 
 --- @class AUPCommand
+--- @field Result AUPCommandResult
+--- @field os_concat string
+--- @field os_setenv string
 --- @field set_ENV fun(...)
---- @field PATH_list fun(): List
---- @field PATH fun(): string
 --- @field which fun(name: string, dir: string?, only_dir: boolean?): string?
+--- @field which_dev fun(name: string): string?, string?
 --- @field _init fun(self: AUPCommand, name: string, command: string?)
 --- @field cmd fun(self: AUPCommand): string
 --- @field reset fun(self: AUPCommand): AUPCommand
---- @field os_concat string
---- @field os_setenv string
+--- @field run fun(self: AUPCommand, env: table?): AUPCommandResult
 local AUPCommand = PL.class.AUPCommand()
 
 ---@diagnostic disable-next-line: undefined-field
@@ -67,15 +143,250 @@ end
 local arguments = AUP.arguments
 assert(arguments, "Internal error")
 
-local _PATH_list = nil
-local _ENV_table = {}
-local _tex_bin_dir = nil
-local _tex_dev_bin_dir = nil
+--- @class AUPCommand
+--- @field dev boolean
 
---- Set the environement
+AUPCommand.dev = arguments.dev
+
+--- @class AUPK
+--- @field PATHList string
+
+AUP.K.PATHList = 'PATHList'
+
+--- @class AUPCommand
+--- @field PATHList_get fun(): PLList
+--- @field PATH_get fun(): string
+
+--- Get content to feed the `PATH` environment variable.
+---@return PLList
+function AUPCommand.PATHList_get()
+  local ans = state:get(AUP.K.PATHList, true)
+  if ans == nil then
+    ans = PLList()
+    for k in PL.seq.list {AUP.K.synctex_bin, AUP.K.tex_bin} do
+      local d = state:get(k)
+      if type(d) == 'string' then
+        ans:append(d)
+      elseif d ~= nil then
+        error('Unexpected state: %s → %s'%{k, d}, 2)
+      end
+    end
+    ans:extend(PLList.split(os.getenv('PATH'), PL_path.dirsep))
+    state:set(AUP.K.PATHList, ans)
+  end
+  return ans
+end
+
+--- Get content to feed the `PATH` environment variable.
+---@return string
+function AUPCommand.PATH_get()
+  local l = AUPCommand.PATHList_get()
+  return l:join(PL_path.dirsep)
+end
+
+--- @class AUPCommand
+--- @field tex_bin_setup fun()
+--- @field tex_bin_get fun(): string
+--- @field tex_bin_set fun(dir: string|number?, dev: boolean?)
+--- @field tex_bin_by_year fun(year: string|number): string
+
+--- @class AUPK
+--- @field tex_bin string
+
+AUP.K.tex_bin = 'tex_bin'
+
+--- Set the location where official reliable tex binaries are stored.
+---
+--- Used by `AUPCommand.tex_bin_setup()`
+--- When the argument is not provided, it defaults to the result of
+--- `AUPCommand.tex_bin_by_year` with the current year.
+--- You can alse execute this command as part of some `test_setup_local_⟨cfg⟩.lua` file:
+--- and invoke meson with
+--- `meson test -C build --test-args='... --local=⟨cfg⟩ ...' ...`.
+--- @param dir string|number? must point to an existing directory.
+--- @param dev boolean? When true, does nothing if `AUPCommand.dev` is false.
+function AUPCommand.tex_bin_set(dir, dev)
+  if dev and not AUPCommand.dev then
+    return
+  end
+  if dir == nil then
+    ---@type string|number
+    ---@diagnostic disable-next-line: assign-type-mismatch
+    local y = os.date('!%Y')
+    dir = AUPCommand.tex_bin_by_year(y)
+  elseif type(dir) == 'number' or string.match(dir, '^%d%d%d%d$') then
+    local y = tostring(dir)
+    dir = nil
+    if y then
+      dir = AUPCommand.tex_bin_by_year(y)
+    end
+  end
+  PL.utils.assert_string(1, dir)
+  state:set(AUP.K.tex_bin, dir)
+  local p = AUPCommand.which("fmtutil", dir, true)
+  if p==nil then
+    error("Unexpected %s"%{dir}, 2)
+  else
+    dbg:write(9, [[
+AUPCommand.tex_bin_set:
+  dir: %s
+%s]]%{dir, debug.traceback(2)})
+  end
+end
+
+--- The actual directory of official tex binaries.
+---@return string
+function AUPCommand.tex_bin_get()
+  local ans = state:get(AUP.K.tex_bin)
+  -- print('AUPCommand.tex_bin_get')
+  -- print(debug.traceback())
+  assert(ans, AUP.K.tex_bin.." not setup (see AUPCommand.tex_bin_set)")
+  return ans
+end
+
+--- Get the location where official tex binaries are stored.
+---
+--- This is used by normal tests made on official distributions.
+--- The default implementation just raises because it must be overriden
+--- by some local setup file.
+--- @param year string|number
+--- @return string
+function AUPCommand.tex_bin_by_year(year)
+  error("`AUPCommand.tex_bin_by_year` must be overriden in a `test_setup_local_⟨cfg⟩.lua` file")
+end
+
+--- Sets the location where official reliable tex binaries are stored from arguments
+---
+--- Usage:
+--- ```meson test -C build --test-args='... --tex_bin=<path/to/tex/binaries> ...' ...```
+function AUPCommand.tex_bin_setup()
+  local entry = arguments:get(AUP.K.tex_bin)
+  if entry == nil then
+    AUPCommand.tex_bin_set()
+  elseif entry:value_is_string() then
+    AUPCommand.tex_bin_set(entry:string_value())
+    entry:consume()
+  else
+    error("`--%s` needs a value"%{AUP.K.tex_bin})
+  end
+  dbg:write(1,"AUPCommand.tex_bin_setup: "..AUPCommand.tex_bin_get())
+end
+
+--- @class AUPCommand
+--- @field tex_dev_bin_get fun(): string
+--- @field tex_dev_bin_set fun(dir)
+--- @field tex_dev_bin_setup fun()
+
+--- @class AUPK
+--- @field tex_dev_bin string
+
+AUP.K.tex_dev_bin = 'tex_dev_bin'
+
+--- Sets the location where development tex binaries are stored.
+---
+--- @param dir string must point to an existing directory.
+function AUPCommand.tex_dev_bin_set(dir)
+  PL.utils.assert_string(1, dir)
+  local p = AUPCommand.which("pdftex", dir, true)
+  if p==nil then
+    error("Unexpected %s"%{dir}, 2)
+  else
+    state:set(AUP.K.tex_dev_bin, dir)
+  end
+end
+
+--- Sets the location where development tex binaries are stored from arguments
+function AUPCommand.tex_dev_bin_setup()
+  --- @type string
+  local p
+  local entry = arguments:get('Work')
+  if entry ~= nil then
+    if entry:value_is_string() then
+      p = entry:string_value()
+    else
+      p = AUP.test_standalone_dir
+      p = PL_path.join(p, "../../texlive-source/Work")
+    end
+    p = PL_path.join(p, "texk/web2c")
+    p = PL_path.normpath(p)
+    AUPCommand.tex_dev_bin_set(p)
+    entry:consume()
+    entry = arguments:get(AUP.K.tex_dev_bin)
+    if entry ~= nil then
+      entry:consume()
+    end
+  else
+    entry = arguments:get(AUP.K.tex_dev_bin)
+    if entry ~= nil then
+      assert(entry:value_is_string(), "`--%s` needs a value"%{AUP.K.tex_dev_bin})
+      AUPCommand.tex_dev_bin_set(entry:string_value())
+      entry:consume()
+    end
+  end
+  dbg:write(1,"AUPCommand.tex_dev_bin_setup"..AUPCommand.tex_dev_bin_get())
+end
+
+--- @class AUPCommand
+--- @field synctex_bin_get fun(): string
+--- @field synctex_bin_set fun(dir)
+--- @field synctex_bin_setup fun()
+
+--- @class AUPK
+--- @field synctex_bin string
+
+AUP.K.synctex_bin = 'synctex_bin'
+
+--- Sets the location where synctex binaries are stored.
+---
+--- @param dir string must point to an existing directory.
+function AUPCommand.synctex_bin_set(dir)
+  PL.utils.assert_string(1, dir)
+  state:setup()
+  state:set(AUP.K.synctex_bin, dir)
+  local p = AUPCommand.which("synctex", dir, true)
+  state:teardown()
+  if p==nil then
+    error("Unexpected %s"%{dir}, 2)
+  else
+    state:set(AUP.K.synctex_bin, dir)
+  end
+end
+
+--- Gets the location where synctex binaries are stored.
+---@return string
+function AUPCommand.synctex_bin_get()
+  return state:get(AUP.K.synctex_bin)
+end
+
+--- Sets the location where development synctex binaries are stored from arguments
+function AUPCommand.synctex_bin_setup()
+  --- @type string
+  local p
+  local entry = arguments:get(AUP.K.synctex_bin)
+  if entry ~= nil then
+    assert(entry:value_is_string(), "`--%s` needs a value"%{AUP.K.synctex_bin})
+    p = entry:string_value()
+    entry:consume()
+  else
+    -- default
+    p = PL_path.join(AUP.test_standalone_dir, '../meson/build')
+  end
+  AUPCommand.synctex_bin_set(PL_path.normpath(p))
+  dbg:write(1,"AUPCommand.synctex_bin_setup: "..AUPCommand.synctex_bin_get())
+end
+
+--- @class AUPK
+--- @field ENV string
+
+AUP.K.ENV = 'ENV'
+
+--- Set the CLI environement
+---
+--- This is not related to lua `_ENV` variable.
 ---@param ... unknown key and value strings or table
 function AUPCommand.set_ENV(...)
   local args = table.pack(...)
+  local _ENV_Map = state:mapGet(AUP.K.ENV)
   local i = 1
   while i<=args.n do
     local arg = args[i]
@@ -83,9 +394,9 @@ function AUPCommand.set_ENV(...)
       for k, v in pairs(arg) do
         if type(k)=='string' then
           if type(v)=='string' then
-            _ENV_table[k] = v
+            _ENV_Map[k] = v
           else
-            error('Only string key expected', 2)
+            error('Only string value expected', 2)
           end
         else
           error('Only string key expected', 2)
@@ -98,7 +409,7 @@ function AUPCommand.set_ENV(...)
         error("Missing value for key "..arg, 2)
       end
       if type(args[i])=='string' then
-        _ENV_table[arg] = args[i]
+        _ENV_Map[arg] = args[i]
         i = i + 1
       else
         error("Missing string value for key "..arg, 2)
@@ -109,35 +420,13 @@ function AUPCommand.set_ENV(...)
   end
 end
 
-function AUPCommand.PATH_list()
-  AUPCommand.setup_tex_bin_dir()
-  AUPCommand.setup_tex_dev_bin_dir()
-  if _PATH_list == nil then
-    _PATH_list = List()
-    if _tex_dev_bin_dir ~= nil then
-      _PATH_list:append(_tex_dev_bin_dir)
-    end
-    if _tex_bin_dir ~= nil then
-      _PATH_list:append(_tex_bin_dir)
-    end
-    _PATH_list:extend(List.split(os.getenv('PATH'), PL.path.dirsep))
-  end
-  return _PATH_list
-end
-
----The list of PATH components
----@return string
-function AUPCommand.PATH()
-  return AUPCommand.PATH_list():join(PL.path.dirsep)
-end
-
 --- Class function similar to terminal's `which`.
 ---
---- If `name` exits, it is returned normalized.
+--- If `name` exists, it is returned normalized.
 --- The `--Work` and `--bin_dir` options are used if provided.
 --- The `PATH` environment variable content as well.
 --- @param name string
---- @param dir string?
+--- @param dir string? 
 --- @param only_dir boolean?
 --- @return string?
 function AUPCommand.which(name, dir, only_dir)
@@ -145,34 +434,69 @@ function AUPCommand.which(name, dir, only_dir)
 AUPCommand.which name:     %s
                  dir:      %s
                  only_dir: %s
-]], name, dir or "None" , only_dir and "True" or "False")
-  assert_string(2, name)
-  if PL.path.is_windows and PL.path.extension(name)=="" then
+]], name, dir or "none" , only_dir and "true" or "false")
+  assert_string(1, name)
+  if PL_path.is_windows and PL_path.extension(name)=="" then
     name = name .. '.exe'
   end
-  if PL.path.isabs(name) and PL.path.exists(name) then
-    return PL.path.normpath(name)
+  if PL_path.isabs(name) and PL_path.exists(name) then
+    return PL_path.normpath(name)
   end
   if dir ~= nil then
-    name = PL.path.join(dir,name)
-    if PL.path.exists(name) then
-      return PL.path.normpath(name)
+    local full = PL_path.join(dir,name)
+    dbg:write(9, "full: "..full)
+    if PL_path.exists(full) then
+      return PL_path.normpath(full)
     end
     if only_dir then
       return
     end
   end
-  local l = AUPCommand.PATH_list()
+  local l = AUPCommand.PATHList_get()
   if dbg:level_get()>9 then
-    print("PATH:")
+    print("PATH:"..#l)
     l:foreach(function (x) print(x) end)
   end
-  local res = l:map(PL.path.join, name)
-  res = res:filter(PL.path.exists)
+  local res = l:map(PL_path.join, name)
+  res = res:filter(PL_path.exists)
   if #res > 0 then
-    return PL.path.normpath(res[1])
+    return PL_path.normpath(res[1])
   end
   return nil
+end
+
+--- Class function similar to terminal's `which` for development.
+---
+--- If `name` exists, it is returned normalized.
+--- The second value returned is the (path to) dev directory, if any.
+--- @param name string
+--- @return string?
+--- @return string?
+function AUPCommand.which_dev(name)
+  dbg:printf(9, [[
+AUPCommand.which_dev name:     %s
+]], name)
+  assert_string(1, name)
+  if PL_path.is_windows and PL_path.extension(name)=="" then
+    name = name .. '.exe'
+  end
+  if PL_path.isabs(name) and PL_path.exists(name) then
+    return PL_path.normpath(name)
+  end
+  local p = state:get(AUP.K.synctex_bin)
+  if p ~= nil then
+    local full = PL_path.join(p,name)
+    if PL_path.exists(full) then
+      return PL_path.normpath(full), p
+    end
+  end
+  p = state:get(AUP.K.tex_dev_bin)
+  if p ~= nil then
+    local full = PL_path.join(p,name)
+    if PL_path.exists(full) then
+      return PL_path.normpath(full), p
+    end
+  end
 end
 
 --- Initialize an AUPCommand instance
@@ -185,14 +509,13 @@ function AUPCommand:_init(name, command)
   assert_string(2, name)
   self._name = name
   if command ~= nil then
-    assert_string(2, command)
-    assert(PL.path.exists(command), "No file at "..command)
-    self._command = PL.path.normpath(command)
+    assert_string(3, command)
+    assert(PL_path.exists(command), "No file at "..command)
+    self._command = PL_path.normpath(command)
   else
     self._command = AUPCommand.which(name)
     if self._command == nil then
       print("**** No command found for "..self._name)
-      print('PATH: '..os.getenv('PATH'))
     end
   end
 end
@@ -200,15 +523,11 @@ end
 --- Run the command
 --- @param env table?
 --- @return boolean status
---- @return integer code
---- @return string stdout
---- @return string errout
+--- @return AUPCommandResult
 function AUPCommand:run(env)
-  local L = List()
-  ---@diagnostic disable-next-line: undefined-field
-  if env == nil or (env.PATH == nil and _ENV_table.PATH == nil) then
-    L:append('%s %s="%s"' % {AUPCommand.os_setenv, "PATH", AUPCommand.PATH()})
-  end
+  local L = PLList()
+  local _ENV_Map = state:mapGet(AUP.K.ENV)
+  L:append('%s %s="%s"' % {AUPCommand.os_setenv, "PATH", AUPCommand.PATH_get()})
   if env then
     for k,v in pairs(env) do
       if not string.find(k, " ") then
@@ -216,7 +535,7 @@ function AUPCommand:run(env)
       end
     end
   end
-  for k,v in pairs(_ENV_table) do
+  for k,v in _ENV_Map:iter() do
     if not string.find(k, " ") then
       if env == nil or env[k] == nil then
         L:append('%s %s="%s"' % {AUPCommand.os_setenv, k, v})
@@ -224,16 +543,27 @@ function AUPCommand:run(env)
     end
   end
 
+  if dbg:level_get()>0 then
+    L:append('echo "\\$PATH=$PATH"')
+  end
   local short_cmd = self:cmd()
   L:append(short_cmd)
   local long_cmd = L:join(AUPCommand.os_concat)
-  print('cwd: '..PL.path.currentdir())
+  dbg:write(1,[[AUPCommand:run
+  cwd: %s]]%{PL_path.currentdir()})
   if dbg:level_get()>1 then
-    print('cmd: `'..long_cmd..'`')
+    print('  cmd: `%s`'%{long_cmd})
+    if dbg:level_get()>9 then
+      long_cmd = 'echo "******** pwd=$(pwd)";'..long_cmd
+    end
   else
-    print('cmd: `'..short_cmd..'`')
+    print('  cmd: `%s`'%{short_cmd})
   end
-  return executeex(long_cmd)
+  local status, code, stdout, errout = executeex(long_cmd)
+  if dbg:level_get() > 9 then
+    PL.pretty(status, code, stdout, errout)
+  end
+  return AUPCommandResult(status, code, stdout, errout)
 end
 
 --- Build the command
@@ -242,90 +572,36 @@ function AUPCommand:cmd()
   error("Virtual method", 2)
 end
 
---- Reset the arguments
+--- Reset the Command
 --- @return string
 function AUPCommand:reset()
   error("Virtual method", 2)
-end
-
---- Sets the location where official reliable tex binaries are stored.
----
---- @param dir string must point to an existing directory.
-function AUPCommand.set_tex_bin_dir(dir)
-  PL.utils.assert_string(1, dir)
-  _tex_bin_dir = dir
-  _PATH_list = nil
-  local fmtutil = AUPCommand.which("fmtutil", dir)
-  assert(fmtutil~=nil,"Unexpected %s"%{dir})
-end
-
---- Sets the location where development tex binaries are stored.
----
---- @param dir string must point to an existing directory.
-function AUPCommand.set_tex_dev_bin_dir(dir)
-  PL.utils.assert_string(1, dir)
-  _tex_dev_bin_dir = dir
-  _PATH_list = nil
-  local pdftex_p = AUPCommand.which("pdftex", dir, true)
-  assert(pdftex_p~=nil,"Unexpected %s"%{dir})
-end
-
---- Sets the location where development tex binaries are stored from arguments
----
---- One shot function
-function AUPCommand.setup_tex_dev_bin_dir()
-  local p
-  local entry = arguments:get('Work')
-  if entry ~= nil then
-    if entry:value_is_string() then
-      p = entry.value
-    else
-      p = AUP.test_standalone_dir
-      p = PL.path.join(p, "../../texlive-source/Work")
-    end
-    p = PL.path.join(p, "texk/web2c/")
-    AUPCommand.set_tex_dev_bin_dir(p)
-    entry:consume()
-    entry = arguments:get('dev_bin_dir')
-    if entry ~= nil then
-      entry:consume()
-    end
-  else
-    entry = arguments:get('dev_bin_dir')
-    if entry ~= nil then
-      if entry:value_is_string() then
-        ---@diagnostic disable-next-line: param-type-mismatch
-        AUPCommand.set_tex_dev_bin_dir(entry.value)
-        entry:consume()
-      else
-        error("`dev_bin_dir` needs a value")
-      end
-    end
-  end
-  AUPCommand.setup_tex_dev_bin_dir = function() end
-end
-
---- Sets the location where official reliable tex binaries are stored from arguments
----
---- One shot function
-function AUPCommand.setup_tex_bin_dir()
-  local entry = arguments:get('bin_dir')
-  if entry ~= nil then
-    if entry:value_is_string() then
-      ---@diagnostic disable-next-line: param-type-mismatch
-      AUPCommand.set_tex_bin_dir(entry.value)
-      entry:consume()
-    else
-      error("`bin_dir` needs a value")
-    end
-  end
-  AUPCommand.setup_tex_bin_dir = function() end
 end
 
 function AUPCommand:__tostring()
   return self:cmd()
 end
 
+--- @class AUP
+--- @field Command AUPCommand
+
 AUP.Command = AUPCommand
 
-return AUPCommand
+-- --- local entry = arguments:get('Work')
+-- PLList({'TEXMFSYSVAR', 'TEXMFCNF'}):map(
+--   function(k)
+--     local entry = arguments:get(k)
+--     if entry ~= nil then
+--       if entry:value_is_string() then
+--         AUPCommand.set_ENV(k, entry.value)
+--       end
+--       entry:consume()
+--     end
+--   end
+-- )
+
+dbg:write(1, "aup_command loaded")
+
+return {
+  Command = AUPCommand
+}

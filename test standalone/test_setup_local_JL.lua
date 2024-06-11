@@ -32,5 +32,9 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
-local AUP  = package.loaded.AUP
-AUP.units:teardown_tmp_dir()
+local AUPCommand = package.loaded.AUP.Command
+
+AUPCommand.tex_dev_bin_set(
+  "/Volumes/Users/GitHub/jlaurens/texlive-source/Work/texk/web2c"
+)
+AUPCommand.tex_bin_set(2222, true)

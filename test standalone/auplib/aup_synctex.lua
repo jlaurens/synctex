@@ -36,10 +36,15 @@ This file is part of the __SyncTeX__ package testing framework.
 local AUP = package.loaded.AUP
 local PL = AUP.PL
 
-local List = PL.List
+local PLList = PL.List
 local quote_arg = PL.utils.quote_arg
 
-local AUPCommand = AUP.module.Command
+local AUPCommand = AUP.Command
+local AUPCommandResult = AUP.Command.Result
+
+-- The synctex command used may be located at different places.
+-- When developing synctex, it is located in `.../meson/build`
+-- When testing a distribution, it is located in the standard binary folder
 
 -- synctex -v
 -- synctex --version
@@ -47,14 +52,16 @@ local AUPCommand = AUP.module.Command
 -- synctex --parse_int_policy C|raw1|raw2
 --- @class AUPSyncTeXGlobal: AUPCommand
 --- @field _init fun(self: AUPSyncTeXGlobal, name: string)
---- @field run_option fun(self: AUPSyncTeXGlobal, option: string, env: table?): boolean, integer, string, string
+--- @field run_option fun(self: AUPSyncTeXGlobal, option: string, env: table?): AUPCommandResult
 
 local AUPSyncTeXGlobal = PL.class.AUPSyncTeXGlobal(AUPCommand)
 
 ---Initialize an instance
 function AUPSyncTeXGlobal:_init(name)
+  print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
   self:super(name or 'synctex_test')
   self._o = nil
+  print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 end
 
 --- Build the command on the fly
@@ -62,17 +69,14 @@ end
 function AUPSyncTeXGlobal:cmd()
   assert(self._command, "No engine available")
   assert(self._options, "No option available")
-  local L = List({self._command})..self._options
+  local L = PLList({self._command})..self._options
   return quote_arg(L)
 end
 
 --- Run the command for the given global
 --- @param option string
 --- @param env table?
---- @return boolean status
---- @return integer code
---- @return string stdout
---- @return string errout
+--- @return AUPCommandResult
 function AUPSyncTeXGlobal:run_option(option, env)
   if type(option)=="table" then
     self._options = option;
@@ -151,13 +155,15 @@ function AUPSyncTeXEdit:reset()
   return self
 end
 
+local quote_arg = PL.utils.quote_arg
+
 --- Build the command on the fly
 --- @return string errout
 function AUPSyncTeXEdit:cmd()
   assert(self._command)
   assert(self._o)
-  local L = List({self._command, "edit", self._o}):extend(
-    List({self._d or false, self._x or false, self._h or false}):filter(
+  local L = PLList({self._command, "edit", self._o}):extend(
+    PLList({self._d or false, self._x or false, self._h or false}):filter(
       function(x)
         return type(x)=='string' and #x>0
       end
@@ -258,8 +264,8 @@ function AUPSyncTeXView:cmd()
   assert(self._command)
   assert(self._i)
   assert(self._o)
-  local L = List({self._command, "view", self._i, self._o}):extend(
-    List({self._d or false, self._x or false, self._h or false}):filter(
+  local L = PLList({self._command, "view", self._i, self._o}):extend(
+    PLList({self._d or false, self._x or false, self._h or false}):filter(
       function(x)
         return type(x)=='string' and #x>0
       end
@@ -313,7 +319,7 @@ end
 function AUPSyncTeXDump:cmd()
   assert(self._command)
   assert(self._o)
-  local L = List({self._command, "dump", "-o", self._o})
+  local L = PLList({self._command, "dump", "-o", self._o})
   if self._d then
     L:append("-d", self._d)
   end
@@ -321,9 +327,13 @@ function AUPSyncTeXDump:cmd()
 end
 
 --- @class AUPSyncTeX
+--- @field Global AUPSyncTeXGlobal
 --- @field View AUPSyncTeXView
 --- @field Edit AUPSyncTeXEdit
 --- @field Dump AUPSyncTeXDump
+
+--- @class AUP
+--- @field SyncTeX AUPSyncTeX
 
 AUP.SyncTeX = {
   Global = AUPSyncTeXGlobal,
@@ -332,4 +342,6 @@ AUP.SyncTeX = {
   Dump = AUPSyncTeXDump
 }
 
-return AUP.SyncTeX
+return {
+  SyncTeX = AUP.SyncTeX
+}

@@ -104,4 +104,6 @@ local function importer(env)
   return l3build_proxy
 end
 
-return importer
+return {
+  Importer = importer
+}

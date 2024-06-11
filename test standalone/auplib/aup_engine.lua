@@ -35,7 +35,6 @@ This file is part of the __SyncTeX__ package testing framework.
 --- @type AUP
 local AUP = package.loaded.AUP
 local lfs = package.loaded.lfs
-local lfs = package.loaded.lfs
 local PL = AUP.PL
 
 local PLList = PL.List
