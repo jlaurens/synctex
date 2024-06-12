@@ -646,10 +646,10 @@ function AUPUnits:test_teardown()
   self:print('Test teardown for '..AUP.short_path())
   local name = 'test_teardown'
   local l = PLList({name})
----@diagnostic disable-next-line: undefined-field
+  --- @diagnostic disable-next-line: undefined-field
   name = name..'_'..os.type
   l:put(name)
-  ---@diagnostic disable-next-line: undefined-field
+  --- @diagnostic disable-next-line: undefined-field
   name = name..'_'..os.name
   l:put(name)
   local v = self:local_value()
@@ -682,18 +682,9 @@ function AUPUnits:check()
     dbg:write(9999, 'AUPUnits:check... SKIPPED')
     return
   end
-  --- @type AUPUnitsQuery
-  local query
-  if self.dev then
-    query = AUPUnitsQuery()
-    query.modes:append(AUPUnitsQueryMatch.Any)
-    query.years:append(AUPUnitsQueryMatch.Any)
-    query.suites:append(AUPUnitsQueryMatch.Any)
-    query.units:append(AUPUnitsQueryMatch.Any)
-    query:apply(self._testMap, AUPUnitsQueryAction.Exclude)
-  end
-  query = AUP.arguments:unitsQueryInclude()
+  local query = AUP.arguments:unitsQueryInclude()
   query:apply(self._testMap, AUPUnitsQueryAction.Include)
+  -- the 2222 query
   query = AUPUnitsQuery()
   query.modes:append(AUPUnitsQueryMatch.Any)
   query.years:append('2222')
@@ -831,10 +822,10 @@ end
 --- @param exclude table?
 function AUPUnits:test_currentdir(exclude)
   dbg:write(999, '▶︎▶︎▶︎ test_currentdir "'..AUP.short_path(PL.path.abspath('.'))..'".')
-  dbg:write(999, 'self.test_mode: '..(self.test_mode or 'nil'))
-  dbg:write(999, 'self.test_year: '..(self.test_year or 'nil'))
-  dbg:write(999, 'self.test_suite: '..(self.test_suite or 'nil'))
-  dbg:write(999, 'self.test_unit: '..(self.test_unit or 'nil'))
+  dbg:write(999, '  self.test_mode: ' ..(self.test_mode or 'nil'))
+  dbg:write(999, '  self.test_year: ' ..(self.test_year or 'nil'))
+  dbg:write(999, '  self.test_suite: '..(self.test_suite or 'nil'))
+  dbg:write(999, '  self.test_unit: ' ..(self.test_unit or 'nil'))
   local query = AUPUnitsQuery()
   query.modes = PLList{AUPUnitsQueryMatch.Any}
   query.years = PLList{AUPUnitsQueryMatch.Any}

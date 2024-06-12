@@ -38,21 +38,20 @@ local AUP = package.loaded.AUP
 
 local dbg = AUP.dbg
 
-dbg:write(1, "Testing minimal")
+dbg:write(1, "Testing mathsurround")
 
 local PL = AUP.PL
-local PL_dir = PL.dir
 local PL_path = PL.path
 local PL_file = PL.file
 local PL_utils = PL.utils
 local PL_stringx = PL.stringx
 
+local AUPCommand = AUP.Command
 local AUPEngine = AUP.Engine
 local InteractionMode = AUPEngine.InteractionMode
 
 local match = string.match
 local join = PL_path.join
-local makepath = PL_dir.makepath
 local read = PL_file.read
 local splitlines = PL_stringx.splitlines
 local printf = PL_utils.printf
@@ -61,26 +60,42 @@ local units = AUP.units
 
 local cwd = lfs.currentdir();
 
-AUP.pushd_or_raise(units:tmp_dir_current(), 'tmp_minimal')
-
+local unit = 'gh87'
+AUP.pushd_or_raise(units:tmp_dir_current(), 'tmp_'..unit)
 for name in AUPEngine.tex_all() do
-  local base = 'minimal-'..name
+  AUP.br{label='ENGINE: '..name}
+  local base = unit..'_'..name
   local source = join(cwd, base..".tex")
-  makepath(name)
-  AUP.pushd_or_raise(name, base)
-  local result = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source):run()
-  assert(result.status)
+  dbg:write(1, AUPCommand.which(name, AUPCommand.tex_bin_get(), true))
+  local engine = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source)
+  local result = engine:run()
+  assert(result.status, 'cmd: %s'%{engine:cmd()})
   for i,l in ipairs(splitlines(result.stdout)) do
     if match(l, "Synchronize ERROR") then
       printf("Unexpected at line %i: <%s>\n", i, l)
     end
   end
   result:print()
-  print(base..".synctex")
-  local s = read(base..".synctex")
-  if s == nil then
-    AUP.units:raise('MISSING '..base..".synctex")
+  local base_synctex = base..'.synctex'
+  local s = read(base_synctex)
+  if s ~= nil then
+    AUP.br{label=base_synctex}
+    print(s)
+    local request = '$1,8:0,'
+    local i = string.find(s, request)
+    if i==nil then
+      units:fail('Wrong '..base_synctex..' (no "'..request..'")')
+      print(s)
+    else
+      request = '$1,8:1000,'
+      i = string.find(s, request)
+      if i==nil then
+        units:fail('Wrong '..base_synctex..' (no "'..request..'")')
+        print(s)
+      end
+    end
+  else
+    units:fail('dev: MISSING '..base_synctex)
   end
-  AUP.popd(base)
 end
-AUP.popd_or_raise('tmp_minimal')
+AUP.popd_or_raise('tmp_'..unit)
