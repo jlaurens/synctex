@@ -99,7 +99,7 @@ function AUPTest:_init(path, mode, year, suite, unit)
   self.suite = suite or '.'
   self.unit = unit or '.'
   self.visited = false
-  self.excluded = false
+  self.excluded = true
   self.checked = false
 end
 
@@ -166,9 +166,9 @@ end
 
 --- @enum AUPUnitsQueryAction
 AUPUnitsQueryAction = {
-  Include   = 'include',
+  Include         = 'include',
   IncludeExcept   = 'include except',
-  Exclude   = 'exclude',
+  Exclude         = 'exclude',
   ExcludeExcept   = 'exclude except'
 }
 
@@ -684,6 +684,9 @@ function AUPUnits:check()
   end
   local query = AUP.arguments:unitsQueryInclude()
   query:apply(self._testMap, AUPUnitsQueryAction.Include)
+  print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+  self:test_foreach(function(t) if not t.excluded then print('Test: %s'%{t.path}) end end)
+  print("????????????????????????????????????????")
   -- the 2222 query
   query = AUPUnitsQuery()
   query.modes:append(AUPUnitsQueryMatch.Any)
@@ -691,9 +694,14 @@ function AUPUnits:check()
   query.suites:append(AUPUnitsQueryMatch.Any)
   query.units:append(AUPUnitsQueryMatch.Any)
   if self.dev then
+    query:apply(self._testMap, AUPUnitsQueryAction.ExcludeExcept)
+    self:test_foreach(function(t) if not t.excluded then print('Test: %s'%{t.path}) end end)
+    print("++++++++++++++++++++++++++++++++++++++++")
     local ans = self:test_foreach(function(t) if not t.excluded then return true, true end end)
     if not ans then
       query:apply(self._testMap, AUPUnitsQueryAction.Include)
+      self:test_foreach(function(t) if not t.excluded then print('Test: %s'%{t.path}) end end)
+      print("----------------------------------------")
     end
   else
     query:apply(self._testMap, AUPUnitsQueryAction.Exclude)
