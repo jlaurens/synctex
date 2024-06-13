@@ -859,10 +859,8 @@ function AUPUnits:test_currentdir(exclude)
             query.units = PLList(exclude)
             query:apply(self._testMap, AUPUnitsQueryAction.Exclude)
           end
-          return
-        else
-          return
         end
+        return
       end
     end
   end
