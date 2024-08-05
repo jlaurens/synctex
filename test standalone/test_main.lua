@@ -37,13 +37,14 @@ local match = string.match
 print("Launching the SyncTeX testing framework...")
 
 -- The current directory
-local lfs = package.loaded.lfs
+---@type LuaFileSystem
+local lfs = lfs
 local exit = os.exit
 
 local separator = package.config:sub(1,1)
 
 local dir = match(arg[0], "^(.*)/[^/"..separator.."]*$")
---- @type AUP
+--- @class AUP
 local AUP
 if dir then
   local cwd = lfs.currentdir()
@@ -54,13 +55,18 @@ else
   AUP = require('auplib')
 end
 
-AUP.arguments = AUP.Arguments(arg)
+--- @type AUP.Arguments
+local arguments = AUP.Arguments(arg)
+AUP.arguments = arguments
+
+--- @type AUP.Units
 AUP.units = AUP.Units(AUP.test_standalone_dir, AUP.arguments)
 
-if AUP.arguments.setup then
+if arguments.setup then
   AUP.units:setup_and_exit()
 end
 AUP.units:check()
+AUP.units:print_skipped()
 local number_of_failures = AUP.units:print_failed()
 AUP.units:print("SyncTeX testing DONE")
 if number_of_failures>0 then

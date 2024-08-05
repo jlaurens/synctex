@@ -35,28 +35,27 @@ This file is part of the __SyncTeX__ package testing facilities.
 print("This test always passes")
 print("=======================")
 
+local pl_dir = require"pl.dir"
+local pl_path = require"pl.path"
+local pl_file = require"pl.file"
+local pl_utils = require"pl.utils"
+local pl_stringx = require"pl.stringx"
+
+local join = pl_path.join
+local makepath = pl_dir.makepath
+local write = pl_file.write
+local read = pl_file.read
+local splitlines = pl_stringx.splitlines
+local printf = pl_utils.printf
+
+--- @type AUP
 local AUP = package.loaded.AUP
 
-local PL = AUP.PL
-local PL_dir = PL.dir
-local PL_path = PL.path
-local file = PL.file
-local PL_seq = PL.seq
-local PL_utils = PL.utils
-local PL_stringx = PL.stringx
-
-local AUPEngine = AUP.Engine
-local InteractionMode = AUPEngine.InteractionMode
-
-local match = string.match
-local join = PL_path.join
-local makepath = PL_dir.makepath
-local write = file.write
-local read = file.read
-local splitlines = PL_stringx.splitlines
-local printf = PL_utils.printf
+local Engine = AUP.Engine
+local InteractionMode = Engine.InteractionMode
 
 local units = AUP.units
+assert(units)
 
 local my_path = join(units:tmp_dir_current(), '¡¢£¤¥¦§', '¨©ª«¬­®')
 makepath(my_path)
@@ -70,14 +69,14 @@ B
 C
 \bye
 ]==])
-for name in AUPEngine.tex_all() do
+for name in Engine.tex_all() do
   makepath(name)
   if AUP.pushd(name, 'engine') then
-    local _ = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(PL.path.join('..', unit_tex)):run()
+    local _ = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(pl_path.join('..', unit_tex)):run()
     local s = assert(read(unit_synctex))
     for _,l in ipairs(splitlines(s)) do
-      if match(l, unit_tex) then
-        printf("%s->\n<%s>\n", PL_path.join(PL_path.currentdir(), unit_synctex), l)
+      if l:match(unit_tex) then
+        printf("%s->\n<%s>\n", pl_path.join(pl_path.currentdir(), unit_synctex), l)
         break
       end
     end

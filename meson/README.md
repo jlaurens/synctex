@@ -3,7 +3,7 @@
 The main tool is `meson`, see downloading instructions from the [official meson site](https://mesonbuild.com/).
 
 ## Clone
-First retrieve the source code. You can use the green code button from the [main SyncTeX page](https://github.com/jlaurens/synctex). If you plan to contribute to the code, it is recommanded to clone the GitHub synctex repository and use GitHub desktop application if available on your operating system.
+First retrieve the source code. You can use the green code button from the [main SyncTeX page](https://github.com/jlaurens/synctex). If you plan to contribute to the code, it is recommanded to clone the GitHub synctex repository and use GitHub desktop application if available for your operating system.
 
 ## Building
 Instructions below are given to build the `synctex` command line tool on possibly various operating systems.
@@ -338,7 +338,7 @@ These are the flags to disable things
 
 Next should work but seems not.
 ```sh
-../configure --disable-all-pkgs --enable-pdftex \
+../configure --disable-all-pkgs --enable-pdftex-synctex \
     -C CFLAGS=-g CXXFLAGS=-g >&outc || echo fail
 ```
 Do the make:
@@ -384,7 +384,7 @@ In the former, each `--debug` is cumulative meaning that is allows the display o
 
 ## Working with TeXLive from GitHub
 
-We start from a clone of the `texlive-source` repository on github. The we build everything with
+We start from a clone of the `texlive-source` repository on github. Then we build everything with
 ```
 ./Build CPPFLAGS="-DSYNCTEX_DEBUG=1000"
 ```
@@ -407,3 +407,12 @@ into
 Then we replace the destinations of the symbolic links in
 `/Library/TeX/Distributions/.FactoryDefaults/TeXLive-GitHub/Programs/` by `.../texlive-source/Work/texk/web2c/`.
 We also change the target of the `TexmfSysVar` symbolic link to `.../texlive-source/Work/TexmfSysVar` and we also change the target of the `TexmfVar` symbolic link to `.../texlive-source/Work/TexmfVar`.
+
+## Working with TeXLive from GitHub, july 2024 workflow
+
+We start from a clone of the `texlive-source` repository on github. Then we build everything with
+```
+./Build CPPFLAGS="-DSYNCTEX_DEBUG=1000"
+```
+
+We setup the environment from the `auplib` testing framework before launching the commands.

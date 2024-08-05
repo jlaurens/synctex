@@ -52,7 +52,9 @@ I would appreciate to be listed as contributor and see "__SyncTeX__" highlighted
 /* The version of .synctex files contents. */
 #   define SYNCTEX_VERSION 1
 #   define SYNCTEX_FILE_VERSION SYNCTEX_VERSION
-
+#   define SYNCTEX_FILE_VERSION_MAJOR 1
+#   define SYNCTEX_FILE_VERSION_MINOR 0
+#   define SYNCTEX_FILE_VERSION_STRING "1.0"
 
 /* The version of the synctex parser library */
 #   define SYNCTEX_VERSION_MAJOR 1

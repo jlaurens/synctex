@@ -32,32 +32,37 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
---- @type AUP
+--- @class AUP
 local AUP = package.loaded.AUP
-local PL = AUP.PL
 
-local PLList = PL.List
-local quote_arg = PL.utils.quote_arg
+local List      = require"pl.List"
+local pl_class  = require"pl.class"
+local quote_arg = require"pl.utils".quote_arg
 
-local AUPCommand = AUP.Command
-local AUPCommandResult = AUP.Command.Result
+local Command = AUP.Command
+local Result = AUP.Command.Result
 
 -- The synctex command used may be located at different places.
 -- When developing synctex, it is located in `.../meson/build`
 -- When testing a distribution, it is located in the standard binary folder
 
+---@class AUP.SyncTeX: AUP.Class
+local SyncTeX = pl_class()
+
+AUP.SyncTeX = SyncTeX
+
 -- synctex -v
 -- synctex --version
 -- synctex --interactive this is meaningless
 -- synctex --parse_int_policy C|raw1|raw2
---- @class AUPSyncTeXGlobal: AUPCommand
---- @field _init fun(self: AUPSyncTeXGlobal, name: string)
---- @field run_option fun(self: AUPSyncTeXGlobal, option: string, env: table?): AUPCommandResult
+--- @class AUP.SyncTeX.Global: AUP.Command
+--- @field super fun(self: AUP.SyncTeX.Global, name: string)
+local Global = pl_class(Command)
 
-local AUPSyncTeXGlobal = PL.class.AUPSyncTeXGlobal(AUPCommand)
+SyncTeX.Global = SyncTeX
 
 ---Initialize an instance
-function AUPSyncTeXGlobal:_init(name)
+function Global:_init(name)
   print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
   self:super(name or 'synctex_test')
   self._o = nil
@@ -66,88 +71,80 @@ end
 
 --- Build the command on the fly
 --- @return string errout
-function AUPSyncTeXGlobal:cmd()
+function Global:cmd()
   assert(self._command, "No engine available")
   assert(self._options, "No option available")
-  local L = PLList({self._command})..self._options
+  local L = List{self._command}..self._options
   return quote_arg(L)
 end
 
 --- Run the command for the given global
---- @param option string
+--- @param option table|string
 --- @param env table?
---- @return AUPCommandResult
-function AUPSyncTeXGlobal:run_option(option, env)
-  if type(option)=="table" then
-    self._options = option;
-  else
-    self._options = {option};
-  end
+--- @return boolean status
+--- @return AUP.Command.Result
+function Global:run_option(option, env)
+  self._options = type(option)=="table" and option or {option};
   return self:run(env)
 end
 
 
 -- synctex edit -o page:x:y:file [-d directory] [-x editor-command] [-h offset:context]
---- @class AUPSyncTeXEdit: AUPCommand
---- @field _init fun(self: AUPSyncTeXEdit)
---- @field o fun(self: AUPSyncTeXEdit, page: integer, x: number, y: number, file: string): AUPSyncTeXEdit
---- @field d fun(self: AUPSyncTeXEdit): AUPSyncTeXEdit
---- @field x fun(self: AUPSyncTeXEdit): AUPSyncTeXEdit
---- @field h fun(self: AUPSyncTeXEdit, offset: integer, middle: string, before:string?, after: string?): AUPSyncTeXEdit
---- @field run fun(self: AUPSyncTeXEdit): boolean, integer, string, string
---- @field reset fun(self: AUPSyncTeXEdit)
+--- @class AUP.SyncTeX.Edit: AUP.Command
+--- @field super fun(self: AUP.SyncTeX.Edit, name: string)
+local Edit = pl_class(Command)
 
-local AUPSyncTeXEdit = PL.class.AUPSyncTeXEdit(AUPCommand)
+SyncTeX.Edit = Edit
 
 ---Initialize an instance
----@param name string? defaults to `synctex`.
-function AUPSyncTeXEdit:_init(name)
+--- @param name string? defaults to `synctex`.
+function Edit:_init(name)
   self:super(name or 'synctex_test')
 end
 
 ---Set the `-o` option
----@param page integer
----@param x number
----@param y number
----@param file string
----@return function AUPSyncTeXEdit:o(page, x, y, file)
-function AUPSyncTeXEdit:o(page, x, y, file)
+--- @param page integer
+--- @param x number
+--- @param y number
+--- @param file string
+--- @return AUP.SyncTeX.Edit
+function Edit:o(page, x, y, file)
   -- -o page:x:y:file
   self._o = '-o %i:%f:%f:%s' % {page, x, y, file}
   return self
 end
 
 ---Set the `-d` option
----@param directory string
----@return AUPSyncTeXEdit
-function AUPSyncTeXEdit:d(directory)
+--- @param directory string
+--- @return AUP.SyncTeX.Edit
+function Edit:d(directory)
   -- directory
   self._d = '-d %s' % {directory}
   return self
 end
 
 ---Set the `-x` option
----@param edit_command string
----@return AUPSyncTeXEdit
-function AUPSyncTeXEdit:x(edit_command)
+--- @param edit_command string
+--- @return AUP.SyncTeX.Edit
+function Edit:x(edit_command)
   -- -x edit-command
   self._x = '-x %s' % {edit_command}
   return self
 end
 
 ---Set the `-h` option for the `edit` subcommand.
----@param offset integer
----@param context string
----@return AUPSyncTeXEdit
-function AUPSyncTeXEdit:h(offset, context)
+--- @param offset integer
+--- @param context string
+--- @return AUP.SyncTeX.Edit
+function Edit:h(offset, context)
   -- -h offset:context
   self._h_edit = '-h %i:%s' % {offset, context}
   return self
 end
 
 ---Reset the options.
----@return AUPSyncTeXEdit
-function AUPSyncTeXEdit:reset()
+--- @return AUP.SyncTeX.Edit
+function Edit:reset()
   self._o = nil
   self._d = nil
   self._x = nil
@@ -155,15 +152,13 @@ function AUPSyncTeXEdit:reset()
   return self
 end
 
-local quote_arg = PL.utils.quote_arg
-
 --- Build the command on the fly
 --- @return string errout
-function AUPSyncTeXEdit:cmd()
+function Edit:cmd()
   assert(self._command)
   assert(self._o)
-  local L = PLList({self._command, "edit", self._o}):extend(
-    PLList({self._d or false, self._x or false, self._h or false}):filter(
+  local L = List({self._command, "edit", self._o}):extend(
+    List({self._d or false, self._x or false, self._h or false}):filter(
       function(x)
         return type(x)=='string' and #x>0
       end
@@ -173,30 +168,25 @@ function AUPSyncTeXEdit:cmd()
 end
 
 -- synctex view -i line:column:[page_hint:]input -o output [-d directory] [-x viewer-command] [-h before/offset:middle/after]
---- @class AUPSyncTeXView: AUPCommand
---- @field _init fun(self: AUPSyncTeXView, name: string?)
---- @field i fun(self: AUPSyncTeXView, input: string, line: integer, column: integer, page_int: integer?): AUPSyncTeXView
---- @field o fun(self: AUPSyncTeXView): AUPSyncTeXView
---- @field d fun(self: AUPSyncTeXView): AUPSyncTeXView
---- @field x fun(self: AUPSyncTeXView): AUPSyncTeXView
---- @field h fun(self: AUPSyncTeXView, offset: integer, middle: string, before:string?, after: string?): AUPSyncTeXView
---- @field reset fun(self: AUPSyncTeXView)
+--- @class AUP.SyncTeX.View: AUP.Command
+--- @field super fun(self: AUP.SyncTeX.View, name: string?)
+local View = pl_class(AUP.Command)
 
-local AUPSyncTeXView = PL.class.AUPSyncTeXView(AUPCommand)
+SyncTeX.View = View
 
 ---Initialize an instance
----@param name string? defaults to `synctex`.
-function AUPSyncTeXView:_init(name)
+--- @param name string? defaults to `synctex`.
+function View:_init(name)
   self:super(name or 'synctex_test')
 end
 
 ---Set the `-i` optional
----@param input string
----@param line integer
----@param column integer
----@param page_hint integer?
----@return AUPSyncTeXView
-function AUPSyncTeXView:i(input, line, column, page_hint)
+--- @param input string
+--- @param line integer
+--- @param column integer
+--- @param page_hint integer?
+--- @return AUP.SyncTeX.View
+function View:i(input, line, column, page_hint)
   -- line:column:[page_hint:]input
   if type(page_hint) == 'nil' then
     self._i = '-i %i:%i:%s' % {line, column, input}
@@ -207,39 +197,39 @@ function AUPSyncTeXView:i(input, line, column, page_hint)
 end
 
 ---Set the `-o` option
----@param output string
----@return AUPSyncTeXView
-function AUPSyncTeXView:o(output)
+--- @param output string
+--- @return AUP.SyncTeX.View
+function View:o(output)
   -- output
   self._o = '-o %s' % {output}
   return self
 end
 
 ---Set the `-d` option
----@param directory string
----@return AUPSyncTeXView
-function AUPSyncTeXView:d(directory)
+--- @param directory string
+--- @return AUP.SyncTeX.View
+function View:d(directory)
   -- directory
   self._d = '-d %s' % {directory}
   return self
 end
 
 ---Set the `-x` option
----@param viewer_command string
----@return AUPSyncTeXView
-function AUPSyncTeXView:x(viewer_command)
+--- @param viewer_command string
+--- @return AUP.SyncTeX.View
+function View:x(viewer_command)
   -- -x viewer-command
   self._x = '-x %s' % {viewer_command}
   return self
 end
 
 ---Set the `-h` option for the `view` subcommand.
----@param offset integer
----@param middle string
----@param before string?
----@param after string?
----@return AUPSyncTeXView
-function AUPSyncTeXView:h_view(offset, middle, before, after)
+--- @param offset integer
+--- @param middle string
+--- @param before string?
+--- @param after string?
+--- @return AUP.SyncTeX.View
+function View:h_view(offset, middle, before, after)
   -- -h before/offset:middle/after
   before = before or ""
   after = after or ""
@@ -248,7 +238,7 @@ function AUPSyncTeXView:h_view(offset, middle, before, after)
 end
 
 ---Reset the options.
-function AUPSyncTeXView:reset()
+function View:reset()
   -- -h before/offset:middle/after
   self._i = nil
   self._o = nil
@@ -260,12 +250,12 @@ end
 
 --- Build the command on the fly
 --- @return string errout
-function AUPSyncTeXView:cmd()
+function View:cmd()
   assert(self._command)
   assert(self._i)
   assert(self._o)
-  local L = PLList({self._command, "view", self._i, self._o}):extend(
-    PLList({self._d or false, self._x or false, self._h or false}):filter(
+  local L = List({self._command, "view", self._i, self._o}):extend(
+    List({self._d or false, self._x or false, self._h or false}):filter(
       function(x)
         return type(x)=='string' and #x>0
       end
@@ -275,40 +265,38 @@ function AUPSyncTeXView:cmd()
 end
 
 -- synctex dump -o output [-d directory]
---- @class AUPSyncTeXDump: AUPCommand
---- @field _init fun(self: AUPSyncTeXDump, name: string?)
---- @field o fun(self: AUPSyncTeXDump): AUPSyncTeXDump
---- @field d fun(self: AUPSyncTeXDump): AUPSyncTeXDump
---- @field reset fun(self: AUPSyncTeXDump)
+--- @class AUP.SyncTeX.Dump: AUP.Command
+--- @field super fun(self: AUP.SyncTeX.Dump, name: string?)
+local Dump = pl_class(Command)
 
-local AUPSyncTeXDump = PL.class.AUPSyncTeXDump(AUPCommand)
+SyncTeX.Dump = Dump
 
 ---Initialize an instance
----@param name string? defaults to `synctex`.
-function AUPSyncTeXDump:_init(name)
+--- @param name string? defaults to `synctex`.
+function Dump:_init(name)
   self:super(name or 'synctex_test')
 end
 
 ---Set the `-o` option
----@param output string
----@return AUPSyncTeXDump
-function AUPSyncTeXDump:o(output)
+--- @param output string
+--- @return AUP.SyncTeX.Dump
+function Dump:o(output)
   -- output
   self._o = output
   return self
 end
 
 ---Set the `-d` option
----@param directory string
----@return AUPSyncTeXDump
-function AUPSyncTeXDump:d(directory)
+--- @param directory string
+--- @return AUP.SyncTeX.Dump
+function Dump:d(directory)
   -- directory
   self._d = directory
   return self
 end
 
 ---Reset the options.
-function AUPSyncTeXDump:reset()
+function Dump:reset()
   self._o = nil
   self._d = nil
   return self
@@ -316,32 +304,16 @@ end
 
 --- Build the command on the fly
 --- @return string command
-function AUPSyncTeXDump:cmd()
+function Dump:cmd()
   assert(self._command)
   assert(self._o)
-  local L = PLList({self._command, "dump", "-o", self._o})
+  local L = List({self._command, "dump", "-o", self._o})
   if self._d then
-    L:append("-d", self._d)
+    L:append("-d"):append(self._d)
   end
   return quote_arg(L)
 end
 
---- @class AUPSyncTeX
---- @field Global AUPSyncTeXGlobal
---- @field View AUPSyncTeXView
---- @field Edit AUPSyncTeXEdit
---- @field Dump AUPSyncTeXDump
-
---- @class AUP
---- @field SyncTeX AUPSyncTeX
-
-AUP.SyncTeX = {
-  Global = AUPSyncTeXGlobal,
-  View = AUPSyncTeXView,
-  Edit = AUPSyncTeXEdit,
-  Dump = AUPSyncTeXDump
-}
-
 return {
-  SyncTeX = AUP.SyncTeX
+  SyncTeX = SyncTeX
 }

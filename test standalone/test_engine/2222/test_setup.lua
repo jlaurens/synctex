@@ -36,16 +36,55 @@ This file is part of the __SyncTeX__ package testing framework.
 
 --]=====]
 
+---@type LuaFileSystem
+local lfs = lfs
+
+local pl_dir  = require"pl.dir"
+local pl_seq  = require"pl.seq"
+local pl_path = require"pl.path"
+local pl_pretty = require"pl.pretty"
+
+--- @type AUP
 local AUP = package.loaded.AUP
-local AUPCommand = AUP.Command
-local AUPEngine = AUP.Engine
+local Dir = AUP.Dir
+local Command = AUP.Command
+local Engine = AUP.Engine
 
 local dbg = AUP.dbg
 
+Dir.synctex_bin_setup()
+Command.PATHList_promote(assert(Dir.synctex_bin_get()))
+
+-- synchronize the texlive work directory with this contents
+
+local gh = AUP.TL.gh
+
+local tex_bin_gh = assert(gh:bin_dir_get())
+print("tex_bin_gh", tex_bin_gh)
+print("Dir.synctex", Dir.synctex)
+print(AUP.synctexdir)
+
+local status, err = gh:configure_make()
+print(status, err)
+os.exit(123)
+
+local synctexdir_mtime = gh:mtime_get()
+
+-- Dir.touch_src()
+
+local d = AUP.Dir.synctex
+
+gh:synchronize_synctexdir_with(d)
+
+local mt = pl_path.getmtime("abc")
+print(mt)
+-- list filed 
+os.exit(123)
+
 AUP.units:test_setup_on_after(function()
   if dbg:level_get() > 0 then
-    for name in AUPEngine.tex_all() do
-      local source = AUPCommand.which(name)
+    for name in Engine.tex_all() do
+      local source = AUP.Command.which(name)
       print('engine: '..name..'=>'..source)
     end
     print('')

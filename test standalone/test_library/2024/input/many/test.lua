@@ -32,21 +32,24 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
+local pl_seq  = require"pl.seq"
+local pl_dir  = require"pl.dir"
+local pl_file = require"pl.file"
+
+local read = pl_file.read
+local write = pl_file.write
+
+--- @type AUP
 local AUP = package.loaded.AUP
 
 local dbg = AUP.dbg
 
-local AUP_units = AUP.units
-assert(AUP_units)
+local units = AUP.units
+assert(units)
 
-local PL = AUP.PL
-local PL_file = PL.file
+local Engine = AUP.Engine
 
-local read = PL_file.read
-local write = PL_file.write
-local AUPEngine = AUP.Engine
-
-local p = AUP_units:tmp_dir_current()
+local p = units:tmp_dir_current()
 local jobname = "many"
 AUP.pushd_or_raise(p, jobname)
 write (jobname..".tex", [[
@@ -61,19 +64,19 @@ write (jobname..".tex", [[
   e
   \bye
 ]]%{jobname, jobname, jobname, jobname})
-for n in PL.seq.list{'1', '2', '3', '4'} do
+for n in pl_seq.list{'1', '2', '3', '4'} do
   write ("%s%s.tex"%{jobname, n}, [[
     %s
   ]]%{n})
 end
 local engines = {"pdftex"}
-for engine in PL.seq.list(engines) do
-  PL.dir.makepath(engine)
+for engine in pl_seq.list(engines) do
+  pl_dir.makepath(engine)
   AUP.pushd_or_raise(engine, 'engine')
-  for f in PL.dir.getallfiles():sort():iter() do
+  for f in pl_dir.getallfiles():sort():iter() do
     print(f)
   end
-  local result = AUPEngine(engine):synctex(-1):interaction(AUP.Engine.InteractionMode.nonstopmode):file("../%s"%{jobname}):run()
+  local result = Engine(engine):synctex(-1):interaction(AUP.Engine.InteractionMode.nonstopmode):file("../%s"%{jobname}):run()
   if dbg:level_get()>0 then
     result:print()
   end
@@ -88,8 +91,8 @@ for engine in PL.seq.list(engines) do
       ss = read('%s.log'%{jobname})
       print(ss)
       AUP.br{}
-      print('cwd: %s'%{PL.dir.currentdir()})
-      for f in PL.dir.getallfiles():sort():iter() do
+      print('cwd: %s'%{pl_dir.currentdir()})
+      for f in pl_dir.getallfiles():sort():iter() do
         print(f)
       end
       error('Maybe missing `TEXMFROOT` or `TEXMFCNF` environment variables.')

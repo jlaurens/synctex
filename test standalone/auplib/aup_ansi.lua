@@ -37,18 +37,19 @@ Formatted text with ascii codes.
 THIS IS A WIP
 --]==]
 
---- @type AUP
+--- @class AUP
 local AUP = package.loaded.AUP
-local PLList = AUP.PL.List
 
---- @class AUPAnsi
---- @field format fun(text: string, ...): string
---- @field bold fun(text: string): string
---- @field italic fun(text: string): string
-AUPAnsi = AUP.PL.class.AUPAnsi()
+local List = require"pl.List"
+local pl_class = require"pl.class"
 
---- @enum AUPAnsiMode
-AUPAnsiMode = {
+--- @class AUP.Ansi
+local Ansi = pl_class()
+
+AUP.Ansi = Ansi
+
+--- @enum AUP.Ansi.Mode
+Ansi.Mode = {
   Reset = '\033[0m',
   Bold = '\033[1m',
   Dim  = '\033[2m',
@@ -61,8 +62,8 @@ AUPAnsiMode = {
   StrikeThrough = '\033[9m'
 }
 
---- @enum AUPAnsiForeground
-AUPAnsiForeground = {
+--- @enum AUP.Ansi.Foreground
+Ansi.Foreground = {
   Black = '\033[30m',
   Red = '\033[31m',
   Green = '\033[32m',
@@ -73,8 +74,8 @@ AUPAnsiForeground = {
   Gray = '\033[37m'
 }
 
---- @enum AUPAnsiBackground
-AUPAnsiBackground = {
+--- @enum AUP.Ansi.Background
+Ansi.Background = {
   Black = '\033[40m',
   Red = '\033[41m',
   Green = '\033[42m',
@@ -87,32 +88,32 @@ AUPAnsiBackground = {
 
 ---Apply some ANSI format to the given text
 ---
----@param input string
----@param ... unknown
----@return string
-AUPAnsi.format = function(input, ...)
-  local l = PLList(arg)
+--- @param input string
+--- @param ... unknown
+--- @return string
+function Ansi.format(input, ...)
+  local l = List(arg)
   l:append(input)
-  l:append(AUPAnsiMode.Reset)
+  l:append(AUP.Ansi.Mode.Reset)
   return l:join('')
 end
 
 ---Bold output
 ---
----@param input string
----@return string
-AUPAnsi.bold = function(input)
-  return AUPAnsi.format(input, AUPAnsiMode.Bold)
+--- @param input string
+--- @return string
+function Ansi.bold(input)
+  return Ansi.format(input, AUP.Ansi.Mode.Bold)
 end
 
 ---Italic output
 ---
----@param input string
----@return string
-function AUPAnsi.italic(input)
-  return AUPAnsi.format(input, AUPAnsiMode.Italic)
+--- @param input string
+--- @return string
+function Ansi.italic(input)
+  return Ansi.format(input, AUP.Ansi.Mode.Italic)
 end
 
 return {
-  Ansi = AUPAnsi
+  Ansi = AUP.Ansi
 }

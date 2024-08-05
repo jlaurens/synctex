@@ -128,6 +128,7 @@ inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
 
 int main(int argc, char *argv[]);
 
+void synctex_version();
 void synctex_help(const char * error,...);
 void synctex_help_view(const char * error,...);
 void synctex_help_edit(const char * error,...);
@@ -159,7 +160,7 @@ int main(int argc, char *argv[])
     /* Loop for global options */
     while(++i<argc) {
         if(0==strcmp("-v",argv[i]) || 0==strcmp("--version",argv[i])) {
-            synctex_help(NULL);
+            synctex_version();
             return 0;
         } else if(0==strcmp("--interactive",argv[i])) {
             g_interactive = 1;
@@ -381,6 +382,17 @@ static void synctex_usage(const char * error,va_list ap) {
     );
     return;
 }
+
+void synctex_version() {
+    printf(".synctex content version: " SYNCTEX_FILE_VERSION_STRING "\n");
+    printf("SyncTeX parser library version: " SYNCTEX_VERSION_STRING "\n");
+    printf("SyncTeX support version: " SYNCTEX_SUPPORT_VERSION_STRING "\n");
+    return;
+}
+
+/* The version of the synctex support,
+ * how synctex is embedded in various TeX engines. */
+#   define SYNCTEX_SUPPORT_VERSION_MAJOR 1
 
 void synctex_help(const char * error,...) {
     va_list v;

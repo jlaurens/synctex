@@ -34,34 +34,32 @@ This file is part of the __SyncTeX__ package testing framework.
 
 -- This is not yet used
 
---- @type AUP
+--- @class AUP
 local AUP = package.loaded.AUP
 
-local dbg = AUP.dbg
-local PL = AUP.PL
+local List     = require"pl.List"
+local pl_utils = require"pl.utils"
+local pl_class = require"pl.class"
 
-local PLList = PL.List
-local PL_utils = PL.utils
+local Command = AUP.Command
 
-local AUPCommand = AUP.Command
+--- @class AUP.KPathSea: AUP.Command
+--- @field super fun(self: AUP.KPathSea, name: string)
+local KPathSea = pl_class(Command)
 
---- @class AUPKPathSea: AUPCommand
---- @field super fun(self: AUPKPathSea, name: string)
---- @field _init fun(self: AUPKPathSea)
---- @field cmd fun(self: AUPKPathSea): string
-local AUPKPathSea = PL.class.AUPKPathSea(AUPCommand)
+AUP.KPathSea = KPathSea
 
---- Initialize an AUPKPathSea instance
-function AUPKPathSea:_init()
+--- Initialize an AUP.KPathSea instance
+function KPathSea:_init()
   self:super("KPathSea")
 end
 
-local quote_arg = PL_utils.quote_arg
+local quote_arg = pl_utils.quote_arg
 
 --- Build the command on the fly.
 --- @return string 
-function AUPKPathSea:cmd()
-  local list = PLList({
+function KPathSea:cmd()
+  local list = List({
     self._command,
   })
   list = list:filter(function(x)
@@ -70,11 +68,6 @@ function AUPKPathSea:cmd()
   return quote_arg(list)
 end
 
---- @class AUP
---- @field KPathSea AUPKPathSea
-
-AUP.KPathSea = AUPKPathSea
-
 return {
-  KPathSea = AUPKPathSea,
+  KPathSea = KPathSea,
 }

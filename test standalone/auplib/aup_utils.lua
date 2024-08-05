@@ -39,13 +39,17 @@ are found.
 There is an implicit stack of states implemented with metatables.
 --]==]
 
+--- @class AUP
 local AUP = package.loaded.AUP
-local PL = AUP.PL
 
---- @class AUPUtils
---- @field patch_penlight fun()
---- @field execute fun(cmd: string): boolean, integer
-local AUPUtils = PL.class.AUPUtils()
+local pl_class  = require"pl.class"
+local pl_utils  = require"pl.utils"
+local pl_compat = require"pl.compat"
+
+--- @class AUP.Utils: AUP.Class
+local Utils = pl_class()
+
+AUP.Utils = Utils
 
 --- execute a shell command, in a compatible and platform independent way.
 -- This is a compatibility function that returns the same for Lua 5.1 and
@@ -54,34 +58,29 @@ local AUPUtils = PL.class.AUPUtils()
 -- NOTE: Windows systems can use signed 32bit integer exitcodes. Posix systems
 -- only use exitcodes 0-255, anything else is undefined.
 --
--- NOTE2: This is penlight implementation limited to luatex.
+-- NOTE2: This is penlight implementation limited to texlua.
 -- @param cmd a shell command
 -- @return true if successful
 -- @return actual return code
-function AUPUtils.execute(cmd)
+function Utils.execute(cmd)
   --- @type integer
   --- @diagnostic disable-next-line: assign-type-mismatch
   local res1  = os.execute(cmd)
-  if not PL.utils.is_windows then
+  if not pl_utils.is_windows then
     res1 = res1 > 255 and res1 / 256 or res1
   end
   return res1==0, res1
 end
 
 --- Path penlight
-function AUPUtils.patch_penlight()
-  PL.compat.execute = AUPUtils.execute
-  PL.utils.execute = AUPUtils.execute
+function Utils.patch_penlight()
+  pl_compat.execute = Utils.execute
+  pl_utils.execute = Utils.execute
   AUP.dbg:write(1, "Penlight patched")
 end
-
---- @class AUP
---- @field Utils AUPUtils
-
-AUP.Utils = AUPUtils
 
 AUP.dbg:write(1, "aup_utils loaded")
 
 return {
-  Utils = AUPUtils,
+  Utils = Utils,
 }

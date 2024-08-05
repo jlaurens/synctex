@@ -38,4 +38,43 @@ TEXMFCONFIG = ~/Library/texlive/2222/texmf-config
 Using a local `texmf.cnf` will help with this configuration.
 The environment variable `TEXMFCNF` is set to ensure that this local `texmf.cnf` is read such that the distribution used is the correct one. More precisely, the environment variable will mimic what a normal `kpsewich -all texmf.cnf` gives.
 
-If we use instead the svn repository for the whole texlive,
+## Test driven development of TeX engines
+
+### Introduction
+
+This only concerns `pdftex`, `euptex` and `xetex`.
+This does not concern `LuaTeX` which has a very specific developing workflow.
+
+We have the directory where `TeX` engine sources are collected, edited and compiled.
+Actually, `TeXLive` sources from `git` are used for both engines,
+but `pdfTeX` also has its own source tree which is not considered at first.
+
+In order to run the modified engines, we need a full working distribution.
+This is based on official `TeXLive` distribution, for different years.
+
+Once the development is done, we have to sytnchronize to an `svn` repository.
+
+### `git` source tree
+
+In order to build the engine from the `TeXLive` source tree, from the directory
+that contains the topmost `configure` script, run
+```
+mkdir Work-synctex
+cd Work-synctex
+../configure --without-x --disable-shared --disable-all-pkgs \
+--enable-pdftex --enable-pdftex-synctex \
+--enable-euptex --enable-euptex-synctex \
+--enable-xetex --enable-xetex-synctex \
+--enable-synctex \
+--enable-missing -C CFLAGS=-g CXXFLAGS=-g CPPFLAGS="-DSYNCTEX_DEBUG=1000"
+```
+then
+```
+make
+```
+In order to run the engine,
+```
+TEXMFROOT=/usr/local/texlive/2024 \
+TEXMFCNF=$TEXMFROOT/texmf-dist/web2c \
+⟨...⟩/Work-synctex/texk/web2c/pdftex ⟨whatever⟩.tex
+```

@@ -32,46 +32,47 @@ This file is part of the __SyncTeX__ package testing facilities.
  
 ]===]
 
-local lfs = package.loaded.lfs
+---@type LuaFileSystem
+local lfs = lfs
 
+local pl_path     = require"pl.path"
+local pl_file     = require"pl.file"
+local pl_utils    = require"pl.utils"
+local pl_stringx  = require"pl.stringx"
+
+local match = string.match
+local join = pl_path.join
+local read = pl_file.read
+local splitlines = pl_stringx.splitlines
+local printf = pl_utils.printf
+
+--- @class AUP
 local AUP = package.loaded.AUP
 
 local dbg = AUP.dbg
 
 dbg:write(1, "Testing mathsurround")
 
-local PL = AUP.PL
-local PL_path = PL.path
-local PL_file = PL.file
-local PL_utils = PL.utils
-local PL_stringx = PL.stringx
-
-local AUPCommand = AUP.Command
-local AUPEngine = AUP.Engine
-local InteractionMode = AUPEngine.InteractionMode
-
-local match = string.match
-local join = PL_path.join
-local read = PL_file.read
-local splitlines = PL_stringx.splitlines
-local printf = PL_utils.printf
+local Command = AUP.Command
+local Engine = AUP.Engine
+local InteractionMode = Engine.InteractionMode
 
 local units = AUP.units
 
-local cwd = lfs.currentdir();
+local cwd = assert(lfs.currentdir());
 
 local unit = 'gh87'
 AUP.pushd_or_raise(units:tmp_dir_current(), 'tmp_'..unit)
-for name in AUPEngine.tex_all() do
+for name in Engine.tex_all() do
   AUP.br{label='ENGINE: '..name}
   local base = unit..'_'..name
   local source = join(cwd, base..".tex")
-  dbg:write(1, AUPCommand.which(name, AUPCommand.tex_bin_get(), true))
-  local engine = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source)
+  dbg:write(1, Command.which(name, Command.tex_bin_get(), true))
+  local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source)
   local result = engine:run()
   assert(result.status, 'cmd: %s'%{engine:cmd()})
   for i,l in ipairs(splitlines(result.stdout)) do
-    if match(l, "Synchronize ERROR") then
+    if l:match("Synchronize ERROR") then
       printf("Unexpected at line %i: <%s>\n", i, l)
     end
   end
@@ -82,13 +83,13 @@ for name in AUPEngine.tex_all() do
     AUP.br{label=base_synctex}
     print(s)
     local request = '$1,8:0,'
-    local i = string.find(s, request)
+    local i = s:find(request)
     if i==nil then
       units:fail('Wrong '..base_synctex..' (no "'..request..'")')
       print(s)
     else
-      request = '$1,8:1000,'
-      i = string.find(s, request)
+      request = '$1,8:1111,'
+      i = s:find(request)
       if i==nil then
         units:fail('Wrong '..base_synctex..' (no "'..request..'")')
         print(s)

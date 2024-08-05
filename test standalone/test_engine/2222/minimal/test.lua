@@ -32,52 +32,51 @@ This file is part of the __SyncTeX__ package testing facilities.
  
 ]===]
 
-local lfs = package.loaded.lfs
+---@type LuaFileSystem
+local lfs = lfs
 
+local pl_dir      = require"pl.dir"
+local pl_path     = require"pl.path"
+local pl_utils    = require"pl.utils"
+local pl_stringx  = require"pl.stringx"
+
+--- @type AUP
 local AUP = package.loaded.AUP
 
 local dbg = AUP.dbg
 
 dbg:write(1, "Testing minimal")
 
-local PL = AUP.PL
-local PL_dir = PL.dir
-local PL_path = PL.path
-local PL_file = PL.file
-local PL_utils = PL.utils
-local PL_stringx = PL.stringx
+local Engine = AUP.Engine
+local InteractionMode = Engine.InteractionMode
 
-local AUPEngine = AUP.Engine
-local InteractionMode = AUPEngine.InteractionMode
-
-local match = string.match
-local join = PL_path.join
-local makepath = PL_dir.makepath
-local read = PL_file.read
-local splitlines = PL_stringx.splitlines
-local printf = PL_utils.printf
+local makepath    = pl_dir.makepath
+local join        = pl_path.join
+local splitlines  = pl_stringx.splitlines
+local readfile    = pl_utils.readfile
+local printf      = pl_utils.printf
 
 local units = AUP.units
 
-local cwd = lfs.currentdir();
+local cwd = assert(lfs.currentdir());
 
 AUP.pushd_or_raise(units:tmp_dir_current(), 'tmp_minimal')
 
-for name in AUPEngine.tex_all() do
+for name in Engine.tex_all() do
   local base = 'minimal-'..name
   local source = join(cwd, base..".tex")
   makepath(name)
   AUP.pushd_or_raise(name, base)
-  local result = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source):run()
+  local result = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source):run()
   assert(result.status)
   for i,l in ipairs(splitlines(result.stdout)) do
-    if match(l, "Synchronize ERROR") then
+    if l:match("Synchronize ERROR") then
       printf("Unexpected at line %i: <%s>\n", i, l)
     end
   end
   result:print()
   print(base..".synctex")
-  local s = read(base..".synctex")
+  local s = readfile(base..".synctex")
   if s == nil then
     AUP.units:raise('MISSING '..base..".synctex")
   end

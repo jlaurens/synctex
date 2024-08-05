@@ -33,16 +33,19 @@ This file is part of the __SyncTeX__ package testing framework.
 --]==]
 
 local AUP = package.loaded.AUP
-local AUPCommand = AUP.Command
 
----@diagnostic disable-next-line: duplicate-set-field
+local pl_utils = require("pl.utils")
+
+--- @diagnostic disable-next-line: duplicate-set-field
 function AUP.do_open_file(path)
-  AUP.PL.utils.executeex('open %s'%{path})
+  pl_utils.executeex(pl_utils.quote_arg{'open', path})
 end
 
-function AUPCommand.tex_bin_by_year(y)
-  return '/usr/local/texlive/'..y..'/bin/universal-darwin'
-end
+local TL = AUP.TL
+local current = TL.current
 
-AUPCommand.tex_bin_setup()
-AUPCommand.synctex_bin_setup()
+AUP.TL.set_by_year(function(y)
+  return "/usr/local/texlive/"..y
+end)
+
+current:relative_bin_dir_set('bin/universal-darwin')

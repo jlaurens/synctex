@@ -33,13 +33,13 @@ This file is a bridge to the __SyncTeX__ package testing framework.
 --]]
 
 
-
+--- @class AUP
 local AUP = package.loaded.AUP
-local AUP_units = AUP.units
-local PL = AUP.PL
-local PLList = PL.List
+local units = AUP.units
+
+local List = require"pl.List"
 
 -- exclude directories in next list
-local exclude = PLList({"fake example", 'gh30+84'})
+local exclude = List({"fake example", 'gh84'})
 
-AUP_units:test_currentdir(exclude)
+units:test_currentdir(exclude)

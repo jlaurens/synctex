@@ -36,8 +36,8 @@ local match = string.match
 
 print("Documentation of AUP library...")
 
--- The current directory
-local lfs = package.loaded.lfs
+---@type LuaFileSystem
+local lfs = lfs
 
 local separator = package.config:sub(1,1)
 

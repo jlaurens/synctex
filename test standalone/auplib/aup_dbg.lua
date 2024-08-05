@@ -34,21 +34,20 @@ This file is part of the __SyncTeX__ package testing framework.
 
 local io_write = io.write
 
+---@class AUP
 local AUP = package.loaded.AUP
-local PL = AUP.PL
-local printf = PL.utils.printf
 
---- @class (exact) AUPDBG debugging message
---- @field write fun(self: AUPDBG, level: integer, ...: unknown)
---- @field format fun(self: AUPDBG, level: integer, format: string, env: table?)
---- @field printf fun(self: AUPDBG, level: integer, format: string, ...: unknown)
---- @field level_get fun(self: AUPDBG): integer
---- @field level_set fun(self: AUPDBG, value: integer): integer
---- @field level_increment fun(self: AUPDBG, delta: integer): integer
+local pl_template = require"pl.template"
+local pl_class = require"pl.class"
+local pl_utils = require"pl.utils"
+local printf = pl_utils.printf
 
-local AUPDBG = PL.class.AUPDBG()
+--- @class AUP.DBG: AUP.Class debugging message
+local DBG = pl_class()
 
-function AUPDBG:_init()
+AUP.DBG = DBG
+
+function DBG:_init()
   self._level = 0
 end
 
@@ -57,7 +56,7 @@ end
 --- displayed. The higher the level, the richer the information.
 --- @param level integer
 --- @param ... unknown
-function AUPDBG:write(level, ...)
+function DBG:write(level, ...)
   if level <= self._level then
     local sep = ''
     local endl = ''
@@ -81,9 +80,9 @@ end
 --- @param level integer
 --- @param template string
 --- @param env table?
-function AUPDBG:format(level, template, env)
+function DBG:format(level, template, env)
   if level <= self._level then
-    local ans, error, code = PL.template.substitute(template, env)
+    local ans, error, code = pl_template.substitute(template, env)
     if ans then print(ans) else print(error) end
     if code then print(code) end
   end
@@ -95,7 +94,7 @@ end
 --- @param level integer
 --- @param format string
 --- @param ... unknown
-function AUPDBG:printf(level, format, ...)
+function DBG:printf(level, format, ...)
   --local arg = table.pack(...)
   if level <= self._level then
     printf(format, ...)
@@ -104,13 +103,13 @@ end
 
 --- Returns the debug level
 --- @return integer
-function AUPDBG:level_get()
+function DBG:level_get()
   return self._level
 end
 
 --- Set the debug level
 --- @param level integer|string
-function AUPDBG:level_set(level)
+function DBG:level_set(level)
   if type(level) ~= 'number' then
     level = tonumber(level) or 0
   end
@@ -120,7 +119,7 @@ end
 
 --- Increment the debug level
 --- @param delta integer|string
-function AUPDBG:level_increment(delta)
+function DBG:level_increment(delta)
   if type(delta) ~= 'number' then
     delta = tonumber(delta) or 1
   end
@@ -130,10 +129,7 @@ function AUPDBG:level_increment(delta)
   return self._level
 end
 
---- @class AUP
---- @field DBG AUPDBG
-AUP.DBG = AUPDBG
 
 return {
-  DBG = AUPDBG
+  DBG = DBG
 }

@@ -37,31 +37,44 @@ This file is part of the __SyncTeX__ package testing framework.
 local match = string.match
 local print = print
 
+---@class AUP
 local AUP = package.loaded.AUP
 local dbg = AUP.dbg
 
-local PL = AUP.PL
-local PL_class = PL.class
+local List = require"pl.List"
+local pl_class = require"pl.class"
 
+--- @class lpeg
 local lpeg = package.loaded.lpeg -- built into texlua
 
---- @class (exact) AUPArgumentsEntry
---- @field _init fun(self: AUPArgumentsEntry, key: string, value: string|true, arguments: AUPArguments)
+--- @class AUP.Arguments: AUP.Class
+--- @field _all AUP.Arguments.Entry[]
+--- @field _consumed { [integer]: boolean }
+--- @field setup boolean
+--- @field name string
+--- @field session_id string
+--- @field dev boolean
+--- @field build_dir string
+--- @field local_value string
+--- @field dry boolean
+--- @field only_term boolean
+local Arguments = pl_class()
+
+AUP.Arguments = Arguments
+
+--- @class AUP.Arguments.Entry: AUP.Class
 --- @field key string the `⟨key⟩` in `--test-⟨key⟩=⟨value⟩` or `--test-⟨key⟩`
 --- @field value string|true the `⟨value⟩` in `--test-⟨key⟩=⟨value⟩` or `true` for `--test-⟨key⟩`
---- @field consume fun(self: AUPArgumentsEntry)
---- @field is_consumed fun(self: AUPArguments): boolean
---- @field value_is_string fun(self: AUPArgumentsEntry): boolean
---- @field string_value fun(self: AUPArgumentsEntry): string
---- @field boolean_value fun(self: AUPArgumentsEntry): boolean
---- @field _arguments AUPArguments
-local AUPArgumentsEntry = PL_class.AUPArgumentsEntry()
+--- @field _arguments AUP.Arguments
+local Entry = pl_class()
 
---- Initialize a new argument entry instance
+Arguments.Entry = Entry
+
+---Initialize a new argument entry instance
 --- @param key string
 --- @param value string|true
----@param arguments AUPArguments
-function AUPArgumentsEntry:_init(key, value, arguments)
+--- @param arguments AUP.Arguments
+function Entry:_init(key, value, arguments)
   self.key = key
   self._arguments = arguments
   if type(value) == 'string' then
@@ -75,7 +88,7 @@ function AUPArgumentsEntry:_init(key, value, arguments)
 
 --- Whether the value is a string
 --- @return boolean
-function AUPArgumentsEntry:value_is_string()
+function Entry:value_is_string()
   return type(self.value) == 'string'
 end
 
@@ -83,7 +96,7 @@ end
 ---
 --- Use it after `value_is_string` has returned `true`.
 --- @return string
-function AUPArgumentsEntry:string_value()
+function Entry:string_value()
   return tostring(self.value) or ''
 end
 
@@ -93,79 +106,68 @@ end
 --- An explicit case insensitive 'no' is `false`.
 --- Everything else is `true`.
 --- @return boolean
-function AUPArgumentsEntry:boolean_value()
+function Entry:boolean_value()
   local s = string.lower(self:string_value())
   return s ~= 'false' and s ~= 'no'
 end
 
 --- Consume the receiver
-function AUPArgumentsEntry:consume()
+function Entry:consume()
   self._arguments:consume(self.key)
 end
 
 --- Whether the receiver is consumed
 --- @return boolean
-function AUPArgumentsEntry:is_consumed()
+function Entry:is_consumed()
   return self._arguments:is_consumed(self.key)
 end
 
-function AUPArgumentsEntry:__tostring()
-  return "AUPArgumentsEntry: "..self.key..' -> '..(self.value == true and 'true' or self.value)
+function Entry:__tostring()
+  return "Entry: "..self.key..' -> '..(self.value == true and 'true' or self.value)
 end
 
---- @enum (key) AUPArgumentsGetMode
-local AUPArgumentsGetMode = {
+--- @enum (key) AUP.Arguments.GetMode
+local GetMode = {
   First   = 'First',
   Last = 'Last',
   All  = 'All',
 }
 
---- @class (exact) AUPArguments
---- @field GetMode AUPArgumentsGetMode
---- @field Entry AUPArgumentsEntry
---- @field Iterator AUPArgumentsIterator
---- @field _init fun(self: AUPArguments, arg_list: string[])
---- @field iterator fun(self: AUPArguments): AUPArgumentsIterator
---- @field get fun(self: AUPArguments, i_or_key: integer|string, mode:AUPArgumentsGetMode?): AUPArgumentsEntry?|[AUPArgumentsEntry]
---- @field consume fun(self: AUPArguments, i_or_key: integer|string): nil
---- @field is_consumed fun(self: AUPArguments, i_or_key: integer|string): boolean
---- @field _all AUPArgumentsEntry[]
---- @field _consumed { [integer]: boolean }
---- @field setup boolean
---- @field name string
---- @field session_id string
---- @field dev boolean
---- @field build_dir string
---- @field local_value string
---- @field dry boolean
---- @field only_term boolean
-local AUPArguments = PL_class.AUPArguments()
+Arguments.GetMode = GetMode
 
----@diagnostic disable-next-line: assign-type-mismatch
-AUPArguments.GetMode = AUPArgumentsGetMode
+-- - @class AUP.K
+-- - @field only_term string
+-- - @field setup string
+-- - @field name string
+-- - @field session_id string
+-- - @field dev string
+-- - @field no_dev string
+-- - @field build_dir string
+-- - @field debug string
+-- - @field local_key string
+-- - @field dry string
 
---- @class AUPK
---- @field only_term string
---- @field setup string
---- @field name string
---- @field session_id string
---- @field dev string
---- @field no_dev string
---- @field build_dir string
---- @field debug string
---- @field local_key string
---- @field dry string
+---@class AUP.K
+local K = AUP.K
 
-AUP.K.only_term = 'only_term'
-AUP.K.setup = 'setup'
-AUP.K.session_id = 'session_id'
-AUP.K.name = 'name'
-AUP.K.dev = 'dev'
-AUP.K.no_dev = 'no_dev'
-AUP.K.build_dir = 'build_dir'
-AUP.K.debug = 'debug'
-AUP.K.local_key = 'local'
-AUP.K.dry = 'dry'
+K.only_term = 'only_term'
+K.setup = 'setup'
+K.session_id = 'session_id'
+K.name = 'name'
+K.dev = 'dev'
+K.no_dev = 'no_dev'
+K.build_dir = 'build_dir'
+K.debug = 'debug'
+K.local_key = 'local'
+K.dry = 'dry'
+K.build_gh = 'build_gh'
+K.build_svn = 'build_svn'
+K.euptex_gh = 'euptex_gh'
+K.euptex_svn = 'euptex_svn'
+K.pdftex_gh = 'pdftex_gh'
+K.pdftex_svn = 'pdftex_svn'
+K.xetex_gh = 'xetex_gh'
+K.xetex_svn = 'xetex_svn'
 
 local unquote, as_boolean
 do
@@ -178,19 +180,19 @@ do
     local ans = str:match(v)
     return #ans > 0 and ans or v
   end
-  local no_list = PL.List({'false', 'no', 'n', 'f'})
+  local no_list = List{'false', 'no', 'n', 'f'}
   as_boolean = function(v)
     return not no_list:contains(string.lower(v))
   end
 end
 
---- Initialize a new AUPArguments instance from a list of command arguments
+--- Initialize a new AUP.Arguments. instance from a list of command arguments
 --- Only `--debug=⟨level⟩` and `--debug` arguments are consumed.
 --- --⟨key⟩=⟨value⟩` argument and `--⟨key⟩` simply give a new entry.
 --- @param arg_list string[]
-function AUPArguments:_init(arg_list)
+function Arguments:_init(arg_list)
   local function do_something() end
-  -- PL.pretty(arg_list)
+  -- pl.pretty(arg_list)
   for k,v in ipairs(arg_list) do
     local k2,v2 = match(v, "^%-%-?([^=]+)=(.*)$")
     if k2 == AUP.K.debug then
@@ -218,33 +220,57 @@ function AUPArguments:_init(arg_list)
   self.dry = false
   self.local_value = ''
   self.only_term = false
+  self.build_gh = false
+  self.build_svn = false
+  self.euptex_gh = false
+  self.euptex_svn = false
+  self.pdftex_gh = false
+  self.pdftex_svn = false
+  self.xetex_gh = false
+  self.xetex_svn = false
   for i,argument in ipairs(arg_list) do
     dbg:printf(1, "argument: %i -> %s\n", i, argument)
     local k,v = match(argument, "^%-%-?([^=]+)=(.*)$")
-    if k == AUP.K.setup then
-      self.setup = string.lower(v) ~= 'false' and string.lower(v) ~= 'no'
-    elseif k == AUP.K.build_dir then
+    if k == K.setup then
+      self.setup = as_boolean(v)
+    elseif k == K.build_dir then
       self.build_dir = unquote(v)
-    elseif k == AUP.K.debug then
+    elseif k == K.debug then
       -- do nothing
-    elseif k == AUP.K.only_term then
+    elseif k == K.only_term then
       self.only_term = as_boolean(v)
-    elseif k == AUP.K.dry then
+    elseif k == K.dry then
       self.dry = as_boolean(v)
-    elseif k == AUP.K.dev then
+    elseif k == K.dev then
       self.dev = as_boolean(v)
-    elseif k == AUP.K.no_dev then
+    elseif k == K.no_dev then
       self.dev = as_boolean(v)
-    elseif k == AUP.K.name then
+    elseif k == K.name then
       self.name = unquote(v)
-    elseif k == AUP.K.local_key then
+    elseif k == K.local_key then
       self.local_value = unquote(v)
-    elseif k == AUP.K.session_id then
+    elseif k == K.session_id then
       self.session_id = unquote(v)
+    elseif k == K.build_gh then
+      self.build_gh = as_boolean(v)
+    elseif k == K.build_svn then
+      self.build_svn = as_boolean(v)
+    elseif k == K.euptex_gh then
+      self.euptex_gh = as_boolean(v)
+    elseif k == K.euptex_svn then
+      self.euptex_svn = as_boolean(v)
+    elseif k == K.pdftex_gh then
+      self.pdftex_gh = as_boolean(v)
+    elseif k == K.pdftex_svn then
+      self.pdftex_svn = as_boolean(v)
+    elseif k == K.xetex_gh then
+      self.xetex_gh = as_boolean(v)
+    elseif k == K.xetex_svn then
+      self.xetex_svn = as_boolean(v)
     elseif k then
       -- '--⟨key⟩=⟨value⟩' argument
       dbg:write(10, k..": "..v)
-      table.insert(all, AUPArgumentsEntry(k, v, self))
+      table.insert(all, AUP.Arguments.Entry(k, v, self))
     else
       -- another '--⟨key⟩' argument?
       k = match(argument, "^%-%-?([^=]+)$")
@@ -260,9 +286,25 @@ function AUPArguments:_init(arg_list)
         self.dev = true
       elseif k == AUP.K.no_dev then
         self.dev = false
+      elseif k == K.build_gh then
+        self.build_gh = true
+      elseif k == K.build_svn then
+        self.build_svn = true
+      elseif k == K.euptex_gh then
+        self.euptex_gh = true
+      elseif k == K.euptex_svn then
+        self.euptex_svn = true
+      elseif k == K.pdftex_gh then
+        self.pdftex_gh = true
+      elseif k == K.pdftex_svn then
+        self.pdftex_svn = true
+      elseif k == K.xetex_gh then
+        self.xetex_gh = true
+      elseif k == K.xetex_svn then
+        self.xetex_svn = true
       elseif k then
         dbg:write(10, "--"..k)
-        table.insert(all, AUPArgumentsEntry(k, true, self))
+        table.insert(all, AUP.Arguments.Entry(k, true, self))
       end
     end
   end
@@ -277,9 +319,9 @@ end
 --- Consume the argument at the given index or for the given key
 ---
 --- When a key is given, all the arguments with that key are marked as consumed
---- @param self AUPArguments
+--- @param self AUP.Arguments
 --- @param i_or_key integer|string
-function AUPArguments:consume(i_or_key)
+function Arguments:consume(i_or_key)
   if type(i_or_key)=='string' then
     for i,entry in ipairs(self._all) do
       if entry.key == i_or_key then
@@ -292,10 +334,10 @@ function AUPArguments:consume(i_or_key)
 end
 
 --- Whether the argument at the given index is consumed
---- @param self AUPArguments
+--- @param self AUP.Arguments
 --- @param i_or_key integer|string
 --- @return boolean
-function AUPArguments:is_consumed(i_or_key)
+function Arguments:is_consumed(i_or_key)
   if type(i_or_key) == 'string' then
     for i, entry in ipairs(self._all) do
       if entry.key == i_or_key and self._consumed[i] then
@@ -311,21 +353,21 @@ end
 --- Get the argument at the given index or for the given key
 ---
 --- When a key is provided the last corresponding argument is returned
---- @param self AUPArguments
+--- @param self AUP.Arguments
 --- @param i_or_key integer|string
---- @param mode AUPArgumentsGetMode?
---- @return AUPArgumentsEntry?
-function AUPArguments:get(i_or_key, mode)
+--- @param mode AUP.Arguments.GetMode?
+--- @return AUP.Arguments.Entry?
+function Arguments:get(i_or_key, mode)
   if type(i_or_key) == 'string' then
     local ans = nil
-    if mode == AUPArgumentsGetMode.All then
+    if mode == AUP.Arguments.GetMode.All then
       ans = {}
       for _,entry in ipairs(self._all) do
         if entry.key == i_or_key then
           table.insert(ans, entry)
         end
       end
-    elseif mode == AUPArgumentsGetMode.Last then
+    elseif mode == AUP.Arguments.GetMode.Last then
       for _,entry in ipairs(self._all) do
         if entry.key == i_or_key then
           ans = entry
@@ -345,16 +387,18 @@ function AUPArguments:get(i_or_key, mode)
   end
 end
 
---- @class (exact) AUPArgumentsIterator
---- @field _arguments AUPArguments The arguments previously parsed
+--- @class (exact) AUP.Arguments.Iterator: AUP.Class
+--- @field _arguments AUP.Arguments The arguments previously parsed
 --- @field _i integer The next argument
---- @field next fun(self: AUPArgumentsIterator): AUPArgumentsEntry? The next argument is any
---- @field consume fun(self: AUPArgumentsIterator) consume the argument at the given index
-local AUPArgumentsIterator = PL_class.AUPArgumentsIterator()
+--- @field next fun(self: AUP.Arguments.Iterator): AUP.Arguments.Entry? The next argument is any
+--- @field consume fun(self: AUP.Arguments.Iterator) consume the argument at the given index
+local Iterator = pl_class()
+
+Arguments.Iterator = Iterator
 
 -- Patch the `__call` function
 do
-  local mt = getmetatable(AUPArgumentsIterator)
+  local mt = getmetatable(Iterator)
   if mt then
     local call = mt.__call
     mt.__call = function(fun, ...)
@@ -362,9 +406,10 @@ do
     end
   end
 end
---- Initialize an AUPArgumentsIterator instance
---- @param arguments AUPArguments
-function AUPArgumentsIterator:_init(arguments)
+
+--- Initialize an AUP.Arguments.Iterator instance
+--- @param arguments AUP.Arguments
+function Iterator:_init(arguments)
   self._arguments = arguments
   self._i = 0
   local mt = getmetatable(self)
@@ -382,9 +427,9 @@ function AUPArgumentsIterator:_init(arguments)
 end
 
 --- Return the next argument entry that is not consumed
---- @return AUPArgumentsEntry?
-function AUPArgumentsIterator:next()
-  self._i = self._i+1
+--- @return AUP.Arguments.Entry?
+function Iterator:next()
+  self._i = self._i + 1
   while self._arguments:is_consumed(self._i) do
     self._i = self._i + 1
   end
@@ -392,21 +437,16 @@ function AUPArgumentsIterator:next()
 end
 
 --- Mark the current argument as consumed
-function AUPArgumentsIterator:consume()
+function Iterator:consume()
   self._arguments:consume(self._i)
 end
 
 --- Return an argument entries iterator
---- @return AUPArgumentsIterator
-function AUPArguments:iterator()
-  return AUPArgumentsIterator(self)
+--- @return AUP.Arguments.Iterator
+function Arguments:iterator()
+  return AUP.Arguments.Iterator(self)
 end
 
---- @class AUP
---- @field Arguments AUPArguments
-
-AUP.Arguments = AUPArguments
-
 return {
-  Arguments = AUPArguments,
+  Arguments = Arguments,
 }

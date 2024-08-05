@@ -32,39 +32,42 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
+--- @type AUP
 local AUP = package.loaded.AUP
 local dbg = AUP.dbg
-local AUP_units = AUP.units
-local PL = AUP.PL
-local List = PL.List
+local units = AUP.units
+
+local List    = require"pl.List"
+local pl_path = require"pl.path"
 
 -- exclude directories in next list
 local exclude = List({"fake example"})
 
-AUP_units:test_currentdir(exclude)
+units:test_currentdir(exclude)
 
-local errors = PL.List()
-local AUPArguments = AUP.Arguments
-local arguments = AUP.arguments
-local AUPEngine = AUP.Engine
-local InteractionMode = AUPEngine.InteractionMode
+local errors = List()
+local Arguments = AUP.Arguments
+local arguments = assert(AUP.arguments)
+local Engine = AUP.Engine
+local InteractionMode = Engine.InteractionMode
 
 local result, status, iter, dir_obj
 
-for name in AUPEngine.tex_all() do
-  local entries = arguments:get(name, AUPArguments.GetMode.All)
+for name in Engine.tex_all() do
+  local entries = assert(arguments:get(name, AUP.Arguments.GetMode.All))
   for _,entry in ipairs(entries) do
     local p = entry.value
     -- if the path is absolute, go to the directory and typeset there
-    if PL.path.isabs(p) then
-      local d, n = PL.path.splitpath(p)
+    if pl_path.isabs(p) then
+      local d, n = pl_path.splitpath(p)
       if AUP.pushd(d, 'test') then
-        local engine = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(n)
+        local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(n)
+        --- @type AUP.Command.Result
         result = engine:run()
         result:print_stdout()
         if not result.status then
           result:print_errout()
-          AUP_units:fail('Typesetting error (cmd: %s)'%{engine:cmd()})
+          units:fail('Typesetting error (cmd: %s)'%{engine:cmd()})
         end
         AUP.popd('test')
       else
@@ -76,28 +79,28 @@ end
 
 -- Typeset the files in the directories named after engine names
 -- Use cases are not straightforward yet
-for name in AUPEngine.tex_all() do
-  local engine_dir = PL.path.abspath(name)
+for name in Engine.tex_all() do
+  local engine_dir = pl.path.abspath(name)
   status, iter, dir_obj = pcall(function()
-    return PL.path.dir(engine_dir)
+    return pl.path.dir(engine_dir)
   end)
   if status then
-    local tmp_dir = PL.path.join(AUP_units:tmp_dir_current(), name)
-    PL.dir.makepath(tmp_dir)
+    local tmp_dir = pl.path.join(units:tmp_dir_current(), name)
+    pl.dir.makepath(tmp_dir)
     dbg:write(10,'tmp_dir: '..tmp_dir)
     if AUP.pushd(tmp_dir, 'tmp_raw') then
       while true do
         local base = iter(dir_obj)
         if base then
-          if PL.path.extension(base)=='.tex' then
+          if pl.path.extension(base)=='.tex' then
             dbg:write(10,"TYPESETTING "..base)
-            local p = PL.path.abspath(base, engine_dir)
-            local engine = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(p)
+            local p = pl.path.abspath(base, engine_dir)
+            local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(p)
             result = engine:run()
             result:print_stdout()
             if not result.status then
               result:print_errout()
-              AUP_units:fail('Typesetting error (cmd: %s)'%{engine:cmd()})
+              units:fail('Typesetting error (cmd: %s)'%{engine:cmd()})
             end
           end
         else

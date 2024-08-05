@@ -32,37 +32,30 @@ This file is part of the __SyncTeX__ package testing framework.
  
 --]==]
 
---- @type AUP
+--- @class AUP
 local AUP = package.loaded.AUP
-local lfs = package.loaded.lfs
-local PL = AUP.PL
 
-local PLList = PL.List
-local PL_utils = PL.utils
-local assert_string = PL_utils.assert_string
+local pl_class      = require"pl.class"
+local List          = require"pl.List"
+local pl_utils      = require"pl.utils"
+local assert_string = pl_utils.assert_string
 
-local AUPCommand = AUP.Command
+local Command = AUP.Command
 
-local dbg = AUP.dbg
+--- @class AUP.L3Build: AUP.Command
+--- @field super fun(self: AUP.L3Build, name: string)
+local L3Build = pl_class(Command)
 
---- @enum (key) AUPL3BuildTarget
-local AUPL3BuildTarget = {
+AUP.L3Build = L3Build
+
+--- @enum (key) AUP.L3Build.Target
+L3Build.Target = {
   Check   = 'check'
 }
 
---- @class AUPL3Build: AUPCommand
---- @field _init fun(self: AUPL3Build, target: AUPL3BuildTarget)
---- @field reset fun(self: AUPL3Build)
---- @field synctex fun(self: AUPL3Build, value: integer): AUPL3Build
---- @field interaction fun(self: AUPL3Build, value: AUPEngineInteractionMode): AUPL3Build
---- @field file fun(self: AUPL3Build, file: string): AUPL3Build
---- @field cmd fun(self: AUPL3Build): string
-
-local AUPL3Build = PL.class.AUPL3Build(AUPCommand)
-
---- Initialize an AUPL3Build instance
----@param target string
-function AUPL3Build:_init(target)
+--- Initialize an AUP.L3Build instance
+--- @param target string
+function L3Build:_init(target)
   assert_string (2, target)
   self:super("l3build")
   self._target = target
@@ -70,26 +63,26 @@ end
 
 --- Add an option.
 --- @param argument string
---- @return AUPL3Build
-function AUPL3Build:add_argument(argument)
+--- @return AUP.L3Build
+function L3Build:add_argument(argument)
   assert_string (2, argument)
   self._arguments:append(argument)
   return self
 end
 
 --- Add an option.
---- @return AUPL3Build
-function AUPL3Build:clear_arguments()
-  self._arguments = PLList()
+--- @return AUP.L3Build
+function L3Build:clear_arguments()
+  self._arguments = List()
   return self
 end
 
-local quote_arg = PL_utils.quote_arg
+local quote_arg = pl_utils.quote_arg
 
 --- Build the command on the fly.
 --- @return string 
-function AUPL3Build:cmd()
-  return quote_arg(PLList({
+function L3Build:cmd()
+  return quote_arg(List({
     self._command,
     self._target,
     self._config or false,
@@ -106,8 +99,8 @@ end
 
 --- Set the `--config` option.
 --- @param value string|number
---- @return AUPL3Build
-function AUPL3Build:config(value)
+--- @return AUP.L3Build
+function L3Build:config(value)
   if type(value) ~= 'string' then
     --- @diagnostic disable-next-line: cast-local-type
     value = assert(tostring(value))
@@ -119,8 +112,8 @@ end
 
 --- Set the `--config` option.
 --- @param value string|number
---- @return AUPL3Build
-function AUPL3Build:date(value)
+--- @return AUP.L3Build
+function L3Build:date(value)
   if type(value) ~= 'string' then
     --- @diagnostic disable-next-line: cast-local-type
     value = assert(tostring(value))
@@ -132,8 +125,8 @@ end
 
 --- Set the `--debug` option.
 --- @param value string|number
---- @return AUPL3Build
-function AUPL3Build:debug(value)
+--- @return AUP.L3Build
+function L3Build:debug(value)
   if type(value) ~= 'string' then
     --- @diagnostic disable-next-line: cast-local-type
     value = assert(tostring(value))
@@ -145,8 +138,8 @@ end
 
 --- Set the `--debug` option.
 --- @param value string|number
---- @return AUPL3Build
-function AUPL3Build:dirty(value)
+--- @return AUP.L3Build
+function L3Build:dirty(value)
   if type(value) ~= 'string' then
     --- @diagnostic disable-next-line: cast-local-type
     value = assert(tostring(value))
@@ -158,8 +151,8 @@ end
 
 --- Set the `--engine` option.
 --- @param value string|number
---- @return AUPL3Build
-function AUPL3Build:engine(value)
+--- @return AUP.L3Build
+function L3Build:engine(value)
   if type(value) ~= 'string' then
     --- @diagnostic disable-next-line: cast-local-type
     value = assert(tostring(value))
@@ -171,8 +164,8 @@ end
 
 --- Set the `--first` option.
 --- @param value string|number
---- @return AUPL3Build
-function AUPL3Build:first(value)
+--- @return AUP.L3Build
+function L3Build:first(value)
   if type(value) ~= 'string' then
     --- @diagnostic disable-next-line: cast-local-type
     value = assert(tostring(value))
@@ -184,8 +177,8 @@ end
 
 --- Set the `--last` option.
 --- @param value string|number
---- @return AUPL3Build
-function AUPL3Build:last(value)
+--- @return AUP.L3Build
+function L3Build:last(value)
   if type(value) ~= 'string' then
     --- @diagnostic disable-next-line: cast-local-type
     value = assert(tostring(value))
@@ -196,8 +189,8 @@ function AUPL3Build:last(value)
 end
 
 --- Reset the arguments.
---- @return AUPL3Build
-function AUPL3Build:reset()
+--- @return AUP.L3Build
+function L3Build:reset()
   self._engine = nil
   self._date = nil
   self._first = nil
@@ -208,11 +201,6 @@ function AUPL3Build:reset()
   return self
 end
 
---- @class AUP
---- @field L3Build AUPL3Build
-
-AUP.L3Build = AUPL3Build
-
-AUPL3Build.Target = AUPL3BuildTarget
-
-return AUPL3Build
+return {
+  L3Build = L3Build
+}

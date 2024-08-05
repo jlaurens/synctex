@@ -32,31 +32,33 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
+local pl_dir  = require"pl.dir"
+local pl_file = require"pl.file"
+
+local read = pl_file.read
+local write = pl_file.write
+
+--- @class AUP
 local AUP = package.loaded.AUP
 
 local dbg = AUP.dbg
 
-local AUP_units = AUP.units
-assert(AUP_units)
+local units = AUP.units
+assert(units)
 
-local PL = AUP.PL
-local PL_file = PL.file
-
-local read = PL_file.read
-local write = PL_file.write
-local AUPEngine = AUP.Engine
+local Engine = AUP.Engine
 
 function AUP.test_library_mark(engines, jobname, content)
   if type(engines) ~= 'table' then
     engines = { engines }
   end
-  local p = AUP_units:tmp_dir_current()
+  local p = units:tmp_dir_current()
   AUP.pushd_or_raise(p, 'mark')
   write (jobname..".tex", content)
   for _,engine in ipairs(engines) do
-    PL.dir.makepath(engine)
+    pl_dir.makepath(engine)
     AUP.pushd_or_raise(engine, 'engine')
-    local result = AUPEngine(engine):synctex(-1):interaction(AUP.Engine.InteractionMode.nonstopmode):file("../"..jobname):run()
+    local result = Engine(engine):synctex(-1):interaction(AUP.Engine.InteractionMode.nonstopmode):file("../"..jobname):run()
     if dbg:level_get()>0 then
       result:print()
     end
@@ -64,7 +66,7 @@ function AUP.test_library_mark(engines, jobname, content)
     assert(ss, read(jobname..'.log'))
     AUP.open_file(jobname..'.pdf')
     -- print(ss)
-    -- result = AUPSyncTeX.Dump():o(jobname..'.pdf'):run()
+    -- result = SyncTeX.Dump():o(jobname..'.pdf'):run()
     -- if dbg:level_get()>0 then
     --   result:print()
     -- end

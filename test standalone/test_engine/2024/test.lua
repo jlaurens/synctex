@@ -39,9 +39,9 @@ exactly the one containing this script.
 --]]
 
 local AUP = package.loaded.AUP
-local AUP_units = AUP.units
-assert(AUP_units)
+local units = AUP.units
+assert(units)
 
 -- exclude directories in next list
 local exclude = {"fake example"}
-AUP_units:test_currentdir(exclude)
+units:test_currentdir(exclude)

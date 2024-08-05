@@ -41,34 +41,36 @@ There is a `query` object to activate or deactivate subtrees.
 On start, all the tests are deactivated.
 --]==]
 
+--- @class AUP
 local AUP = package.loaded.AUP
+
+local K = AUP.K
 
 local dbg = AUP.dbg
 
-local PL = AUP.PL
+local List       = require"pl.List"
+local OrderedMap = require"pl.OrderedMap"
+local pl_pretty  = require"pl.pretty"
+local pl_utils   = require"pl.utils"
+local pl_class   = require"pl.class"
+local pl_dir     = require"pl.dir"
+local pl_seq     = require"pl.seq"
+local pl_path    = require"pl.path"
+local pl_stringx = require"pl.stringx"
+local pl_file    = require"pl.file"
 
-local PL_path = PL.path
-local currentdir = PL_path.currentdir
-
-local PLList = PL.List
-local PLOrderedMap = PL.OrderedMap
-
-local state = AUP.state
+local currentdir = lfs.currentdir
+local assert_string = pl_utils.assert_string
 
 --- @alias StringsByString { string: string[] }
-
---- @class os
---- @field type string
---- @field name string
 
 --- This corresponds to each `test.lua` files of the `test standalone` folder.
 ---
 --- We only consider 4 levels of subdirectories.
 --- Year are modeled as strings because we just compare years
 --- and do no arithmetics.
---- `AUPTest` stands for unit "test".
---- @class AUPTest
---- @field map fun(root: string): PLMap
+--- `AUP.Test` stands for unit "test".
+--- @class AUP.Test: AUP.Class
 --- @field path string
 --- @field mode string
 --- @field year string
@@ -76,21 +78,22 @@ local state = AUP.state
 --- @field unit string
 --- @field visited boolean
 --- @field excluded boolean
---- @field already_checked fun(self: AUPTest, session_id: string, tmp_dir: string): boolean
 --- @field checked boolean whether checking of the receiver has started
-local AUPTest = PL.class.AUPTest()
+local Test = pl_class()
+
+AUP.Test = Test
 
 local countAUPTest = 1
---- Initialize an `AUPTest` instance
+--- Initialize an `AUP.Test` instance
 ---
 --- Straightforward... This should not be used directly, only
---- through the "static" methods `AUPTest.map`.
----@param path string
----@param mode string?
----@param year string?
----@param suite string?
----@param unit string?
-function AUPTest:_init(path, mode, year, suite, unit)
+--- through the "static" methods `AUP.Test.map`.
+--- @param path string
+--- @param mode string?
+--- @param year string?
+--- @param suite string?
+--- @param unit string?
+function Test:_init(path, mode, year, suite, unit)
   self.count = countAUPTest
   countAUPTest = countAUPTest+1
   self.path = path
@@ -103,100 +106,107 @@ function AUPTest:_init(path, mode, year, suite, unit)
   self.checked = false
 end
 
-function AUPTest:__tostring()
-  return 'AUPTest(excluded=%s): %s'%{self.excluded and 'Y' or 'N', self.path}
+function Test:__tostring()
+  return 'AUP.Test(excluded=%s): %s'%{self.excluded and 'Y' or 'N', self.path}
 end
 
 --- Get the map of unit tests by path at the given root path
 ---
 --- This navigates through the FS tree to find `test.lua` files.
 --- For each file found, the given directory is recorded in a 
---- created `AUPTest`.
+--- created `AUP.Test`.
 --- This function is meant to be called ony once for a given root,
 --- and it is meaningless to call it for subtrees.
----@param root string
----@return PLOrderedMap of AUPTest
-function AUPTest.map(root)
-  local ans = PLOrderedMap()
+--- @param root string
+--- @return pl.OrderedMap of AUP.Test
+function Test.map(root)
+  local ans = OrderedMap()
   AUP.pushd_or_raise(root, 'root')
   local p_mode = '.'
-  if PL.path.exists('test.lua') then
-    ans:set(p_mode, AUPTest(p_mode))
+  if pl_path.exists('test.lua') then
+    ans:set(p_mode, Test(p_mode))
   end
-  for mode in PL.seq.list {'engine', 'library'} do
+  for mode in pl_seq.list {'engine', 'library'} do
     p_mode = 'test_'..mode
     AUP.pushd_or_raise(p_mode, 'mode')
-    if PL.path.exists('test.lua') then
-      ans:set(p_mode, AUPTest(p_mode, mode))
+    if pl_path.exists('test.lua') then
+      ans:set(p_mode, Test(p_mode, mode))
     end
-    for year in PL.path.dir('.') do
+    for year in pl_path.dir('.') do
       if string.match(year, '^%d%d%d%d$') then
         AUP.pushd_or_raise(year, 'year')
-        local p1 = PL.path.join(p_mode, year)
-        if PL.path.exists('test.lua') then
-          ans:set(p1, AUPTest(p1, mode, year))
+        local p1 = pl_path.join(p_mode, year)
+        if pl_path.exists('test.lua') then
+          ans:set(p1, Test(p1, mode, year))
         end
-        for suite in PL.path.dir('.') do
+        for suite in pl_path.dir('.') do
           if not string.match(suite, '^%.') and AUP.pushd(suite, 'suite') then
-            local p2 = PL.path.join(p1, suite)
-            if PL.path.exists('test.lua') then
-              ans:set(p2, AUPTest(p2, mode, year, suite))
+            local p2 = pl_path.join(p1, suite)
+            if pl_path.exists('test.lua') then
+              ans:set(p2, Test(p2, mode, year, suite))
             end
-            for unit in PL.path.dir('.') do
+            for unit in pl_path.dir('.') do
               if not string.match(unit, '^%.') and AUP.pushd(unit, 'unit') then
-                if PL.path.exists('test.lua') then
-                  local p3 = PL.path.join(p2, unit)
-                  ans:set(p3, AUPTest(p3, mode, year, suite, unit))
+                if pl_path.exists('test.lua') then
+                  local p3 = pl_path.join(p2, unit)
+                  ans:set(p3, Test(p3, mode, year, suite, unit))
                 end
-                AUP.popd_or_raise('unit') -- AUP.pushd(unit)
+                AUP.popd_or_raise('unit')
               end
             end
-            AUP.popd_or_raise('suite') -- AUP.pushd(suite)
+            AUP.popd_or_raise('suite')
           end
         end
-        AUP.popd_or_raise('year') -- AUP.pushd_or_raise(year)
+        AUP.popd_or_raise('year')
       end
     end
-    AUP.popd_or_raise('mode') -- AUP.pushd_or_raise(p_mode)
+    AUP.popd_or_raise('mode')
   end
-  AUP.popd_or_raise('root') -- AUP.pushd_or_raise(root)
+  AUP.popd_or_raise('root')
   ans:sort()
   return ans
 end
 
---- @enum AUPUnitsQueryAction
-AUPUnitsQueryAction = {
+--- @class AUP.Units: AUP.State.Compliant
+--- @field super fun(self: AUP.State.Compliant)
+local Units = pl_class(AUP.State.Compliant)
+
+AUP.Units = Units
+
+--- @enum AUP.Units.QueryAction
+Units.QueryAction = {
   Include         = 'include',
   IncludeExcept   = 'include except',
   Exclude         = 'exclude',
   ExcludeExcept   = 'exclude except'
 }
 
---- @enum (key) AUPUnitsQueryMatch
-AUPUnitsQueryMatch = {
+--- @enum (key) AUP.Units.QueryMatch
+Units.QueryMatch = {
   Any   = '\033.aup_units.Any.'..math.random(),
   Dot   = '\033.aup_units.Dot.'..math.random()
 }
 
---- @class AUPUnitsQuery
---- @field modes PLList of strings
---- @field years PLList of strings
---- @field suites PLList of strings
---- @field units PLList of strings
---- @field matches fun(self: AUPUnitsQuery, test: AUPTest): boolean
---- @field apply fun(self: AUPUnitsQuery, tests: PLMap, action: AUPUnitsQueryAction, all: boolean?)
-local AUPUnitsQuery = PL.class.AUPUnitsQuery()
+-- A query object allows to filter the tests.
+--- @class AUP.Units.Query: AUP.Class
+--- @field modes pl.List of strings
+--- @field years pl.List of strings
+--- @field suites pl.List of strings
+--- @field units pl.List of strings
+local Query = pl_class()
 
-function AUPUnitsQuery:_init()
-  self.modes = PLList{}
-  self.years = PLList()
-  self.suites = PLList()
-  self.units = PLList()
+Units.Query = Query
+
+function Query:_init()
+  self.modes = List{}
+  self.years = List()
+  self.suites = List()
+  self.units = List()
 end
 
-function AUPUnitsQuery:__tostring()
-  local ans = PL.pretty.write(self)
-  return 'AUPUnitsQuery: '..ans
+function Query:__tostring()
+  local ans = pl_pretty(self)
+  return 'AUP.Units.Query: '..ans
 end
 
 --- Whether the argument matches the receiver
@@ -204,13 +214,13 @@ end
 --- The individual test units are logically organized in a tree
 --- by `mode`, `year`, `suite` and `unit`.
 --- 
----@param test AUPTest
----@return boolean
-function AUPUnitsQuery:matches(test)
+--- @param test AUP.Test
+--- @return boolean
+function Query:matches(test)
   local matcher = function(k, x)
-    if k == AUPUnitsQueryMatch.Dot then
+    if k == AUP.Units.QueryMatch.Dot then
       return true, x == '.'
-    elseif k == AUPUnitsQueryMatch.Any then
+    elseif k == AUP.Units.QueryMatch.Any then
       return false, true
     else
       return false, x == k
@@ -246,40 +256,41 @@ end
 --- The individual test units are logically organized in a tree
 --- by `mode`, `year`, `suite` and `unit`.
 --- 
----@param tests PLMap
----@param action AUPUnitsQueryAction
----@param all boolean? true if all the tests must be matched and not only those that are not visited.
-function AUPUnitsQuery:apply(tests, action, all)
+--- @param tests pl.Map
+--- @param action AUP.Units.QueryAction
+--- @param all boolean? true if all the tests must be matched and not only those that are not visited.
+function Query:apply(tests, action, all)
   if not self._has_applied then
     self._has_applied = true
     local before_non_empty = true
-    for k in PL.seq.list {'units', 'suites', 'years', 'modes'} do
+    for k in pl_seq.list {'units', 'suites', 'years', 'modes'} do
       if #self[k] == 0 then
         if before_non_empty then
-          self[k]:append(AUPUnitsQueryMatch.Dot)
+          self[k]:append(AUP.Units.QueryMatch.Dot)
         else
-          self[k]:append(AUPUnitsQueryMatch.Any)
+          self[k]:append(AUP.Units.QueryMatch.Any)
         end
       else
         before_non_empty = false
       end
     end
   end
-  for test in tests:values():iter() do
+--- @diagnostic disable-next-line: undefined-field
+  for test in tests:values():iter() do -- https://github.com/goldenstein64/pl-definitions/pull/1
     if all or not test.visited then
-      if action == AUPUnitsQueryAction.Exclude then
+      if action == AUP.Units.QueryAction.Exclude then
         if self:matches(test) then
           test.excluded = true
         end
-      elseif action == AUPUnitsQueryAction.ExcludeExcept then
+      elseif action == AUP.Units.QueryAction.ExcludeExcept then
         if not self:matches(test) then
           test.excluded = true
         end
-      elseif action == AUPUnitsQueryAction.Include then
+      elseif action == AUP.Units.QueryAction.Include then
         if self:matches(test) then
           test.excluded = false
         end
-      elseif action == AUPUnitsQueryAction.IncludeExcept then
+      elseif action == AUP.Units.QueryAction.IncludeExcept then
         if not self:matches(test) then
           test.excluded = false
         end
@@ -288,13 +299,13 @@ function AUPUnitsQuery:apply(tests, action, all)
   end
 end
 
---- @class AUPArguments
---- @field unitsQueryInclude fun(self: AUPArguments): AUPUnitsQuery
+--- @class AUP.Arguments
+local Arguments = AUP.Arguments
 
-local AUPArguments = AUP.Arguments
-
-function AUPArguments:unitsQueryInclude()
-  local ans = AUPUnitsQuery()
+--- Include query
+--- @return AUP.Units.Query
+function Arguments:unitsQueryInclude()
+  local ans = AUP.Units.Query()
   local iterator = self:iterator()
   local entry = iterator:next()
   dbg:write(1, "**** Managing arguments")
@@ -302,7 +313,7 @@ function AUPArguments:unitsQueryInclude()
     dbg:write(1, "entry: %s -> %s"%{entry.key, entry.value})
     local consume = false
     if not consume then
-      for key in PL.seq.list {'engine', 'library'} do
+      for key in pl_seq.list {'engine', 'library'} do
         if entry.key == key then
           if entry.value == 'true' then
             if not ans.modes:contains(entry.key) then
@@ -321,7 +332,7 @@ function AUPArguments:unitsQueryInclude()
       end
     end
     if not consume then
-      for key in PL.seq.list {'mode', 'year', 'suite', 'unit'} do
+      for key in pl_seq.list {'mode', 'year', 'suite', 'unit'} do
         if entry.key == key then
           ans[entry.key..'s']:append(entry.value)
           iterator:consume()
@@ -350,7 +361,7 @@ function AUPArguments:unitsQueryInclude()
   return ans
 end
 
---- @class AUPUnits
+--- @class AUP.Units
 --- @field name string
 --- @field session_id string
 --- @field session_id_p string
@@ -358,83 +369,71 @@ end
 --- @field dry boolean
 --- @field build_dir string
 --- @field tmp_dir string
---- @field _init fun(test_dir: string, arg: table)
---- @field setup_and_exit fun(self: AUPUnits)
---- @field setup_session_id fun(self: AUPUnits)
---- @field retrieve_session_id fun(self: AUPUnits)
---- @field teardown fun(self: AUPUnits)
---- @field tmp_dir_current fun(self: AUPUnits): string
---- @field skip fun(self: AUPUnits)
---- @field local_value fun(self: AUPUnits): string
---- @field get_test fun(path: string): AUPTest?
---- @field check fun(self: AUPUnits)
---- @field load fun(self: AUPUnits, name: string): boolean, string?
---- @field test_setup fun(self: AUPUnits)
---- @field test_teardown fun(self: AUPUnits)
---- @field test_setup_on_after fun(self: AUPUnits, f: any)
---- @field test_teardown_on_after fun(self: AUPUnits, f: (fun():any))
---- @field test_currentdir fun(self: AUPUnits, exclude: table?)
---- @field fail fun(self: AUPUnits, message: string)
---- @field print_failed fun(self: AUPUnits): integer
 --- @field _cwd string
 --- @field test_mode string?
 --- @field test_year string?
 --- @field test_suite string?
 --- @field test_unit string?
---- @field test_current AUPTest?
---- @field _failures PLList
---- @field _testMap PLOrderedMap
+--- @field test_current AUP.Test?
+--- @field _failures pl.List
+--- @field _testMap pl.OrderedMap
 
-local AUPUnits = PL.class.AUPUnits()
-
---- @class AUPState
+--- @class AUP.State
 --- @field units_skip_test boolean?
 
---- @class AUPK
+--- @class AUP.K
 --- @field units_skip_test string
 
-AUP.K.units_skip_test = 'units_skip_test'
+K.units_skip_test = 'units_skip_test'
 
 
 --- Skip tests at this level
 ---
 --- Call in a `test_setup` to skip the tests of the folder
 --- Useful for example to skip some test when the year is not the expected one.
-function AUPUnits:skip()
-  self:test_foreach(function (test)
-    test.excluded = true
-  end, self.test_mode, self.test_year, self.test_suite, self.test_unit)
+function Units:skip()
+  self:test_foreach{
+    action = function (test)
+      test.excluded = true
+    end,
+    mode = self.test_mode,
+    year = self.test_year,
+    suite = self.test_suite,
+    unit = self.test_unit
+  }
 end
 
---- Initialize an `AUPUnits` instance
-function AUPUnits:_init(test_dir, arg)
-  PL.utils.assert_string(1, test_dir)
-  PL.utils.assert_string(2, arg.build_dir)
-  PL.utils.assert_string(2, arg.name)
+--- Initialize an `AUP.Units` instance
+function Units:_init(test_dir, arg)
+  assert_string(1, test_dir)
+  assert_string(2, arg.build_dir)
+  assert_string(2, arg.name)
+  self:super()
   --self:super()   -- call the ancestor initializer if needed
   self.build_dir = arg.build_dir
   self.dev = arg.dev
   self.dry = arg.dry
   dbg:write(1,'units.dev: '..(self.dev and '⟨true⟩' or '⟨false⟩'))
   self.name = arg.name
-  self.tmp_dir = PL.path.join(self.build_dir, 'tmp')
-  PL.dir.makepath(self.tmp_dir)
-  self.session_id_p = PL.path.join(self.tmp_dir, 'session_id')
+  self.tmp_dir = pl_path.join(self.build_dir, 'tmp')
+  pl_dir.makepath(self.tmp_dir)
+  self.session_id_p = pl_path.join(self.tmp_dir, 'session_id')
   self:retrieve_session_id()
   -- we scan the file system for all the unit tests
   -- we start at the `.../test standalone` level
   -- we scan both `test_engine` and `test_library` folders
-  self._testMap = AUPTest.map(test_dir)
+  self._testMap = Test.map(test_dir)
   dbg:printf(10, "%s\n", self)
-  self._cwd = currentdir()
-  self._failures = PLList.new()
+  self._cwd = assert(currentdir())
+  self._failures = List.new()
+  self._skipures = List.new()
 end
 
 --- String representation
 --- @return string
-function AUPUnits:__tostring()
-  local ans = PL.pretty.write(self)
-  return 'AUPUnits: '..ans
+function Units:__tostring()
+  local ans = pl_pretty(self)
+  return 'AUP.Units: '..ans
 end
 
 --- The key used for the local configuration
@@ -447,8 +446,9 @@ end
 --- The various `test_setup_⟨value⟩.lua` and `test_teardown_⟨value⟩.lua`
 --- are read before and after tests when provided.
 --- The corresponding argument entry is consumed.
----@return string?
-function AUPUnits:local_value()
+--- @return string?
+function Units:local_value()
+  --- @type string?
   local ans = AUP.arguments.local_value
   local function f()
     local cached = #ans > 0 and ans or nil
@@ -464,20 +464,20 @@ end
 --- Prints a unique id for that test.
 --- This id is used to build temporary directories that are used
 --- as locks.
-function AUPUnits:setup_and_exit()
+function Units:setup_and_exit()
   -- acquire a unique conversation id
   self:setup_session_id()
   os.exit(0)
 end
 
 --- Set up a new session id
-function AUPUnits:setup_session_id()
+function Units:setup_session_id()
   -- acquire a unique conversation id
   local session_id = 1
   AUP.pushd(self.tmp_dir, 'setup_and_exit')
-  if PL.path.exists(self.session_id_p) then
-    local s = PL.file.read(self.session_id_p)
-    local id = PL.stringx.split(s, 'session_id:')[2]
+  if pl_path.exists(self.session_id_p) then
+    local s = pl_file.read(self.session_id_p)
+    local id = pl_stringx.split(s, 'session_id:')[2]
     if id then
       local n = tonumber(id)
       if n ~= nil then
@@ -486,18 +486,18 @@ function AUPUnits:setup_session_id()
     end
   end
   print('setup_session_id: '..session_id)
-  PL.file.write(self.session_id_p, 'session_id:'..session_id..'\n')
+  pl_file.write(self.session_id_p, 'session_id:'..session_id..'\n')
   AUP.popd('setup_and_exit')
 end
 
 --- Set up a new session id
-function AUPUnits:retrieve_session_id()
+function Units:retrieve_session_id()
   -- acquire a unique conversation id
   local session_id = 1
   AUP.pushd(self.tmp_dir, 'retrieve_session_id')
-  if PL.path.exists(self.session_id_p) then
-    local s = PL.file.read(self.session_id_p)
-    local id = PL.stringx.split(s, 'session_id:')[2]
+  if pl_path.exists(self.session_id_p) then
+    local s = pl_file.read(self.session_id_p)
+    local id = pl_stringx.split(s, 'session_id:')[2]
     if id then
       local n = tonumber(id)
       if n ~= nil then
@@ -514,138 +514,156 @@ end
 --- Expected to be called once per test session.
 --- Called by the `teardown` test.
 --- Current implementation does nothing yet.
-function AUPUnits:teardown()
+function Units:teardown()
 end
 
---- Get an `AUPTest` instance given its path.
+--- Get an `AUP.Test` instance given its path.
 ---
----All `AUPTest` are created all at once in the test setup.
----@param path string?
----@return AUPTest?
-function AUPUnits:get_test(path)
-  if #path == 0 then
-    return self._testMap:get('.')
+---All `AUP.Test` are created all at once in the test setup.
+--- @param path string?
+--- @return AUP.Test?
+function Units:get_test(path)
+  if path and #path > 0 then
+    return self._testMap:get(pl_path.normpath(path))
   end
-  return self._testMap:get(PL.path.normpath(path))
+  return self._testMap:get('.')
 end
 
 --- Load a file in the current directory.
 --- Class method.
 --- @param name string
 --- @return boolean
---- @return (string|nil)?
-function AUPUnits:load(name)
-  local f, msg = loadfile(name..'.lua')
+--- @return string?
+function Units:load(name)
+  assert_string(2, name)
+  name = name..".lua"
+  local p = AUP.short_path(pl_path.abspath(name))
+  local f, msg = loadfile(name)
   if f ~= nil then
-    local p = PL.path.abspath(name..'.lua')
-    local cwd_before = PL.path.currentdir()
+    local cwd_before = lfs.currentdir()
     if dbg:level_get()>1 then
-      print("Loading: `"..(AUP.short_path(p)).."`")
+      print("Loading: `"..p.."`")
     else
-      dbg:write(1,"Loading: `"..name..'.lua`')
+      dbg:write(1,"Loading: `"..name..'`')
     end
     f()
-    local cwd_after = PL.path.currentdir()
+    local cwd_after = lfs.currentdir()
     if cwd_after ~= cwd_before then
       print("Warning about cwd:\n  before: %s\n  after:  %s"%{cwd_before, cwd_after})
     end
     if dbg:level_get()>1 then
-      print("Loaded:  `"..(AUP.short_path(p)).."`")
+      print("Loaded:  `"..p.."`")
     else
-      dbg:write(1,"Loaded:  `"..name..'.lua`')
+      dbg:write(1,"Loaded:  `"..name..'`')
     end
     return true
+  elseif pl_path.exists(p) then
+    error("Corrupted `"..p.."`")
   else
-    dbg:write(1, "No `"..name..'.lua`')
+    dbg:write(1, "No `"..name..'`')
     return false, msg
   end
 end
 
---- @class AUPState
---- @field test_setup_after PLList
---- @field test_teardown_after PLList
---- @field test_setup_on_after_saved fun(self: AUPUnits, f: fun())
---- @field test_teardown_on_after_saved fun(self: AUPUnits, f: fun())
+--- @class AUP.State
+--- @field test_setup_after pl.List
+--- @field test_teardown_after pl.List
+--- @field test_setup_on_after_saved fun(self: AUP.Units, f: fun())
+--- @field test_teardown_on_after_saved fun(self: AUP.Units, f: fun())
 
---- @class AUPK
+--- @class AUP.K
 --- @field test_setup_after string
 --- @field test_teardown_after string
 --- @field test_setup_on_after_saved string
 --- @field test_teardown_on_after_saved string
 
-AUP.K.test_setup_after = 'test_setup_after'
-AUP.K.test_teardown_after = 'test_teardown_after'
-AUP.K.test_setup_on_after_saved = 'test_setup_on_after_saved'
-AUP.K.test_teardown_on_after_saved = 'test_teardown_on_after_saved'
-
---- @class AUPUnits
---- @field print fun(self: AUPUnits, ...)
+K.test_setup_after = 'test_setup_after'
+K.test_teardown_after = 'test_teardown_after'
+K.test_setup_on_after_saved = 'test_setup_on_after_saved'
+K.test_teardown_on_after_saved = 'test_teardown_on_after_saved'
 
 ---Prints nothing in `dry` mode.
----@param ... unknown
-function AUPUnits:print(...)
+--- @param ... unknown
+function Units:print(...)
   if not self.dry then
     print(...)
   end
 end
+
+--- @class AUP.Units
+--- @field tmp_dir_current fun(self: AUP.Units): string
+--- @field skip fun(self: AUP.Units)
+--- @field local_value fun(self: AUP.Units): string
+--- @field check fun(self: AUP.Units)
+--- @field load fun(self: AUP.Units, name: string): boolean, string?
+--- @field test_teardown fun(self: AUP.Units)
+--- @field test_setup_on_after fun(self: AUP.Units, f: any)
+--- @field test_teardown_on_after fun(self: AUP.Units, f: (fun():any))
+
+--- @class oslib
+--- @field name string
+
 --- Load the `test_setup.lua` of the current directory, if any.
-function AUPUnits:test_setup()
+function Units:test_setup()
   self:print('Test setup for '..AUP.short_path())
-  state:setup()
+  self:state_setup()
   -- first setup the temporary directory that will be returned by
   -- `tmp_dir_current`, this is done only when there a test
   -- for the actual current working directory.
   local name = 'test_setup'
-  local l = PLList({name})
-  ---@diagnostic disable-next-line: undefined-field
+  local l = List({name})
   name = name..'_'..os.type
   l:append(name)
-  ---@diagnostic disable-next-line: undefined-field
   name = name..'_'..os.name
   l:append(name)
   local v = self:local_value()
   if v then
-    l:append('test_setup_local_'..v)
+    if #v > 0 then
+      l:append('test_setup_local_'..v)
+    else
+      l:append('test_setup_local')
+    end
   end
-  state:set(AUP.K.test_setup_after, PLList())
-  state:set(AUP.K.test_setup_on_after_saved, self.test_setup_on_after)
+  print("DEBUG K.test_setup_after", K.test_setup_after)
+  self:state_set(K.test_setup_after, List())
+  self:state_set(K.test_setup_on_after_saved, self.test_setup_on_after)
   function self:test_setup_on_after(f)
-    state:get(AUP.K.test_setup_after):append(f)
+    self:state_get(K.test_setup_after):append(f)
   end
-  state:set(AUP.K.test_teardown_after, PLList())
-  state:set(AUP.K.test_teardown_on_after_saved, self.test_teardown_on_after)
+  self:state_set(K.test_teardown_after, List())
+  self:state_set(K.test_teardown_on_after_saved, self.test_teardown_on_after)
   function self:test_teardown_on_after(f)
-    state:get(AUP.K.test_teardown_after):append(f)
+    self:state_get(K.test_teardown_after):append(f)
   end
   local status, code = pcall(function()
     for n in l:iter() do
       self:load(n)
     end
-    for f in state:get(AUP.K.test_setup_after):iter() do
+    for f in self:state_get(K.test_setup_after):iter() do
       f()
     end
   end)
-  self.test_setup_on_after = state:get(AUP.K.test_setup_on_after_saved)
+  self.test_setup_on_after = self:state_get(K.test_setup_on_after_saved)
   if not status then
     error(code)
   end
 end
 
 --- Postpone the execution of a function.
-function AUPUnits:test_setup_on_after(f)
+function Units:test_setup_on_after(f)
   error('Use this function only from a `test_setup...` file', 2)
 end
 
 --- Postpone the execution of a function.
-function AUPUnits:test_teardown_on_after(f)
+function Units:test_teardown_on_after(f)
   error('Use this function only from a `test_setup...` or a `test_teardown...` file')
 end
 
 --- Load the `test_teardown.lua` of the current directory, if any.
-function AUPUnits:test_teardown()
+function Units:test_teardown()
   self:print('Test teardown for '..AUP.short_path())
   local name = 'test_teardown'
-  local l = PLList({name})
+  local l = List({name})
   --- @diagnostic disable-next-line: undefined-field
   name = name..'_'..os.type
   l:put(name)
@@ -660,54 +678,53 @@ function AUPUnits:test_teardown()
     for n in l:iter() do
       self:load(n)
     end
-    for f in state:listGet(AUP.K.test_teardown_after):iter() do
+    for f in self:state_get_List(K.test_teardown_after):iter() do
       f()
     end
   end)
-  self.test_teardown_on_after = state:get(AUP.K.test_teardown_on_after_saved)
-  state:teardown()
+  self.test_teardown_on_after = self:state_get(K.test_teardown_on_after_saved)
+  self:state_teardown()
   if not status then
     error(error_msg)
   end
 end
 
---- Run all the tests
---- @param self AUPUnits
-function AUPUnits:check()
-  dbg:write(999, 'AUPUnits:check...')
+--- Run all the selected tests
+function Units:check()
+  dbg:write(999, 'AUP.Units:check...')
   self:test_setup()
-  local skip = state:get(AUP.K.units_skip_test)
+  local skip = self:state_get_boolean(K.units_skip_test)
   if skip ~= nil and not skip then
     self:test_teardown()
-    dbg:write(9999, 'AUPUnits:check... SKIPPED')
+    dbg:write(9999, 'AUP.Units:check... SKIPPED')
     return
   end
   local query = AUP.arguments:unitsQueryInclude()
-  query:apply(self._testMap, AUPUnitsQueryAction.Include)
+  query:apply(self._testMap, AUP.Units.QueryAction.Include)
   print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-  self:test_foreach(function(t) if not t.excluded then print('Test: %s'%{t.path}) end end)
+  self:test_foreach{action = function(t) if not t.excluded then print('Test: %s'%{t.path}) end end}
   print("????????????????????????????????????????")
   -- the 2222 query
-  query = AUPUnitsQuery()
-  query.modes:append(AUPUnitsQueryMatch.Any)
+  query = Query()
+  query.modes:append(AUP.Units.QueryMatch.Any)
   query.years:append('2222')
-  query.suites:append(AUPUnitsQueryMatch.Any)
-  query.units:append(AUPUnitsQueryMatch.Any)
+  query.suites:append(AUP.Units.QueryMatch.Any)
+  query.units:append(AUP.Units.QueryMatch.Any)
   if self.dev then
-    query:apply(self._testMap, AUPUnitsQueryAction.ExcludeExcept)
-    self:test_foreach(function(t) if not t.excluded then print('Test: %s'%{t.path}) end end)
+    query:apply(self._testMap, AUP.Units.QueryAction.ExcludeExcept)
+    self:test_foreach{action = function(t) if not t.excluded then print('Test: %s'%{t.path}) end end}
     print("++++++++++++++++++++++++++++++++++++++++")
-    local ans = self:test_foreach(function(t) if not t.excluded then return true, true end end)
+    local ans = self:test_foreach{action = function(t) if not t.excluded then return true, true end end}
     if not ans then
-      query:apply(self._testMap, AUPUnitsQueryAction.Include)
-      self:test_foreach(function(t) if not t.excluded then print('Test: %s'%{t.path}) end end)
+      query:apply(self._testMap, AUP.Units.QueryAction.Include)
+      self:test_foreach{action = function(t) if not t.excluded then print('Test: %s'%{t.path}) end end}
       print("----------------------------------------")
     end
   else
-    query:apply(self._testMap, AUPUnitsQueryAction.Exclude)
+    query:apply(self._testMap, AUP.Units.QueryAction.Exclude)
   end
   if dbg:level_get() > 999 then
-    PL.pretty(self._testMap)
+    pl_pretty(self._testMap)
   end
   self.test_current = nil
   self.test_mode = nil
@@ -715,7 +732,7 @@ function AUPUnits:check()
   self.test_suite = nil
   self.test_unit = nil
   local function f(t)
-    for k in PL.seq.list(t) do
+    for k in pl_seq.list(t) do
       k = 'test_'..k
       if self[k] ~= nil then
         self:test_teardown()
@@ -733,16 +750,16 @@ function AUPUnits:check()
     test.visited = true
     if not test.excluded and not test.checked then
       local tmp = 'tmp_'..self.session_id
-      local p = PL.path.normpath(PL.path.join(self.tmp_dir, test.path, tmp))
-      if PL.path.exists(p) then
+      local p = pl_path.normpath(pl_path.join(self.tmp_dir, test.path, tmp))
+      if pl_path.exists(p) then
         test.visited = true
         dbg:write(1, 'Already visited: '..test.path)
       else
         dbg:write(1, 'Visiting: '..test.path)
         self.test_current = test
         self:print('▶︎ tmp: '..tmp)
-        PL.dir.makepath(p)
-        state:set(AUP.K.tmp_dir, p)
+        pl_dir.makepath(p)
+        self:state_set(K.tmp_dir, p)
         if self.test_mode ~= test.mode then
           f({'unit', 'suite', 'year', 'mode'})
           AUP.pushd_or_raise('test_'..test.mode, 'test_mode')
@@ -790,25 +807,26 @@ function AUPUnits:check()
   end
   f({'unit', 'suite', 'year', 'mode'})
   self:test_teardown()
-  dbg:write(999, 'AUPUnits:check... DONE')
+  dbg:write(999, 'AUP.Units:check... DONE')
 end
 
---- @class AUPUnits
---- @field test_foreach fun(self: AUPUnits, action: fun(x: AUPTest): boolean?, any?, mode: string?, year: string?, suite: string?, unit: string?)
+--- @class AUPUnits_amysu
+--- @field action fun(x: AUP.Test): boolean?, any?
+--- @field mode string?
+--- @field year string?
+--- @field suite string?
+--- @field unit string?
 
 --- Run an action on each test
---- @param action fun(x: AUPTest): boolean?, any?
---- @param mode string?
---- @param year string?
---- @param suite string?
---- @param unit string?
-function AUPUnits:test_foreach(action, mode, year, suite, unit)
+--- @param arg AUPUnits_amysu
+function Units:test_foreach(arg)
+--- @diagnostic disable-next-line: undefined-field
   for test in self._testMap:values():iter() do
-    if not mode or mode == test.mode then
-      if not year or year == test.mode then
-        if not suite or suite == test.mode then
-          if not unit or unit == test.mode then
-            local status, ans = action(test)
+    if arg.mode == nil or arg.mode == test.mode then
+      if arg.year == nil or arg.year == test.mode then
+        if arg.suite == nil or arg.suite == test.mode then
+          if arg.unit == nil or arg.unit == test.mode then
+            local status, ans = arg.action(test)
             if status then
               return ans
             end
@@ -828,44 +846,44 @@ end
 --- Activate the tests in the current directory.
 --- It makes sense when the current directory is not the deepest one.
 --- @param exclude table?
-function AUPUnits:test_currentdir(exclude)
-  dbg:write(999, '▶︎▶︎▶︎ test_currentdir "'..AUP.short_path(PL.path.abspath('.'))..'".')
+function Units:test_currentdir(exclude)
+  dbg:write(999, '▶︎▶︎▶︎ test_currentdir "'..AUP.short_path(pl_path.abspath('.'))..'".')
   dbg:write(999, '  self.test_mode: ' ..(self.test_mode or 'nil'))
   dbg:write(999, '  self.test_year: ' ..(self.test_year or 'nil'))
   dbg:write(999, '  self.test_suite: '..(self.test_suite or 'nil'))
   dbg:write(999, '  self.test_unit: ' ..(self.test_unit or 'nil'))
-  local query = AUPUnitsQuery()
-  query.modes = PLList{AUPUnitsQueryMatch.Any}
-  query.years = PLList{AUPUnitsQueryMatch.Any}
-  query.suites = PLList{AUPUnitsQueryMatch.Any}
-  query.units  = PLList{AUPUnitsQueryMatch.Any}
+  local query = Query()
+  query.modes = List{AUP.Units.QueryMatch.Any}
+  query.years = List{AUP.Units.QueryMatch.Any}
+  query.suites = List{AUP.Units.QueryMatch.Any}
+  query.units  = List{AUP.Units.QueryMatch.Any}
   if self.test_mode == nil then
-    query:apply(self._testMap, AUPUnitsQueryAction.Include)
-    query.modes = PLList(exclude)
-    query:apply(self._testMap, AUPUnitsQueryAction.Exclude)
+    query:apply(self._testMap, AUP.Units.QueryAction.Include)
+    query.modes = List(exclude)
+    query:apply(self._testMap, AUP.Units.QueryAction.Exclude)
     return
   else
-    query.modes = PLList{self.test_mode}
+    query.modes = List{self.test_mode}
     if self.test_year == nil then
-      query:apply(self._testMap, AUPUnitsQueryAction.Include)
-      query.years = PLList(exclude)
-      query:apply(self._testMap, AUPUnitsQueryAction.Exclude)
+      query:apply(self._testMap, AUP.Units.QueryAction.Include)
+      query.years = List(exclude)
+      query:apply(self._testMap, AUP.Units.QueryAction.Exclude)
       return
     else
-      query.years = PLList{self.test_year}
+      query.years = List{self.test_year}
       if self.test_suite == nil then
-        query:apply(self._testMap, AUPUnitsQueryAction.Include)
-        query.suites = PLList(exclude)
-        query:apply(self._testMap, AUPUnitsQueryAction.Exclude)
+        query:apply(self._testMap, AUP.Units.QueryAction.Include)
+        query.suites = List(exclude)
+        query:apply(self._testMap, AUP.Units.QueryAction.Exclude)
         return
       else
-        query.suites = PLList{self.test_suite}
+        query.suites = List{self.test_suite}
         if self.test_unit == nil then
-          query:apply(self._testMap, AUPUnitsQueryAction.Include)
+          query:apply(self._testMap, AUP.Units.QueryAction.Include)
           if #exclude>0 then
-            AUPUnits._debug = 1
-            query.units = PLList(exclude)
-            query:apply(self._testMap, AUPUnitsQueryAction.Exclude)
+            Units._debug = 1
+            query.units = List(exclude)
+            query:apply(self._testMap, AUP.Units.QueryAction.Exclude)
           end
         end
         return
@@ -874,18 +892,18 @@ function AUPUnits:test_currentdir(exclude)
   end
 end
 
---- @class AUPK
+--- @class AUP.K
 --- @field tmp_dir string
 
-AUP.K.tmp_dir = 'tmp_dir'
+K.tmp_dir = 'tmp_dir'
 
 --- The current directory for temporary material.
 ---
 --- Create the directory as side effect.
 --- @return string
-function AUPUnits:tmp_dir_current()
-  local ans = state:get(AUP.K.tmp_dir)
-  PL.dir.makepath(ans)
+function Units:tmp_dir_current()
+  local ans = assert(self:state_get_string(K.tmp_dir))
+  pl_dir.makepath(ans)
   return ans
 end
 
@@ -893,41 +911,98 @@ end
 ---
 --- Either because its `excluded` field is `true` or
 --- because it has already been checked during this session.
----@param test AUPTest
----@return boolean
-function AUPUnits:checking(test)
-  return PL.path.exists(PL.path.join(self.tmp_dir, test.path, 'tmp_'..self.session_id))
+--- @param test AUP.Test
+--- @return boolean
+function Units:checking(test)
+  return pl_path.exists(pl_path.join(self.tmp_dir, test.path, 'tmp_'..self.session_id))
 end
 
 --- Declares a failure.
 --- @param message string
-function AUPUnits:fail(message)
+function Units:fail(message)
+  print("FAILED: "..message.."\n")
   self._failures:append({
     test = self.test_current,
     message = message,
   })
 end
 
---- Declares a failure.
---- @return integer
-function AUPUnits:print_failed()
-  if self._failures:len() > 0 then
-    print("FAIL:")
-    for t in self._failures:iter() do
-      local l = PLList()
-      if t.test then
-        l:append('test: '..t.test.path)
+-- Shared code
+-- @param banner string
+-- @param list pl.List
+-- @return integer
+local function print_result(banner, list)
+  if list ~= nil and list:len() > 0 then
+    print(banner..":")
+    for x in list:iter() do
+      local l = List()
+      if x.test then
+        l:append('test: '..x.test.path)
       end
-      if t.message then
-        l:append(t.message)
+      if x.message then
+        l:append(x.message)
       end
       print("  "..l:concat(" — "))
     end
   end
-  return self._failures:len()
+  return list:len()
+end
+
+--- Print failures.
+--- @return integer the number of failures
+function Units:print_failed()
+  return print_result("FAILED", self._failures)
+end
+
+--- @class AUP.Units
+--- @field _skipures pl.List
+
+--- Declares a skipped test.
+--- @param message string
+function Units:skip_one_test(message)
+  self._skipures:append({
+    test = self.test_current,
+    message = message,
+  })
+end
+
+--- Print failures.
+--- @return integer the number of failures
+function Units:print_skipped()
+  return print_result("Skipped", self._skipures)
+end
+
+
+local Engine = AUP.Engine
+
+--- Send this message when the engine must be of the given year.
+---
+--- @param when 'before'|'in'|'after'
+--- @return boolean
+function Units:only_engine(when)
+  assert(self.test_year ~= nil, "`only_engine` not allowed at the top level.")
+  if self.test_unit == nil then
+    local year = Engine.year()
+    if when == 'before' and year <= self.test_year
+    or when == 'in' and year == self.test_year
+    or when == 'after' and year >= self.test_year then
+      self:test_foreach{
+        action = function(t)
+          t.excluded = true
+          if not t.visited then
+            self:skip_one_test('')
+          end
+        end,
+        mode = self.test_mode,
+        year = self.test_year,
+        suite = self.test_suite
+      }
+    end
+  end
+  return false
 end
 
 return {
-  Units = AUPUnits,
-  Test = AUPTest
+  Units = Units,
+  Test = Test
 }

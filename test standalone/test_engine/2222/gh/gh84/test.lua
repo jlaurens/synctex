@@ -32,92 +32,90 @@ This file is part of the __SyncTeX__ package testing facilities.
  
 ]===]
 
-local lfs = package.loaded.lfs
+---@type LuaFileSystem
+local lfs = lfs
 
+local pl_dir  = require"pl.dir"
+local pl_path = require"pl.path"
+local pl_file = require"pl.file"
+local pl_utils = require"pl.utils"
+local pl_stringx = require"pl.stringx"
+
+local match = string.match
+local join = pl_path.join
+local read = pl_file.read
+local splitlines = pl_stringx.splitlines
+local printf = pl_utils.printf
+
+--- @class AUP
 local AUP = package.loaded.AUP
 
 local dbg = AUP.dbg
 
 dbg:write(1, "Testing mathsurround")
 
-local PL = AUP.PL
-local PL_path = PL.path
-local PL_file = PL.file
-local PL_utils = PL.utils
-local PL_stringx = PL.stringx
-
-local AUPCommand = AUP.Command
-local AUPEngine = AUP.Engine
-local InteractionMode = AUPEngine.InteractionMode
-
-local match = string.match
-local join = PL_path.join
-local read = PL_file.read
-local splitlines = PL_stringx.splitlines
-local printf = PL_utils.printf
+local Command = AUP.Command
+local Engine = AUP.Engine
+local InteractionMode = Engine.InteractionMode
 
 local units = AUP.units
 
-local cwd = lfs.currentdir();
+local cwd = assert(lfs.currentdir())
 
-AUP.pushd_or_raise(units:tmp_dir_current(), 'tmp_gh30+84')
+AUP.pushd_or_raise(units:tmp_dir_current(), 'tmp_gh84')
 AUP.br{label='FIRST ROUND', ch='='}
-for engine in AUPEngine.tex_all() do
+for engine in Engine.tex_all() do
   AUP.br{label='ENGINE: '..engine}
-  local base = 'gh30+84-'..engine
+  local base = 'gh84-'..engine
   local source = join(cwd, base..".tex")
-  dbg:write(1, AUPCommand.which(engine, AUPCommand.tex_bin_get(), true))
-  local result = AUPEngine(engine):synctex(-1):interaction(InteractionMode.nonstopmode):file(source):run()
+  dbg:write(1, Command.which(engine, Command.tex_bin_get(), true))
+  --- @type AUP.Command.Result
+  local result = Engine(engine):synctex(-1):interaction(InteractionMode.nonstopmode):file(source):run()
   assert(result.status)
   for i,l in ipairs(splitlines(result.stdout)) do
     if match(l, "Synchronize ERROR") then
       printf("Unexpected at line %i: <%s>\n", i, l)
     end
   end
-  result:print()
   local s = read(base..'.synctex')
   if s ~= nil then
-    AUP.br{label=base..'.synctex'}
-    print(s)
-    if string.find(engine, 'lua') then
-      local i = string.find(s, '$1,7:1000,')
-      if i==nil then
-        units:fail('Wrong '..base..'.synctex (no "$1,7:1000,")')
-        print(s)
-      else
-        i = string.find(s, '$1,18:2000,')
-        if i==nil then
-          units:fail('Wrong '..base..'.synctex (no "$1,18:2000,")')
+    local function f(...)
+      for _,request in ipairs({...}) do
+        if not s:find(request) then
+          AUP.br{label=base..'.synctex'}
+          units:fail('Wrong '..base..'.synctex (no "'..request..'")')
           print(s)
+          return
         end
       end
+    end
+    if engine:find('lua') then
+      f('$1,7:1111,', '$1,18:2222,')
     else
-      local i = string.find(s, '$1,7:2000,')
-      if i==nil then
-        units:fail('dev: Wrong '..base..'.synctex (no "$1,7:2000,")')
-        print(s)
-      end
+      f('$1,7:2222,')
     end
   else
     units:fail('dev: MISSING '..base..'.synctex')
   end
 end
-AUP.popd_or_raise('tmp_gh30+84')
+AUP.popd_or_raise('tmp_gh84')
 
 -- There is a second round with smart links to input files
+-- TODO: remove the first round if this round works on windows
 AUP.br{label='SECOND RUN', ch='='}
-AUP.pushd_or_raise(units:tmp_dir_current(), 'tmp_gh30+84_2')
-for name in AUPEngine.tex_all() do
+AUP.pushd_or_raise(units:tmp_dir_current(), 'tmp_gh84_2')
+for name in Engine.tex_all() do
   AUP.br{label='ENGINE: '..name}
-  PL.dir.makepath(name)
+  pl_dir.makepath(name)
   AUP.pushd_or_raise(name, 'engine')
-  local base = 'gh30+84-'..name
+  local base = 'gh84-'..name
   local source = join(cwd, base..'.tex')
   base = base..'-ln-s'
-  local dest = join(lfs.currentdir(), base..'.tex')
+  local dest = join(assert(lfs.currentdir()), base..'.tex')
   os.remove(dest)
   lfs.link(source, dest, true)
-  local engine = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(dest)
+  local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(dest)
+  --- @type AUP.Command.Result
   local result = engine:run()
   assert(result.status)
   for i,l in ipairs(splitlines(result.stdout)) do
@@ -125,30 +123,23 @@ for name in AUPEngine.tex_all() do
       printf('Unexpected at line %i: <%s>\n', i, l)
     end
   end
-  result:print()
   local s = read(base..'.synctex')
   assert(s, 'No .synctex availeble (cmd: %s)'%{engine:cmd()})
-  AUP.br{label=base..'.synctex'}
-  print(s)
-  if string.find(name, 'lua') then
-    local i = string.find(s, '$1,7:1000,')
-    if i==nil then
-      units:fail('Wrong '..base..'.synctex (no "$1,7:1000,")')
-      print(s)
-    else
-      i = string.find(s, "$1,18:2000,")
-      if i==nil then
-        units:fail('Wrong '..base..'.synctex (no "$1,18:2000,")')
+  local function f(...)
+    for _,request in ipairs({...}) do
+      if not s:find(request) then
+        AUP.br{label=base..'.synctex'}
+        units:fail("Wrong "..base.." (no '"..request.."')")
         print(s)
+        return
       end
     end
+  end
+  if string.find(name, 'lua') then
+    f('$1,7:1111,', '$1,18:2222,')
   else
-    local i = string.find(s, '$1,7:2000,')
-    if i==nil then
-      units:fail('Wrong '..base..'.synctex (no "$1,7:2000,")')
-      print(s)
-    end
+    f('$1,7:2222,')
   end
   AUP.popd_or_raise('engine')
 end
-AUP.popd_or_raise('tmp_gh30+84_2')
+AUP.popd_or_raise('tmp_gh84_2')

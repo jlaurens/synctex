@@ -39,38 +39,38 @@ are found.
 There is an implicit stack of states implemented with metatables.
 --]==]
 
---- @type AUP
+--- @class AUP
 local AUP = package.loaded.AUP
-local PL = AUP.PL
-local PLList = PL.List
-local PLMap = PL.Map
 
--- Where the data are really stored
-local _state = {}
+local List        = require"pl.List"
+local Map         = require"pl.Map"
+local OrderedMap  = require"pl.OrderedMap"
+local pl_class    = require"pl.class"
+local pl_utils    = require"pl.utils"
+local pl_path     = require"pl.path"
+local assert_string = pl_utils.assert_string
 
 -- AUP is a bridge to the `_state` variable
---- @class AUPState
---- @field setup fun(self: AUPState)
---- @field teardown fun(self: AUPState)
---- @field on_before_teardown fun(self: AUPState, f: fun(): any)
---- @field on_after_teardown fun(self: AUPState, f: fun(): any)
+--- @class AUP.State: AUP.Class
+local State = pl_class()
 
-local AUPState = PL.class.AUPState()
+AUP.State = State
 
 --- Create a new scoping level
 ---
 --- Use it before each test setup
-function AUPState:_init()
+function State:_init()
   self._level = 0
   self._state = {}
-  self._before_stack = PLList()
-  self._after_stack = PLList()
+  self._before_stack = List()
+  self._after_stack = List()
+  self._count = 0
 end
 
 --- Create a new scoping level
 ---
 --- Use it before each test setup
-function AUPState:setup()
+function State:setup()
   local function f()
     local mt = self._state
     local t = {}
@@ -88,26 +88,26 @@ function AUPState:setup()
     self._state = t
   end
   f()
-  self._before_stack = PLList()
-  self._after_stack = PLList()
+  self._before_stack = List()
+  self._after_stack = List()
 end
 
 --- Register a function to be executed before the next teardown
----@param f fun(): any
-function AUPState:on_before_teardown(f)
+--- @param f fun(): any
+function State:on_before_teardown(f)
   self._before_stack:append(f)
 end
 
 --- Register a function to be executed after the next teardown
----@param f fun(): any
-function AUPState:on_after_teardown(f)
+--- @param f fun(): any
+function State:on_after_teardown(f)
   self._after_stack:append(f)
 end
 
 --- Remove one scoping level
 ---
 --- Use it before each test teardown
-function AUPState:teardown()
+function State:teardown()
   local mt = getmetatable(self._state)
   assert(mt, "Unbalanced state:teardown")
   assert(mt._state, "Corrupted metatable")
@@ -115,25 +115,17 @@ function AUPState:teardown()
   assert(mt._after_stack, "Corrupted metatable")
   for ff in self._before_stack:iter() do ff() end
   self._before_stack = mt._before_stack
-  _state = mt._state
+  self._state = mt._state
   for ff in self._after_stack:iter() do ff() end
   self._after_stack = mt._after_stack
 end
 
--- AUP is a bridge to the `_state` variable
---- @class AUPState
---- @field set fun(self: AUPState, key: string, value: any)
---- @field get fun(self: AUPState, key: string, raw: boolean?): any
-
 --- Get a state value
----
---- Accessing state values through `AUPState` should be sufficient
---- but this is allows a less verbose coding.
----@param key string
----@param raw boolean?
----@return any
-function AUPState:get(key, raw)
-  PL.utils.assert_string(2, key)
+--- @param key string
+--- @param raw boolean?
+--- @return any
+function State:get(key, raw)
+  assert_string(2, key)
   if raw ~= nil and raw then
     return rawget(self._state, key)
   else
@@ -141,68 +133,240 @@ function AUPState:get(key, raw)
   end
 end
 
+--- Get a state string value
+--- @param key string
+--- @param raw boolean?
+--- @return string?
+--- @return string? -- error message when there is a value that is not a string
+function State:get_string(key, raw)
+  assert_string(2, key)
+  local ans = self:get(key, raw)
+  if type(ans) == "string" then
+    return ans
+  end
+  return nil, ans ~= nil and 'Not a string for key '..key or nil
+end
+
+--- Get a state boolean value
+--- @param key string
+--- @param raw boolean?
+--- @return boolean?
+--- @return string? -- error message when there is a value that is not a boolean
+function State:get_boolean(key, raw)
+  assert_string(2, key)
+  local ans = self:get(key, raw)
+  if type(ans) == "boolean" then
+    return ans
+  else
+    return nil, ans ~= nil and 'Not a string for key '..key or nil
+  end
+end
+
 --- Set a new state value
----@param key string
----@param value any
-function AUPState:set(key, value)
-  PL.utils.assert_string(2, key)
-  self._state[key] = value
+--- @param key string
+--- @param value any
+function State:set(key, value)
+  assert_string(2, key)
+  rawset(self._state, key, value)
 end
 
---- @class AUPState
---- @field listGet fun(self: AUPState, key: string): PLList
---- @field mapGet fun(self: AUPState, key: string): PLMap
+--- @class pl.List
+--- @field class_of fun(class: pl.List, instance: any): boolean
 
---- Get the value for the given key as PLList
+--- Get the value for the given key as List
 ---
---- PLList values are not inherited as is. A copy is inherited on the first
+--- `pl.List` values are not inherited as is. A copy is inherited on the first
 --- request to allow further modifications on the list.
----@param key string
----@return PLList?
-function AUPState:listGet(key)
-  PL.utils.assert_string(2, key)
+--- @param key string
+--- @return pl.List?
+--- @return string? -- error message when there is a value that is not a `pl.List`
+function State:get_List(key)
+  assert_string(2, key)
   local ans = rawget(self._state, key)
-  if PLList:class_of(ans) then
-    return ans
-  elseif type(ans) == 'table' or ans == nil then
-    ans = PLList(ans)
-    self._state[key] = ans
-    return ans
-  else
-    return nil
+  if List:class_of(ans) then
+    return List(ans)
+  elseif ans ~= nil then
+    return nil, 'Not a pl.List for key '..key
   end
+  ans = self._state[key]
+  if type(ans) == 'table' or ans == nil then
+    ans = List(ans)
+    rawset(self._state, key, ans)
+    return ans
+  end
+  return nil, 'Not a suitable value for key '..key
 end
 
---- Get the value for the given key as PLMap
+--- @class pl.Map
+--- @field class_of fun(class: pl.Map, instance: any): boolean
+
+--- Get the value for the given key as pl.Map
 ---
---- PLLMap values are not inherited as is. A copy is inherited on the first
+--- `pl.Map` values are not inherited as is. A copy is inherited on the first
 --- request to allow further modifications on the map.
----@param key string
----@return PLMap?
-function AUPState:mapGet(key)
-  PL.utils.assert_string(2, key)
+--- @param key string
+--- @return pl.Map?
+--- @return string? -- error message when there is a value that is not a `pl.List`
+function State:get_Map(key)
+  assert_string(2, key)
   local ans = rawget(self._state, key)
-  if PLMap:class_of(ans) then
+  if Map:class_of(ans) then
     return ans
-  elseif type(ans) == 'table' or ans == nil then
-    self._state[key] = PLMap()
-    if ans then
-      self._state[key]:update(ans)
+  elseif ans ~= nil then
+    return nil
+  end
+  local map = self._state[key]
+  if type(map) == 'table' or map == nil then
+    ans = Map()
+    rawset(self._state, key, ans)
+    if map then
+      ans:update(map)
     end
-    return self._state[key]
+    return ans
+  end
+  return nil, 'Not a suitable value for key '..key
+end
+
+--[=====[
+--- @class pl.OrderedMap
+--- @field class_of fun(class: pl.OrderedMap, instance: any): boolean
+
+--- Get the value for the given key as pl.Map
+---
+--- `pl.Map` values are not inherited as is. A copy is inherited on the first
+--- request to allow further modifications on the map.
+--- @param key string
+--- @return pl.OrderedMap?
+function State:get_OrderedMap(key)
+  assert_string(2, key)
+  local ans = rawget(self._state, key)
+  if OrderedMap:class_of(ans) then
+    return ans
+  elseif ans ~= nil then
+    return nil
+  end
+  local map = self._state[key]
+  if type(map) == 'table' or map == nil then
+    ans = OrderedMap()
+    rawset(self._state, key, ans)
+    if map then
+      ans:update(ans)
+    end
+    return ans
   else
     return nil
   end
 end
+--]=====]
 
+--- Unique prefix for objects namespace
+--- @param id string
+--- @return string
+function State:unique_prefix(id)
+  assert_string(2, id)
+  self._count = 1 + self._count
+  return id..'.'..self._count..'/'
+end
 
---- @class AUP
---- @field State AUPState
+State.default = AUP.State()
 
-AUP.State = AUPState
+--- @class AUP.State.Compliant: AUP.Class
+local Compliant = pl_class(AUP.Class)
 
-AUP.dbg:write(1, "aup_command loaded")
+State.Compliant = Compliant
+
+--- Initialize an instance
+--- @param state AUP.State? -- When not provided, it defaults to `AUP.state` at run time
+function Compliant:_init(id, state)
+  id = id or ''
+  assert_string(2, id)
+  self._id = id
+  self._state = state
+  self._prefix = self:state():unique_prefix(id)
+end
+
+--- Unique private key from a given base key
+--- @return AUP.State
+function Compliant:state()
+  return self._state or AUP.State.default
+end
+
+--- Unique private key from a given base key
+--- @param id string
+--- @return string -- key
+function Compliant:state_unique_prefix(id)
+  return self._prefix..id..'/'
+end
+
+--- Setup the receiver's state
+--- @return any
+function Compliant:state_setup()
+  return self:state():setup()
+end
+
+--- Teardown the receiver's state
+--- @return any
+function Compliant:state_teardown()
+  return self:state():teardown()
+end
+
+--- Unique private key from a given base key
+--- @param base string
+--- @return string -- key
+function Compliant:state_key(base)
+  assert_string(2, base)
+  return self._prefix .. base
+end
+
+--- Return the state value
+--- @param base string
+--- @param raw boolean?
+--- @return any
+function Compliant:state_get(base, raw)
+  return self:state():get(self:state_key(base), raw)
+end
+
+--- Return the state value
+--- @param base string
+--- @param value any
+--- @return any
+function Compliant:state_set(base, value)
+  assert_string(2, base)
+  return self:state():set(self:state_key(base), value)
+end
+
+--- Return the state value
+--- @param base string
+--- @return string?
+function Compliant:state_get_string(base)
+  return self:state():get_string(self:state_key(base))
+end
+
+--- Return the state value
+--- @param base string
+--- @return boolean?
+function Compliant:state_get_boolean(base)
+  return self:state():get_boolean(self:state_key(base))
+end
+
+--- Return the state value
+--- @param base string
+--- @return pl.List?
+function Compliant:state_get_List(base)
+  return self:state():get_List(self:state_key(base))
+end
+
+--- Return the state value
+--- @param base string
+--- @return pl.Map?
+function Compliant:state_get_Map(base)
+  return self:state():get_Map(self:state_key(base))
+end
+
+AUP.dbg:write(1, "aup_state loaded")
 
 return {
-  State = AUPState,
+  _DESCRIPTION = 'auplib State',
+  _VERSION = '1.0.0',
+  State = State,
 }

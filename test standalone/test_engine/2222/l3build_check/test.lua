@@ -32,30 +32,31 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
+--- @type AUP
 local AUP = package.loaded.AUP
 local dbg = AUP.dbg
-local AUP_units = AUP.units
-local PL = AUP.PL
-local List = PL.List
+local units = AUP.units
+
+local List    = require"pl.List"
+local pl_path = require"pl.path"
 
 -- exclude directories in next list
 local exclude = List({"pdftex"})
 
-AUP_units:test_currentdir(exclude)
+units:test_currentdir(exclude)
 
-local AUPArguments = AUP.Arguments
-local arguments = AUP.arguments
+local arguments = assert(AUP.arguments)
 
 local L3Build = AUP.L3Build
 
 local one_check = function (dirname)
   if not string.match("^%.", dirname) then
     if AUP.pushd(dirname, 'one_check') then
-      if PL.path.isfile('build.lua') then
+      if pl_path.isfile('build.lua') then
         print("DEBUG CHECKING "..dirname)
         local l3build = L3Build(AUP.L3Build.Target.Check)
         local result = l3build:run({
-          SYNCTEX_TEMP_DIR = AUP_units:tmp_dir_current()
+          SYNCTEX_TEMP_DIR = units:tmp_dir_current()
         })
         assert(result.status, 'l3build run error')
         result:print()
@@ -66,14 +67,14 @@ local one_check = function (dirname)
 end
 
 -- l3build check wrapper
-if #arguments:get("no_check", AUPArguments.GetMode.All)==0 then
-  local checks = arguments:get("check", AUPArguments.GetMode.All)
+if #arguments:get("no_check", AUP.Arguments.GetMode.All)==0 then
+  local checks = arguments:get("check", AUP.Arguments.GetMode.All)
   arguments:consume("check")
-  for _,check in ipairs(checks) do
+  for _,check in ipairs(assert(checks)) do
     if check.value == true then
       -- get all the subfolders that have a `build.lua` file and run
       -- the `l3build` command there
-      local _, dir_obj = PL.path.dir(".")
+      local _, dir_obj = pl_path.dir(".")
       while true do
         local dirname = dir_obj:next()
         if dirname then

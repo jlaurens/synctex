@@ -32,43 +32,43 @@ This file is part of the __SyncTeX__ package testing facilities.
  
 ]===]
 
+local pl_path     = require"pl.path"
+local pl_file     = require"pl.file"
+local pl_stringx  = require"pl.stringx"
+
+local join = pl_path.join
+local read = pl_file.read
+local splitlines = pl_stringx.splitlines
+
+
+---@class AUP
 local AUP = package.loaded.AUP
 
 local dbg = AUP.dbg
 
 dbg:write(1, "Testing mathsurround (2024)")
 
-local PL = AUP.PL
-local PL_file = PL.file
-local PL_utils = PL.utils
-local PL_stringx = PL.stringx
-
-local AUPEngine = AUP.Engine
-local InteractionMode = AUPEngine.InteractionMode
-
-local match = string.match
-local join = PL.path.join
-local read = PL_file.read
-local splitlines = PL_stringx.splitlines
+local FmtUtil = AUP.FmtUtil
+local Engine = AUP.Engine
+local InteractionMode = Engine.InteractionMode
 
 local units = AUP.units
 
-local cwd = PL.path.currentdir();
+local cwd = pl_path.currentdir();
 
-local unit = 'gh30+84'
+local unit = 'gh84'
 local unit_tmp = unit..'_tmp'
 AUP.pushd_or_raise(units:tmp_dir_current(), unit_tmp)
-for name in AUPEngine.tex_all() do
+for name in Engine.tex_all() do
   local base = unit..'_'..name
   local source = join(cwd, base..".tex")
-  local engine = AUPEngine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source)
+  local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source)
   local result = engine:run()
   assert(result.status)
   for _,l in ipairs(splitlines(result.stdout)) do
-    if match(l, "(Fatal format file error; I'm stymied)") then
+    if l:match("(Fatal format file error; I'm stymied)") then
       print("Bad format")
-      local AUPFmtUtil = AUP.FmtUtil
-      result = AUPFmtUtil():sys():byengine(name):remake_when_older()
+      result = FmtUtil():sys():byengine(name):remake_when_older()
       assert(result.status)
       result:print()
       result = engine:run()
@@ -78,25 +78,28 @@ for name in AUPEngine.tex_all() do
   result:print_stdout()
   AUP.br{}
   for _, l in ipairs(splitlines(result.stdout)) do
-    if string.match(l, '/SyncTeX:') then
+    if l:match('/SyncTeX:') then
       print("**** WARNING for next line\n"..l)
     end
   end
   local base_synctex = base..'.synctex'
   local s = read(base_synctex)
+  local function f(...)
+    for _,request in ipairs({...}) do
+      if not s:find(request) then
+        units:fail("Wrong "..base_synctex.." (no '"..request.."')")
+        print(s)
+        return
+      end
+    end
+  end
+  local request
   if not s then
     units:fail("No .synctex available (cmd: %s)"%{engine:cmd()})
-  elseif string.find(name, "lua") then
-    if not string.find(s, "$1,7:1000,") then
-      units:fail("Wrong "..base_synctex.." (no '$1,7:1000,')")
-      print(s)
-    elseif not string.find(s, "$1,18:1000,") then
-      units:fail("Wrong "..base_synctex.." (no '$1,18:1000,')")
-      print(s)
-    end
-  elseif not string.find(s, "$1,7:1000,") then
-    units:fail("Wrong "..base_synctex.." (no '$1,7:1000,')")
-    print(s)
+  elseif name:find("lua") then
+    f("$1,7:1111,", "$1,18:1111,")
+  else
+    f("$1,7:1111,")
   end
 end
 AUP.popd(unit_tmp)

@@ -32,14 +32,19 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
-local AUP = package.loaded.AUP
-
-local lfs = package.loaded.lfs
+---@type LuaFileSystem
+local lfs = lfs
 
 print(lfs.currentdir())
+
+local pl_List = require"pl.List"
+
+---@type AUP
+local AUP = package.loaded.AUP
+
 print(AUP._VERSION)
 print(AUP._DESCRIPTION)
 
-local AUP_units = AUP.units
-local exclude = { 'gh78' }
-AUP_units:test_currentdir(exclude)
+local units = AUP.units
+local exclude = pl_List{ 'gh78' }
+units:test_currentdir(exclude)

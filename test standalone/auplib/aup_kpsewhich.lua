@@ -40,45 +40,33 @@ to use a TeX distribution that is not well defined.
 We launch `KPSEWhich` by hand.
 --]==]
 
---- @type AUP
+--- @class AUP
 local AUP = package.loaded.AUP
 
-local dbg = AUP.dbg
-local PL = AUP.PL
-
-local PLList = PL.List
-local PL_utils = PL.utils
+local List     = require"pl.List"
+local pl_utils = require"pl.utils"
+local pl_class = require"pl.class"
 
 local arguments = AUP.arguments
 assert(arguments)
 
-local AUPCommand = AUP.Command
+local Command = AUP.Command
 
---- @class AUPKPSEWhich: AUPCommand
---- @field super fun(self: AUPKPSEWhich, name: string)
---- @field _init fun(self: AUPKPSEWhich)
---- @field reset fun(self: AUPKPSEWhich): AUPKPSEWhich
---- @field all fun(self: AUPKPSEWhich): AUPKPSEWhich
---- @field engine fun(self: AUPKPSEWhich, engine: string): AUPKPSEWhich
---- @field format fun(self: AUPKPSEWhich, format: string): AUPKPSEWhich
---- @field progname fun(self: AUPKPSEWhich, progname: string): AUPKPSEWhich
---- @field debug fun(self: AUPKPSEWhich, N: string|number): AUPKPSEWhich
---- @field filename fun(self: AUPKPSEWhich, filename: string): AUPKPSEWhich
---- @field var_value fun(self: AUPKPSEWhich, var: string): AUPKPSEWhich
---- @field var_braced_value fun(self: AUPKPSEWhich, var: string): AUPKPSEWhich
-local AUPKPSEWhich = PL.class.AUPKPSEWhich(AUPCommand)
+--- @class AUP.KPSEWhich: AUP.Command
+--- @field super fun(self: AUP.KPSEWhich, name: string)
+local KPSEWhich = pl_class(Command)
 
---- Initialize an AUPKPSEWhich instance
-function AUPKPSEWhich:_init()
+--- Initialize an AUP.KPSEWhich instance
+function KPSEWhich:_init()
   self:super("kpsewhich")
 end
 
-local quote_arg = PL_utils.quote_arg
+local quote_arg = pl_utils.quote_arg
 
 --- Build the command on the fly.
 --- @return string 
-function AUPKPSEWhich:cmd()
-  local list = PLList({
+function KPSEWhich:cmd()
+  local list = List({
     self._command,
     self._all or false,
     self._engine or false,
@@ -97,70 +85,70 @@ end
 
 --- Set the `-debug` option.
 --- @param N string|number
---- @return AUPKPSEWhich
-function AUPKPSEWhich:debug(N)
+--- @return AUP.KPSEWhich
+function KPSEWhich:debug(N)
   self._debug = "-debug="..N
   return self
 end
 
 --- Set the `-all` option.
---- @return AUPKPSEWhich
-function AUPKPSEWhich:all()
+--- @return AUP.KPSEWhich
+function KPSEWhich:all()
   self._all = "-all"
   return self
 end
 
 --- Set the filename
 --- @param filename string
---- @return AUPKPSEWhich
-function AUPKPSEWhich:filename(filename)
+--- @return AUP.KPSEWhich
+function KPSEWhich:filename(filename)
   self._filename = filename
   return self
 end
 
 --- Set the var name
 --- @param var string
---- @return AUPKPSEWhich
-function AUPKPSEWhich:var_value(var)
+--- @return AUP.KPSEWhich
+function KPSEWhich:var_value(var)
   self._var_value = "-var-value="..var
   return self
 end
 
 --- Set the var name
 --- @param var string
---- @return AUPKPSEWhich
-function AUPKPSEWhich:var_braced_value(var)
+--- @return AUP.KPSEWhich
+function KPSEWhich:var_braced_value(var)
   self._var_braced_value = "-var-braced_value="..var
   return self
 end
 
 --- Set the engine
 --- @param engine string
---- @return AUPKPSEWhich
-function AUPKPSEWhich:engine(engine)
+--- @return AUP.KPSEWhich
+function KPSEWhich:engine(engine)
   self._engine = engine
   return self
 end
 
 --- Set the format
 --- @param format string
---- @return AUPKPSEWhich
-function AUPKPSEWhich:format(format)
+--- @return AUP.KPSEWhich
+function KPSEWhich:format(format)
   self._format = format
   return self
 end
 
 --- Set the progname
 --- @param progname string
---- @return AUPKPSEWhich
-function AUPKPSEWhich:progname(progname)
+--- @return AUP.KPSEWhich
+function KPSEWhich:progname(progname)
   self._progname = progname
   return self
 end
 
 --- Reset the arguments.
---- @return AUPKPSEWhich
-function AUPKPSEWhich:reset()
+--- @return AUP.KPSEWhich
+function KPSEWhich:reset()
   self._all = nil
   self._engine = nil
   self._format = nil
@@ -178,7 +166,7 @@ end
 --- Runs the `KPSEWhich` tool in dry mode and parses its output.
 --- @param user boolean?
 --- @return string?
-function AUPKPSEWhich.texmf_var_dir(user)
+function KPSEWhich.texmf_var_dir(user)
   if user then
     if _texmf_user_var_dir then
       return _texmf_user_var_dir
@@ -186,9 +174,9 @@ function AUPKPSEWhich.texmf_var_dir(user)
   elseif _texmf_sys_var_dir then
     return _texmf_sys_var_dir
   end
-  local KPSEWhich = AUPKPSEWhich():user(user or false):n():byfmt("pdftex")
+  local KPSEWhich = AUP.KPSEWhich():user(user or false):n():byfmt("pdftex")
   local result = KPSEWhich:run()
-  for l in PLList.split(result.stdout, "\n"):iter() do
+  for l in List.split(result.stdout, "\n"):iter() do
     local ans = l:match("writing formats under%s*(.*)$")
     if ans ~= nil then
       if user then
@@ -202,10 +190,10 @@ function AUPKPSEWhich.texmf_var_dir(user)
 end
 
 --- @class AUP
---- @field KPSEWhich AUPKPSEWhich
+--- @field KPSEWhich AUP.KPSEWhich
 
-AUP.KPSEWhich = AUPKPSEWhich
+AUP.KPSEWhich = AUP.KPSEWhich
 
 return {
-  KPSEWhich = AUPKPSEWhich
+  KPSEWhich = AUP.KPSEWhich
 }

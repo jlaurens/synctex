@@ -32,11 +32,9 @@ This file is part of the __SyncTeX__ package testing facilities.
  
 ]===]
 
+--- @type AUP
 local AUP = package.loaded.AUP
 local dbg = AUP.dbg
-local PL = AUP.PL
-
-local AUP_units = AUP.units
 
 dbg:write(1, "Testing dev unit pdftex")
 

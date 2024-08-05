@@ -32,6 +32,7 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
+--- @type AUP
 local AUP = package.loaded.AUP
 
 AUP.test_library_dump('pdflatex', 'form1', [==[
@@ -45,7 +46,8 @@ AUP.test_library_dump('pdflatex', 'form1', [==[
 ]==])
 
 --[[
-local lfs = package.loaded.lfs
+---@type LuaFileSystem
+local lfs = lfs
 
 local kpse = package.loaded.kpse
 kpse.set_program_name('kpsewhich')
@@ -57,20 +59,20 @@ print(lfs.currentdir())
 print(AUP._VERSION)
 print(AUP._DESCRIPTION)
 
-local AUP_units = AUP.units
-local exclude = {}
-AUP_units:test_currentdir(exclude)
-
-local PL = AUP.PL
-local PL_file = PL.file
-
-local write = PL_file.write
-local read = PL_file.read
 local units = AUP.units
-local printf = PL.utils.printf
-local AUPEngine = AUP.Engine
-local AUPSyncTeX = AUP.SyncTeX
+local exclude = {}
+units:test_currentdir(exclude)
 
+local pl_file = require "pl.file"
+local pl_utils = require "pl.utils"
+
+local write = pl_file.write
+local read = pl_file.read
+local printf = pl_utils.printf
+local Engine = AUP.Engine
+local SyncTeX = AUP.SyncTeX
+
+local units = AUP.units
 assert(units)
 local my_path = units:tmp_dir_current()
 AUP.pushd_or_raise(my_path, '')
@@ -83,7 +85,7 @@ write ("dump.tex", [==[
 \end{Form}
 \end{document}
 ]==])
-local runner = AUPEngine('pdflatex'):synctex(-1):interaction(AUP.Engine.InteractionMode.nonstopmode):file('dump.tex')
+local runner = Engine('pdflatex'):synctex(-1):interaction(AUP.Engine.InteractionMode.nonstopmode):file('dump.tex')
 local result = runner:run()
 if dbg:level_get()>0 then
   result:print()
@@ -142,7 +144,7 @@ if not ss then
   print(ss)
 end
 print(ss)
-sresult = AUPSyncTeX.Dump():o('dump.pdf'):run()
+sresult = SyncTeX.Dump():o('dump.pdf'):run()
 if dbg:level_get()>0 then
   result:print()
 end

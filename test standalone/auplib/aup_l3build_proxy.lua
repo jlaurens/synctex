@@ -39,14 +39,17 @@ This file is part of the __SyncTeX__ package testing framework.
 local insert = table.insert
 local remove = table.remove
 
+local pl_file = require"pl.file"
+
+---@class AUP
 local AUP = package.loaded.AUP
-local PL = AUP.PL
+--- @class kpselib
 local kpse = package.loaded.kpse
 kpse.set_program_name('kpsewhich')
 local lookup = kpse.lookup
 
 
---- @class AUPL3BuildProxy
+--- @class AUP.L3BuildProxy
 --- @field env table
 --- @field activate fun()
 --- @field deactivate fun()
@@ -62,7 +65,7 @@ local lookup = kpse.lookup
 --- @param env table? where `l3build` material is imported,
 --- it defaults to a void table. Any ways its `__index` event points to the
 --- current environment.
---- @return AUPL3BuildProxy
+--- @return AUP.L3BuildProxy
 local function importer(env)
   local l3build_path = lookup("l3build.lua")
   local l3build_dir = string.match(l3build_path,"(.*[/])")
@@ -92,7 +95,7 @@ local function importer(env)
     end,
   }
   local _ENV = setmetatable(env, { __index = _ENV })
-  local l3build_lua = PL.file.read(l3build_path)
+  local l3build_lua = pl_file.read(l3build_path)
   local ra = {}
   for f in string.gmatch(l3build_lua, '_require%(.([^)]*).%)') do
     table.insert(ra, f)

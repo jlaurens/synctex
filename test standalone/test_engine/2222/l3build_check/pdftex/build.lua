@@ -42,7 +42,7 @@ function runcmd(cmd,dir,vars)
   if checkformat~="context" then
     local TEXMFCNF = os.getenv("TEXMFCNF")
     if TEXMFCNF ~= nil then
-      ---@diagnostic disable-next-line: undefined-global
+      --- @diagnostic disable-next-line: undefined-global
       cmd = os_setenv .. " TEXMFCNF=" .. TEXMFCNF .. os_concat .. cmd
     end
   end

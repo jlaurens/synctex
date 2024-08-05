@@ -32,13 +32,15 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
+--- @type AUP
 local AUP = package.loaded.AUP
-local PL = AUP.PL
-local List = PL.List
+
+local List = require"pl.List"
 
 -- exclude directories in next list
 local exclude = List({"fake example"})
 
+--- @type AUP.SyncTeX.Global
 local g = AUP.SyncTeX.Global("synctex")
 
 local result = g:run_option("-v")

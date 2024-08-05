@@ -32,57 +32,61 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
+---@type LuaFileSystem
+local lfs = lfs
+
+local pl_dir  = require"pl.dir"
+local pl_path = require"pl.path"
+local pl_file = require"pl.file"
+local read = pl_file.read
+local write = pl_file.write
+
+--- @class AUP
 local AUP = package.loaded.AUP
 
 local dbg = AUP.dbg
 
-local AUP_units = AUP.units
-assert(AUP_units)
+local units = AUP.units
+assert(units)
 
-local PL = AUP.PL
-local PL_file = PL.file
+local Engine    = AUP.Engine
+local SyncTeX   = AUP.SyncTeX
+local KPSEWhich = AUP.KPSEWhich
 
-local read = PL_file.read
-local write = PL_file.write
-local printf = PL.utils.printf
-local AUPEngine = AUP.Engine
-local AUPSyncTeX = AUP.SyncTeX
-
-local AUPKPSEWhich = AUP.KPSEWhich
 if dbg:level_get()>0 then
-  local result = AUPKPSEWhich():filename('texmf.cnf'):all():run()
+  local result = KPSEWhich():filename('texmf.cnf'):all():run()
   result:print_stdout()
-  result = AUPKPSEWhich():var_value('TEXMFROOT'):run()
+  result = KPSEWhich():var_value('TEXMFROOT'):run()
   print('TEXMFROOT: '..result.stdout)
 end
-local result = AUPKPSEWhich():filename('hyperref.sty'):run()
+local result = KPSEWhich():filename('hyperref.sty'):run()
 assert(string.find(result.stdout, 'hyperref.sty'), "'hyperref.sty' not found")
 
 function AUP.test_library_dump(engines, jobname, content)
   if type(engines) ~= 'table' then
     engines = { engines }
   end
-  local p = AUP_units:tmp_dir_current()
+  local p = units:tmp_dir_current()
   AUP.pushd_or_raise(p, 'dump')
   write (jobname..".tex", content)
   for _,engine in ipairs(engines) do
-    PL.dir.makepath(engine)
+    pl_dir.makepath(engine)
     AUP.pushd_or_raise(engine, 'engine')
     write (jobname..".tex", content)
-    result = AUPEngine(engine):synctex(-1):interaction(AUP.Engine.InteractionMode.nonstopmode):file(jobname):run()
+    result = Engine(engine):synctex(-1):interaction(Engine.InteractionMode.nonstopmode):file(jobname):run()
     if dbg:level_get()>0 then
       result:print()
     end
     local ss = read('%s.synctex'%{jobname})
     if not ss then
       print('No %s.synctex'%{jobname})
-      for f in PL.dir.getallfiles(PL.path.currentdir()):sort():iter() do
+      for f in pl_dir.getallfiles(pl_path.currentdir()):sort():iter() do
         print(f)
       end
-      ss = read(PL.path.join('..', '%s.synctex'%{jobname}))
+      ss = read(pl_path.join('..', '%s.synctex'%{jobname}))
       if not ss then
-        print(PL.path.join('No ..', '%s.synctex'%{jobname}))
-        for f in PL.dir.getallfiles(PL.path.join(PL.path.currentdir(), '..')):sort():iter() do
+        print(pl_path.join('No ..', '%s.synctex'%{jobname}))
+        for f in pl_dir.getallfiles(pl_path.join(assert(lfs.currentdir()), '..')):sort():iter() do
           print(f)
         end
         print(read(jobname..'.log'))
@@ -90,13 +94,14 @@ function AUP.test_library_dump(engines, jobname, content)
       end
     end
     print(ss)
-    result = AUPSyncTeX.Dump():o(jobname..'.pdf'):run()
+    --- @type AUP.Command.Result
+    result = SyncTeX.Dump():o(jobname..'.pdf'):run()
     if dbg:level_get()>0 then
       result:print()
     end
     AUP.popd_or_raise('engine')
-    print('PWD='..PL.path.currentdir())
-    print(PL.path.exists(PL.path.currentdir()) and 'YES' or 'NO')
+    print('PWD='..assert(lfs.currentdir()))
+    print(pl_path.exists(assert(lfs.currentdir())) and 'YES' or 'NO')
   end
   AUP.popd_or_raise('dump')
 end

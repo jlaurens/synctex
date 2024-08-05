@@ -36,4 +36,5 @@ This file is part of the __SyncTeX__ package testing framework.
 
 --]=====]
 
+--- @class AUP
 local AUP = package.loaded.AUP

@@ -32,13 +32,17 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
-local AUP = package.loaded.AUP
-local lfs = package.loaded.lfs
+---@type LuaFileSystem
+local lfs = lfs
 
 print(lfs.currentdir())
+
+---@type AUP
+local AUP = package.loaded.AUP
+
 print(AUP._VERSION)
 print(AUP._DESCRIPTION)
 
-local AUP_units = AUP.units
+local units = AUP.units
 local exclude = { 'form1' }
-AUP_units:test_currentdir(exclude)
+units:test_currentdir(exclude)
