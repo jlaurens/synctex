@@ -1,7 +1,9 @@
-# Automated tests
+# Automated tests of SyncTeX library and SyncTeX command line tool
 
-All the material related to testing is gathered in this folder named `test standalone`.
+All the material related to automatic testing is gathered in this folder named `test standalone`.
 We have here two different kinds of tests: those that rely on TeX engines and those that do not. We have the `test_engine` directory for tests related to engines and the `test_library` directory for tests that are not related to engines. The former are generally based on the engine output whereas the latter are based on the `synctex-test` extented variant of `synctex`. These directories are not meant to have a counterpart in TeXLive sources.
+
+The `test_dev` folder is used during development of new features. It belongs the development process and should not be distributed. Comments below partly concern this folder.
 
 ## Structure
 
@@ -64,6 +66,10 @@ After the `test.lua`,
 - `.../test standalone/test_⟨library|engine⟩/test_teardown.lua`, for library or engine tests
 - `.../test standalone/test_teardown.lua`, always
 
+In addition, `.../test_setup_⟨local⟩.lua` and `.../test_setup_⟨local⟩.lua` are executed when `--local=⟨local⟩` was an argument provided on the command line otherwaise when the environment variable `SYNCTEX_DEV_LOCAL=⟨local⟩` is set.
+These files may contain processing that cannot be shared between developers, for example system dependent processing or configuration dependent processing.
+Particularly useful while during develoment.
+
 ## Testing framework
 
 The `auplib` folder contains goodies and material to perform the tests. These are essentailly `texlua` scripts called by the top level `test_main.lua` script of the `test standalone` folder. We use the `penlight` library as well as `os.type` and `os.name` extensiopns to the `os` table provided by `texlua`.
@@ -83,5 +89,4 @@ This folder is gathering various tests targeting synctex library features.
 ### `test_dev`
 
 This folder is gathering various tests for development.
-
 

@@ -1,4 +1,4 @@
-# Building and testing the SyncTeX command line tool
+# Building and testing the SyncTeX library and the SyncTeX command line tool
 
 The main tool is `meson`, see downloading instructions from the [official meson site](https://mesonbuild.com/).
 

@@ -36,8 +36,8 @@ This file is part of the __SyncTeX__ package testing framework.
 This script is executed by some `texlua` binary.
 This binary was launched in a situation that we do not expect to control.
 For that reason, we cannot use the `kpse` table because it is configured
-to use a TeX distribution that is not well defined.
-We launch `KPSEWhich` by hand.
+to use a TeX distribution that is not well defined and is most certainly not the expected one.
+This is why we have to launch `kpsewhich` by hand.
 --]==]
 
 --- @class AUP
