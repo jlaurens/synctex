@@ -63,7 +63,7 @@ for name in Engine.tex_all() do
     local source = join(cwd, base..".tex")
     local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source)
     local result = engine:run()
-    assert(result.status)
+    result:assert_success()
     for _,l in ipairs(splitlines(result.stdout)) do
       if l:find("Fatal format file error; I'm stymied") then
         print("Bad format")
@@ -71,7 +71,7 @@ for name in Engine.tex_all() do
         assert(result.status)
         result:print()
         result = engine:run()
-        assert(result.status)
+        result:assert_success()
       end
     end
     AUP.br{}

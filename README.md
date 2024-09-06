@@ -17,3 +17,4 @@ The tagged history points are a partial clone of synctexdir in the TeXLive svn r
 The focus here is on the client side code for synchronization between text editor and pdf viewer. The files are not always forwarded to TeXLive as is.
 
 Instructions for building and testing are available in [./meson/README.md](https://github.com/jlaurens/synctex/blob/main/meson/README.md).
+

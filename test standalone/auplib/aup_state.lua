@@ -337,16 +337,18 @@ end
 
 --- Return the state value
 --- @param base string
+--- @param raw boolean?
 --- @return string?
-function Compliant:state_get_string(base)
-  return self:state():get_string(self:state_key(base))
+function Compliant:state_get_string(base, raw)
+  return self:state():get_string(self:state_key(base), raw)
 end
 
 --- Return the state value
 --- @param base string
+--- @param raw boolean?
 --- @return boolean?
-function Compliant:state_get_boolean(base)
-  return self:state():get_boolean(self:state_key(base))
+function Compliant:state_get_boolean(base, raw)
+  return self:state():get_boolean(self:state_key(base), raw)
 end
 
 --- Return the state value
@@ -366,7 +368,7 @@ end
 AUP.dbg:write(1, "aup_state loaded")
 
 return {
-  _DESCRIPTION = 'auplib State',
-  _VERSION = '1.0.0',
+  _DESCRIPTION = 'AUPLib State',
+  _VERSION = '0.1',
   State = State,
 }

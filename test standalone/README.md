@@ -69,3 +69,19 @@ After the `test.lua`,
 The `auplib` folder contains goodies and material to perform the tests. These are essentailly `texlua` scripts called by the top level `test_main.lua` script of the `test standalone` folder. We use the `penlight` library as well as `os.type` and `os.name` extensiopns to the `os` table provided by `texlua`.
 
 The documentation of the frameworks is available in `.../test standalone/doc/` and various `README.md` spread in subdirectories.
+
+## Subfolders
+
+### `test_engine`
+
+This folder is gathering various tests targeting the TeX engine features.
+
+### `test_library`
+
+This folder is gathering various tests targeting synctex library features.
+
+### `test_dev`
+
+This folder is gathering various tests for development.
+
+

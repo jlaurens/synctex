@@ -40,7 +40,6 @@ local pl_class  = require"pl.class"
 local quote_arg = require"pl.utils".quote_arg
 
 local Command = AUP.Command
-local Result = AUP.Command.Result
 
 -- The synctex command used may be located at different places.
 -- When developing synctex, it is located in `.../meson/build`
@@ -81,7 +80,6 @@ end
 --- Run the command for the given global
 --- @param option table|string
 --- @param env table?
---- @return boolean status
 --- @return AUP.Command.Result
 function Global:run_option(option, env)
   self._options = type(option)=="table" and option or {option};
@@ -272,7 +270,7 @@ local Dump = pl_class(Command)
 SyncTeX.Dump = Dump
 
 ---Initialize an instance
---- @param name string? defaults to `synctex`.
+--- @param name string? defaults to `synctex_test`.
 function Dump:_init(name)
   self:super(name or 'synctex_test')
 end
@@ -305,8 +303,8 @@ end
 --- Build the command on the fly
 --- @return string command
 function Dump:cmd()
-  assert(self._command)
-  assert(self._o)
+  assert(self._command, 'Missing self._command')
+  assert(self._o, 'Missing self._o')
   local L = List({self._command, "dump", "-o", self._o})
   if self._d then
     L:append("-d"):append(self._d)

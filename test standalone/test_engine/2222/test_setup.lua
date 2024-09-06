@@ -36,16 +36,13 @@ This file is part of the __SyncTeX__ package testing framework.
 
 --]=====]
 
----@type LuaFileSystem
-local lfs = lfs
-
-local pl_dir  = require"pl.dir"
-local pl_seq  = require"pl.seq"
 local pl_path = require"pl.path"
-local pl_pretty = require"pl.pretty"
 
 --- @type AUP
 local AUP = package.loaded.AUP
+
+AUP.TL.current_set_from_year(2222)
+
 local Dir = AUP.Dir
 local Command = AUP.Command
 local Engine = AUP.Engine

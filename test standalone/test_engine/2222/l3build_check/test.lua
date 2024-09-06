@@ -58,7 +58,7 @@ local one_check = function (dirname)
         local result = l3build:run({
           SYNCTEX_TEMP_DIR = units:tmp_dir_current()
         })
-        assert(result.status, 'l3build run error')
+        result:assert_success('l3build run error')
         result:print()
       end
       AUP.popd('one_check')
@@ -74,14 +74,8 @@ if #arguments:get("no_check", AUP.Arguments.GetMode.All)==0 then
     if check.value == true then
       -- get all the subfolders that have a `build.lua` file and run
       -- the `l3build` command there
-      local _, dir_obj = pl_path.dir(".")
-      while true do
-        local dirname = dir_obj:next()
-        if dirname then
-          one_check(dirname)
-        else
-          break
-        end
+      for dirname in pl_path.dir(".") do
+        one_check(dirname)
       end
     else
       one_check(check.value)

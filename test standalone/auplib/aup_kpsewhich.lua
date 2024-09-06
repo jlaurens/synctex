@@ -174,8 +174,8 @@ function KPSEWhich.texmf_var_dir(user)
   elseif _texmf_sys_var_dir then
     return _texmf_sys_var_dir
   end
-  local KPSEWhich = AUP.KPSEWhich():user(user or false):n():byfmt("pdftex")
-  local result = KPSEWhich:run()
+  local lKPSEWhich = AUP.KPSEWhich():user(user or false):n():byfmt("pdftex")
+  local result = lKPSEWhich:run()
   for l in List.split(result.stdout, "\n"):iter() do
     local ans = l:match("writing formats under%s*(.*)$")
     if ans ~= nil then
@@ -192,8 +192,8 @@ end
 --- @class AUP
 --- @field KPSEWhich AUP.KPSEWhich
 
-AUP.KPSEWhich = AUP.KPSEWhich
+AUP.KPSEWhich = KPSEWhich
 
 return {
-  KPSEWhich = AUP.KPSEWhich
+  KPSEWhich = KPSEWhich
 }

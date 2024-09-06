@@ -34,4 +34,4 @@ This file is part of the __SyncTeX__ package testing facilities.
 
 local AUP = package.loaded.AUP
 
-print('AUP library version: '..AUP._VERSION)
+print('AUPLib library version: '..AUP._VERSION)

@@ -40,7 +40,6 @@ local pl_file     = require"pl.file"
 local pl_utils    = require"pl.utils"
 local pl_stringx  = require"pl.stringx"
 
-local match = string.match
 local join = pl_path.join
 local read = pl_file.read
 local splitlines = pl_stringx.splitlines
@@ -67,10 +66,10 @@ for name in Engine.tex_all() do
   AUP.br{label='ENGINE: '..name}
   local base = unit..'_'..name
   local source = join(cwd, base..".tex")
-  dbg:write(1, Command.which(name, Command.tex_bin_get(), true))
+  dbg:write(1, Command.which(name, AUP.TL.current_get():bin_dir_get(), true))
   local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source)
   local result = engine:run()
-  assert(result.status, 'cmd: %s'%{engine:cmd()})
+  result:assert_success()
   for i,l in ipairs(splitlines(result.stdout)) do
     if l:match("Synchronize ERROR") then
       printf("Unexpected at line %i: <%s>\n", i, l)

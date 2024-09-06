@@ -68,7 +68,7 @@ for name in Engine.tex_all() do
   makepath(name)
   AUP.pushd_or_raise(name, base)
   local result = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source):run()
-  assert(result.status)
+  result:assert_success()
   for i,l in ipairs(splitlines(result.stdout)) do
     if l:match("Synchronize ERROR") then
       printf("Unexpected at line %i: <%s>\n", i, l)
@@ -78,7 +78,7 @@ for name in Engine.tex_all() do
   print(base..".synctex")
   local s = readfile(base..".synctex")
   if s == nil then
-    AUP.units:raise('MISSING '..base..".synctex")
+    AUP.units:fail('MISSING '..base..".synctex")
   end
   AUP.popd(base)
 end

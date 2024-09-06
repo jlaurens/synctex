@@ -382,7 +382,7 @@ end
 --- @field units_skip_test boolean?
 
 --- @class AUP.K
---- @field units_skip_test string
+--- @field units_skip_test 'units_skip_test'
 
 K.units_skip_test = 'units_skip_test'
 
@@ -572,10 +572,10 @@ end
 --- @field test_teardown_on_after_saved fun(self: AUP.Units, f: fun())
 
 --- @class AUP.K
---- @field test_setup_after string
---- @field test_teardown_after string
---- @field test_setup_on_after_saved string
---- @field test_teardown_on_after_saved string
+--- @field test_setup_after 'test_setup_after'
+--- @field test_teardown_after 'test_teardown_after'
+--- @field test_setup_on_after_saved 'test_setup_on_after_saved'
+--- @field test_teardown_on_after_saved 'test_teardown_on_after_saved'
 
 K.test_setup_after = 'test_setup_after'
 K.test_teardown_after = 'test_teardown_after'
@@ -893,7 +893,7 @@ function Units:test_currentdir(exclude)
 end
 
 --- @class AUP.K
---- @field tmp_dir string
+--- @field tmp_dir 'tmp_dir'
 
 K.tmp_dir = 'tmp_dir'
 
@@ -905,16 +905,6 @@ function Units:tmp_dir_current()
   local ans = assert(self:state_get_string(K.tmp_dir))
   pl_dir.makepath(ans)
   return ans
-end
-
---- Whether the test is excluded
----
---- Either because its `excluded` field is `true` or
---- because it has already been checked during this session.
---- @param test AUP.Test
---- @return boolean
-function Units:checking(test)
-  return pl_path.exists(pl_path.join(self.tmp_dir, test.path, 'tmp_'..self.session_id))
 end
 
 --- Declares a failure.
@@ -1003,6 +993,8 @@ function Units:only_engine(when)
 end
 
 return {
+  _VERSION = '0.1',
+  _DESCRIPTION = 'AUPLib unit test',
   Units = Units,
   Test = Test
 }

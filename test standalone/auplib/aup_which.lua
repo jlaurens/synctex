@@ -34,6 +34,8 @@ This file is part of the __SyncTeX__ package testing framework.
 
 --[=====[
 Similar to `which` unix command.
+
+This module defines the `PathMgr` class that manages the `PATH` variable. 
 --]=====]
 
 --- @class AUP
@@ -81,7 +83,7 @@ PathMgr.dev = arguments.dev
 
 -- Intentionnaly declare a field
 --- @class AUP.K
---- @field list string
+--- @field list 'list'
 
 K.list = 'list'
 
@@ -96,20 +98,20 @@ end
 
 --- Set content to feed the `PATH` environment variable.
 --- @param l pl.List -- list of strings
-function PathMgr.list_set(l)
+function PathMgr:list_set(l)
   assert(List:class_of(l))
-  storage:state_set(K.list, l)
+  self:state_set(K.list, l)
 end
 
 --- Get content to feed the `PATH` environment variable.
 --- @return pl.List
-function PathMgr.list_get()
-  local ans = storage:state_get(K.list, true)
+function PathMgr:list_get()
+  local ans = self:state_get(K.list, true)
   if ans == nil then
     ans = List()
-    PathMgr.list_set(ans)
+    self:list_set(ans)
     PathMgr.list_get = function ()
-      return assert(storage:state_get_List(K.list, true), 'A pl.List was expected')
+      return assert(self:state_get_List(K.list), 'A pl.List was expected')
     end
   end
   return ans
@@ -117,28 +119,28 @@ end
 
 --- Prepend the given directory to the actual `PATH` list.
 --- @param dir string -- must point to an existing directory
-function PathMgr.promote(dir)
+function PathMgr:promote(dir)
   assert_string(1, dir)
   assert(pl_path.isdir(dir))
-  local l = PathMgr.list_get()
+  local l = self:list_get()
   l:remove_value(dir)
   l:insert(1, dir)
 end
 
 --- Get content to feed the `PATH` environment variable.
 --- @return string
-function PathMgr.get()
-  local l = PathMgr.list_get()
+function PathMgr:get()
+  local l = self.list_get()
   return l:join(pl_path.dirsep)
 end
 
 --- Similar to terminal's `which`.
 ---
---- If `name` exists, it is returned normalized.
+--- If a file exists at path `name` as si, `name` is returned normalized.
 --- @param name string -- Completed by `.exe` on windows (if missing)
 --- @return string? -- the full normalized path to the engine, if any
 --- @return string? -- if name is a relative path, the directory containing name 
-function PathMgr.which(name)
+function PathMgr:which(name)
   dbg:printf(9, [[
 PathMgr.which name:     %s
 ]], name)
@@ -149,7 +151,7 @@ PathMgr.which name:     %s
   if pl_path.isabs(name) then
     return pl_path.exists(name) and pl_path.normpath(name) or nil
   end
-  local l = PathMgr.list_get()
+  local l = self:list_get()
   if dbg:level_get()>9 then
     print("PATH:"..#l)
     l:foreach(function (x) print("  "..x) end)
@@ -161,11 +163,44 @@ PathMgr.which name:     %s
   end
 end
 
-dbg:write(1, "aup_which loaded")
+---@type AUP.Which.PathMgr
+module.library = PathMgr()
 
-module.current = PathMgr()
+---@type AUP.Which.PathMgr
+module.engine = PathMgr()
+
+---@type AUP.Which.PathMgr
 module.dev = PathMgr()
-module._DESCRIPTION = [[AUP PATH manager]]
-module._VERSION = "1.0"
+
+do
+  --- @type AUP.Which.PathMgr
+  ---
+  --- State compliant.
+  local Which_current = AUP.State.Compliant()
+
+  --- @class AUP.K
+  --- @field Which_current 'Which_current'
+
+  K.Which_current = 'Which_current'
+
+  ---Get the current PATH manager.
+  ---
+  --- State compliant.
+  ---@return AUP.Which.PathMgr
+  function module.current_get()
+    return Which_current:state_get(K.Which_current)
+  end
+
+  ---Get the current PATH manager.
+  ---@param type 'library'|'engine'|'dev'
+  function module.current_set(type)
+    return Which_current:state_set(K.Which_current, module[type])
+  end
+end
+
+module._DESCRIPTION = 'AUPLib PATH manager'
+module._VERSION = '0.1'
+
+dbg:write(1, "aup_which loaded")
 
 return module

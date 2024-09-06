@@ -69,6 +69,8 @@ function Utils.execute(cmd)
   if not pl_utils.is_windows then
     res1 = res1 > 255 and res1 / 256 or res1
   end
+  print('cmd', cmd)
+  print('res1', res1)
   return res1==0, res1
 end
 

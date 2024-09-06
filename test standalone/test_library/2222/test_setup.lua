@@ -32,32 +32,7 @@ This file is a bridge to the __SyncTeX__ package testing framework.
  
 --]]
 
---- @type AUP
+--- @class AUP
 local AUP = package.loaded.AUP
 
-local List = require"pl.List"
-
--- exclude directories in next list
-local exclude = List({"fake example"})
-
---- @type AUP.SyncTeX.Global
-local g = AUP.SyncTeX.Global("synctex")
-
-local result = g:run_option("-v")
-result:assert_success("Problem with option: -v")
-result:print()
-result = g:run_option("--version")
-result:assert_success("Problem with option: --version")
-assert(result.errout=="", "Unexpected error: "..result.errout)
-result = g:run_option({"--parse_int_policy", "C"})
-result:assert_success("Problem with option: --parse_int_policy")
-assert(result.errout~="", "Missing error")
-result = g:run_option({"--parse_int_policy", "raw1"})
-result:assert_success("Problem with option: --parse_int_policy")
-assert(result.errout~="", "Missing error")
-result = g:run_option({"--parse_int_policy", "raw2"})
-result:assert_success("Problem with option: --parse_int_policy")
-assert(result.errout~="", "Missing error")
-result = g:run_option({"--parse_int_policy", "raw0"})
-result:assert_success("Problem with option: --parse_int_policy")
-assert(result.errout~="", "Missing error")
+AUP.TL.current_set_from_year(2024)

@@ -42,10 +42,9 @@ function AUP.do_open_file(path)
 end
 
 local TL = AUP.TL
-local current = TL.current
 
-AUP.TL.set_by_year(function(y)
+TL.set_dir_for_year(function(y)
   return "/usr/local/texlive/"..y
 end)
 
-current:relative_bin_dir_set('bin/universal-darwin')
+TL.current_get():relative_bin_dir_set('bin/universal-darwin')

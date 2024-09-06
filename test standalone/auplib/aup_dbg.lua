@@ -108,6 +108,8 @@ function DBG:level_get()
 end
 
 --- Set the debug level
+---
+--- Usefull to display more debugging messages.
 --- @param level integer|string
 function DBG:level_set(level)
   if type(level) ~= 'number' then
@@ -127,6 +129,21 @@ function DBG:level_increment(delta)
     self._level = self._level + delta
   end
   return self._level
+end
+
+--- Wrapper over `assert`
+--- 
+--- Prints the traceback in the message.
+--- @generic T
+--- @param v? T
+--- @param message? string|any
+--- @param level? integer|any
+--- @param ... any
+--- @return T
+--- @return string?
+--- @return any ...
+function DBG:assert(v, message, level, ...)
+  return assert(v, debug.traceback(message, level or 2), v)
 end
 
 

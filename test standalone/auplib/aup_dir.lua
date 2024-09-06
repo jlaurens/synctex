@@ -81,13 +81,11 @@ Dir.synctex = assert(AUP.synctexdir)
 print("Dir.test_standalone", Dir.test_standalone)
 print("Dir.synctex", Dir.synctex)
 
-print(Dir.test_standalone)
-
 local arguments = AUP.arguments
 assert(arguments, "Internal error")
 
 --- @class AUP.K
---- @field synctex_bin_dir string
+--- @field synctex_bin_dir 'synctex_bin_dir'
 
 K.synctex_bin_dir = 'synctex_bin_dir'
 

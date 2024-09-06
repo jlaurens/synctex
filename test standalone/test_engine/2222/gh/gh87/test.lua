@@ -70,7 +70,7 @@ for name in Engine.tex_all() do
   local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source)
   --- @type AUP.Command.Result
   local result = engine:run()
-  assert(result.status, 'cmd: %s'%{engine:cmd()})
+  result:assert_success()
   for i,l in ipairs(splitlines(result.stdout)) do
     if l:match("Synchronize ERROR") then
       printf("Unexpected at line %i: <%s>\n", i, l)

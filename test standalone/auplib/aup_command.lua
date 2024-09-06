@@ -46,6 +46,7 @@ local assert_string = pl_utils.assert_string
 local executeex = pl_utils.executeex
 
 local dbg = AUP.dbg
+local TL = AUP.TL
 
 --- @class AUP.Command: AUP.Class
 local Command = pl_class()
@@ -54,6 +55,7 @@ AUP.Command = Command
 
 --- The result of a comman d run
 --- @class AUP.Command.Result: AUP.Class
+--- @field commqnd AUP.Command
 --- @field status boolean
 --- @field code integer
 --- @field stdout string
@@ -63,65 +65,86 @@ local Result = pl_class()
 Command.Result = Result
 
 --- Initialize an instance
+--- @param command AUP.Command
 --- @param status boolean
 --- @param code integer
 --- @param stdout string
 --- @param errout string
-function Result:_init(status, code, stdout, errout)
-  pl_utils.assert_arg (2, status, 'boolean')
-  pl_utils.assert_arg (3, code, 'number')
-  pl_utils.assert_string(4, stdout)
-  pl_utils.assert_string(5, errout)
+function Result:_init(command, status, code, stdout, errout)
+  pl_utils.assert_arg (3, status, 'boolean')
+  pl_utils.assert_arg (4, code, 'number')
+  pl_utils.assert_string(5, stdout)
+  pl_utils.assert_string(6, errout)
+  self.command = command
   self.status = status
   self.code = code
   self.stdout = stdout
   self.errout = errout
 end
 
+--- Build the command
+--- @param msg string?
+function Result:assert_success(msg)
+  print('self.status', self.status)
+  assert(self.status, msg or self.command:cmd())
+end
+
+--- @class AUP.Result.print.Arg
+--- @field level integer?
+--- @field ch string? defaults to '-'
+
+local function print_arg(arg)
+  if arg == nil then
+    return {
+      level = 0,
+      ch = '-'
+    }
+  else
+    pl_utils.assert_arg(1,arg,'table', nil, nil, 3)
+  end
+  return {
+    level = arg.level or 0,
+    ch = arg.ch or '-'
+  }
+end
+
 --- Print the instance
 ---
---- @param level number|string? defaults to 0
---- @param ch string? defaults to '-'
-function Result:print(level, ch)
-  if type(level) == 'string' then
-    ch = level
-    level = 0
-  end
+--- @param arg AUP.Result.print.Arg?
+function Result:print(arg)
+  arg = print_arg(arg)
   if dbg:level_get()>9 then
     print('status: '..(self.status and 'true' or 'false'))
     print('code: '..(self.code ~= nil and self.code or 'nil'))
   end
-  self:print_stdout(level, ch)
-  self:print_errout(level, ch)
+  self:print_stdout(arg)
+  self:print_errout(arg)
+end
+
+---- Print the instance
+--- @param arg AUP.Result.print.Arg?
+function Result:print_errout(arg)
+  arg = print_arg(arg)
+  if dbg:level_get()>(arg.level or 0) then
+    if #self.errout>0 then
+      AUP.br{label='errout', ch=arg.ch or '-'}
+      print(self.errout)
+      AUP.br{}
+    else
+      AUP.br{label='No errout', ch=arg.ch or '-'}
+    end
+  end
 end
 
 --- Print the instance
---- @param level number|string? defaults to 0
---- @param ch string? defaults to '-'
-function Result:print_errout(level, ch)
-  if type(level) == 'string' then
-    ch = level
-    level = 0
+--- @param arg AUP.Result.print.Arg?
+function Result:print_stdout(arg)
+  arg = print_arg(arg)
+  if dbg:level_get()>(arg.level or 0) then
+    arg.label = 'stdout'
+    AUP.br(arg)
+    print(self.stdout)
   end
-  if #self.errout>0 then
-    AUP.br{label='errout', ch=ch or '-'}
-    print(self.errout)
-    AUP.br{}
-  else
-    AUP.br{label='No errout', ch=ch or '-'}
-  end
-end
-
---- Print the instance
---- @param level number|string? defaults to 0
---- @param ch string? defaults to '-'
-function Result:print_stdout(level, ch)
-  if type(level) == 'string' then
-    ch = level
-    level = 0
-  end
-  AUP.br{label='stdout',ch=ch or '-'}
-  print(self.stdout)
 end
 
 --- @class AUP.Command
@@ -146,7 +169,7 @@ assert(arguments, "Internal error")
 Command.dev = arguments.dev
 
 --- @class AUP.K
---- @field PATHList string
+--- @field PATHList 'PATHList'
 
 K.PATHList = 'PATHList'
 
@@ -191,7 +214,7 @@ function Command.PATH_get()
 end
 
 --- @class AUP.K
---- @field ENV string
+--- @field ENV 'ENV'
 
 K.ENV = 'ENV'
 
@@ -237,8 +260,8 @@ end
 
 --- Class function similar to terminal's `which`.
 ---
---- If `name` exists, it is returned normalized.
---- The `--Work` and `--bin_dir` options are used if provided.
+--- If a file existsn at path `name` as is, `name` is returned normalized.
+--- The `--Work` and `--bin_dir` options are used when provided.
 --- The `PATH` environment variable content as well.
 --- @param name string
 --- @param dir string? 
@@ -278,43 +301,42 @@ Command.which name:     %s
   if #res > 0 then
     return pl_path.normpath(res[1].n), res[1].d
   end
-  return nil
+  return AUP.Which.current_get():which(name)
 end
 
---- Class function similar to terminal's `which` for development.
----
---- If `name` exists, it is returned normalized.
---- The second value returned is the (path to) dev directory, if any.
---- @param name string
---- @return string?
---- @return string?
-function Command.which_dev(name)
-  dbg:printf(9, [[
-Command.which_dev name:     %s
-]], name)
-  assert_string(1, name)
-  if pl_path.is_windows and pl_path.extension(name)=="" then
-    name = name .. '.exe'
-  end
-  if pl_path.isabs(name) and pl_path.exists(name) then
-    return pl_path.normpath(name)
-  end
-  local p = storage:state_get_string(K.synctex_bin_dir)
-  if p ~= nil then
-    local full = pl_path.join(p,name)
-    if pl_path.exists(full) then
-      return pl_path.normpath(full), p
-    end
-  end
-  local gh = assert(AUP.TL.gh)
-  p = gh:bin_dir_get()
-  if p ~= nil then
-    local full = pl_path.join(p,name)
-    if pl_path.exists(full) then
-      return pl_path.normpath(full), p
-    end
-  end
-end
+-- --- Class function similar to terminal's `which` for development.
+-- ---
+-- --- If `name` exists, it is returned normalized.
+-- --- The second value returned is the (path to) dev directory, if any.
+-- --- @param name string
+-- --- @return string?
+-- --- @return string?
+-- function Command.which_dev(name)
+--   dbg:printf(9, [[
+-- Command.which_dev name:     %s
+-- ]], name)
+--   assert_string(1, name)
+--   if pl_path.is_windows and pl_path.extension(name)=="" then
+--     name = name .. '.exe'
+--   end
+--   if pl_path.isabs(name) and pl_path.exists(name) then
+--     return pl_path.normpath(name)
+--   end
+--   local p = storage:state_get_string(K.synctex_bin_dir)
+--   if p ~= nil then
+--     local full = pl_path.join(p,name)
+--     if pl_path.exists(full) then
+--       return pl_path.normpath(full), p
+--     end
+--   end
+--   p = Command:bin_dir_get()
+--   if p ~= nil then
+--     local full = pl_path.join(p,name)
+--     if pl_path.exists(full) then
+--       return pl_path.normpath(full), p
+--     end
+--   end
+-- end
 
 --- Initialize an AUP.Command instance
 ---
@@ -339,7 +361,6 @@ end
 
 --- Run the command
 --- @param env table?
---- @return boolean status
 --- @return AUP.Command.Result
 function Command:run(env)
   local L = List()
@@ -380,7 +401,7 @@ function Command:run(env)
   if dbg:level_get() > 9 then
     pl_pretty(status, code, stdout, errout)
   end
-  return Command.Result(status, code, stdout, errout)
+  return Command.Result(self, status, code, stdout, errout)
 end
 
 --- Build the command
@@ -413,6 +434,11 @@ end
 -- )
 
 dbg:write(1, "aup_command loaded")
+
+function Command.tex_bin_get()
+  return TL.current_get():bin_dir_get()
+end
+
 
 return {
   Command = AUP.Command

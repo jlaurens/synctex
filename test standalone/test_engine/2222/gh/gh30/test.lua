@@ -66,7 +66,7 @@ for name in Engine.tex_all() do
     engine = Engine:interaction(InteractionMode.nonstopmode):file(source)
     ---@type AUP.Command.Result
     local result = engine:run()
-    assert(result.status)
+    result:assert_success()
     for _,l in ipairs(splitlines(result.stdout)) do
       if l:find("Fatal format file error; I'm stymied") then
         print("Bad format")
@@ -74,7 +74,7 @@ for name in Engine.tex_all() do
         assert(result.status)
         result:print()
         result = engine:run()
-        assert(result.status)
+        result:assert_success()
       end
     end
     AUP.br{}

@@ -77,10 +77,10 @@ function Engine.year()
 end
 
 --- @class AUP.K
---- @field engine string
---- @field engines string
---- @field exclude_engine string
---- @field exclude_engines string
+--- @field engine 'engine'
+--- @field engines 'engines'
+--- @field exclude_engine 'exclude_engine'
+--- @field exclude_engines 'exclude_engines'
 
 K.engine = 'engine'
 K.engines = 'engines'
@@ -161,10 +161,11 @@ local Dir = AUP.Dir
 --- @param name string
 function Engine:_init(name)
   assert_string(2, name)
+  print('DEBUG', 'name', name)
   local bin_p = Command.which(name)
   assert(bin_p, "Unknown engine "..name)
   if Command.dev and not name:find('latex') then
-    local dev_p, d = Command.which_dev(name)
+    local dev_p, d = Command.which(name)
     if d ~= nil then
       assert(dev_p, "Missing %s in %s"%{name, d})
     end

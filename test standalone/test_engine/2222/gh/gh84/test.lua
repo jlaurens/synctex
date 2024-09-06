@@ -71,7 +71,7 @@ for engine in Engine.tex_all() do
   dbg:write(1, Command.which(engine, Command.tex_bin_get(), true))
   --- @type AUP.Command.Result
   local result = Engine(engine):synctex(-1):interaction(InteractionMode.nonstopmode):file(source):run()
-  assert(result.status)
+  result:assert_success()
   for i,l in ipairs(splitlines(result.stdout)) do
     if match(l, "Synchronize ERROR") then
       printf("Unexpected at line %i: <%s>\n", i, l)
@@ -117,7 +117,7 @@ for name in Engine.tex_all() do
   local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(dest)
   --- @type AUP.Command.Result
   local result = engine:run()
-  assert(result.status)
+  result:assert_success()
   for i,l in ipairs(splitlines(result.stdout)) do
     if match(l, 'Synchronize ERROR') then
       printf('Unexpected at line %i: <%s>\n', i, l)

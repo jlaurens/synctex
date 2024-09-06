@@ -68,11 +68,6 @@ function Src:_init()
   self:super()
 end
 
---- @class AUP.K
---- @field dir string
-
-AUP.K.dir = 'dir'
-
 ---Initialize a source controller helper
 ---@param dir string -- the path to the source directory, must be a string. Can be relative. State compliant.
 function Src:dir_set(dir)
@@ -94,7 +89,7 @@ function Src:dir_get(no_check)
 end
 
 --- @class AUP.K
---- @field relative_Work_dir string
+--- @field relative_Work_dir 'relative_Work_dir'
 
 K.relative_Work_dir = 'relative_Work_dir'
 

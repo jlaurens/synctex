@@ -32,6 +32,11 @@ This file is part of the __SyncTeX__ package testing facilities.
  
 ]===]
 
+--[=====[
+The 2024 distribution does not support `\mathsurround` properly.
+
+--]=====]
+
 local pl_path     = require"pl.path"
 local pl_file     = require"pl.file"
 local pl_stringx  = require"pl.stringx"
@@ -39,7 +44,6 @@ local pl_stringx  = require"pl.stringx"
 local join = pl_path.join
 local read = pl_file.read
 local splitlines = pl_stringx.splitlines
-
 
 ---@class AUP
 local AUP = package.loaded.AUP
@@ -64,7 +68,7 @@ for name in Engine.tex_all() do
   local source = join(cwd, base..".tex")
   local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(source)
   local result = engine:run()
-  assert(result.status)
+  result:assert_success()
   for _,l in ipairs(splitlines(result.stdout)) do
     if l:match("(Fatal format file error; I'm stymied)") then
       print("Bad format")
@@ -72,7 +76,7 @@ for name in Engine.tex_all() do
       assert(result.status)
       result:print()
       result = engine:run()
-      assert(result.status)
+      result:assert_success()
     end
   end
   result:print_stdout()
@@ -97,9 +101,9 @@ for name in Engine.tex_all() do
   if not s then
     units:fail("No .synctex available (cmd: %s)"%{engine:cmd()})
   elseif name:find("lua") then
-    f("$1,7:1111,", "$1,18:1111,")
+    f("$1,7:1023,", "$1,17:1023,")
   else
-    f("$1,7:1111,")
+    f("$1,7:1023,")
   end
 end
 AUP.popd(unit_tmp)

@@ -103,7 +103,7 @@ local raise = pl.utils.raise
 --- @field arguments AUP.Arguments?
 local AUP = {
   _VERSION = '0.1',
-  _DESCRIPTION = 'SyncTeX testing framework',
+  _DESCRIPTION = 'AUPLib SyncTeX testing framework',
   loaded = {},
   pl = pl,
 }
@@ -137,8 +137,8 @@ setmetatable(AUP, {
         module = assert(f())
         t.loaded[lower_key] = module
       end
-      t[key] = module[key]
-      return module[key]
+      t[key] = module[key] or module
+      return t[key]
     end
   end
 })
@@ -324,5 +324,7 @@ AUP.Utils.patch_penlight()
 local pl_class = require"pl.class"
 ---@class AUP.Class: pl.Class
 AUP.Class = pl_class()
+
+kpse.set_program_name('kpsewhich')
 
 print("AUP loaded")

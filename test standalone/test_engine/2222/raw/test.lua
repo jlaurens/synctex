@@ -38,6 +38,7 @@ local dbg = AUP.dbg
 local units = AUP.units
 
 local List    = require"pl.List"
+local pl_dir = require"pl.dir"
 local pl_path = require"pl.path"
 
 -- exclude directories in next list
@@ -64,9 +65,10 @@ for name in Engine.tex_all() do
         local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(n)
         --- @type AUP.Command.Result
         result = engine:run()
+        result:assert_success()
         result:print_stdout()
         if not result.status then
-          result:print_errout()
+          result:print_errout{}
           units:fail('Typesetting error (cmd: %s)'%{engine:cmd()})
         end
         AUP.popd('test')
@@ -80,26 +82,28 @@ end
 -- Typeset the files in the directories named after engine names
 -- Use cases are not straightforward yet
 for name in Engine.tex_all() do
-  local engine_dir = pl.path.abspath(name)
+  local engine_dir = pl_path.abspath(name)
   status, iter, dir_obj = pcall(function()
-    return pl.path.dir(engine_dir)
+    return pl_path.dir(engine_dir)
   end)
   if status then
-    local tmp_dir = pl.path.join(units:tmp_dir_current(), name)
-    pl.dir.makepath(tmp_dir)
+    local tmp_dir = pl_path.join(units:tmp_dir_current(), name)
+    pl_dir.makepath(tmp_dir)
     dbg:write(10,'tmp_dir: '..tmp_dir)
     if AUP.pushd(tmp_dir, 'tmp_raw') then
       while true do
+---@diagnostic disable-next-line: redundant-parameter
         local base = iter(dir_obj)
         if base then
-          if pl.path.extension(base)=='.tex' then
+          if pl_path.extension(base)=='.tex' then
             dbg:write(10,"TYPESETTING "..base)
-            local p = pl.path.abspath(base, engine_dir)
+            local p = pl_path.abspath(base, engine_dir)
             local engine = Engine(name):synctex(-1):interaction(InteractionMode.nonstopmode):file(p)
             result = engine:run()
+            result:assert_success()
             result:print_stdout()
             if not result.status then
-              result:print_errout()
+              result:print_errout{}
               units:fail('Typesetting error (cmd: %s)'%{engine:cmd()})
             end
           end
