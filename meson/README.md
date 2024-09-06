@@ -1,9 +1,9 @@
 # Building and testing the SyncTeX library and the SyncTeX command line tool
 
-The main tool is `meson`, see downloading instructions from the [official meson site](https://mesonbuild.com/).
+The main building and testing tool is `meson`, see downloading instructions from the [official meson site](https://mesonbuild.com/).
 
 ## Clone
-First retrieve the source code. You can use the green code button from the [main SyncTeX page](https://github.com/jlaurens/synctex). If you plan to contribute to the code, it is recommanded to clone the GitHub synctex repository and use GitHub desktop application if available for your operating system.
+First retrieve the source code from GitHub. You can use the green code button from the [main SyncTeX page](https://github.com/jlaurens/synctex). If you plan to contribute to the code, it is recommanded to clone the GitHub synctex repository and use GitHub desktop application if available for your operating system.
 
 ## Building
 Instructions below are given to build the `synctex` command line tool on possibly various operating systems.

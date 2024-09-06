@@ -1,13 +1,17 @@
 # Automated tests of SyncTeX library and SyncTeX command line tool
 
 All the material related to automatic testing is gathered in this folder named `test standalone`.
-We have here two different kinds of tests: those that rely on TeX engines and those that do not. We have the `test_engine` directory for tests related to engines and the `test_library` directory for tests that are not related to engines. The former are generally based on the engine output whereas the latter are based on the `synctex-test` extented variant of `synctex`. These directories are not meant to have a counterpart in TeXLive sources.
+We have here two different kinds of tests: those that rely on TeX engines and those that do not. We have the `test_engine` directory for tests related to engines and the `test_library` directory for tests that are not related to engines. The former are generally based on the engine output whereas the latter are based on the `synctex-test` extented variant of `synctex`.
 
-The `test_dev` folder is used during development of new features. It belongs the development process and should not be distributed. Comments below partly concern this folder.
+These directories are not meant to have a counterpart in TeXLive sources.
 
 ## Structure
 
-Test units are logically gathered in first level subfolders of `test_engine` or `test_library` directories. The name of these subfolders are designated by `⟨suite⟩`. Each subfolder corresponds to one test unit and is designated by `⟨unit⟩`.
+Test units are logically gathered in subfolders of `test_engine` or `test_library` directories. The first level subfolders correspond to the year and are designated by `⟨year⟩`. The names of the second level subfolders are designated by `⟨suite⟩`. Each subsequent subfolder corresponds to one test unit and its name is designated by `⟨unit⟩`.
+
+Tests are inherited by year, in the sense that distribution for year `⟨year⟩` should pass tests for years `⟨year⟩`, `⟨year⟩`-1, `⟨year⟩`-2... Passing tests for `⟨year⟩`+1, `⟨year⟩`+2 is undefined. In case of breaking change, one test can simply override another: when a distribution could pass `⟨year⟩/⟨suite⟩/⟨unit⟩` and `⟨year'⟩/⟨suite⟩/⟨unit⟩`, only the most recent test is checked, the older ones are ignored.
+
+By convention, the `2222` year is used for developing new features of fixes. It denotes the "forthcoming" distribution. The contents is specific to one developer and is not shared.
 
 ## Declaration in `meson.build`
 
@@ -68,7 +72,7 @@ After the `test.lua`,
 
 In addition, `.../test_setup_⟨local⟩.lua` and `.../test_setup_⟨local⟩.lua` are executed when `--local=⟨local⟩` was an argument provided on the command line otherwaise when the environment variable `SYNCTEX_DEV_LOCAL=⟨local⟩` is set.
 These files may contain processing that cannot be shared between developers, for example system dependent processing or configuration dependent processing.
-Particularly useful while during develoment.
+Particularly useful while during develoment, see the `2222` year.
 
 ## Testing framework
 
@@ -85,8 +89,3 @@ This folder is gathering various tests targeting the TeX engine features.
 ### `test_library`
 
 This folder is gathering various tests targeting synctex library features.
-
-### `test_dev`
-
-This folder is gathering various tests for development.
-

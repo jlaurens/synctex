@@ -35,6 +35,7 @@ This file is part of the __SyncTeX__ package testing framework.
 --[=====[
 Here are defined functions to setup the directory layout for installed texlive distributions.
 Installed TeXLive distributions are used for engine and library testing up to year 2222 excluded.
+Year 2222 is used by convention to develop new features of fixes for the forthcopming distribution.
 
 The current TeXlive distribution `AUP.TL.current` is used for library testing.
 It is set up during the testing setup phase. It determines where the typesetting engines are located
