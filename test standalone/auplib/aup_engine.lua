@@ -51,6 +51,8 @@ local Command = AUP.Command
 
 local K = AUP.K
 
+local dbg = AUP.dbg
+
 --- @class AUP.Engine: AUP.Command
 local Engine = pl_class(Command)
 
@@ -167,7 +169,7 @@ function Engine:_init(name)
   if Command.dev and not name:find('latex') then
     local dev_p, d = Command.which(name)
     if d ~= nil then
-      assert(dev_p, "Missing %s in %s"%{name, d})
+      dbg:assert(dev_p, "Missing %s in %s"%{name, d})
     end
     if dev_p ~= nil then
       local touch_p = bin_p..".synctex_touch"

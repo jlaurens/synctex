@@ -49,6 +49,7 @@ local K = AUP.K
 local dbg = AUP.dbg
 
 local List       = require"pl.List"
+local Map        = require"pl.Map"
 local OrderedMap = require"pl.OrderedMap"
 local pl_pretty  = require"pl.pretty"
 local pl_utils   = require"pl.utils"
@@ -117,6 +118,7 @@ end
 --- created `AUP.Test`.
 --- This function is meant to be called ony once for a given root,
 --- and it is meaningless to call it for subtrees.
+--- Exposed but only used to create `AUP.Units` instances.
 --- @param root string
 --- @return pl.OrderedMap of AUP.Test
 function Test.map(root)
@@ -404,6 +406,9 @@ function Units:skip()
 end
 
 --- Initialize an `AUP.Units` instance
+--- 
+---@param test_dir string location of the tests, in practice the `test_standalone` directory.
+---@param arg table
 function Units:_init(test_dir, arg)
   assert_string(1, test_dir)
   assert_string(2, arg.build_dir)

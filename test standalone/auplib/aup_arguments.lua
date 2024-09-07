@@ -218,7 +218,7 @@ function Arguments:_init(arg_list)
   self.build_dir = ''
   self.dev = false
   self.dry = false
-  self.local_value = ''
+  self.local_value = kpse.var_value('SYNCTEX_DEV_LOCAL') or ''
   self.only_term = false
   self.build_gh = false
   self.build_svn = false
@@ -312,10 +312,7 @@ function Arguments:_init(arg_list)
   self._consumed = {}
   assert(#self.build_dir>0, 'Unknown build directory')
   if self.dev then
-    if #self.local_value == 0 then
-      self.local_value = kpse.var_value('SYNCTEX_DEV_LOCAL') or ''
-      dbg:assert(#self.local_value>0, "Missing `--local=⟨...⟩` argument or `SYNCTEX_DEV_LOCAL=⟨...⟩` environment variable")
-    end
+    dbg:assert(#self.local_value>0, "Missing `--local=⟨...⟩` argument or `SYNCTEX_DEV_LOCAL=⟨...⟩` environment variable")
   end
 end
 

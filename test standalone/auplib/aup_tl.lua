@@ -45,6 +45,7 @@ depending on the `AUP.Command.Path`.
 local pl_class      = require"pl.class"
 local pl_utils      = require"pl.utils"
 local pl_path       = require"pl.path"
+local List          = require"pl.List"
 local Map           = require"pl.Map"
 local assert_string = pl_utils.assert_string
 
@@ -59,7 +60,7 @@ local TL = pl_class(AUP.State.Compliant)
 
 AUP.TL = TL
 
----Initialize a texlive disrtibution controller
+---Initialize a texlive distribution controller
 --- @param year string|integer?
 function TL:_init(year)
   self:super()
@@ -126,7 +127,18 @@ function TL:bin_dir_get(no_check)
 end
 
 ---Set the `dir_for_year` function
----@param f fun(year: string|integer): string
+---
+---Static method. No runtime check is made for the argument.
+---@param year string|integer
+---@return string
+function TL.dir_for_year(year)
+  error('Missing call to TL.set_dir_for_year',2)
+end
+
+---Set the `dir_for_year` function
+---
+---Static method. No runtime check is made for the argument.
+---@param f fun(year: string|integer): string Given a year, return a path, see for example `test_setup_macOSX.lua`.
 function TL.set_dir_for_year(f)
   TL.dir_for_year = f
 end
@@ -135,6 +147,14 @@ end
 --- @param year string|integer
 function TL:set_year(year)
   self:dir_set(TL.dir_for_year(year))
+end
+
+--- Whether the distribution is installed
+--- 
+--- Equivalently whether there is a binaries directory.
+function TL:is_installed()
+  local dir = self:bin_dir_get(true)
+  return pl_path.isdir(dir)
 end
 
 do
@@ -151,6 +171,42 @@ do
       map[year] = by_year
     end
     return by_year
+  end
+
+  --- Get the installed distributions
+  ---
+  --- Iterator over all the installed distributions up to the current year.
+  --- Starts from year `2024`, ends with the current year.
+  --- @return fun(): AUP.TL?
+  function TL.installed()
+    --- @type [AUP.TL]
+    local ans = {}
+    local last = tonumber(os.date('*t').year)
+    for year=2024,last do
+      local tl = map[year]
+      if tl then
+        ans[#ans] = tl
+      else
+        tl = TL(year)
+        if tl:is_installed() then
+          local y = tostring(year)
+          map[y] = tl
+          ans[#ans] = tl
+        end
+      end
+    end
+    TL.installed = function()
+      local i = 0
+      return function()
+        i = i+1
+        return ans[i]
+      end
+    end
+    local i = 0
+    return function()
+      i = i+1
+      return ans[i]
+    end
   end
 
 end
