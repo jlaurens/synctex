@@ -1337,6 +1337,10 @@ struct _synctex_scanner_t {
     float y_offset;
     /** The first input node, its siblings are the other input nodes */
     synctex_node_p input;
+    /** The array of input nodes, indexed by tag (it is not necessary to keep the linked list once the array exists but no harm either) */
+    synctex_node_p * input_array;
+    /** The capacity of the array */
+    size_t input_array_capacity;
     /** The first sheet node, its siblings are the other sheet nodes */
     synctex_node_p sheet;
     /** The first form, its siblings are the other forms */
@@ -4922,6 +4926,25 @@ static _synctex_ns_s __synctex_parse_new_input(synctex_scanner_p scanner) {
     /*  Prepend this input node to the input linked list of the scanner */
     __synctex_tree_set_sibling(input,scanner->input);/* input has no parent */
     scanner->input = input;
+    /*  Add this input node to the input array of the scanner */
+    int tag = _synctex_data_tag(input);
+    if (tag >= scanner->input_array_capacity) {
+        size_t new_capacity = 2 * scanner->input_array_capacity;
+        if (new_capacity <= tag) {
+            new_capacity = tag + 1;
+        }
+        synctex_node_p * new_input_array = (synctex_node_p *)_synctex_malloc(new_capacity * sizeof(synctex_node_p));
+        if (NULL == new_input_array) {
+            _synctex_error("Out of memory.");
+            _synctex_node_free(input);
+            return (_synctex_ns_s){NULL,SYNCTEX_STATUS_ERROR};
+        }
+        memcpy(new_input_array,scanner->input_array,scanner->input_array_capacity * sizeof(synctex_node_p));
+        scanner->input_array_capacity = new_capacity;
+        _synctex_free(scanner->input_array);
+        scanner->input_array = new_input_array;
+    }
+    scanner->input_array[tag] = input;
 #   if SYNCTEX_VERBOSE
     synctex_node_log(input);
 #   endif
@@ -6970,14 +6993,13 @@ synctex_node_p synctex_scanner_input(synctex_scanner_p scanner) {
     return scanner?scanner->input:NULL;
 }
 synctex_node_p synctex_scanner_input_with_tag(synctex_scanner_p scanner, int tag) {
-    synctex_node_p input = scanner?scanner->input:NULL;
-    while (_synctex_data_tag(input)!=tag) {
-        if ((input = __synctex_tree_sibling(input))) {
-            continue;
-        }
-        break;
+    if (!scanner) {
+        return NULL;
     }
-    return input;
+    if ((size_t)tag >= scanner->input_array_capacity) {
+        return NULL;
+    }
+    return scanner->input_array[tag];
 }
 const char * synctex_scanner_get_output_fmt(synctex_scanner_p scanner) {
     return NULL != scanner && scanner->output_fmt?scanner->output_fmt:"";
