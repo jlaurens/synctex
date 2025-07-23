@@ -1768,9 +1768,6 @@ static const _synctex_data_model_s synctex_data_model_input = {
     synctex_data_input_tln_max,
 };
 
-#define SYNCTEX_INSPECTOR_GETTER_F(WHAT)\
-&_synctex_data_##WHAT, &_synctex_data_set_##WHAT
-
 static synctex_node_p _synctex_new_input(synctex_scanner_p scanner);
 static void _synctex_free_input(synctex_node_p node);
 static void _synctex_log_input(synctex_node_p node);
