@@ -51,25 +51,27 @@
 /*  Here are the control characters that strat each line of the synctex output file.
  *  Their values define the meaning of the line.
  */
-#   define SYNCTEX_CHAR_BEGIN_SHEET '{'
-#   define SYNCTEX_CHAR_END_SHEET   '}'
-#   define SYNCTEX_CHAR_BEGIN_FORM  '<'
-#   define SYNCTEX_CHAR_END_FORM    '>'
-#   define SYNCTEX_CHAR_BEGIN_VBOX  '['
-#   define SYNCTEX_CHAR_END_VBOX    ']'
-#   define SYNCTEX_CHAR_BEGIN_HBOX  '('
-#   define SYNCTEX_CHAR_END_HBOX    ')'
-#   define SYNCTEX_CHAR_ANCHOR      '!'
-#   define SYNCTEX_CHAR_VOID_VBOX   'v'
-#   define SYNCTEX_CHAR_VOID_HBOX   'h'
-#   define SYNCTEX_CHAR_KERN        'k'
-#   define SYNCTEX_CHAR_GLUE        'g'
-#   define SYNCTEX_CHAR_RULE        'r'
-#   define SYNCTEX_CHAR_MATH        '$'
-#   define SYNCTEX_CHAR_FORM_REF    'f'
-#   define SYNCTEX_CHAR_BOUNDARY    'x'
-#   define SYNCTEX_CHAR_CHARACTER   'c'
-#   define SYNCTEX_CHAR_COMMENT     '%'
+// clang-format off
+#define SYNCTEX_CHAR_BEGIN_SHEET '{'
+#define SYNCTEX_CHAR_END_SHEET   '}'
+#define SYNCTEX_CHAR_BEGIN_FORM  '<'
+#define SYNCTEX_CHAR_END_FORM    '>'
+#define SYNCTEX_CHAR_BEGIN_VBOX  '['
+#define SYNCTEX_CHAR_END_VBOX    ']'
+#define SYNCTEX_CHAR_BEGIN_HBOX  '('
+#define SYNCTEX_CHAR_END_HBOX    ')'
+#define SYNCTEX_CHAR_ANCHOR      '!'
+#define SYNCTEX_CHAR_VOID_VBOX   'v'
+#define SYNCTEX_CHAR_VOID_HBOX   'h'
+#define SYNCTEX_CHAR_KERN        'k'
+#define SYNCTEX_CHAR_GLUE        'g'
+#define SYNCTEX_CHAR_RULE        'r'
+#define SYNCTEX_CHAR_MATH        '$'
+#define SYNCTEX_CHAR_FORM_REF    'f'
+#define SYNCTEX_CHAR_BOUNDARY    'x'
+#define SYNCTEX_CHAR_CHARACTER   'c'
+#define SYNCTEX_CHAR_COMMENT     '%'
+// clang-format on
 
 #   if !defined(_SYNCTEX_ONLY_CHAR_DEFINITION_)
 
