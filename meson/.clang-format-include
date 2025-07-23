@@ -1,0 +1,7 @@
+# Since the meson & sources directory structure is kind of backwards,
+# we need to explicitly include files in the parent directory
+../*.c
+../*.h
+
+../synctex test files/code/*.c
+../synctex test files/code/*.h
