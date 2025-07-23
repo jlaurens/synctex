@@ -1745,7 +1745,7 @@ static const _synctex_tree_model_s synctex_tree_model_input = {
     -1, /* next_hbox */
     -1, /* arg_sibling */
     -1, /* target */
-    synctex_tree_s_input_max
+    synctex_tree_s_input_max,
 };
 static const _synctex_data_model_s synctex_data_model_input = {
     synctex_data_input_tag_idx, /* tag */
@@ -1765,7 +1765,7 @@ static const _synctex_data_model_s synctex_data_model_input = {
     -1, /* depth_V */
     synctex_data_input_name_idx, /* name */
     -1, /* page */
-    synctex_data_input_tln_max
+    synctex_data_input_tln_max,
 };
 
 #define SYNCTEX_INSPECTOR_GETTER_F(WHAT)\
@@ -1900,7 +1900,7 @@ static const _synctex_tree_model_s synctex_tree_model_sheet = {
     synctex_tree_sc_next_hbox_idx, /* next_hbox */
     -1, /* arg_sibling */
     -1, /* target */
-    synctex_tree_scn_sheet_max
+    synctex_tree_scn_sheet_max,
 };
 static const _synctex_data_model_s synctex_data_model_sheet = {
     -1, /* tag */
@@ -1920,7 +1920,7 @@ static const _synctex_data_model_s synctex_data_model_sheet = {
     -1, /* depth_V */
     -1, /* name */
     synctex_data_sheet_page_idx, /* page */
-    synctex_data_p_sheet_max
+    synctex_data_p_sheet_max,
 };
 static _synctex_class_s _synctex_class_sheet = {
     NULL,                       /*  No scanner yet */
@@ -1964,7 +1964,7 @@ static const _synctex_tree_model_s synctex_tree_model_form = {
     -1, /* next_hbox */
     -1, /* arg_sibling */
     synctex_tree_sc_target_idx, /* target */
-    synctex_tree_sct_form_max
+    synctex_tree_sct_form_max,
 };
 static const _synctex_data_model_s synctex_data_model_form = {
     synctex_data_form_tag_idx, /* tag */
@@ -1984,7 +1984,7 @@ static const _synctex_data_model_s synctex_data_model_form = {
     -1, /* depth_V */
     -1, /* name */
     -1, /* page */
-    synctex_data_t_form_max
+    synctex_data_t_form_max,
 };
 
 static const _synctex_tlcpector_s synctex_tlcpector_form = {
@@ -2038,7 +2038,7 @@ static const _synctex_tree_model_s synctex_tree_model_vbox = {
     -1, /* next_hbox */
     -1, /* arg_sibling */
     -1, /* target */
-    synctex_tree_spcfl_vbox_max
+    synctex_tree_spcfl_vbox_max,
 };
 
 #define SYNCTEX_DFLT_COLUMN -1
@@ -2095,7 +2095,7 @@ static const _synctex_data_model_s synctex_data_model_box = {
     -1, /* depth_V */
     -1, /* name */
     -1, /* page */
-    synctex_data_box_max
+    synctex_data_box_max,
 };
 static const _synctex_tlcpector_s synctex_tlcpector_default = {
     &_synctex_data_tag, /* tag */
@@ -2154,7 +2154,7 @@ static const _synctex_tree_model_s synctex_tree_model_hbox = {
     synctex_tree_spcfl_next_hbox_idx, /* next_hbox */
     -1, /* arg_sibling */
     -1, /* target */
-    synctex_tree_spcfln_hbox_max
+    synctex_tree_spcfln_hbox_max,
 };
 
 DEFINE_SYNCTEX_DATA_INT_GETSET(mean_line)
@@ -2194,7 +2194,7 @@ static const _synctex_data_model_s synctex_data_model_hbox = {
     synctex_data_depth_V_idx, /* depth_V */
     -1, /* name */
     -1, /* page */
-    synctex_data_hbox_max
+    synctex_data_hbox_max,
 };
 
 typedef struct {
@@ -2241,7 +2241,7 @@ static const _synctex_tree_model_s synctex_tree_model_spf = {
     -1, /* next_hbox */
     -1, /* arg_sibling */
     -1, /* target */
-    synctex_tree_spf_max
+    synctex_tree_spf_max,
 };
 typedef struct {
     SYNCTEX_DECLARE_CHARINDEX
@@ -2325,7 +2325,7 @@ static const _synctex_tree_model_s synctex_tree_model_spfa = {
     -1, /* next_hbox */
     synctex_tree_spf_arg_sibling_idx, /* arg_sibling */
     -1, /* target */
-    synctex_tree_spfa_max
+    synctex_tree_spfa_max,
 };
 static const _synctex_data_model_s synctex_data_model_ref = {
     synctex_data_tag_idx, /* tag */
@@ -2345,7 +2345,7 @@ static const _synctex_data_model_s synctex_data_model_ref = {
     -1, /* depth_V */
     -1, /* name */
     -1, /* page */
-    synctex_data_ref_thv_max /* size */
+    synctex_data_ref_thv_max, /* size */
 };
 static _synctex_class_s _synctex_class_ref = {
     NULL,                       /*  No scanner yet */
@@ -2384,7 +2384,7 @@ static const _synctex_data_model_s synctex_data_model_tlchv = {
     -1, /* depth_V */
     -1, /* name */
     -1, /* page */
-    synctex_data_tlchv_max
+    synctex_data_tlchv_max,
 };
 
 typedef struct {
@@ -2458,7 +2458,7 @@ static const _synctex_data_model_s synctex_data_model_tlchvw = {
     -1, /* depth_V */
     -1, /* name */
     -1, /* page */
-    synctex_data_tlchvw_max
+    synctex_data_tlchvw_max,
 };
 typedef struct {
     SYNCTEX_DECLARE_CHARINDEX
@@ -2730,7 +2730,7 @@ static const _synctex_tree_model_s synctex_tree_model_proxy_hbox = {
     synctex_tree_spcfl_next_hbox_idx,   /* next_hbox */
     -1, /* arg_sibling */
     synctex_tree_spcfln_target_idx, /* target */
-    synctex_tree_spcflnt_proxy_hbox_max
+    synctex_tree_spcflnt_proxy_hbox_max,
 };
 static const _synctex_data_model_s synctex_data_model_proxy = {
     -1, /* tag */
@@ -2750,7 +2750,7 @@ static const _synctex_data_model_s synctex_data_model_proxy = {
     -1, /* depth_V */
     -1, /* name */
     -1, /* page */
-    synctex_data_proxy_hv_max
+    synctex_data_proxy_hv_max,
 };
 typedef struct {
     SYNCTEX_DECLARE_CHARINDEX
@@ -2831,7 +2831,7 @@ static const _synctex_tree_model_s synctex_tree_model_proxy_vbox = {
     -1, /* next_hbox */
     -1, /* arg_sibling */
     synctex_tree_spcfl_target_idx,    /* target */
-    synctex_tree_spcflt_proxy_vbox_max
+    synctex_tree_spcflt_proxy_vbox_max,
 };
 
 typedef struct {
@@ -2879,7 +2879,7 @@ static const _synctex_tree_model_s synctex_tree_model_proxy = {
     -1, /* next_hbox */
     -1, /* arg_sibling */
     synctex_tree_spf_target_idx,/* target */
-    synctex_tree_spft_proxy_max
+    synctex_tree_spft_proxy_max,
 };
 
 typedef struct {
@@ -2935,7 +2935,7 @@ static const _synctex_tree_model_s synctex_tree_model_proxy_last = {
     -1, /* next_hbox */
     synctex_tree_spf_arg_sibling_idx, /* arg_sibling */
     synctex_tree_spfa_target_idx,     /* target */
-    synctex_tree_spfat_proxy_last_max
+    synctex_tree_spfat_proxy_last_max,
 };
 
 typedef struct {
@@ -2988,7 +2988,7 @@ static const _synctex_tree_model_s synctex_tree_model_handle = {
     -1, /* next_hbox */
     -1, /* arg_sibling */
     synctex_tree_spc_target_idx,/* target */
-    synctex_tree_spct_handle_max
+    synctex_tree_spct_handle_max,
 };
 
 static const _synctex_data_model_s synctex_data_model_handle = {
@@ -3009,7 +3009,7 @@ static const _synctex_data_model_s synctex_data_model_handle = {
     -1, /* depth_V */
     -1, /* name */
     -1, /* page */
-    synctex_data_handle_w_max
+    synctex_data_handle_w_max,
 };
 
 typedef struct {
