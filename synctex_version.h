@@ -47,29 +47,28 @@ I would appreciate to be listed as contributor and see "__SyncTeX__" highlighted
 */
 
 #ifndef _SYNCTEX_VERSION_H_
-#   define _SYNCTEX_VERSION_H_
+#define _SYNCTEX_VERSION_H_
 
 /* The version of .synctex files contents. */
-#   define SYNCTEX_VERSION 1
-#   define SYNCTEX_FILE_VERSION SYNCTEX_VERSION
-
+#define SYNCTEX_VERSION 1
+#define SYNCTEX_FILE_VERSION SYNCTEX_VERSION
 
 /* The version of the synctex parser library */
-#   define SYNCTEX_VERSION_MAJOR 1
-#   define SYNCTEX_VERSION_MINOR 30
+#define SYNCTEX_VERSION_MAJOR 1
+#define SYNCTEX_VERSION_MINOR 30
 
 /* Keep next value in synch with `synctex_parser_version.txt` contents. */
-#   define SYNCTEX_VERSION_STRING "1.30"
+#define SYNCTEX_VERSION_STRING "1.30"
 
 /* The version of the synctex CLI tool */
-#   define SYNCTEX_CLI_VERSION_MAJOR 1
-#   define SYNCTEX_CLI_VERSION_MINOR 7
-#   define SYNCTEX_CLI_VERSION_STRING "1.7"
+#define SYNCTEX_CLI_VERSION_MAJOR 1
+#define SYNCTEX_CLI_VERSION_MINOR 7
+#define SYNCTEX_CLI_VERSION_STRING "1.7"
 
 /* The version of the synctex support,
  * how synctex is embedded in various TeX engines. */
-#   define SYNCTEX_SUPPORT_VERSION_MAJOR 1
-#   define SYNCTEX_SUPPORT_VERSION_MINOR 0
-#   define SYNCTEX_SUPPORT_VERSION_STRING "1.0"
+#define SYNCTEX_SUPPORT_VERSION_MAJOR 1
+#define SYNCTEX_SUPPORT_VERSION_MINOR 0
+#define SYNCTEX_SUPPORT_VERSION_STRING "1.0"
 
 #endif

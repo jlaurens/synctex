@@ -47,7 +47,8 @@
 #include "synctex_parser_private.h"
 #include "synctex_parser_utils.h"
 
-int synctex_parser_test_all() {
+int synctex_parser_test_all()
+{
     int TC = 0;
     synctex_scanner_p scanner = synctex_scanner_new();
     /*  Here we assume that int are smaller than void * */
@@ -67,7 +68,7 @@ int synctex_parser_test_all() {
     TC += synctex_test_sheet_2();
     TC += synctex_test_charindex();
     TC += synctex_test_form();
-/*
- */
+    /*
+     */
     return TC;
 }
