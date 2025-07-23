@@ -9684,6 +9684,19 @@ int synctex_scanner_dump(synctex_scanner_p scanner, synctex_printer_f printer) {
     return 0;
 }
 
+#define SYNCTEX_TMP_ITLHV \
+                synctex_node_isa(node),\
+                synctex_node_tag(node),\
+                synctex_node_line(node),\
+                synctex_node_h(node),\
+                synctex_node_v(node)
+
+#define SYNCTEX_TMP_ITLHVWHD \
+                SYNCTEX_TMP_ITLHV,\
+                synctex_node_width(node),\
+                synctex_node_height(node),\
+                synctex_node_depth(node)
+
 static void _synctex_node_dump(
     synctex_node_p node,
     synctex_printer_f printer,
@@ -9696,17 +9709,6 @@ static void _synctex_node_dump(
                 "%s%c%s:%i:%i:%i:%i:%i\n",
                 prefix+20-*depth,
                 SYNCTEX_CHAR_BEGIN_VBOX,
-#define SYNCTEX_TMP_ITLHV \
-                synctex_node_isa(node),\
-                synctex_node_tag(node),\
-                synctex_node_line(node),\
-                synctex_node_h(node),\
-                synctex_node_v(node)
-#define SYNCTEX_TMP_ITLHVWHD \
-                SYNCTEX_TMP_ITLHV,\
-                synctex_node_width(node),\
-                synctex_node_height(node),\
-                synctex_node_depth(node)
                 SYNCTEX_TMP_ITLHVWHD
             );
             //
