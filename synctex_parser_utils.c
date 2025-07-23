@@ -1,15 +1,15 @@
-/* 
+/*
  Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
- 
+
  This file is part of the __SyncTeX__ package.
- 
+
  Version: see synctex_version.h
  Latest Revision: Thu Mar 21 14:12:58 UTC 2024
 
  See `synctex_parser_readme.md` for more details
- 
+
  ## License
- 
+
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
  files (the "Software"), to deal in the Software without
@@ -18,10 +18,10 @@
  copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following
  conditions:
- 
+
  The above copyright notice and this permission notice shall be
  included in all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,7 +30,7 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE
- 
+
  Except as contained in this notice, the name of the copyright holder
  shall not be used in advertising or otherwise to promote the sale,
  use or other dealings in this Software without prior written
@@ -371,7 +371,7 @@ char * _synctex_merge_strings(const char * first,...) {
 		_synctex_error("!  _synctex_merge_strings: Memory problem");
 		return NULL;
 	}
-	return NULL;	
+	return NULL;
 }
 
 /*  The purpose of _synctex_get_name is to find the name of the synctex file.
@@ -552,7 +552,7 @@ int _synctex_get_name(const char * output, const char * build_directory, char **
 }
 
 const char * _synctex_get_io_mode_name(synctex_io_mode_t io_mode) {
-    static const char * synctex_io_modes[4] = {"r","rb","a","ab"}; 
+    static const char * synctex_io_modes[4] = {"r","rb","a","ab"};
     unsigned index = ((io_mode & synctex_io_gz_mask)?1:0) + ((io_mode & synctex_io_append_mask)?2:0);// bug pointed out by Jose Alliste
     return synctex_io_modes[index];
 }
@@ -564,7 +564,7 @@ static int _synctex_parse_int_C(char * ptr, char ** endptr) {
 }
 /**
  * This was initially suggested by user202729.
- * 
+ *
  */
 static int _synctex_parse_int_raw1(char * ptr, char ** endptr) {
   int result = 0;

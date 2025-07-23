@@ -1,15 +1,15 @@
 /*
  Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
- 
+
  This file is part of the __SyncTeX__ package.
- 
+
  Version: see synctex_version.h
  Latest Revision: Thu Mar 21 14:12:58 UTC 2024
 
  See `synctex_parser_readme.md` for more details
- 
+
  ## License
- 
+
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
  files (the "Software"), to deal in the Software without
@@ -18,10 +18,10 @@
  copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following
  conditions:
- 
+
  The above copyright notice and this permission notice shall be
  included in all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,22 +30,22 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE
- 
+
  Except as contained in this notice, the name of the copyright holder
  shall not be used in advertising or otherwise to promote the sale,
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
- 
+
  Acknowledgments:
  ----------------
  The author received useful remarks from the pdfTeX developers, especially Hahn The Thanh,
  and significant help from XeTeX developer Jonathan Kew
- 
+
  Nota Bene:
  ----------
  If you include or use a significant part of the synctex package into a software,
  I would appreciate to be listed as contributor and see "SyncTeX" highlighted.
- 
+
  */
 
 /*  We assume that high level application like pdf viewers will want
@@ -147,7 +147,7 @@ typedef char *(*_synctex_node_str_f)(synctex_node_p);
 /**
  * @brief A tree model structure
  * @author: Jérôme LAURENS
- * 
+ *
  * 8 fields + size: `spcflnat` referring to the first letters of each field.
  */
 typedef struct synctex_tree_model_t {
@@ -206,13 +206,13 @@ typedef const _synctex_data_model_s * _synctex_data_model_p;
 /**
  * @brief node -> integer function type
  * @author: Jérôme LAURENS
- * 
+ *
  */
 typedef int (*_synctex_int_getter_f)(synctex_node_p);
 
 /**
  * @brief tlc inspector structure
- * 
+ *
  */
 typedef struct _synctex_tlcpector_t {
     /** tag getter */
@@ -235,7 +235,7 @@ static const _synctex_tlcpector_s synctex_tlcpector_none = {
 
 /**
  * @brief Geometry inspector structure
- * 
+ *
  */
 typedef struct _synctex_inspector_t {
     /** h getter */
@@ -261,7 +261,7 @@ static const _synctex_inspector_s synctex_inspector_none = {
 typedef float (*_synctex_float_getter_f)(synctex_node_p);
 /**
  * @brief vi inspector data structure.
- * 
+ *
  */
 typedef struct _synctex_vispector_t {
     /** h attribute getter */
@@ -491,7 +491,7 @@ DEFINE_SYNCTEX_TREE_RESET(WHAT)
 
 /*
  *  _synctex_tree_set_... methods return the old value.
- *  The return value of _synctex_tree_set_child and 
+ *  The return value of _synctex_tree_set_child and
  *  _synctex_tree_set_sibling must be released somehow.
  */
 /* The next macro call creates:
@@ -512,7 +512,7 @@ DEFINE_SYNCTEX_TREE_RESET(WHAT)
     @param node
     @param sibling
     @return old sibling if any
-    
+
     Private function.
     Set the sibling of the given node assuming the node type declares a sibling.
     When the sibling is not `NULL`, it is owned by the node.
@@ -523,7 +523,7 @@ DEFINE_SYNCTEX_TREE_RESET(WHAT)
     @brief Reset the sibling of the given node.
     @param node
     @return sibling
-    
+
     Private function.
     Set the sibling of the given node to NULL assuming the node type
     declares a sibling.
@@ -571,10 +571,10 @@ DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
     @param node
     @param parent
     @return node
-    
+
     Private function.
     Set the parent of the given node assuming the node type declares a parent.
-    The node is not yet the child of the parent: 
+    The node is not yet the child of the parent:
     `__synctex_tree_set_child` must also be called.
     When the parent is not `NULL`, it is the owner of the node.
 */
@@ -583,12 +583,12 @@ DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
     @param node
     @param parent
     @return node
-    
+
     Private function.
     If the the node type declares a parent, set it to the given node.
     In that case, set the parent of the given node.
     When the parent is not `NULL`, it becomes the owner of the node.
-    The node is not yet the child of the parent: 
+    The node is not yet the child of the parent:
     `__synctex_tree_set_child` must also be called.
     The old child must be managed as well, if any.
     If the the node type does not declare a parent,
@@ -598,7 +598,7 @@ DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
     @brief Reset the parent of the given node.
     @param node
     @return old parent
-    
+
     Private function.
     Synonym of `__synctex_tree_set_parent` to `NULL`.
 */
@@ -606,7 +606,7 @@ DEFINE_SYNCTEX_TREE__GETSETRESET(sibling)
     @brief Reset the parent of the given node.
     @param node
     @return old parent
-    
+
     Private function.
     Synonym of `_synctex_tree_set_parent` to `NULL`.
 */
@@ -641,10 +641,10 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(parent)
     @param node
     @param child
     @return old child
-    
+
     Private function.
     Set the child of the given node assuming the node type declares a child.
-    The node is not yet the parent of the child: 
+    The node is not yet the parent of the child:
     `__synctex_tree_set_parent` must also be called.
     When the child is not `NULL`, it is owned by the node.
 */
@@ -653,11 +653,11 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(parent)
     @param node
     @param child
     @return old child
-    
+
     Private function.
     If the the node type declares a child, set it to the given node.
     When the child is not `NULL`, it becomes owned by the node.
-    The node is not yet the parent of the child: 
+    The node is not yet the parent of the child:
     `__synctex_tree_set_parent` must also be called.
     The old child must be managed as well, if any.
     If the the node type does not declare a child,
@@ -667,7 +667,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(parent)
     @brief Reset the child of the given node.
     @param node
     @return old child
-    
+
     Private function.
     Synonym of `__synctex_tree_set_child` to `NULL`.
 */
@@ -675,7 +675,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(parent)
     @brief Reset the child of the given node.
     @param node
     @return old child
-    
+
     Private function.
     Synonym of `_synctex_tree_set_child` to `NULL`.
 */
@@ -710,7 +710,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(child)
     @param node
     @param friend
     @return old friend
-    
+
     Private function.
     Set the friend of the given node assuming the node type declares a friend.
 */
@@ -719,7 +719,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(child)
     @param node
     @param friend
     @return old friend
-    
+
     Private function.
     If the the node type declares a friend, set it to the given node.
     If the the node type does not declare a friend,
@@ -729,7 +729,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(child)
     @brief Reset the friend of the given node.
     @param node
     @return old friend
-    
+
     Private function.
     Synonym of `__synctex_tree_set_friend` to `NULL`.
 */
@@ -737,7 +737,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(child)
     @brief Reset the friend of the given node.
     @param node
     @return old friend
-    
+
     Private function.
     Synonym of `_synctex_tree_set_friend` to `NULL`.
 */
@@ -780,7 +780,7 @@ DEFINE_SYNCTEX_TREE_GETSET(last)
     @param node
     @param last
     @return old last
-    
+
     Private function.
     Set the last of the given node assuming the node type declares a last node.
 */
@@ -789,7 +789,7 @@ DEFINE_SYNCTEX_TREE_GETSET(last)
     @param node
     @param last
     @return old last
-    
+
     Private function.
     If the the node type declares a last node, set it to the given node.
     If the the node type does not declare a last node,
@@ -826,7 +826,7 @@ DEFINE_SYNCTEX_TREE_GETSET(next_hbox)
     @param node
     @param next_hbox
     @return old next_hbox
-    
+
     Private function.
     Set the next_hbox of the given node assuming the node type declares a next_hbox node.
 */
@@ -835,7 +835,7 @@ DEFINE_SYNCTEX_TREE_GETSET(next_hbox)
     @param node
     @param next_hbox
     @return old next_hbox
-    
+
     Private function.
     If the the node type declares a next_hbox node, set it to the given node.
     If the the node type does not declare a next_hbox node,
@@ -872,7 +872,7 @@ DEFINE_SYNCTEX_TREE_GETSET(arg_sibling)
     @param node
     @param arg_sibling
     @return old arg_sibling
-    
+
     Private function.
     Set the arg_sibling of the given node assuming the node type declares a arg_sibling node.
 */
@@ -881,7 +881,7 @@ DEFINE_SYNCTEX_TREE_GETSET(arg_sibling)
     @param node
     @param arg_sibling
     @return old arg_sibling
-    
+
     Private function.
     If the the node type declares a arg_sibling node, set it to the given node.
     If the the node type does not declare a arg_sibling node,
@@ -918,7 +918,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(target)
     @param node
     @param target
     @return old target
-    
+
     Private function.
     Set the target of the given node assuming the node type declares a target node.
 */
@@ -927,7 +927,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(target)
     @param node
     @param target
     @return old target
-    
+
     Private function.
     If the the node type declares a target node, set it to the given node.
     If the the node type does not declare a target node,
@@ -1000,7 +1000,7 @@ DEFINE_SYNCTEX_TREE_GETSETRESET(target)
 
 /**
  * @brief Data structure fot a file reader
- * 
+ *
  */
 typedef struct _synctex_reader_t {
     /** The (possibly compressed) file */
@@ -1028,13 +1028,13 @@ typedef struct _synctex_reader_t {
 
 /**
  * @brief Reader structure
- * 
+ *
  */
 typedef _synctex_reader_s * synctex_reader_p;
 
 /**
  * @brief Return structure
- * 
+ *
  * This is the return structure of the open functions.
  */
 typedef struct {
@@ -1295,7 +1295,7 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
 
 /**
  *  The synctex scanner is the root object.
- * 
+ *
  *  Is is initialized with the contents of a text file or a gzipped file.
  *  The buffer_.* are first used to parse the text.
  */
@@ -1341,7 +1341,7 @@ struct _synctex_scanner_t {
     synctex_node_p sheet;
     /** The first form, its siblings are the other forms */
     synctex_node_p form;
-    /** The first form ref node in sheet, its friends are the other form ref nodes */    
+    /** The first form ref node in sheet, its friends are the other form ref nodes */
     synctex_node_p ref_in_sheet;
     /** The first form ref node, its friends are the other form ref nodes in sheet */
     synctex_node_p ref_in_form;
@@ -1361,10 +1361,10 @@ struct _synctex_scanner_t {
 
 /**
  * @brief Create a new node of the given type.
- * 
- * @param scanner 
+ *
+ * @param scanner
  * @param type no type checking
- * @return synctex_node_p 
+ * @return synctex_node_p
  */
 synctex_node_p synctex_node_new(synctex_scanner_p scanner, synctex_node_type_t type) {
     return scanner? scanner->class_[type].new(scanner):NULL;
@@ -1422,7 +1422,7 @@ SYNCTEX_INLINE static void _synctex_will_free(synctex_node_p node) {
  *  - note: a node is meant to own its child and sibling.
  *  It is not owned by its parent, unless it is its first child.
  *  This destructor is for all nodes with children.
- * 
+ *
  * There is no recursion.
  * TODO: Here we cherry pick nodes to be freed one by one.
  * The memory management should be enhanced to free everything all at once,
@@ -1595,7 +1595,7 @@ static _synctex_is_s _synctex_decode_int_v(synctex_scanner_p scanner);
 
 /**
  * @brief String+status structure.
- * 
+ *
  * Used to return multiple values from functions.
  */
 typedef struct {
@@ -1800,7 +1800,7 @@ static _synctex_class_s _synctex_class_input = {
 
 /**
  * @brief Input node structure
- * 
+ *
  */
 typedef struct {
     SYNCTEX_DECLARE_CHARINDEX
@@ -1810,9 +1810,9 @@ typedef struct {
 
 /**
  * @brief Input node constructor
- * 
- * @param scanner 
- * @return synctex_node_p 
+ *
+ * @param scanner
+ * @return synctex_node_p
  */
 static synctex_node_p _synctex_new_input(synctex_scanner_p scanner) {
     if (scanner) {
@@ -1830,8 +1830,8 @@ static synctex_node_p _synctex_new_input(synctex_scanner_p scanner) {
 
 /**
  * @brief Input node destructor
- * 
- * @param node 
+ *
+ * @param node
  */
 static void _synctex_free_input(synctex_node_p node){
     if (node) {
@@ -2710,7 +2710,7 @@ static _synctex_class_s _synctex_class_box_bdry = {
  *  After all the refs are replaced, there are only root nodes
  *  targeting standard node. We make sure that each child proxy
  *  also targets a standard node.
- *  It is possible for a proxy to have a standard sibling 
+ *  It is possible for a proxy to have a standard sibling
  *  whereas its target has no sibling at all. Root proxies
  *  are such nodes, and are the only ones.
  *  The consequence is that proxies created on the fly
@@ -4428,7 +4428,7 @@ static void _synctex_display_handle(synctex_node_p node) {
 #   endif
 /**
  * @brief size+status structure
- * 
+ *
  * Used to return multiple values from a function.
  */
 typedef struct {
@@ -4443,7 +4443,7 @@ static synctex_status_t _synctex_match_string(synctex_scanner_p scanner, const c
 
 /**
  * @brief node+status structure
- * 
+ *
  * Used to return multiple values from a function.
  */
 typedef struct {
@@ -4456,7 +4456,7 @@ static _synctex_ns_s __synctex_parse_new_input(synctex_scanner_p scanner);
 static synctex_status_t _synctex_scan_preamble(synctex_scanner_p scanner);
 /**
  * @brief float+status structure
- * 
+ *
  * Used to return multiple values from a function.
  */
 typedef struct {
@@ -6723,7 +6723,7 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner) {
      *  If there is a post scriptum section, this value will be overridden by the real life value */
     scanner->x_offset = scanner->y_offset = 6.027e23f;
     scanner->reader->line_number = 1;
-    
+
     synctex_scanner_set_display_switcher(scanner, 1000);
     SYNCTEX_END = SYNCTEX_START+SYNCTEX_BUFFER_SIZE;
     /*  SYNCTEX_END always points to a null terminating character.
@@ -6849,11 +6849,11 @@ void synctex_scanner_display(synctex_scanner_p scanner) {
 /*  Public */
 /**
  * @brief Get the name of an input node.
- * 
+ *
  * Corresponds to `Input:<tag>:<name>` entries in the `.synctex` file.
- * @param scanner 
- * @param tag 
- * @return const char* 
+ * @param scanner
+ * @param tag
+ * @return const char*
  */
 const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag) {
     synctex_node_p input = NULL;
@@ -6871,9 +6871,9 @@ const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag) {
 }
 /**
  * @brief Get the name of a node.
- * 
+ *
  * Forwards to the node's scanner for the node's tag.
- * @param node 
+ * @param node
  * @return const char
  * @see synctex_scanner_get_name
  */
@@ -6920,9 +6920,9 @@ static int _synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name)
 
 /**
  * @brief Get the tag for a given name.
- * 
- * @param scanner 
- * @param name 
+ *
+ * @param scanner
+ * @param name
  * @return int, 0 for an unknown tag.
  */
 int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name) {
@@ -7100,10 +7100,10 @@ SYNCTEX_INLINE static synctex_bool_t _synctex_node_is_hbox(synctex_node_p node) 
 
 /**
  * @brief The horizontal location of the first box enclosing node.
- * 
+ *
  * The first box enclosing a box is itself.
  * @param node a node with geometrical information.
- * @return int in TeX sp coordinates. 
+ * @return int in TeX sp coordinates.
  */
 int synctex_node_box_h(synctex_node_p node) {
     if (_synctex_node_is_box(node) || (node = _synctex_tree_parent(node))) {
@@ -7113,7 +7113,7 @@ int synctex_node_box_h(synctex_node_p node) {
 }
 /**
  * @brief The vertical location of the first box enclosing node.
- * 
+ *
  * The first box enclosing a box is itself.
  * @param node a node with geometrical information.
  * @return int in TeX sp coordinates
@@ -7373,7 +7373,7 @@ SYNCTEX_INLINE static int _synctex_node_##WHAT##_V(synctex_node_p node) { \
     } \
 }
 /*
-Definitions of 
+Definitions of
 _synctex_node_h_V
 _synctex_node_v_V
 _synctex_node_width_V
@@ -7635,8 +7635,8 @@ int synctex_node_mean_line(synctex_node_p node) {
 
 /**
  * @brief The weight of the node.
- * 
- * @param node 
+ *
+ * @param node
  * @return int. -1 if node is NULL, 0 if the node is not an hbox.
  * @author Jérôme LAURENS
  */
@@ -9088,7 +9088,7 @@ typedef union {
 
 /**
  * @brief Update data structure
- * 
+ *
  */
 struct _synctex_updater_t {
     /** The file union */

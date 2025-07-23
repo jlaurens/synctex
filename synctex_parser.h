@@ -1,15 +1,15 @@
 /*
  Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
- 
+
  This file is part of the __SyncTeX__ package.
- 
+
  Version: see synctex_version.h
  Latest Revision: Thu Mar 21 14:12:58 UTC 2024
 
  See `synctex_parser_readme.md` for more details
- 
+
  ## License
- 
+
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
  files (the "Software"), to deal in the Software without
@@ -18,10 +18,10 @@
  copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following
  conditions:
- 
+
  The above copyright notice and this permission notice shall be
  included in all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,19 +30,19 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE
- 
+
  Except as contained in this notice, the name of the copyright holder
  shall not be used in advertising or otherwise to promote the sale,
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
- 
+
  ## Acknowledgments:
- 
+
  The author received useful remarks from the __pdfTeX__ developers, especially Hahn The Thanh,
  and significant help from __XeTeX__ developer Jonathan Kew.
- 
+
  ## Nota Bene:
- 
+
  If you include or use a significant part of the __SyncTeX__ package into a software,
  I would appreciate to be listed as contributor and see "__SyncTeX__" highlighted.
 */
@@ -55,9 +55,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 /** @defgroup Scanner Main scanner object.
- *  
+ *
  * The main synctex object is a scanner.
  * The basic workflow is
  * -   create a "synctex scanner" with the contents of a file
@@ -71,15 +71,15 @@ extern "C" {
     typedef struct _synctex_scanner_t _synctex_scanner_s;
     /**
      * @brief Main synctex object.
-     * 
+     *
      * Its implementation is considered private.
      */
     typedef _synctex_scanner_s * synctex_scanner_p;
-    
+
     /**
      * @brief This is the designated method to create
      *  a new synctex scanner object.
-     * 
+     *
      * @param output the pdf/dvi/xdv file associated
      *      to the synctex file.
      *      If necessary, it can be the tex file that
@@ -101,7 +101,7 @@ extern "C" {
      *      this build directory.
      *      It is the directory where all the auxiliary
      *      stuff is created. Sometimes, the synctex output
-     *      file and the pdf, dvi or xdv files are not 
+     *      file and the pdf, dvi or xdv files are not
      *      created in the same location. See MikTeX.
      *      This directory path can be NULL,
      *      it will be ignored then.
@@ -118,7 +118,7 @@ extern "C" {
      *      of an error or non existent file.
      */
     synctex_scanner_p synctex_scanner_new_with_output_file(const char * output, const char * build_directory, int parse);
-    
+
     /**
      * @brief Scanner destructor
      *
@@ -129,10 +129,10 @@ extern "C" {
      * @return int an integer mainly used for testing purposes.
      */
     int synctex_scanner_free(synctex_scanner_p scanner);
-    
+
     /**
      * @brief Ask the scanner to parse the .synctex file.
-     * 
+     *
      *  Send this message to force the scanner to
      *  parse the contents of the synctex output file.
      *  Nothing is performed if the file was already parsed.
@@ -147,22 +147,22 @@ extern "C" {
      *		}
      *  - returns: the argument on success.
      *      On failure, frees scanner and returns NULL.
-     * 
-     * @param scanner 
+     *
+     * @param scanner
      * @return synctex_scanner_p the argument on success.
      *      On failure, frees scanner and returns NULL.
      */
     synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner);
-    
+
     /** @} */
 
     /*  synctex_node_p is the type for all synctex nodes.
      *  Its implementation is considered private.
      *  The synctex file is parsed into a tree of nodes, either sheet, form, boxes, math nodes... */
-    
+
     typedef struct _synctex_node_t _synctex_node_s;
     typedef _synctex_node_s * synctex_node_p;
-    
+
     /** @defgroup Query  Text and display query.
      *
      * Both methods are conservative, in the sense that matching is weak.
@@ -175,12 +175,12 @@ extern "C" {
 
     /**
      * @brief Type for status as return value
-     * 
+     *
      */
     typedef long synctex_status_t;
     /**
      * @brief Display query
-     * 
+     *
      * Given an input file name, a line and a column number,
      * `synctex_display_query` returns the number of nodes
      * satisfying the constrain. Use code like
@@ -198,7 +198,7 @@ extern "C" {
      *  there is a new argument page_hint.
      *  The results in pages closer to page_hint are given first.
      *  For example, one can
-     * 
+     *
      * - highlight each resulting node in the output,
      *   using `synctex_node_visible_h` and `synctex_node_visible_v`
      * - highlight all the rectangles enclosing those nodes,
@@ -209,7 +209,7 @@ extern "C" {
      * ```
      * synctex view -i <line>:<column>:<page_hint>:<input> ...
      * ```
-     * 
+     *
      * @param scanner built with the appropriate `.synctex` file.
      * @param input the absolute path to a source input file
      * @param line the line number in the input file
@@ -229,10 +229,10 @@ extern "C" {
 
     /**
      * @brief Edit query
-     * 
+     *
      * Given the page and the position in the page, synctex_edit_query returns the number of nodes
      * satisfying the constrain.
-     * 
+     *
      * Usage:
      * ```
      * if(synctex_edit_query(scanner,page,h,v)>0) {
@@ -243,7 +243,7 @@ extern "C" {
      *   }
      * }
      * ```
-     * 
+     *
      *  For example, one can
      * - highlight each resulting line in the input,
      * - highlight just the character using that information
@@ -252,12 +252,12 @@ extern "C" {
      * If you need to make more than one query
      * in parallel, use the iterator API exposed in
      * the `synctex_parser_advanced.h` header.
-     * 
+     *
      * It corresponds to the command
      * ```
      * synctex edit -o <page>:<h>:<v>:<output> ...\n"
      * ```
-     * 
+     *
      * @param scanner built with the appropriate `.synctex` file.
      * @param page the page number in the output file, 1 based
      * @param h the horizontal coordinate in 72 dpi unit from top left corner of the page
@@ -270,19 +270,19 @@ extern "C" {
 
     /**
      * @brief Answer to queries
-     * 
-     * @param scanner 
+     *
+     * @param scanner
      * @return synctex_node_p The next node of the query,
      *   NULL when there are no node left.
      * @see `synctex_edit_query` and `synctex_view_query`.
      */
     synctex_node_p synctex_scanner_next_result(synctex_scanner_p scanner);
-    
+
     /**
      * @brief Reset to the first result
-     * 
-     * @param scanner 
-     * @return synctex_status_t 
+     *
+     * @param scanner
+     * @return synctex_status_t
      */
     synctex_status_t synctex_scanner_reset_result(synctex_scanner_p scanner);
     /** @} */
@@ -296,10 +296,10 @@ extern "C" {
      *  Code example for Qt5:
      *  (from TeXworks source TWSynchronize.cpp)
      *  QRectF nodeRect(synctex_node_box_visible_h(node),
-     *      synctex_node_box_visible_v(node) - 
+     *      synctex_node_box_visible_v(node) -
      *          synctex_node_box_visible_height(node),
      *      synctex_node_box_visible_width(node),
-     *      synctex_node_box_visible_height(node) + 
+     *      synctex_node_box_visible_height(node) +
      *          synctex_node_box_visible_depth(node));
      *  Code example for Cocoa:
      *  NSRect bounds = [pdfPage
@@ -368,7 +368,7 @@ extern "C" {
     int synctex_node_mean_line(synctex_node_p node);
     int synctex_node_column(synctex_node_p node);
     const char * synctex_node_get_name(synctex_node_p node);
-    
+
     /**
      This is the page where the node appears.
      *  This is a 1 based index as given by TeX.
@@ -385,7 +385,7 @@ extern "C" {
      *  This is mainly for informational purpose to help developers.
      */
     void synctex_scanner_display(synctex_scanner_p scanner);
-    
+
     /*  Managing the input file names.
      *  Given a tag, synctex_scanner_get_name will return the corresponding file name.
      *  Conversely, given a file name, synctex_scanner_get_tag will return, the corresponding tag.
@@ -408,12 +408,12 @@ extern "C" {
      *  it was obtained from output by setting the proper file extension.
      */
     const char * synctex_scanner_get_name(synctex_scanner_p scanner,int tag);
-    
+
     int synctex_scanner_get_tag(synctex_scanner_p scanner,const char * name);
     /** @} */
-    
+
     /** @defgroup Tree Node tree
-     * 
+     *
      * parent, child and sibling are standard names for tree nodes.
      * The parent is one level higher,
      * the child is one level deeper,
@@ -434,7 +434,7 @@ extern "C" {
      *   // do something with node
      * }
      * ```
-     * 
+     *
      *  With `synctex_sheet_content` and `synctex_form_content`,
      *  you can retrieve the sheet node given the page
      *  or form tag.
@@ -449,44 +449,44 @@ extern "C" {
 
     /**
      * @brief First input node.
-     * 
-     * @param scanner 
-     * @return * synctex_node_p 
+     *
+     * @param scanner
+     * @return * synctex_node_p
      */
     synctex_node_p synctex_scanner_input(synctex_scanner_p scanner);
     /**
      * @brief First input node with a given tag.
-     * 
+     *
      * Corresponds to `Input:<tag>:<file>` entries in the `.sycntex` file.
-     * @param scanner 
-     * @param tag 
-     * @return * synctex_node_p 
+     * @param scanner
+     * @param tag
+     * @return * synctex_node_p
      */
     synctex_node_p synctex_scanner_input_with_tag(synctex_scanner_p scanner,int tag);
     /**
      * @brief Path to the output file
-     * 
-     * @param scanner 
-     * @return const char* 
+     *
+     * @param scanner
+     * @return const char*
      */
     const char * synctex_scanner_get_output(synctex_scanner_p scanner);
     /**
      * @brief Path to the synctex file
-     * 
-     * @param scanner 
-     * @return const char* 
+     *
+     * @param scanner
+     * @return const char*
      */
     const char * synctex_scanner_get_synctex(synctex_scanner_p scanner);
     /**
      * @brief Format of the output
-     * 
+     *
      * From the content of the synctex file.
-     * @param scanner 
-     * @return const char* 
+     * @param scanner
+     * @return const char*
      */
     const char * synctex_scanner_get_output_fmt(synctex_scanner_p scanner);
     /** @} */
-    
+
     /*  The x and y offset of the origin in TeX coordinates. The magnification
      These are used by pdf viewers that want to display the real box size.
      For example, getting the horizontal coordinates of a node would require
@@ -498,37 +498,37 @@ extern "C" {
 
     /**
      * @brief Horizontal offset of coordinates.
-     * 
+     *
      * 1in default in TeX.
-     * @param scanner 
-     * @return int 
+     * @param scanner
+     * @return int
      */
     int synctex_scanner_x_offset(synctex_scanner_p scanner);
     /**
      * @brief Vertical offset of coordinates.
-     * 
+     *
      * 1in default in TeX.
-     * @param scanner 
-     * @return int 
+     * @param scanner
+     * @return int
      */
     int synctex_scanner_y_offset(synctex_scanner_p scanner);
     /**
      * @brief Magnification
-     * 
+     *
      * 1000 default in TeX.
-     * @param scanner 
-     * @return float 
+     * @param scanner
+     * @return float
      */
     float synctex_scanner_magnification(synctex_scanner_p scanner);
-    
+
     typedef int (synctex_printer_f) (const char *, ...);
 
     /**
      * @brief Dump the scanner
-     * 
-     * @param scanner 
-     * @param printer 
-     * @return int 
+     *
+     * @param scanner
+     * @param printer
+     * @return int
      */
     int synctex_scanner_dump(synctex_scanner_p scanner, synctex_printer_f printer);
     /** @} */
@@ -536,82 +536,82 @@ extern "C" {
     /** @addtogroup Tree
      * @{
      */
-    
+
     /**
      * @brief Parent
-     * 
-     * @param node 
+     *
+     * @param node
      * @return synctex_node_p possibly NULL.
      */
     synctex_node_p synctex_node_parent(synctex_node_p node);
     /**
      * @brief Parent sheet
-     * 
-     * @param node 
+     *
+     * @param node
      * @return synctex_node_p possibly NULL.
      */
     synctex_node_p synctex_node_parent_sheet(synctex_node_p node);
     /**
      * @brief Parent sheet
-     * 
-     * @param node 
+     *
+     * @param node
      * @return synctex_node_p possibly NULL.
      */
     synctex_node_p synctex_node_parent_form(synctex_node_p node);
     /**
      * @brief First child
-     * 
-     * @param node 
+     *
+     * @param node
      * @return synctex_node_p possibly NULL.
      */
     synctex_node_p synctex_node_child(synctex_node_p node);
     /**
      * @brief Last child
-     * 
+     *
      * Last sibling of the first child, if any.
-     * @param node 
+     * @param node
      * @return synctex_node_p possibly NULL.
      */
     synctex_node_p synctex_node_last_child(synctex_node_p node);
     /**
      * @brief First sibling
-     * 
-     * @param node 
+     *
+     * @param node
      * @return synctex_node_p possibly NULL.
      */
     synctex_node_p synctex_node_sibling(synctex_node_p node);
     /**
      * @brief Last sibling
-     * 
+     *
      * Last sibling of the first sibling of the node, if any,
      * the node itself otherwise.
-     * @param node 
+     * @param node
      * @return synctex_node_p possibly NULL.
      * @see synctex_node_last_child
      */
     synctex_node_p synctex_node_last_sibling(synctex_node_p node);
     /**
-     * @brief 
-     * 
-     * @param node 
-     * @return synctex_node_p 
+     * @brief
+     *
+     * @param node
+     * @return synctex_node_p
      */
     synctex_node_p synctex_node_arg_sibling(synctex_node_p node);
 
     /**
      * @brief Next node.
-     * 
+     *
      * Deep first traversal of the tree of nodes.
      * First child if any,
      * first sibling if any,
      * parent's first sibling if any,
      * parent's parent's first sibling if any,
      * ...
-     * @param node 
-     * @return synctex_node_p 
+     * @param node
+     * @return synctex_node_p
      */
     synctex_node_p synctex_node_next(synctex_node_p node);
-    
+
     /**
      *  Top level entry points.
      *  The scanner owns a list of sheet siblings and
@@ -624,29 +624,29 @@ extern "C" {
     synctex_node_p synctex_sheet(synctex_scanner_p scanner,int page);
     /**
      * @brief Sheet content at a given page.
-     * 
-     * @param scanner 
-     * @param page 
-     * @return synctex_node_p 
+     *
+     * @param scanner
+     * @param page
+     * @return synctex_node_p
      */
     synctex_node_p synctex_sheet_content(synctex_scanner_p scanner,int page);
     /**
      * @brief Form for a given tag
-     * 
-     * @param scanner 
-     * @param tag 
-     * @return synctex_node_p 
+     *
+     * @param scanner
+     * @param tag
+     * @return synctex_node_p
      */
     synctex_node_p synctex_form(synctex_scanner_p scanner,int tag);
     /**
      * @brief Form content for given tag.
-     * 
-     * @param scanner 
-     * @param tag 
-     * @return synctex_node_p 
+     *
+     * @param scanner
+     * @param tag
+     * @return synctex_node_p
      */
     synctex_node_p synctex_form_content(synctex_scanner_p scanner,int tag);
-    
+
     /** @} */
 
     /*  This is primarily used for debugging purpose.
@@ -654,22 +654,22 @@ extern "C" {
 
     /**
      * @brief Log a node
-     * 
+     *
      * This is primarily used for debugging purpose.
-     * @param node 
+     * @param node
      */
     void synctex_node_log(synctex_node_p node);
     /**
      * @brief Display a node
-     * 
+     *
      * This is primarily used for debugging purpose.
-     * @param node 
+     * @param node
      */
     void synctex_node_display(synctex_node_p node);
-    
+
     /**
-     * @defgroup Geometry Node geometry 
-     * 
+     * @defgroup Geometry Node geometry
+     *
      * For quite all nodes, horizontal, vertical coordinates, and width.
      * These are expressed in TeX small points coordinates,
      * with origin at the top left corner.
@@ -679,40 +679,40 @@ extern "C" {
 
     /**
      * @brief Horizontal coordinate
-     * 
-     * @param node 
+     *
+     * @param node
      * @return int in TeX sp from top left corner of the page
      */
     int synctex_node_h(synctex_node_p node);
     /**
      * @brief Vertical coordinate
-     * 
-     * @param node 
+     *
+     * @param node
      * @return int in TeX sp from top left corner of the page
      */
     int synctex_node_v(synctex_node_p node);
     /**
      * @brief Width
-     * 
-     * @param node 
+     *
+     * @param node
      * @return int in TeX sp
      */
     int synctex_node_width(synctex_node_p node);
     /**
      * @brief Height
-     * 
-     * @param node 
+     *
+     * @param node
      * @return int in TeX sp, 0 when irrelevant
      */
     int synctex_node_height(synctex_node_p node);
     /**
      * @brief Depth
-     * 
-     * @param node 
+     *
+     * @param node
      * @return int in TeX sp, 0 when irrelevant
      */
     int synctex_node_depth(synctex_node_p node);
-    
+
     /*  For all nodes, dimensions of the enclosing box.
      *  These are expressed in TeX small points coordinates, with origin at the top left corner.
      *  A box is enclosing itself.

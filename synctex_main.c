@@ -1,15 +1,15 @@
-/* 
+/*
  Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
- 
+
  This file is part of the __SyncTeX__ package.
- 
+
  Version: see synctex_version.h
  Latest Revision: Thu Mar 21 14:12:58 UTC 2024
- 
+
  See `synctex_parser_readme.md` for more details
- 
+
  ## License
- 
+
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
  files (the "Software"), to deal in the Software without
@@ -18,10 +18,10 @@
  copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following
  conditions:
- 
+
  The above copyright notice and this permission notice shall be
  included in all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,29 +30,29 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE
- 
+
  Except as contained in this notice, the name of the copyright holder
  shall not be used in advertising or otherwise to promote the sale,
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
- 
+
  Acknowledgments:
  ----------------
  The author received useful remarks from the pdfTeX developers, especially Hahn The Thanh,
  and significant help from XeTeX developer Jonathan Kew
- 
+
  Nota Bene:
  ----------
  If you include or use a significant part of the synctex package into a software,
  I would appreciate to be listed as contributor and see "SyncTeX" highlighted.
- 
+
  History:
  --------
- 
+
  - the -d option for an input directory
  - the --parse_int_policy global option
  - the --interactive global option
- 
+
  Important notice:
  -----------------
  This file is named "synctex_main.c".
@@ -474,7 +474,7 @@ void synctex_help_view(const char * error,...) {
 
 /**
  * @brief Data structure for view queries
- * 
+ *
  */
 typedef struct {
     /** The line number*/
@@ -1138,7 +1138,7 @@ next_argument:
         }
         goto prepare_next_argument;
     }
-    
+
     /* Arguments parsed */
     updater = synctex_updater_new_with_output_file(output,directory);
     synctex_updater_append_magnification(updater,magnification);
@@ -1281,7 +1281,7 @@ int synctex_dump(int argc, char *argv[]) {
     synctex_node_p sheet;
     /** The first form, its siblings are the other forms */
     synctex_node_p form;
-    /** The first form ref node in sheet, its friends are the other form ref nodes */    
+    /** The first form ref node in sheet, its friends are the other form ref nodes */
     synctex_node_p ref_in_sheet;
     /** The first form ref node, its friends are the other form ref nodes in sheet */
     synctex_node_p ref_in_form;
