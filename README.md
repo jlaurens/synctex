@@ -1,6 +1,6 @@
 The branch named "main" is the upstream main branch where development occurs.
 
-The branch name `2024` is the stable release this year, which means that new features from the main branch go here when they are considered sufficiently mature and stable.
+The branch name `2025.3` is the stable release this year, which means that new features from the main branch go here when they are considered sufficiently mature and stable.
 
 The tag  `2023.5(TeXLive)` corresponds to the synctexdir directory of TeXLive svn repository from the 2023 release.
 
