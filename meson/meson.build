@@ -364,3 +364,16 @@ test(
   depends: [session_id_target],
 )
 
+name = 'parse decimal integer'
+test_parse_int_exe = executable(
+  name,
+  synctex_dir / 'test C' / 'test_parse_int.c',
+  include_directories: [ synctex_inc ],
+  install: false,
+  link_with: [ synctex_lib ],
+  dependencies: [ zdep ]
+)
+test(
+  'Parse decimal integers',
+  test_parse_int_exe
+)
