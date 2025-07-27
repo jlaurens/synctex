@@ -9838,16 +9838,16 @@ int synctex_scanner_dump(synctex_scanner_p scanner, synctex_printer_f printer)
     return 0;
 }
 
-#define SYNCTEX_TMP_ITLHV synctex_node_isa(node), synctex_node_tag(node), synctex_node_line(node), synctex_node_h(node), synctex_node_v(node)
+#define SYNCTEX_TMP_ITLHV(node) synctex_node_isa(node), synctex_node_tag(node), synctex_node_line(node), synctex_node_h(node), synctex_node_v(node)
 
-#define SYNCTEX_TMP_ITLHVWHD SYNCTEX_TMP_ITLHV, synctex_node_width(node), synctex_node_height(node), synctex_node_depth(node)
+#define SYNCTEX_TMP_ITLHVWHD(node) SYNCTEX_TMP_ITLHV(node), synctex_node_width(node), synctex_node_height(node), synctex_node_depth(node)
 
 static void _synctex_node_dump(synctex_node_p node, synctex_printer_f printer, int *depth)
 {
     synctex_node_p N;
     switch (synctex_node_type(node)) {
     case synctex_node_type_vbox:
-        (*printer)("%s%c%s:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_BEGIN_VBOX, SYNCTEX_TMP_ITLHVWHD);
+        (*printer)("%s%c%s:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_BEGIN_VBOX, SYNCTEX_TMP_ITLHVWHD(node));
         //
         *depth = (*depth + 1) % 20;
         if ((N = synctex_node_child(node))) {
@@ -9859,7 +9859,7 @@ static void _synctex_node_dump(synctex_node_p node, synctex_printer_f printer, i
         (*printer)("%s%c\n", prefix + 20 - *depth, SYNCTEX_CHAR_END_VBOX);
         break;
     case synctex_node_type_hbox:
-        (*printer)("%s%c%s:%i:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_BEGIN_HBOX, SYNCTEX_TMP_ITLHVWHD);
+        (*printer)("%s%c%s:%i:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_BEGIN_HBOX, SYNCTEX_TMP_ITLHVWHD(node));
         *depth = (*depth + 1) % 20;
         if ((N = synctex_node_child(node))) {
             do {
@@ -9870,28 +9870,28 @@ static void _synctex_node_dump(synctex_node_p node, synctex_printer_f printer, i
         (*printer)("%s%c\n", prefix + 20 - *depth, SYNCTEX_CHAR_END_HBOX);
         break;
     case synctex_node_type_void_vbox:
-        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_VOID_VBOX, SYNCTEX_TMP_ITLHVWHD);
+        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_VOID_VBOX, SYNCTEX_TMP_ITLHVWHD(node));
         break;
     case synctex_node_type_void_hbox:
-        (*printer)("%s%c:%s:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_VOID_HBOX, SYNCTEX_TMP_ITLHVWHD);
+        (*printer)("%s%c:%s:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_VOID_HBOX, SYNCTEX_TMP_ITLHVWHD(node));
         break;
     case synctex_node_type_kern:
-        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_KERN, SYNCTEX_TMP_ITLHV, synctex_node_width(node));
+        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_KERN, SYNCTEX_TMP_ITLHV(node), synctex_node_width(node));
         break;
     case synctex_node_type_glue:
-        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_GLUE, SYNCTEX_TMP_ITLHV, synctex_node_width(node));
+        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_GLUE, SYNCTEX_TMP_ITLHV(node), synctex_node_width(node));
         break;
     case synctex_node_type_rule:
-        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_RULE, SYNCTEX_TMP_ITLHV, synctex_node_width(node));
+        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_RULE, SYNCTEX_TMP_ITLHV(node), synctex_node_width(node));
         break;
     case synctex_node_type_math:
-        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_MATH, SYNCTEX_TMP_ITLHV, synctex_node_width(node));
+        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_MATH, SYNCTEX_TMP_ITLHV(node), synctex_node_width(node));
         break;
     case synctex_node_type_boundary:
-        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_BOUNDARY, SYNCTEX_TMP_ITLHV, synctex_node_width(node));
+        (*printer)("%s%c:%s:%i:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_CHAR_BOUNDARY, SYNCTEX_TMP_ITLHV(node), synctex_node_width(node));
         break;
     case synctex_node_type_box_bdry:
-        (*printer)("%sb:%s:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_TMP_ITLHV);
+        (*printer)("%sb:%s:%i:%i:%i:%i:%i\n", prefix + 20 - *depth, SYNCTEX_TMP_ITLHV(node));
         break;
 #if 0
         case synctex_node_type_input:
