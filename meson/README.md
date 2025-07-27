@@ -3,9 +3,11 @@
 The main tool is `meson`, see downloading instructions from the [official meson site](https://mesonbuild.com/).
 
 ## Clone
+
 First retrieve the source code. You can use the green code button from the [main SyncTeX page](https://github.com/jlaurens/synctex). If you plan to contribute to the code, it is recommanded to clone the GitHub synctex repository and use GitHub desktop application if available on your operating system.
 
 ## Building
+
 Instructions below are given to build the `synctex` command line tool on possibly various operating systems.
 Building is made through the command line.
 
@@ -57,7 +59,7 @@ meson compile -C build
 
 If `meson` is not suitable, next instructions were used for Xcode 7 but they might apply as well for other versions. The `build` folder and project are created out of the `.../synctexdir/` folder.
 
-### create a new project
+### Create a new project
 
 - create a new project
 - choose a command line tool project
@@ -80,7 +82,7 @@ you then have both folders `synctex` and `synctexdir` in the same directory.
 - go to the build phase pane
 - remove `Readme.md` from the compile sources list
 
-You end with 3 sources : `synctex_main.c`, `synctex_parser.c`, `synctex_parser_utils.c`
+You end with 3 sources: `synctex_main.c`, `synctex_parser.c`, `synctex_parser_utils.c`
 
 ### Setup project
 
@@ -104,6 +106,7 @@ More details in the `.../synctexdir/test standalone/README.md`.
 ## How to
 
 ### Develop for TeXLive
+
 Use case: a default TeX distribution for everyday use, for example TeXLive 2024, and a different TeX distribution for SyncTeX development, for example TeXLive checked out with svn. If you want to use TeX engine binaries from the development TeX distribution, you can specify
 
 ```sh
@@ -353,6 +356,7 @@ TEXMFCNF=$TEXMFROOT/texmf-dist/web2c \
 ```
 
 ## Real setup on MacOS
+
 This setup was used to develop the `\synctexmark` command.
 We start with a fresh check out of TeXLive that we then build.
 Then we build a `.texdist` structure from scratch to point to this TeXLive check out. One can duplicate an
@@ -372,6 +376,7 @@ make pdftex && fmtutil --sys --byfmt pdftex
 ```
 
 ## Print debug information
+
 During test, some supplemental information may help: use
 ```sh
 meson test -C build --test-args='--debug'
