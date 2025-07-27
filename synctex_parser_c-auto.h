@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (c) 2005 jerome DOT laurens AT u-bourgogne DOT fr
 
 This file is part of the SyncTeX package.
@@ -31,9 +31,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE
 
-Except as contained in this notice, the name of the copyright holder  
-shall not be used in advertising or otherwise to promote the sale,  
-use or other dealings in this Software without prior written  
+Except as contained in this notice, the name of the copyright holder
+shall not be used in advertising or otherwise to promote the sale,
+use or other dealings in this Software without prior written
 authorization from the copyright holder.
 
 */

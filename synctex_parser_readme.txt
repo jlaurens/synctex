@@ -103,7 +103,7 @@ Note that version 1.7 was delivered privately.
 - Various typo fixed
 - OutputDebugString replaced by OutputDebugStringA to deliberately disable unicode preprocessing
 - New conditional created because OutputDebugStringA is only available since Windows 2K professional
-1.10: Sun Jan  10 10:12:32 UTC 2010 
+1.10: Sun Jan  10 10:12:32 UTC 2010
 - Bug fix in synctex_parser.c to solve a synchronization problem with amsmath's gather environment.
   Concerns the synctex tool.
 1.11: Sun Jan  17 09:12:31 UTC 2010
@@ -133,7 +133,7 @@ TeX and friends are not concerned by these changes.
 1.17: Fri Oct 14 08:15:16 UTC 2011
 This concerns the synctex command line tool and 3rd party developers.
 TeX and friends are not concerned by these changes.
-- synctex_parser.c: cosmetic changes to enhance code readability 
+- synctex_parser.c: cosmetic changes to enhance code readability
 - Better forward synchronization.
   The problem occurs for example with LaTeX \item command.
   The fact is that this command creates nodes at parse time but these nodes are used only

@@ -1,14 +1,14 @@
 /*
  Copyright (c) 2008-2024 jerome DOT laurens AT u-bourgogne DOT fr
- 
+
  This file is part of the SyncTeX package.
- 
+
  Latest Revision: Tue Mar  5 21:16:33 UTC 2024
- 
+
  Version: 1.19
- 
+
  See synctex_parser_readme.txt for more details
- 
+
  License:
  --------
  Permission is hereby granted, free of charge, to any person
@@ -19,10 +19,10 @@
  copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following
  conditions:
- 
+
  The above copyright notice and this permission notice shall be
  included in all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,23 +31,24 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE
- 
+
  Except as contained in this notice, the name of the copyright holder
  shall not be used in advertising or otherwise to promote the sale,
  use or other dealings in this Software without prior written
  authorization from the copyright holder.
- 
+
  Nota Bene:
  ----------
  If you include or use a significant part of the synctex package into a software,
  I would appreciate to be listed as contributor and see "SyncTeX" highlighted.
- 
+
  */
 
 #include "synctex_parser_private.h"
 #include "synctex_parser_utils.h"
 
-int synctex_parser_test_all() {
+int synctex_parser_test_all()
+{
     int TC = 0;
     synctex_scanner_p scanner = synctex_scanner_new();
     /*  Here we assume that int are smaller than void * */
@@ -67,7 +68,7 @@ int synctex_parser_test_all() {
     TC += synctex_test_sheet_2();
     TC += synctex_test_charindex();
     TC += synctex_test_form();
-/*
- */
+    /*
+     */
     return TC;
 }
