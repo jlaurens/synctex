@@ -74,11 +74,7 @@ extern "C" {
 #define SYNCTEX_IS_PATH_SEPARATOR(c) ('/' == c)
 #endif
 
-#if defined(_WIN32) || defined(__OS2__)
 #define SYNCTEX_IS_DOT(c) ('.' == c)
-#else
-#define SYNCTEX_IS_DOT(c) ('.' == c)
-#endif
 
 #if SYNCTEX_CASE_SENSITIVE_PATH
 #define SYNCTEX_ARE_PATH_CHARACTERS_EQUAL(left, right) (left != right)
