@@ -37,13 +37,12 @@ local AUP = package.loaded.AUP
 local lfs = package.loaded.lfs
 local PL = AUP.PL
 
-local PLList = PL.List
+local PL_class = PL.class
+local PL_List = PL.List
 local PL_utils = PL.utils
 local assert_string = PL_utils.assert_string
 
 local AUPCommand = AUP.Command
-
-local state = AUP.state
 
 --- @enum (key) AUPEngineInteractionMode
 local AUPEngineInteractionMode = {
@@ -61,7 +60,7 @@ local AUPEngineInteractionMode = {
 --- @field file fun(self: AUPEngine, file: string): AUPEngine
 --- @field cmd fun(self: AUPEngine): string
 
-local AUPEngine = PL.class.AUPEngine(AUPCommand)
+local AUPEngine = PL_class(AUPCommand)
 
 ---@class AUPK
 ---@field engine string
@@ -74,10 +73,10 @@ AUP.K.engines = 'engines'
 AUP.K.exclude_engine = 'exclude_engine'
 AUP.K.exclude_engines = 'exclude_engines'
 
-AUPEngine._tex_all = PLList()
+AUPEngine._tex_all = PL_List()
 
 do
-  local l = PLList({'pdftex', 'euptex', 'xetex', 'luatex', 'luahbtex', 'luajittex'})
+  local l = PL_List({'pdftex', 'euptex', 'xetex', 'luatex', 'luahbtex', 'luajittex'})
   local iterator = AUP.arguments:iterator()
   local entry = iterator:next()
   while(entry) do
@@ -113,7 +112,7 @@ do
   AUPEngine._tex_all = l
 end
 
-AUPEngine._latex_all = PLList()
+AUPEngine._latex_all = PL_List()
 
 for prefix in PL.seq.list {'pdf', 'eup', 'xe', 'lua'} do
   if AUPEngine._tex_all:contains(prefix..'tex') then
@@ -155,7 +154,11 @@ function AUPEngine:_init(name)
       if touch_mtime == nil or touch_mtime < dev_mtime then
         local saved_p = bin_p..".synctex_saved"
         if not PL.path.exists(saved_p) then
-          assert(os.rename(bin_p, saved_p), "Unable to move %s to %s"%{bin_p, saved_p}, 2)
+          AUP.dbg:write(1, "Save development engine: "..bin_p.."→"..saved_p)
+          if not os.rename(bin_p, saved_p) then
+            print("Permission error: Unable to move %s to %s"%{bin_p, saved_p})
+            os.exit(99)
+          end
         end
         os.remove(bin_p)
         PL.dir.copyfile(dev_p, bin_p, true)
@@ -192,7 +195,7 @@ end
 --- Add an option.
 --- @return AUPEngine
 function AUPEngine:clear_arguments()
-  self._arguments = PLList()
+  self._arguments = PL_List()
   return self
 end
 
@@ -202,7 +205,7 @@ local quote_arg = PL_utils.quote_arg
 --- @return string 
 function AUPEngine:cmd()
   assert(self._command, "Unknown command "..self._name)
-  return quote_arg(PLList({
+  return quote_arg(PL_List({
     self._command,
     self._synctex or false,
     self._interaction or false,

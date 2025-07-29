@@ -35,8 +35,9 @@ This file is part of the __SyncTeX__ package testing framework.
 local AUP = package.loaded.AUP
 local PL = AUP.PL
 local PL_path = PL.path
+local PL_class = PL.class
 
-local PLList = PL.List
+local PL_List = PL.List
 local PL_utils = PL.utils
 local assert_string = PL_utils.assert_string
 local executeex = PL_utils.executeex
@@ -54,7 +55,7 @@ local state = AUP.state
 --- @field print fun(self: AUPCommandResult, level: number|string?, ch: string?)
 --- @field print_errout fun(self: AUPCommandResult, level: number|string?, ch: string?)
 --- @field print_stdout fun(self: AUPCommandResult, level: number|string?, ch: string?)
-local AUPCommandResult = PL.class.AUPCommandResult()
+local AUPCommandResult = PL_class()
 
 --- Initialize an instance
 --- @param status boolean
@@ -118,6 +119,8 @@ function AUPCommandResult:print_stdout(level, ch)
   print(self.stdout)
 end
 
+local tdm = AUP.TeXDistMgr.singleton()
+
 --- @class AUPCommand
 --- @field Result AUPCommandResult
 --- @field os_concat string
@@ -129,7 +132,7 @@ end
 --- @field cmd fun(self: AUPCommand): string
 --- @field reset fun(self: AUPCommand): AUPCommand
 --- @field run fun(self: AUPCommand, env: table?): AUPCommandResult
-local AUPCommand = PL.class.AUPCommand()
+local AUPCommand = PL.class()
 
 ---@diagnostic disable-next-line: undefined-field
 if os.type == "windows" then
@@ -154,15 +157,15 @@ AUPCommand.dev = arguments.dev
 AUP.K.PATHList = 'PATHList'
 
 --- @class AUPCommand
---- @field PATHList_get fun(): PLList
+--- @field PATHList_get fun(): PL_List
 --- @field PATH_get fun(): string
 
 --- Get content to feed the `PATH` environment variable.
----@return PLList
+---@return PL_List
 function AUPCommand.PATHList_get()
   local ans = state:get(AUP.K.PATHList, true)
   if ans == nil then
-    ans = PLList()
+    ans = PL_List()
     for k in PL.seq.list {AUP.K.synctex_bin, AUP.K.tex_bin} do
       local d = state:get(k)
       if type(d) == 'string' then
@@ -171,7 +174,7 @@ function AUPCommand.PATHList_get()
         error('Unexpected state: %s → %s'%{k, d}, 2)
       end
     end
-    ans:extend(PLList.split(os.getenv('PATH'), PL_path.dirsep))
+    ans:extend(PL_List.split(os.getenv('PATH'), PL_path.dirsep))
     state:set(AUP.K.PATHList, ans)
   end
   return ans
@@ -188,7 +191,6 @@ end
 --- @field tex_bin_setup fun()
 --- @field tex_bin_get fun(): string
 --- @field tex_bin_set fun(dir: string|number?, dev: boolean?)
---- @field tex_bin_by_year fun(year: string|number): string
 
 --- @class AUPK
 --- @field tex_bin string
@@ -199,7 +201,7 @@ AUP.K.tex_bin = 'tex_bin'
 ---
 --- Used by `AUPCommand.tex_bin_setup()`
 --- When the argument is not provided, it defaults to the result of
---- `AUPCommand.tex_bin_by_year` with the current year.
+--- `latest_tex_bin` of the TeX distribution manager with the current year.
 --- You can alse execute this command as part of some `test_setup_local_⟨cfg⟩.lua` file:
 --- and invoke meson with
 --- `meson test -C build --test-args='... --local=⟨cfg⟩ ...' ...`.
@@ -209,23 +211,33 @@ function AUPCommand.tex_bin_set(dir, dev)
   if dev and not AUPCommand.dev then
     return
   end
-  if dir == nil then
-    ---@type string|number
-    ---@diagnostic disable-next-line: assign-type-mismatch
-    local y = os.date('!%Y')
-    dir = AUPCommand.tex_bin_by_year(y)
-  elseif type(dir) == 'number' or string.match(dir, '^%d%d%d%d$') then
+  ---@type string|osdate
+  if dir and (type(dir) == 'number' or string.match(dir, '^%d%d%d%d$')) then
     local y = tostring(dir)
     dir = nil
     if y then
-      dir = AUPCommand.tex_bin_by_year(y)
+      dir = tdm:latest_tex_bin(y)
     end
+  else
+    ---@diagnostic disable-next-line: assign-type-mismatch
+    local y = os.date('!%Y')
+    dir = tdm:latest_tex_bin(y)
   end
   PL.utils.assert_string(1, dir)
   state:set(AUP.K.tex_bin, dir)
   local p = AUPCommand.which("fmtutil", dir, true)
-  if p==nil then
-    error("Unexpected %s"%{dir}, 2)
+  if p == nil then
+    print("WARNING: unavailable %s, "%{dir}, 2)
+    for tex_bin in tdm:tex_bin_reversed_iter() do
+      if tex_bin <= dir then
+        p = AUPCommand.which("fmtutil", tex_bin, true)
+        if p then
+          print("WARNING: Using %s instead"%{tex_bin})
+          state:set(AUP.K.tex_bin, tex_bin)
+          return
+        end
+      end
+    end
   else
     dbg:write(9, [[
 AUPCommand.tex_bin_set:
@@ -244,16 +256,6 @@ function AUPCommand.tex_bin_get()
   return ans
 end
 
---- Get the location where official tex binaries are stored.
----
---- This is used by normal tests made on official distributions.
---- The default implementation just raises because it must be overriden
---- by some local setup file.
---- @param year string|number
---- @return string
-function AUPCommand.tex_bin_by_year(year)
-  error("`AUPCommand.tex_bin_by_year` must be overriden in a `test_setup_local_⟨cfg⟩.lua` file")
-end
 
 --- Sets the location where official reliable tex binaries are stored from arguments
 ---
@@ -525,7 +527,7 @@ end
 --- @return boolean status
 --- @return AUPCommandResult
 function AUPCommand:run(env)
-  local L = PLList()
+  local L = PL_List()
   local _ENV_Map = state:mapGet(AUP.K.ENV)
   L:append('%s %s="%s"' % {AUPCommand.os_setenv, "PATH", AUPCommand.PATH_get()})
   if env then
@@ -588,7 +590,7 @@ end
 AUP.Command = AUPCommand
 
 -- --- local entry = arguments:get('Work')
--- PLList({'TEXMFSYSVAR', 'TEXMFCNF'}):map(
+-- PL_List({'TEXMFSYSVAR', 'TEXMFCNF'}):map(
 --   function(k)
 --     local entry = arguments:get(k)
 --     if entry ~= nil then

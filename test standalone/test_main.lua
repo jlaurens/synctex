@@ -60,6 +60,7 @@ AUP.units = AUP.Units(AUP.test_standalone_dir, AUP.arguments)
 if AUP.arguments.setup then
   AUP.units:setup_and_exit()
 end
+
 AUP.units:check()
 local number_of_failures = AUP.units:print_failed()
 AUP.units:print("SyncTeX testing DONE")

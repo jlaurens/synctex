@@ -36,7 +36,8 @@ This file is part of the __SyncTeX__ package testing framework.
 local AUP = package.loaded.AUP
 local PL = AUP.PL
 
-local PLList = PL.List
+local PL_class = PL.class
+local PL_List = PL.List
 local quote_arg = PL.utils.quote_arg
 
 local AUPCommand = AUP.Command
@@ -54,7 +55,7 @@ local AUPCommandResult = AUP.Command.Result
 --- @field _init fun(self: AUPSyncTeXGlobal, name: string)
 --- @field run_option fun(self: AUPSyncTeXGlobal, option: string, env: table?): AUPCommandResult
 
-local AUPSyncTeXGlobal = PL.class.AUPSyncTeXGlobal(AUPCommand)
+local AUPSyncTeXGlobal = PL_class(AUPCommand)
 
 ---Initialize an instance
 function AUPSyncTeXGlobal:_init(name)
@@ -69,7 +70,7 @@ end
 function AUPSyncTeXGlobal:cmd()
   assert(self._command, "No engine available")
   assert(self._options, "No option available")
-  local L = PLList({self._command})..self._options
+  local L = PL_List({self._command})..self._options
   return quote_arg(L)
 end
 
@@ -97,7 +98,7 @@ end
 --- @field run fun(self: AUPSyncTeXEdit): boolean, integer, string, string
 --- @field reset fun(self: AUPSyncTeXEdit)
 
-local AUPSyncTeXEdit = PL.class.AUPSyncTeXEdit(AUPCommand)
+local AUPSyncTeXEdit = PL_class(AUPCommand)
 
 ---Initialize an instance
 ---@param name string? defaults to `synctex`.
@@ -162,8 +163,8 @@ local quote_arg = PL.utils.quote_arg
 function AUPSyncTeXEdit:cmd()
   assert(self._command)
   assert(self._o)
-  local L = PLList({self._command, "edit", self._o}):extend(
-    PLList({self._d or false, self._x or false, self._h or false}):filter(
+  local L = PL_List({self._command, "edit", self._o}):extend(
+    PL_List({self._d or false, self._x or false, self._h or false}):filter(
       function(x)
         return type(x)=='string' and #x>0
       end
@@ -182,7 +183,7 @@ end
 --- @field h fun(self: AUPSyncTeXView, offset: integer, middle: string, before:string?, after: string?): AUPSyncTeXView
 --- @field reset fun(self: AUPSyncTeXView)
 
-local AUPSyncTeXView = PL.class.AUPSyncTeXView(AUPCommand)
+local AUPSyncTeXView = PL_class(AUPCommand)
 
 ---Initialize an instance
 ---@param name string? defaults to `synctex`.
@@ -264,8 +265,8 @@ function AUPSyncTeXView:cmd()
   assert(self._command)
   assert(self._i)
   assert(self._o)
-  local L = PLList({self._command, "view", self._i, self._o}):extend(
-    PLList({self._d or false, self._x or false, self._h or false}):filter(
+  local L = PL_List({self._command, "view", self._i, self._o}):extend(
+    PL_List({self._d or false, self._x or false, self._h or false}):filter(
       function(x)
         return type(x)=='string' and #x>0
       end
@@ -281,7 +282,7 @@ end
 --- @field d fun(self: AUPSyncTeXDump): AUPSyncTeXDump
 --- @field reset fun(self: AUPSyncTeXDump)
 
-local AUPSyncTeXDump = PL.class.AUPSyncTeXDump(AUPCommand)
+local AUPSyncTeXDump = PL_class(AUPCommand)
 
 ---Initialize an instance
 ---@param name string? defaults to `synctex`.
@@ -319,7 +320,7 @@ end
 function AUPSyncTeXDump:cmd()
   assert(self._command)
   assert(self._o)
-  local L = PLList({self._command, "dump", "-o", self._o})
+  local L = PL_List({self._command, "dump", "-o", self._o})
   if self._d then
     L:append("-d", self._d)
   end

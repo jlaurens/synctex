@@ -15,19 +15,19 @@ Building is made through the command line.
 
 To build the project, from the `.../synctexdir/meson` folder run:
 ```sh
-meson setup build
-meson compile -C build
+meson setup Build
+meson compile -C Build
 ```
 
 To install the project, run
 ```sh
-meson install -C build
+meson install -C Build
 ```
 You might need to `sudo` if you don't own enough privilege.
 
 To uninstall the project, run
 ```sh
-meson --internal uninstall -C build
+meson --internal uninstall -C Build
 ```
 You might need to `sudo` if you don't own enough privilege.
 
@@ -41,7 +41,7 @@ brew install meson ninja
 Build the Xcode project files:
 ```sh
 meson setup --backend xcode build
-meson compile -C build
+meson compile -C Build
 ```
 
 You will find the Xcode project in `.../synctexdir/meson/build/synctex.xcodeproj`.
@@ -52,7 +52,7 @@ Next instructions are not tested.
 
 ```sh
 meson setup --backend vs build
-meson compile -C build
+meson compile -C Build
 ```
 
 ## Setting up Xcode manually
@@ -96,7 +96,7 @@ You are ready to build.
 
 In order to run all the tests, from `.../synctexdir/meson/` run
 ```sh
-meson test -C build
+meson test -C Build
 ```
 
 The `.../synctexdir/test standalone/` folder contains material for testing. There is also a `.../synctexdir/tests/` used by `TeXLive` for testing, this is not mirrored nor discussed here.
@@ -110,11 +110,11 @@ More details in the `.../synctexdir/test standalone/README.md`.
 Use case: a default TeX distribution for everyday use, for example TeXLive 2024, and a different TeX distribution for SyncTeX development, for example TeXLive checked out with svn. If you want to use TeX engine binaries from the development TeX distribution, you can specify
 
 ```sh
-meson test -C build --test-args='--bin_dir=<location>'
+meson test -C Build --test-args='--bin_dir=<location>'
 ```
 For example
 ```sh
-meson test -C build --test-args='--bin_dir="<somewhere>/TeXLive/Build/source/inst/bin/aarch64-apple-darwin23.2.0"'
+meson test -C Build --test-args='--bin_dir="<somewhere>/TeXLive/Build/source/inst/bin/aarch64-apple-darwin23.2.0"'
 ```
 Use `./Build CPPFLAGS="-DSYNCTEX_DEBUG=1000"` to build TeXLive binaries while activating debugging logs in SyncTeX support code.
 
@@ -379,11 +379,11 @@ make pdftex && fmtutil --sys --byfmt pdftex
 
 During test, some supplemental information may help: use
 ```sh
-meson test -C build --test-args='--debug'
+meson test -C Build --test-args='--debug'
 ```
 or
 ```sh
-meson test -C build --test-args='--debug=<non negative number>'
+meson test -C Build --test-args='--debug=<non negative number>'
 ```
 In the former, each `--debug` is cumulative meaning that is allows the display of more information.
 

@@ -1,6 +1,6 @@
 
 # This file is useless outside of the SyncTeX package
-# See the README.md
+# See the README.md in that directory
 
 project('synctex', 'c', version: 'see synctex_version.h')
 
@@ -98,7 +98,7 @@ base_args = [
 
 session_id_target = custom_target(
   'session_id',
-  build_always       : true,
+  build_always_stale : true,
   command            : [ texlua, meson.current_source_dir() / test_main_lua, '--setup']+base_args,
   output             : 'session_id'
 )
