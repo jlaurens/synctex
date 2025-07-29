@@ -37,10 +37,10 @@ This file is part of the __SyncTeX__ package testing framework.
 --- @type AUP
 local AUP = package.loaded.AUP
 
-local dbg = AUP.dbg
 local PL = AUP.PL
 
-local PLList = PL.List
+local PL_class = PL.class
+local PL_List = PL.List
 local PL_utils = PL.utils
 
 local AUPCommand = AUP.Command
@@ -49,7 +49,7 @@ local AUPCommand = AUP.Command
 --- @field super fun(self: AUPKPathSea, name: string)
 --- @field _init fun(self: AUPKPathSea)
 --- @field cmd fun(self: AUPKPathSea): string
-local AUPKPathSea = PL.class.AUPKPathSea(AUPCommand)
+local AUPKPathSea = PL_class(AUPCommand)
 
 --- Initialize an AUPKPathSea instance
 function AUPKPathSea:_init()
@@ -61,7 +61,7 @@ local quote_arg = PL_utils.quote_arg
 --- Build the command on the fly.
 --- @return string 
 function AUPKPathSea:cmd()
-  local list = PLList({
+  local list = PL_List({
     self._command,
   })
   list = list:filter(function(x)

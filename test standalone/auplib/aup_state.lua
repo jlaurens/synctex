@@ -42,7 +42,8 @@ There is an implicit stack of states implemented with metatables.
 --- @type AUP
 local AUP = package.loaded.AUP
 local PL = AUP.PL
-local PLList = PL.List
+local PL_class = PL.class
+local PL_List = PL.List
 local PLMap = PL.Map
 
 -- Where the data are really stored
@@ -55,7 +56,7 @@ local _state = {}
 --- @field on_before_teardown fun(self: AUPState, f: fun(): any)
 --- @field on_after_teardown fun(self: AUPState, f: fun(): any)
 
-local AUPState = PL.class.AUPState()
+local AUPState = PL_class()
 
 --- Create a new scoping level
 ---
@@ -63,8 +64,8 @@ local AUPState = PL.class.AUPState()
 function AUPState:_init()
   self._level = 0
   self._state = {}
-  self._before_stack = PLList()
-  self._after_stack = PLList()
+  self._before_stack = PL_List()
+  self._after_stack = PL_List()
 end
 
 --- Create a new scoping level
@@ -88,8 +89,8 @@ function AUPState:setup()
     self._state = t
   end
   f()
-  self._before_stack = PLList()
-  self._after_stack = PLList()
+  self._before_stack = PL_List()
+  self._after_stack = PL_List()
 end
 
 --- Register a function to be executed before the next teardown
@@ -150,22 +151,22 @@ function AUPState:set(key, value)
 end
 
 --- @class AUPState
---- @field listGet fun(self: AUPState, key: string): PLList
+--- @field listGet fun(self: AUPState, key: string): PL_List
 --- @field mapGet fun(self: AUPState, key: string): PLMap
 
---- Get the value for the given key as PLList
+--- Get the value for the given key as PL_List
 ---
---- PLList values are not inherited as is. A copy is inherited on the first
+--- PL_List values are not inherited as is. A copy is inherited on the first
 --- request to allow further modifications on the list.
 ---@param key string
----@return PLList?
+---@return PL_List?
 function AUPState:listGet(key)
   PL.utils.assert_string(2, key)
   local ans = rawget(self._state, key)
-  if PLList:class_of(ans) then
+  if PL_List:class_of(ans) then
     return ans
   elseif type(ans) == 'table' or ans == nil then
-    ans = PLList(ans)
+    ans = PL_List(ans)
     self._state[key] = ans
     return ans
   else

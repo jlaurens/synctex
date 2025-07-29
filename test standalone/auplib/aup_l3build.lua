@@ -37,13 +37,12 @@ local AUP = package.loaded.AUP
 local lfs = package.loaded.lfs
 local PL = AUP.PL
 
-local PLList = PL.List
+local PL_class = PL.class
+local PL_List = PL.List
 local PL_utils = PL.utils
 local assert_string = PL_utils.assert_string
 
 local AUPCommand = AUP.Command
-
-local dbg = AUP.dbg
 
 --- @enum (key) AUPL3BuildTarget
 local AUPL3BuildTarget = {
@@ -58,7 +57,7 @@ local AUPL3BuildTarget = {
 --- @field file fun(self: AUPL3Build, file: string): AUPL3Build
 --- @field cmd fun(self: AUPL3Build): string
 
-local AUPL3Build = PL.class.AUPL3Build(AUPCommand)
+local AUPL3Build = PL_class(AUPCommand)
 
 --- Initialize an AUPL3Build instance
 ---@param target string
@@ -80,7 +79,7 @@ end
 --- Add an option.
 --- @return AUPL3Build
 function AUPL3Build:clear_arguments()
-  self._arguments = PLList()
+  self._arguments = PL_List()
   return self
 end
 
@@ -89,7 +88,7 @@ local quote_arg = PL_utils.quote_arg
 --- Build the command on the fly.
 --- @return string 
 function AUPL3Build:cmd()
-  return quote_arg(PLList({
+  return quote_arg(PL_List({
     self._command,
     self._target,
     self._config or false,

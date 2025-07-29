@@ -153,39 +153,39 @@ end
 
 local PL = AUP.PL
 
---- @class PLList
+--- @class PL_List
 --- @field iter fun(): fun()
---- @field append fun(self: PLList, x: any)
---- @field contains fun(self: PLList, x: any): boolean
---- @field sort fun(self: PLList, cmp:(string|fun(x: any, y:any): boolean)?)
---- @field join fun(self: PLList, sep: string?): string
---- @field foreach fun (self: PLList, fun: fun(x: any, ...), ...)
---- @field map fun (self: PLList, fun: (fun(x: any, ...): any), ...)
-local PLList = PL.List
+--- @field append fun(self: PL_List, x: any)
+--- @field contains fun(self: PL_List, x: any): boolean
+--- @field sort fun(self: PL_List, cmp:(string|fun(x: any, y:any): boolean)?)
+--- @field join fun(self: PL_List, sep: string?): string
+--- @field foreach fun (self: PL_List, fun: fun(x: any, ...), ...)
+--- @field map fun (self: PL_List, fun: (fun(x: any, ...): any), ...)
+local PL_List = PL.List
 
 --- @class PLMap
---- @field keys PLList
---- @field values PLList
+--- @field keys PL_List
+--- @field values PL_List
 --- @field get fun(self: PLMap, key: any): any
---- @field getvalues fun(self: PLMap, keys: PLList): PLList
+--- @field getvalues fun(self: PLMap, keys: PL_List): PL_List
 --- @field set fun(self: PLMap, key: any, value: any)
 --- @field iter fun(): any
---- @field items fun(self: PLMap): PLList
+--- @field items fun(self: PLMap): PL_List
 --- @field setdefault fun(self: PLMap, key: any, default: any)
 --- @field len fun(self: PLMap): number
 --- @field update fun(self: PLMap, t: table)
 
 --- @class PLOrderedMap: PLMap
 --- @field insert fun(self: PLOrderedMap, pos: number, key: any, val: any)
---- @field keys fun(self: PLOrderedMap): PLList
---- @field values fun(self: PLOrderedMap): PLList
+--- @field keys fun(self: PLOrderedMap): PL_List
+--- @field values fun(self: PLOrderedMap): PL_List
 --- @field sort fun(self: PLMap, cmp:(string|(fun(x: any, y: any): boolean))?)
 
 local currentdir = PL.path.currentdir
 local chdir = PL.path.chdir
 local relpath = PL.path.relpath
 
-local pushd_stack = PLList()
+local pushd_stack = PL_List()
 
 PL.text.format_operator()
 
@@ -274,7 +274,7 @@ print(AUP.test_standalone_dir)
 --- @return string
 function AUP.short_path(p)
   p = p or currentdir()
-  return PLList({'...', relpath(p, AUP.test_standalone_dir)})
+  return PL_List({'...', relpath(p, AUP.test_standalone_dir)})
     :filter(function(x) return #x >0 end)
     :join('/')
 end

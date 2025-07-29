@@ -41,11 +41,12 @@ There is an implicit stack of states implemented with metatables.
 
 local AUP = package.loaded.AUP
 local PL = AUP.PL
+local PL_class = PL.class
 
 --- @class AUPUtils
 --- @field patch_penlight fun()
 --- @field execute fun(cmd: string): boolean, integer
-local AUPUtils = PL.class.AUPUtils()
+local AUPUtils = PL.class()
 
 --- execute a shell command, in a compatible and platform independent way.
 -- This is a compatibility function that returns the same for Lua 5.1 and
