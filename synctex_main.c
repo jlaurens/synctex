@@ -1247,67 +1247,6 @@ int synctex_dump(int argc, char *argv[])
         _synctex_error("Something wrong happened!\n");
         return (-1);
     }
-#if 0
-/*
-    struct _synctex_scanner_t {
-    /** Auxiliary reader object discarded when used */
-    synctex_reader_p reader;
-    SYNCTEX_DECLARE_NODE_COUNT
-    SYNCTEX_DECLARE_HANDLE
-    /** "dvi" or "pdf", not yet used */
-    char * output_fmt;
-    /** result iterator */
-    synctex_iterator_p iterator;
-    /** allways 1, not yet used */
-    int version;
-    /** various flags */
-    struct {
-        /**  Whether the scanner has parsed its underlying synctex file. */
-        unsigned has_parsed:1;
-        /*  Whether the scanner has parsed its underlying synctex file. */
-        unsigned postamble:1;
-        /*  alignment */
-        unsigned reserved:sizeof(unsigned)-2;
-    } flags;
-    /** magnification from the synctex preamble */
-    int pre_magnification;
-    /** unit from the synctex preamble */
-    int pre_unit;
-    /** X offset from the synctex preamble */
-    int pre_x_offset;
-    /** Y offset from the synctex preamble */
-    int pre_y_offset;
-    /** Number of records, from the synctex postamble */
-    int count;
-    /** real unit, from synctex preamble or post scriptum */
-    float unit;
-    /** X offset, from synctex preamble or post scriptum */
-    float x_offset;
-    /** Y Offset, from synctex preamble or post scriptum */
-    float y_offset;
-    /** The first input node, its siblings are the other input nodes */
-    synctex_node_p input;
-    /** The first sheet node, its siblings are the other sheet nodes */
-    synctex_node_p sheet;
-    /** The first form, its siblings are the other forms */
-    synctex_node_p form;
-    /** The first form ref node in sheet, its friends are the other form ref nodes */
-    synctex_node_p ref_in_sheet;
-    /** The first form ref node, its friends are the other form ref nodes in sheet */
-    synctex_node_p ref_in_form;
-    /** The number of friend lists */
-    int number_of_lists;
-    /** The friend lists */
-    synctex_node_r lists_of_friends;
-    /** The classes of the nodes of the scanner */
-    _synctex_class_s class_[synctex_node_number_of_types];
-    /** The display switcher value*/
-    int display_switcher;
-    /** The display prompt */
-    char * display_prompt;
-};
-*/
-#endif
     synctex_scanner_dump(g_scanner, &printf);
     synctex_scanner_free(g_scanner);
     g_scanner = NULL;
