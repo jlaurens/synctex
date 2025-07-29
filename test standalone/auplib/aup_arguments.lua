@@ -55,7 +55,7 @@ local lpeg = package.loaded.lpeg -- built into texlua
 --- @field string_value fun(self: AUPArgumentsEntry): string
 --- @field boolean_value fun(self: AUPArgumentsEntry): boolean
 --- @field _arguments AUPArguments
-local AUPArgumentsEntry = PL_class.AUPArgumentsEntry()
+local AUPArgumentsEntry = PL_class()
 
 --- Initialize a new argument entry instance
 --- @param key string
@@ -139,7 +139,7 @@ local AUPArgumentsGetMode = {
 --- @field local_value string
 --- @field dry boolean
 --- @field only_term boolean
-local AUPArguments = PL_class.AUPArguments()
+local AUPArguments = PL_class()
 
 ---@diagnostic disable-next-line: assign-type-mismatch
 AUPArguments.GetMode = AUPArgumentsGetMode
@@ -270,7 +270,7 @@ function AUPArguments:_init(arg_list)
   self._consumed = {}
   assert(#self.build_dir>0, 'Unknown build directory')
   if self.dev then
-    assert(#self.local_value>0, "Missing --local=⟨...⟩ argument")
+    assert(#self.local_value>0, "Missing --local=⟨...⟩ argument in dev mode")
   end
 end
 
@@ -350,7 +350,7 @@ end
 --- @field _i integer The next argument
 --- @field next fun(self: AUPArgumentsIterator): AUPArgumentsEntry? The next argument is any
 --- @field consume fun(self: AUPArgumentsIterator) consume the argument at the given index
-local AUPArgumentsIterator = PL_class.AUPArgumentsIterator()
+local AUPArgumentsIterator = PL_class()
 
 -- Patch the `__call` function
 do

@@ -37,6 +37,7 @@ local io_write = io.write
 local AUP = package.loaded.AUP
 local PL = AUP.PL
 local printf = PL.utils.printf
+local PL_class = PL.class
 
 --- @class (exact) AUPDBG debugging message
 --- @field write fun(self: AUPDBG, level: integer, ...: unknown)
@@ -46,7 +47,7 @@ local printf = PL.utils.printf
 --- @field level_set fun(self: AUPDBG, value: integer): integer
 --- @field level_increment fun(self: AUPDBG, delta: integer): integer
 
-local AUPDBG = PL.class.AUPDBG()
+local AUPDBG = PL_class()
 
 function AUPDBG:_init()
   self._level = 0

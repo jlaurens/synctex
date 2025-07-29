@@ -40,7 +40,8 @@ local AUP = package.loaded.AUP
 local dbg = AUP.dbg
 local PL = AUP.PL
 
-local PLList = PL.List
+local PL_class = PL.class
+local PL_List = PL.List
 local PL_utils = PL.utils
 
 local arguments = AUP.arguments
@@ -61,7 +62,7 @@ local AUPCommand = AUP.Command
 --- @field cmd fun(self: AUPFmtUtil): string
 --- @field texmf_var_dir fun(user: boolean?): string?
 --- @field remaking fun(self: AUPFmtUtil): string?, string?
-local AUPFmtUtil = PL.class.AUPFmtUtil(AUPCommand)
+local AUPFmtUtil = PL_class(AUPCommand)
 
 --- Initialize an AUPFmtUtil instance
 function AUPFmtUtil:_init()
@@ -74,7 +75,7 @@ local quote_arg = PL_utils.quote_arg
 --- Build the command on the fly.
 --- @return string 
 function AUPFmtUtil:cmd()
-  local list = PLList({
+  local list = PL_List({
     self._command,
     self._sys or false,
     self._user or false,
@@ -174,7 +175,7 @@ function AUPFmtUtil:remaking()
   local result = self:n():run()
   self._n = _n
   if result.status then
-    for l in PLList.split(result.stdout, "\n"):iter() do
+    for l in PL_List.split(result.stdout, "\n"):iter() do
       -- fmtutil [INFO]: --- remaking lualatex with luahbtex
       local fmt, engine = l:match("remaking%s+(%S+)%s+with%s+(%S+)$")
       if fmt ~= nil then
@@ -232,7 +233,7 @@ function AUPFmtUtil.texmf_var_dir(user)
   end
   local fmtutil = AUPFmtUtil():user(user or false):n():byfmt("pdftex")
   local result = fmtutil:run()
-  for l in PLList.split(result.stdout, "\n"):iter() do
+  for l in PL_List.split(result.stdout, "\n"):iter() do
     local ans = l:match("writing formats under%s*(.*)$")
     if ans ~= nil then
       if user then

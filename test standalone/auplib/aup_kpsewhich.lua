@@ -46,7 +46,8 @@ local AUP = package.loaded.AUP
 local dbg = AUP.dbg
 local PL = AUP.PL
 
-local PLList = PL.List
+local PL_class = PL.class
+local PL_List = PL.List
 local PL_utils = PL.utils
 
 local arguments = AUP.arguments
@@ -66,7 +67,7 @@ local AUPCommand = AUP.Command
 --- @field filename fun(self: AUPKPSEWhich, filename: string): AUPKPSEWhich
 --- @field var_value fun(self: AUPKPSEWhich, var: string): AUPKPSEWhich
 --- @field var_braced_value fun(self: AUPKPSEWhich, var: string): AUPKPSEWhich
-local AUPKPSEWhich = PL.class.AUPKPSEWhich(AUPCommand)
+local AUPKPSEWhich = PL_class(AUPCommand)
 
 --- Initialize an AUPKPSEWhich instance
 function AUPKPSEWhich:_init()
@@ -78,7 +79,7 @@ local quote_arg = PL_utils.quote_arg
 --- Build the command on the fly.
 --- @return string 
 function AUPKPSEWhich:cmd()
-  local list = PLList({
+  local list = PL_List({
     self._command,
     self._all or false,
     self._engine or false,
@@ -188,7 +189,7 @@ function AUPKPSEWhich.texmf_var_dir(user)
   end
   local KPSEWhich = AUPKPSEWhich():user(user or false):n():byfmt("pdftex")
   local result = KPSEWhich:run()
-  for l in PLList.split(result.stdout, "\n"):iter() do
+  for l in PL_List.split(result.stdout, "\n"):iter() do
     local ans = l:match("writing formats under%s*(.*)$")
     if ans ~= nil then
       if user then

@@ -39,13 +39,14 @@ THIS IS A WIP
 
 --- @type AUP
 local AUP = package.loaded.AUP
-local PLList = AUP.PL.List
+local PL_List = AUP.PL.List
+local PL_class = AUP.PL.class
 
 --- @class AUPAnsi
 --- @field format fun(text: string, ...): string
 --- @field bold fun(text: string): string
 --- @field italic fun(text: string): string
-AUPAnsi = AUP.PL.class.AUPAnsi()
+AUPAnsi = PL_class()
 
 --- @enum AUPAnsiMode
 AUPAnsiMode = {
@@ -91,7 +92,7 @@ AUPAnsiBackground = {
 ---@param ... unknown
 ---@return string
 AUPAnsi.format = function(input, ...)
-  local l = PLList(arg)
+  local l = PL_List(arg)
   l:append(input)
   l:append(AUPAnsiMode.Reset)
   return l:join('')
