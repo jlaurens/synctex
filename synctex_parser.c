@@ -1079,11 +1079,7 @@ static _synctex_open_s __synctex_open_v2(const char *output, synctex_io_mode_t i
      *  including the terminating character. size is free now. */
     if (open.synctex != strcpy(open.synctex, output)) {
         _synctex_error("!  __synctex_open_v2: Copy problem\n");
-    return_on_error:
-        free(open.synctex);
-        open.synctex = NULL;
-        free(quoteless_synctex_name); /* We MUST have quoteless_synctex_name<>synctex_name */
-        return open;
+        goto return_on_error;
     }
     /*  remove the last path extension if any */
     _synctex_strip_last_path_extension(open.synctex);
@@ -1172,6 +1168,12 @@ static _synctex_open_s __synctex_open_v2(const char *output, synctex_io_mode_t i
     }
     /*  The operation is successful, return the arguments by value.    */
     open.status = SYNCTEX_STATUS_OK;
+    return open;
+
+return_on_error:
+    free(open.synctex);
+    open.synctex = NULL;
+    free(quoteless_synctex_name); /* We MUST have quoteless_synctex_name<>open.synctex */
     return open;
 }
 
