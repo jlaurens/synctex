@@ -548,7 +548,7 @@ int _synctex_get_name(const char *output, const char *build_directory, char **sy
             /* synctex_name won't always end in .gz, even when compressed. */
             FILE *F = fopen(synctex_name, "r");
             if (F != NULL) {
-                if (!feof(F) && 31 == fgetc(F) && !feof(F) && 139 == fgetc(F)) {
+                if (!feof(F) && 0x1f == fgetc(F) && !feof(F) && 0x8b == fgetc(F)) {
                     io_mode = synctex_compress_mode_gz;
                 }
                 fclose(F);
