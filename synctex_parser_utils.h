@@ -86,8 +86,10 @@ extern "C" {
 // Microsoft C/C++ does not support __attribute__((__format__)), there is no drop-in replacement.
 // See https://learn.microsoft.com/en-us/cpp/code-quality/annotating-function-parameters-and-return-values?view=msvc-170
 #define SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(STRING_INDEX, FIRST_TO_CHECK)
+#define SYNCTEX_ANNOTATION_FORMAT_PRINTF _Printf_format_string_
 #else
 #define SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(STRING_INDEX, FIRST_TO_CHECK) __attribute__((__format__(__printf__, (STRING_INDEX), (FIRST_TO_CHECK))))
+#define SYNCTEX_ANNOTATION_FORMAT_PRINTF
 #endif
 
 /*  This custom malloc functions initializes to 0 the newly allocated memory.
@@ -102,10 +104,10 @@ void _synctex_free(void *ptr);
  *  On Windows, the stderr stream is not exposed and another method is used.
  *	The return value is the number of characters printed.	*/
 SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(1, 2)
-int _synctex_error(const char *reason, ...);
+int _synctex_error(SYNCTEX_ANNOTATION_FORMAT_PRINTF const char *reason, ...);
 
 SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(1, 2)
-int _synctex_debug(const char *reason, ...);
+int _synctex_debug(SYNCTEX_ANNOTATION_FORMAT_PRINTF const char *reason, ...);
 
 /*  strip the last extension of the given string, this string is modified!
  *  This function depends on the OS because the path separator may differ.
