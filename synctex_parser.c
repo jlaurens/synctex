@@ -9221,7 +9221,7 @@ struct _synctex_updater_t {
 };
 
 SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(2, 3)
-static int _synctex_updater_print(synctex_updater_p updater, const char *format, ...)
+static int _synctex_updater_print(synctex_updater_p updater, SYNCTEX_ANNOTATION_FORMAT_PRINTF const char *format, ...)
 {
     int result = 0;
     if (updater) {
@@ -9257,7 +9257,7 @@ static int vasprintf(char **ret, const char *format, va_list ap)
  *  gzvprintf is not available until OSX 10.10
  */
 SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(2, 3)
-static int _synctex_updater_print_gz(synctex_updater_p updater, const char *format, ...)
+static int _synctex_updater_print_gz(synctex_updater_p updater, SYNCTEX_ANNOTATION_FORMAT_PRINTF const char *format, ...)
 {
     int result = 0;
     if (updater) {

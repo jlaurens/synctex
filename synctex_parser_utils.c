@@ -86,8 +86,8 @@ void _synctex_free(void *ptr)
 #include <syslog.h>
 #endif
 
-SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(3, 0)
-static int _synctex_log(int level, const char *prompt, const char *reason, va_list arg)
+SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(3, 0) // Should be (3, 4) but GCC doesn't support va_list
+static int _synctex_log(int level, const char *prompt, SYNCTEX_ANNOTATION_FORMAT_PRINTF const char *reason, va_list arg)
 {
     int result;
 #ifdef SYNCTEX_RECENT_WINDOWS
@@ -134,7 +134,7 @@ static int _synctex_log(int level, const char *prompt, const char *reason, va_li
 }
 
 SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(1, 2)
-int _synctex_error(const char *reason, ...)
+int _synctex_error(SYNCTEX_ANNOTATION_FORMAT_PRINTF const char *reason, ...)
 {
     va_list arg;
     int result;
@@ -149,7 +149,7 @@ int _synctex_error(const char *reason, ...)
 }
 
 SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(1, 2)
-int _synctex_debug(const char *reason, ...)
+int _synctex_debug(SYNCTEX_ANNOTATION_FORMAT_PRINTF const char *reason, ...)
 {
     va_list arg;
     int result;
