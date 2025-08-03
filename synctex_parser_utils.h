@@ -101,7 +101,10 @@ void _synctex_free(void *ptr);
 /*  This is used to log some informational message to the standard error stream.
  *  On Windows, the stderr stream is not exposed and another method is used.
  *	The return value is the number of characters printed.	*/
+SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(1, 2)
 int _synctex_error(const char *reason, ...);
+
+SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(1, 2)
 int _synctex_debug(const char *reason, ...);
 
 /*  strip the last extension of the given string, this string is modified!
