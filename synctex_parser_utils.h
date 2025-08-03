@@ -83,7 +83,9 @@ extern "C" {
 #endif
 
 #if defined(_MSC_VER)
-#define SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(STRING_INDEX, FIRST_TO_CHECK) ATTRIBUTE_FORMAT_PRINTF(STRING_INDEX, FIRST_TO_CHECK)
+// Microsoft C/C++ does not support __attribute__((__format__)), there is no drop-in replacement.
+// See https://learn.microsoft.com/en-us/cpp/code-quality/annotating-function-parameters-and-return-values?view=msvc-170
+#define SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(STRING_INDEX, FIRST_TO_CHECK)
 #else
 #define SYNCTEX_ATTRIBUTE_FORMAT_PRINTF(STRING_INDEX, FIRST_TO_CHECK) __attribute__((__format__(__printf__, (STRING_INDEX), (FIRST_TO_CHECK))))
 #endif
