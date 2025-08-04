@@ -425,12 +425,7 @@ int _synctex_get_name(const char *output, const char *build_directory, char **sy
                     _synctex_error("!  _synctex_get_name: Memory problem 1");
                     return -1;
                 }
-                if (core_name != strncpy(core_name, base_name, size)) {
-                    _synctex_error("!  _synctex_get_name: Copy problem 1");
-                    free(core_name);
-                    dir_name = NULL;
-                    return -2;
-                }
+                strncpy(core_name, base_name, size);
                 core_name[size] = '\0';
             } else {
                 /*  There is no path extension,
@@ -447,14 +442,7 @@ int _synctex_get_name(const char *output, const char *build_directory, char **sy
                     free(core_name);
                     return -1;
                 }
-                if (dir_name != strncpy(dir_name, output, size)) {
-                    _synctex_error("!  _synctex_get_name: Copy problem");
-                    free(dir_name);
-                    dir_name = NULL;
-                    free(core_name);
-                    dir_name = NULL;
-                    return -2;
-                }
+                strncpy(dir_name, output, size);
                 dir_name[size] = '\0';
             }
             /*  dir_name is properly set up. It ends with a path separator, if non void. */

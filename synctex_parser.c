@@ -1077,10 +1077,8 @@ static _synctex_open_s __synctex_open_v2(const char *output, synctex_io_mode_t i
     }
     /*  we have reserved for synctex enough memory to copy output (including its 2 eventual quotes), both suffices,
      *  including the terminating character. size is free now. */
-    if (open.synctex != strcpy(open.synctex, output)) {
-        _synctex_error("!  __synctex_open_v2: Copy problem\n");
-        goto return_on_error;
-    }
+    strcpy(open.synctex, output);
+
     /*  remove the last path extension if any */
     _synctex_strip_last_path_extension(open.synctex);
     if (!strlen(open.synctex)) {
@@ -1097,14 +1095,11 @@ static _synctex_open_s __synctex_open_v2(const char *output, synctex_io_mode_t i
         open.synctex = quoted;
     }
     /*	Now add to open.synctex the first path extension. */
-    if (open.synctex != strcat(open.synctex, synctex_suffix)) {
-        _synctex_error("!  __synctex_open_v2: Concatenation problem (can't add suffix '%s')\n", synctex_suffix);
-        goto return_on_error;
-    }
+    strcat(open.synctex, synctex_suffix);
+
     /*	Add to quoteless_synctex_name as well, if relevant. */
-    if (quoteless_synctex_name && (quoteless_synctex_name != strcat(quoteless_synctex_name, synctex_suffix))) {
-        free(quoteless_synctex_name);
-        quoteless_synctex_name = NULL;
+    if (quoteless_synctex_name) {
+        strcat(quoteless_synctex_name, synctex_suffix);
     }
     if (NULL == (open.file = gzopen(open.synctex, mode))) {
         /*  Could not open this file */
@@ -1114,16 +1109,13 @@ static _synctex_open_s __synctex_open_v2(const char *output, synctex_io_mode_t i
             goto return_on_error;
         }
         /*  Apparently, there is no uncompressed synctex file. Try the compressed version */
-        if (open.synctex != strcat(open.synctex, synctex_suffix_gz)) {
-            _synctex_error("!  __synctex_open_v2: Concatenation problem (can't add suffix '%s')\n", synctex_suffix_gz);
-            goto return_on_error;
-        }
+        strcat(open.synctex, synctex_suffix_gz);
+
         open.io_mode |= synctex_io_gz_mask;
         mode = _synctex_get_io_mode_name(open.io_mode); /* the file is a compressed and is a binary file, this caused errors on Windows */
         /*	Add the suffix to the quoteless_synctex_name as well. */
-        if (quoteless_synctex_name && (quoteless_synctex_name != strcat(quoteless_synctex_name, synctex_suffix_gz))) {
-            free(quoteless_synctex_name);
-            quoteless_synctex_name = NULL;
+        if (quoteless_synctex_name) {
+            strcat(quoteless_synctex_name, synctex_suffix_gz);
         }
         if (NULL == (open.file = gzopen(open.synctex, mode))) {
             /*  Could not open this file */
@@ -1206,27 +1198,17 @@ static _synctex_open_s _synctex_open_v2(const char *output, const char *build_di
             if (is_absolute) {
                 build_output[0] = '\0';
             } else {
-                if (build_output != strcpy(build_output, output)) {
-                    _synctex_free(build_output);
-                    return open;
-                }
+                strcpy(build_output, output);
                 build_output[lpc - output] = '\0';
             }
-            if (build_output == strcat(build_output, build_directory)) {
-                /*	Append a path separator if necessary. */
-                if (!SYNCTEX_IS_PATH_SEPARATOR(build_output[strlen(build_directory) - 1])) {
-                    if (build_output != strcat(build_output, "/")) {
-                        _synctex_free(build_output);
-                        return open;
-                    }
-                }
-                /*	Append the last path component of the output. */
-                if (build_output != strcat(build_output, lpc)) {
-                    _synctex_free(build_output);
-                    return open;
-                }
-                open = __synctex_open_v2(build_output, io_mode, add_quotes);
+            strcat(build_output, build_directory);
+            /*	Append a path separator if necessary. */
+            if (!SYNCTEX_IS_PATH_SEPARATOR(build_output[strlen(build_directory) - 1])) {
+                strcat(build_output, "/");
             }
+            /*	Append the last path component of the output. */
+            strcat(build_output, lpc);
+            open = __synctex_open_v2(build_output, io_mode, add_quotes);
             _synctex_free(build_output);
         } /* if ((build_output... */
     } /* if (build_directory...) */
@@ -1262,10 +1244,8 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
         /*  make a private copy of output */
         if (NULL == (reader->output = (char *)_synctex_malloc(strlen(output) + 1))) {
             _synctex_error("!  synctex_scanner_new_with_output_file: Memory problem (2), reader's output is not reliable.");
-        } else if (reader->output != strcpy(reader->output, output)) {
-            _synctex_free(reader->output);
-            reader->output = NULL;
-            _synctex_error("!  synctex_scanner_new_with_output_file: Copy problem, reader's output is not reliable.");
+        } else {
+            strcpy(reader->output, output);
         }
         reader->start = reader->end = reader->current = NULL;
         reader->min_size = SYNCTEX_BUFFER_MIN_SIZE;
