@@ -18,7 +18,7 @@ To build the project, from the `.../synctexdir/meson` folder run:
 meson setup Build
 meson compile -C Build
 ```
-
+where you can replace the directory name `Build` with any valid name that better suits your needs.
 To install the project, run
 ```sh
 meson install -C Build
@@ -40,24 +40,24 @@ brew install meson ninja
 
 Build the Xcode project files:
 ```sh
-meson setup --backend xcode build
+meson setup --backend xcode Build
 meson compile -C Build
 ```
 
-You will find the Xcode project in `.../synctexdir/meson/build/synctex.xcodeproj`.
+You will find the Xcode project in `.../synctexdir/meson/Build/synctex.xcodeproj`.
 
 ### Setting up Visual Studio with meson
 
 Next instructions are not tested.
 
 ```sh
-meson setup --backend vs build
+meson setup --backend vs Build
 meson compile -C Build
 ```
 
 ## Setting up Xcode manually
 
-If `meson` is not suitable, next instructions were used for Xcode 7 but they might apply as well for other versions. The `build` folder and project are created out of the `.../synctexdir/` folder.
+If `meson` is not suitable, next instructions were used for Xcode 7 but they might apply as well for other versions. The `Build` folder and project are created out of the `.../synctexdir/` folder.
 
 ### Create a new project
 
