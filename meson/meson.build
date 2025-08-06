@@ -44,6 +44,11 @@ else
   shlwapi = []
 endif
 
+# for good measure
+if (cc.get_id() == 'msvc')
+  add_global_arguments('/analyze', language : 'c')
+endif
+
 synctex_inc = include_directories(synctex_dir)
 synctex_name = 'synctex'
 synctex_lib = library(synctex_name,
