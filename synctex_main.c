@@ -714,11 +714,7 @@ int synctex_view_proceed()
                     break;
                 }
                 /* copy the rest of viewer into the buffer */
-                if (buffer_cur != strncpy(buffer_cur, viewer, size + 1)) {
-                    synctex_help_view("Memory copy problem");
-                    free(buffer);
-                    return -1;
-                }
+                strncpy(buffer_cur, viewer, size + 1);
                 buffer_cur[size] = '\0';
                 printf("SyncTeX: Executing\n%s\n", buffer);
                 status = system(buffer);
