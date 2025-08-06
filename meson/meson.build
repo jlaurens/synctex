@@ -6,6 +6,7 @@ project('synctex', 'c', version: 'see synctex_version.h')
 
 synctex_dir = '..'
 
+cc = meson.get_compiler('c')
 fs = import('fs')
 
 foreach line: fs.read(synctex_dir / 'synctex_version.h').split('\n')
@@ -36,12 +37,19 @@ synctex_main = files(
 
 zdep = dependency('zlib', version: '>=1.2.8')
 
+# for PathFindExtension
+if host_machine.system() == 'windows'
+  shlwapi = cc.find_library('shlwapi')
+else
+  shlwapi = []
+endif
+
 synctex_inc = include_directories(synctex_dir)
 synctex_name = 'synctex'
 synctex_lib = library(synctex_name,
   synctex_sources,
   install: true,
-  dependencies: [ zdep ],
+  dependencies: [ shlwapi, zdep ],
   include_directories: [ synctex_inc ],
 )
 

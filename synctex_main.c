@@ -104,12 +104,7 @@ inline static double my_fmax(double x, double y)
 }
 #endif
 
-/* I use the definition in kpathsea --ak
-#ifdef WIN32
-#   define snprintf _snprintf
-#endif
-*/
-
+/* I use the definition in kpathsea --ak */
 #if defined(WIN32) && defined(SYNCTEX_STANDALONE)
 #define snprintf _snprintf
 #endif
