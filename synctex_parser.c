@@ -6676,12 +6676,11 @@ synctex_scanner_p synctex_scanner_new()
             _synctex_free(scanner);
             return NULL;
         }
-#ifdef SYNCTEX_NOTHING
-#pragma mark -
-#endif
+
 #define DEFINE_synctex_scanner_class(NAME)                                                                                                                     \
     scanner->class_[synctex_node_type_##NAME] = _synctex_class_##NAME;                                                                                         \
     (scanner->class_[synctex_node_type_##NAME]).scanner = scanner
+
         DEFINE_synctex_scanner_class(input);
         DEFINE_synctex_scanner_class(sheet);
         DEFINE_synctex_scanner_class(form);
