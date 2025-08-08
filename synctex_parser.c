@@ -1226,7 +1226,6 @@ static void synctex_reader_free(synctex_reader_p reader)
 }
 /*
  *  Returns true on success, returns false on failure.
- *  Sometimes deallocates reader on failure.
  */
 static synctex_bool_t synctex_reader_init_with_output_file(synctex_reader_p reader, const char *output, const char *build_directory)
 {
@@ -1253,12 +1252,7 @@ static synctex_bool_t synctex_reader_init_with_output_file(synctex_reader_p read
         reader->start = reader->current = (char *)_synctex_malloc(reader->size + 1); /*  one more character for null termination */
         if (NULL == reader->start) {
             _synctex_error("!  malloc error in synctex_reader_init_with_output_file.");
-#ifdef SYNCTEX_DEBUG
-            return synctex_YES;
-#else
-            synctex_reader_free(reader);
             return synctex_NO;
-#endif
         }
         reader->end = reader->start + reader->size;
         /*  reader->end always points to a null terminating character.
