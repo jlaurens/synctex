@@ -1225,10 +1225,9 @@ static void synctex_reader_free(synctex_reader_p reader)
     }
 }
 /*
- *  Return reader on success.
- *  Deallocate reader and return NULL on failure.
+ *  Returns true on success, returns false on failure.
  */
-static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p reader, const char *output, const char *build_directory)
+static synctex_bool_t synctex_reader_init_with_output_file(synctex_reader_p reader, const char *output, const char *build_directory)
 {
     if (reader) {
         /*  now open the synctex file */
@@ -1236,7 +1235,7 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
         if (open.status < SYNCTEX_STATUS_OK) {
             open = _synctex_open_v2(output, build_directory, 0, synctex_DONT_ADD_QUOTES);
             if (open.status < SYNCTEX_STATUS_OK) {
-                return NULL;
+                return synctex_NO;
             }
         }
         reader->synctex = open.synctex;
@@ -1253,12 +1252,7 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
         reader->start = reader->current = (char *)_synctex_malloc(reader->size + 1); /*  one more character for null termination */
         if (NULL == reader->start) {
             _synctex_error("!  malloc error in synctex_reader_init_with_output_file.");
-#ifdef SYNCTEX_DEBUG
-            return reader;
-#else
-            synctex_reader_free(reader);
-            return NULL;
-#endif
+            return synctex_NO;
         }
         reader->end = reader->start + reader->size;
         /*  reader->end always points to a null terminating character.
@@ -1268,7 +1262,7 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
         reader->charindex_offset = -reader->size;
 #endif
     }
-    return reader;
+    return synctex_YES;
 }
 
 /** @cond */
@@ -6676,12 +6670,11 @@ synctex_scanner_p synctex_scanner_new()
             _synctex_free(scanner);
             return NULL;
         }
-#ifdef SYNCTEX_NOTHING
-#pragma mark -
-#endif
+
 #define DEFINE_synctex_scanner_class(NAME)                                                                                                                     \
     scanner->class_[synctex_node_type_##NAME] = _synctex_class_##NAME;                                                                                         \
     (scanner->class_[synctex_node_type_##NAME]).scanner = scanner
+
         DEFINE_synctex_scanner_class(input);
         DEFINE_synctex_scanner_class(sheet);
         DEFINE_synctex_scanner_class(form);
@@ -6782,18 +6775,12 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner)
     status = _synctex_scan_preamble(scanner);
     if (status < SYNCTEX_STATUS_OK) {
         _synctex_error("Bad preamble\n");
-    bailey:
-#ifdef SYNCTEX_DEBUG
-        return scanner;
-#else
-        synctex_scanner_free(scanner);
-        return NULL;
-#endif
+        goto return_on_error;
     }
     status = _synctex_scan_content(scanner);
     if (status < SYNCTEX_STATUS_OK) {
         _synctex_error("Bad content\n");
-        goto bailey;
+        goto return_on_error;
     }
     status = _synctex_scan_postamble(scanner);
     if (status < SYNCTEX_STATUS_OK) {
@@ -6837,8 +6824,17 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner)
         scanner->y_offset /= 65781.76f;
     }
     return scanner;
-#undef SYNCTEX_FILE
+
+return_on_error:
+#ifdef SYNCTEX_DEBUG
+        return scanner;
+#else
+        synctex_scanner_free(scanner);
+        return NULL;
+#endif
 }
+
+#undef SYNCTEX_FILE
 
 /*  Scanner accessors.
  */
