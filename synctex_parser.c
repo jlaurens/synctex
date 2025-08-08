@@ -6781,18 +6781,12 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner)
     status = _synctex_scan_preamble(scanner);
     if (status < SYNCTEX_STATUS_OK) {
         _synctex_error("Bad preamble\n");
-    bailey:
-#ifdef SYNCTEX_DEBUG
-        return scanner;
-#else
-        synctex_scanner_free(scanner);
-        return NULL;
-#endif
+        goto return_on_error;
     }
     status = _synctex_scan_content(scanner);
     if (status < SYNCTEX_STATUS_OK) {
         _synctex_error("Bad content\n");
-        goto bailey;
+        goto return_on_error;
     }
     status = _synctex_scan_postamble(scanner);
     if (status < SYNCTEX_STATUS_OK) {
@@ -6836,8 +6830,17 @@ synctex_scanner_p synctex_scanner_parse(synctex_scanner_p scanner)
         scanner->y_offset /= 65781.76f;
     }
     return scanner;
-#undef SYNCTEX_FILE
+
+return_on_error:
+#ifdef SYNCTEX_DEBUG
+        return scanner;
+#else
+        synctex_scanner_free(scanner);
+        return NULL;
+#endif
 }
+
+#undef SYNCTEX_FILE
 
 /*  Scanner accessors.
  */
