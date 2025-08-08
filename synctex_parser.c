@@ -1225,10 +1225,10 @@ static void synctex_reader_free(synctex_reader_p reader)
     }
 }
 /*
- *  Return reader on success.
- *  Deallocate reader and return NULL on failure.
+ *  Returns true on success, returns false on failure.
+ *  Sometimes deallocates reader on failure.
  */
-static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p reader, const char *output, const char *build_directory)
+static synctex_bool_t synctex_reader_init_with_output_file(synctex_reader_p reader, const char *output, const char *build_directory)
 {
     if (reader) {
         /*  now open the synctex file */
@@ -1236,7 +1236,7 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
         if (open.status < SYNCTEX_STATUS_OK) {
             open = _synctex_open_v2(output, build_directory, 0, synctex_DONT_ADD_QUOTES);
             if (open.status < SYNCTEX_STATUS_OK) {
-                return NULL;
+                return synctex_NO;
             }
         }
         reader->synctex = open.synctex;
@@ -1254,10 +1254,10 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
         if (NULL == reader->start) {
             _synctex_error("!  malloc error in synctex_reader_init_with_output_file.");
 #ifdef SYNCTEX_DEBUG
-            return reader;
+            return synctex_YES;
 #else
             synctex_reader_free(reader);
-            return NULL;
+            return synctex_NO;
 #endif
         }
         reader->end = reader->start + reader->size;
@@ -1268,7 +1268,7 @@ static synctex_reader_p synctex_reader_init_with_output_file(synctex_reader_p re
         reader->charindex_offset = -reader->size;
 #endif
     }
-    return reader;
+    return synctex_YES;
 }
 
 /** @cond */
