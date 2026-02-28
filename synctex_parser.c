@@ -1225,7 +1225,8 @@ static void synctex_reader_free(synctex_reader_p reader)
     }
 }
 /*
- *  Returns true on success, returns false on failure.
+ *  Returns true on success, returns false on failure
+ %  (the reader is NULL, the output is NULL or empty, there is a malloc error).
  */
 static synctex_bool_t synctex_reader_init_with_output_file(synctex_reader_p reader, const char *output, const char *build_directory)
 {
@@ -1242,7 +1243,7 @@ static synctex_bool_t synctex_reader_init_with_output_file(synctex_reader_p read
         reader->file = open.file;
         /*  make a private copy of output */
         if (NULL == (reader->output = (char *)_synctex_malloc(strlen(output) + 1))) {
-            _synctex_error("!  synctex_scanner_new_with_output_file: Memory problem (2), reader's output is not reliable.");
+            _synctex_error("!  synctex_reader_init_with_output_file: malloc problem (1).");
         } else {
             strcpy(reader->output, output);
         }
@@ -1251,7 +1252,7 @@ static synctex_bool_t synctex_reader_init_with_output_file(synctex_reader_p read
         reader->size = SYNCTEX_BUFFER_SIZE;
         reader->start = reader->current = (char *)_synctex_malloc(reader->size + 1); /*  one more character for null termination */
         if (NULL == reader->start) {
-            _synctex_error("!  malloc error in synctex_reader_init_with_output_file.");
+            _synctex_error("!  synctex_reader_init_with_output_file: malloc problem (2).");
             return synctex_NO;
         }
         reader->end = reader->start + reader->size;
