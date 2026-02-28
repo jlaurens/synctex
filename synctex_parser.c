@@ -8014,6 +8014,13 @@ typedef struct synctex_iterator_t {
  * @endcond
  */
 
+/**
+ * @brief Creates a new iterator
+ * 
+ * @param result a synctex_node_p owned by the iterator.
+ * @param count a count of the results
+ * @return 
+ */
 static SYNCTEX_INLINE synctex_iterator_p _synctex_iterator_new(synctex_node_p result, int count)
 {
     synctex_iterator_p iterator;

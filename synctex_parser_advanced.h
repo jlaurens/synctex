@@ -106,7 +106,7 @@ typedef synctex_node_p synctex_non_null_node_p;
  */
 
 /*
- *  These are the mask hekpers for the synctex node types.
+ *  These are the mask helpers for the synctex node types.
  */
 enum {
     synctex_shift_root,
@@ -306,7 +306,7 @@ typedef struct _synctex_class_t _synctex_class_s;
  * The class points to various methods,
  * each of them vary amongst objects.
  * Each class has a data model which stores node's attributes.
- * Each class has an tree model which stores children and parent.
+ * Each class has a tree model which stores children and parent.
  * Inspectors give access to data and tree elements.
  */
 typedef _synctex_class_s *synctex_class_p;
@@ -373,6 +373,7 @@ struct _synctex_node_t {
  *
  * First element of an array of node pointers.
  * Mainly the list of friends of a node.
+ * Used by scanners.
  */
 typedef synctex_node_p *synctex_node_r;
 
@@ -490,6 +491,8 @@ const char *synctex_node_isa(synctex_node_p node);
 /**
  * @brief The node type of the target.
  *
+ * If the argument has no target, this is the type of the node itself.
+ * 
  * @param node
  * @return synctex_node_type_t
  */
@@ -591,7 +594,7 @@ typedef synctex_iterator_s *synctex_iterator_p;
  * Code example:
  * ```
  *    synctex_iterator_p iterator = NULL;
- *    if ((iterator = synctex_iterator_new_display(...)) {
+ *    if ((iterator = synctex_iterator_new_display(...))) {
  *      synctex_node_p node = NULL;
  *      while((node = synctex_iterator_next_result(iterator))) {
  *        <do something with node...>
@@ -602,13 +605,13 @@ typedef synctex_iterator_s *synctex_iterator_p;
  */
 synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner, const char *name, int line, int column, int page_hint);
 /**
- *  Designated creator for an  edit query.
+ *  Designated creator for an edit query.
  *
  * An edit query is used in backward navigation from output to source.
  *  Code example:
  * ```
  *    synctex_iterator_p iterator = NULL;
- *    if ((iterator = synctex_iterator_new_edit(...)) {
+ *    if ((iterator = synctex_iterator_new_edit(...))) {
  *      synctex_node_p node = NULL;
  *      while((node = synctex_iterator_next_result(iterator))) {
  *        <do something with node...>
