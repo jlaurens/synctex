@@ -1,8 +1,6 @@
 The branch named "main" is the upstream main branch where development occurs.
 
-The branch name `2026.1` is the stable release this year, which means that new features from the main branch go here when they are considered sufficiently mature and stable.
-
-The tag  `2026.1(TeXLive)` corresponds to the synctexdir directory of TeXLive svn repository from the 2026 release.
+The branch named `2026.1` is the stable release this year, which means that new features from the main branch go here when they are considered sufficiently mature and stable.
 
 All other branches are secondary.
 
