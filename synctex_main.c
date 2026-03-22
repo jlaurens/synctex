@@ -46,13 +46,13 @@
  If you include or use a significant part of the synctex package into a software,
  I would appreciate to be listed as contributor and see "SyncTeX" highlighted.
  
- Version 1.2
- Thu Jun 19 09:39:21 UTC 2008
- 
+ Version 1.22
+ Sun Mar 22 06:22:32 UTC 2026
+
  History:
  --------
  
- - the -d option for an input directory
+ See the ChangeLog
  
  Important notice:
  -----------------
@@ -97,8 +97,15 @@
 inline static double my_fmax(double x, double y) { return (x < y) ? y : x; }
 #endif
 
-#ifdef WIN32
-#   define snprintf _snprintf
+#ifdef __SYNCTEX_WORK__
+/* I use the definition in kpathsea --ak*/
+#   ifdef WIN32
+#       define snprintf _snprintf
+#   endif
+#else
+#   ifdef WIN32
+#       include <kpathsea/progname.h>
+#   endif
 #endif
 
 #if SYNCTEX_DEBUG
@@ -125,6 +132,9 @@ int synctex_test(int argc, char *argv[]);
 int main(int argc, char *argv[])
 {
     int arg_index = 1;
+#ifdef WIN32
+    kpse_set_program_name(argv[0], "synctex");
+#endif
     printf("This is SyncTeX command line utility, version " SYNCTEX_CLI_VERSION_STRING "\n");
     if(arg_index<argc) {
         if(0==strcmp("help",argv[arg_index])) {
@@ -516,6 +526,7 @@ int synctex_view_proceed(synctex_view_params_t * Ps) {
                 puts("SyncTeX result end");
             }
         }
+        synctex_scanner_free(scanner);
     }
     return 0;
 }
@@ -780,6 +791,7 @@ int synctex_edit_proceed(synctex_edit_params_t * Ps) {
             }
         }
     }
+    synctex_scanner_free(scanner);
     return 0;
 }
 
@@ -896,7 +908,7 @@ int synctex_test_file (int argc, char *argv[])
     char * output = NULL;
     char * directory = NULL;
     char * synctex_name = NULL;
-    synctex_compress_mode_t mode = synctex_compress_mode_none;
+    synctex_io_mode_t mode = 0;
     if(arg_index>=argc) {
         _synctex_error("!  usage: synctex test file -o output [-d directory]\n");
         return -1;
@@ -924,11 +936,11 @@ int synctex_test_file (int argc, char *argv[])
         printf("output:%s\n"
              "directory:%s\n"
              "file name:%s\n"
-             "compression mode:%s\n",
+             "io mode:%s\n",
              output,
              directory,
              synctex_name,
-             (mode?"gz":"none"));
+             _synctex_get_io_mode_name(mode));
     }
     return 0;
 }

@@ -1,5 +1,4 @@
-The 2017 branch is the stable branch this year, it is synchronized with the TeXLive svn repository.
-The 2017-1.21 branch is a working branch.
+The TeX Live 2026.1 branch is synchronized with the TeXLive svn repository. The main branch is parallel.
 
 See synctex_version.h to see the latest version of synctex and of the parser.
 
@@ -45,7 +44,7 @@ You end with 3 sources : `synctex_main.c`, `synctex_parser.c`, `synctex_parser_u
 
 ### Setup project
 
-- add `-DSYNCTEX_WORK` as other C flag (or `SYNCTEX_WORK` preprocessor macro)
+- add `-D__SYNCTEX_WORK__` as other C flag (or `__SYNCTEX_WORK__` preprocessor macro)
 - set Always Search User Path build setting to YES
 - in the build phase pane, link to libz1.2.5.tbd (or similar)
 

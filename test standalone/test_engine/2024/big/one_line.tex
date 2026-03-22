@@ -1,0 +1,25 @@
+%!TeX root=1.tex
+% 20 boxes per page
+% 20 boxes per page
+\tl_if_exist:NF \l__MY_page_tl {
+  \tl_new:N \l__MY_page_tl
+}
+\tl_if_exist:NF \l__MY_line_tl {
+  \tl_new:N \l__MY_line_tl
+}
+\hbox_set_to_wd:Nnw \l_tmpa_box {\textwidth} 
+  \tl_use:N \l__MY_page_tl
+  \hfill \tl_use:N \l__MY_line_tl
+  \hfill \int_rand:n {'777}
+  \hfill \int_rand:n {'777}
+\hbox_set_end:
+\box_use_drop:N \l_tmpa_box
+\endinput
+
+\int_step_inline:nn { 5 } {
+\hfill \int_rand:n {'777}
+\hfill $\int_rand:n {’777}$
+\hfill \hbox{}
+\hfill \hbox{word}
+\hfill word
+\hbox_set_end:

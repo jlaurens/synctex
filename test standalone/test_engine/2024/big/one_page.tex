@@ -1,0 +1,10 @@
+%!TeX root=1.tex
+% 20 boxes per page
+\tl_if_exist:NF \l__MY_line_tl {
+  \tl_new:N \l__MY_line_tl
+}
+\int_step_variable:nNn { 49 } \l__MY_line_tl {
+  \input{one_line}\\
+}
+\tl_set:Nn \l__MY_line_tl { 50 }
+\input{one_line}
