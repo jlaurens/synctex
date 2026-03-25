@@ -1,0 +1,179 @@
+system          > 
+system          > ConTeXt  ver: 2025.02.28 18:12 LMTX  fmt: 2026.3.20  int: english/english
+system          > 
+system          > 'cont-new.mkxl' loaded
+open source     > level 1, order 1, name '/usr/local/texlive/2025/texmf-dist/tex/context/base/mkxl/cont-new.mkxl'
+system          > beware: some patches loaded from cont-new.mkiv
+close source    > level 1, order 1, name '/usr/local/texlive/2025/texmf-dist/tex/context/base/mkxl/cont-new.mkxl'
+system          > 'cont-sys.mkxl' loaded
+open source     > level 1, order 2, name '/usr/local/texlive/2025/texmf-dist/tex/context/texlive/cont-sys.mkxl'
+open source     > level 2, order 3, name '/usr/local/texlive/2025/texmf-config/tex/context/user/context-papersize.tex'
+close source    > level 2, order 3, name '/usr/local/texlive/2025/texmf-config/tex/context/user/context-papersize.tex'
+close source    > level 1, order 3, name '/usr/local/texlive/2025/texmf-dist/tex/context/texlive/cont-sys.mkxl'
+system          > files > jobname './exemple', input './exemple.tex', result './exemple'
+fonts           > latin modern fonts are not preloaded
+languages       > language 'en' is active
+system          > synctex functionality is enabled, expect 5-10 pct runtime overhead!
+open source     > level 1, order 4, name './exemple.tex'
+open source     > level 2, order 5, name 'knuth.tex'
+fonts           > beware: no fonts are loaded yet, using 'lm mono' in box
+close source    > level 2, order 5, name 'knuth.tex'
+fonts           > checking > char T (U+00054) in font '' with id 0: missing
+fonts           > checking > char h (U+00068) in font '' with id 0: missing
+fonts           > checking > char u (U+00075) in font '' with id 0: missing
+fonts           > checking > char s (U+00073) in font '' with id 0: missing
+fonts           > checking > char , (U+0002C) in font '' with id 0: missing
+fonts           > checking > char I (U+00049) in font '' with id 0: missing
+fonts           > checking > char c (U+00063) in font '' with id 0: missing
+fonts           > checking > char a (U+00061) in font '' with id 0: missing
+fonts           > checking > char m (U+0006D) in font '' with id 0: missing
+fonts           > checking > char e (U+00065) in font '' with id 0: missing
+fonts           > checking > char t (U+00074) in font '' with id 0: missing
+fonts           > checking > char o (U+0006F) in font '' with id 0: missing
+fonts           > checking > char n (U+0006E) in font '' with id 0: missing
+fonts           > checking > char l (U+0006C) in font '' with id 0: missing
+fonts           > checking > char i (U+00069) in font '' with id 0: missing
+fonts           > checking > char d (U+00064) in font '' with id 0: missing
+fonts           > checking > char g (U+00067) in font '' with id 0: missing
+fonts           > checking > char r (U+00072) in font '' with id 0: missing
+fonts           > checking > char f (U+00066) in font '' with id 0: missing
+fonts           > checking > char w (U+00077) in font '' with id 0: missing
+fonts           > checking > char y (U+00079) in font '' with id 0: missing
+fonts           > checking > char b (U+00062) in font '' with id 0: missing
+fonts           > checking > char p (U+00070) in font '' with id 0: missing
+fonts           > checking > char ; (U+0003B) in font '' with id 0: missing
+fonts           > checking > char . (U+0002E) in font '' with id 0: missing
+fonts           > checking > char v (U+00076) in font '' with id 0: missing
+fonts           > checking > char X (U+00058) in font '' with id 0: missing
+fonts           > checking > char B (U+00042) in font '' with id 0: missing
+fonts           > checking > char O (U+0004F) in font '' with id 0: missing
+fonts           > checking > char k (U+0006B) in font '' with id 0: missing
+fonts           > checking > char x (U+00078) in font '' with id 0: missing
+pages           > flushing realpage 1, userpage 1, subpage 1
+open source     > level 2, order 6, name 'knuth.tex'
+close source    > level 2, order 6, name 'knuth.tex'
+pages           > flushing realpage 2, userpage 2, subpage 2
+open source     > level 2, order 7, name 'knuth.tex'
+close source    > level 2, order 7, name 'knuth.tex'
+pages           > flushing realpage 3, userpage 3, subpage 3
+open source     > level 2, order 8, name 'knuth.tex'
+close source    > level 2, order 8, name 'knuth.tex'
+pages           > flushing realpage 4, userpage 4, subpage 4
+close source    > level 1, order 8, name './exemple.tex'
+system          > invalid \starttext ... \stoptext structure
+backend         > xmp > using file '/usr/local/texlive/2025/texmf-dist/tex/context/base/mkiv/lpdf-pdx.xml'
+system          > start used files
+system          > text: exemple
+system          > stop used files
+system          > start used files
+system          >    1: filename=publ-imp-default.lua filetype=lua foundname=/usr/local/texlive/2025/texmf-dist/tex/context/base/mkiv/publ-imp-default.lua fullname=/usr/local/texlive/2025/texmf-dist/tex/context/base/mkiv/publ-imp-default.lua usedmethod=database
+system          >    2: filename=cont-new.mkxl filetype=tex foundname=/usr/local/texlive/2025/texmf-dist/tex/context/base/mkxl/cont-new.mkxl fullname=/usr/local/texlive/2025/texmf-dist/tex/context/base/mkxl/cont-new.mkxl usedmethod=database
+system          >    3: filename=cont-sys.mkxl filetype=tex foundname=/usr/local/texlive/2025/texmf-dist/tex/context/texlive/cont-sys.mkxl fullname=/usr/local/texlive/2025/texmf-dist/tex/context/texlive/cont-sys.mkxl usedmethod=database
+system          >    4: filename=context-papersize.tex filetype=tex foundname=/usr/local/texlive/2025/texmf-config/tex/context/user/context-papersize.tex fullname=/usr/local/texlive/2025/texmf-config/tex/context/user/context-papersize.tex usedmethod=database
+system          >    5: filename=lang-exc.lua filetype=lua foundname=/usr/local/texlive/2025/texmf-dist/tex/context/base/mkiv/lang-exc.lua fullname=/usr/local/texlive/2025/texmf-dist/tex/context/base/mkiv/lang-exc.lua usedmethod=database
+system          >    6: filename=lang-us.lua filetype=lua foundname=/usr/local/texlive/2025/texmf-dist/tex/context/patterns/mkiv/lang-us.lua fullname=/usr/local/texlive/2025/texmf-dist/tex/context/patterns/mkiv/lang-us.lua usedmethod=database
+system          >    7: filename=/Volumes/Users/GitHub/jlaurens/synctex/test standalone/test_engine/2222/ConTeXt/exemple.tex format=tex foundname=/Volumes/Users/GitHub/jlaurens/synctex/test standalone/test_engine/2222/ConTeXt/exemple.tex fullname=/Volumes/Users/GitHub/jlaurens/synctex/test standalone/test_engine/2222/ConTeXt/exemple.tex usedmethod=direct
+system          >    8: filename=knuth.tex format=tex foundname=knuth.tex fullname=/Volumes/Users/GitHub/jlaurens/synctex/test standalone/test_engine/2222/ConTeXt/knuth.tex usedmethod=direct
+system          >    9: filename=lmmono10-regular filetype=otf format=otf foundname=/usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf fullname=/usr/local/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf usedmethod=database
+system          >   10: filename=lpdf-pdx.xml filetype=tex foundname=/usr/local/texlive/2025/texmf-dist/tex/context/base/mkiv/lpdf-pdx.xml fullname=/usr/local/texlive/2025/texmf-dist/tex/context/base/mkiv/lpdf-pdx.xml usedmethod=database
+system          > stop used files
+system          > start commandline options
+system          >   currentrun="1"
+system          >   fulljobname="./exemple.tex"
+system          >   input="./exemple.tex"
+system          >   kindofrun="1"
+system          >   maxnofruns="9"
+system          >   synctex="true"
+system          >   texmfbinpath="/Library/TeX/texbin"
+system          > stop commandline options
+system          > start commandline files
+system          >    1: ./exemple.tex
+system          > stop commandline files
+modules         > start used modules
+modules         > stop used modules
+system          > 
+system          > status after finishing run
+system          > 
+system          >   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+system          >           string       pool       hash     lookup       node      token     buffer      input       file       nest  parameter       save       font   language       mark     insert        mvl
+system          >   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+system          >   max    2097152  100000000    2097152    2097152  100000000   10000000  100000000     100000       2000      10000     100000     500000     100000      10000      10000        500        500
+system          >   min     150000   10000000     150000     150000   10000000    2000000    1000000      10000        500       1000      20000     100000        250        250         50         25         10
+system          >   set     500000   10000000     250000     250000   50000000   10000000   10000000     100000       2000      10000     100000     500000     100000        250        250        250         10
+system          >   stp     100000    1000000     100000     100000    5000000    1000000    1000000      10000        250       1000      10000      10000        250        250         50         25         10
+system          > 
+system          >   mem     150000     991710     150000              10000000    2000000    1000000      10000        500       1000      20000      10000        250        250         50         25         10
+system          >   itm         16          1         16                     9          8          1         32         32         80          4         16          8          8         28         56         80
+system          >   ext          0          0          0          0          0          0          0          0          0          0          0          0      50800         96          0          0          0
+system          >   all    2400000     991710    2400000          1   90000000   16000000    1000000     320000      16000      80000      80000     160000      52800       2096       1400       1400        800
+system          > 
+system          >   ini    2148937     991416          0      51768          0     572192                                                                                       0                                 
+system          >   ptr      51810                  7582      51793                563895          0          0          0          0          0          0          1          0          0         11          0
+system          >   top      51811                938216     262146      15542     574076        169         31          4         12         34        469        250        250         50         25         10
+system          >   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+system          > 
+system          >   current input type    : initial
+system          > 
+system          >   approximate memory    : 116225294 (110 MB)
+system          > 
+system          >   expansion depth       : min: 10000, max: 1000000, set: 10000, top: 6
+system          > 
+system          >   luabytecode registers : 1026
+system          >   luabytecode bytes     : 16432 (0 MB)
+system          >   luastate bytes now    : 74726455 (71 MB)
+system          >   luastate bytes max    : 90312408 (86 MB)
+system          > 
+system          >   file callbacks        : 173
+system          >   saved callbacks       : 5344
+system          >   direct callbacks      : 3
+system          >   function callbacks    : 552
+system          >   value callbacks       : 3
+system          >   message callbacks     : 0
+system          >   bytecode callbacks    : 632
+system          > 
+system          >   mp instances          : 0
+system          >   mp estimated memory   : 0 (0 MB)
+system          >   mp file callbacks     : 0
+system          >   mp text callbacks     : 0
+system          >   mp script callbacks   : 0
+system          >   mp log callbacks      : 0
+system          > 
+system          >   total callbacks       : 6707
+system          >   mp total callbacks    : 0
+system          >   backend callbacks     : 0
+system          > 
+system          >   linebreak statistics  : context      calls     first    second     final  passonly   subpass
+system          > 
+system          >   linebreak statistics  : normal          24        24         0        12         0         0
+system          >   linebreak statistics  : vbox            12        12         0         0         0         0
+system          > 
+system          >   linebreak statistics  :                 36        36         0        12         0         0
+system          > 
+system          >   hyphenation state     : checked          28
+system          >   hyphenation state     : lists            28
+system          >   hyphenation state     : nothing          28
+system          > 
+mkiv lua stats  > used config file: selfautoparent:/texmfcnf.lua;selfautoparent:/texmf-dist/web2c/texmfcnf.lua
+mkiv lua stats  > used cache path: readable+writable: '/Users/Perso/Library/texlive/2025/texmf-var/luametatex-cache/context/a86c089b384a3076dc514ba966a1fac9'
+mkiv lua stats  > resource resolver: loadtime 0.078 seconds, 1 scans with scantime 0.001 seconds, 0 shared scans, 10 found files, scanned paths: /Users/Perso/Library/texmf
+mkiv lua stats  > stored bytecode data: 526 modules (0.237 sec), 106 tables (0.008 sec), 632 chunks (0.245 sec)
+mkiv lua stats  > traced context lua functions: maxstack: 1858, freed: 0, unreachable: 1858
+mkiv lua stats  > cleaned up reserved nodes: 76 nodes, 7 lists of 444
+mkiv lua stats  > node memory usage: 9 attribute, 2 glue, 135 gluespec, 1 kern, 657 mathspec, 3 penalty, 29 specification, 2 temp
+mkiv lua stats  > node list callback tasks: 16 unique task lists, 10 instances (re)created, 298 calls
+mkiv lua stats  > synctex tracing: 2 referenced files, 4 files ignored, 88 objects flushed, logfile: exemple.synctex
+mkiv lua stats  > used backend: pdf
+mkiv lua stats  > randomizer: resumed with value 0.01391543422228636
+mkiv lua stats  > jobdata time: 0.001 seconds saving, 0.000 seconds loading
+mkiv lua stats  > callbacks: file: 173, saved: 5344, direct: 3, function: 552, value: 3, message: 0, bytecode: 632, late 0, total: 6707 (1677 per page)
+mkiv lua stats  > loaded patterns: en::1, load time: 0.000
+mkiv lua stats  > loaded fonts: 1 files: lmmono10-regular.otf
+mkiv lua stats  > font engine: otf 3.144, afm 1.541, tfm 1.000
+mkiv lua stats  > font embedding time: 0.001 seconds, 2 fonts
+mkiv lua stats  > result saved in file: exemple.pdf, compresslevel 1, objectcompresslevel 3, 8 streams, 0 uncompressed, 7 compressed, 1 not compressed, threshold 40
+mkiv lua stats  > positions: 4 collected, 0 deltas, 0 shared partials, 0 partial entries
+mkiv lua stats  > used platform: osx-64, type: unix, binary subtree: bin
+mkiv lua stats  > used engine: luametatex version: 2.11.07, functionality level: 20250226, format id: 717, compiler: clang
+mkiv lua stats  > tex properties: 938216 hash slots used of 2097152, 51793 control sequences, approximate memory usage: 110 MB
+mkiv lua stats  > lua properties: engine: lua 5.5, format 5, used memory: 74 MB, ctx: 71 MB, max: 86 MB, symbol mask: utf (τεχ)
+mkiv lua stats  > runtime: 0.324 seconds, 4 processed pages, 4 shipped pages, 12.328 pages/second

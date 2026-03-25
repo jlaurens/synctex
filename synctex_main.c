@@ -967,7 +967,7 @@ int synctex_edit_proceed()
         size -= printed;                                                                                                                                       \
         printed = snprintf(buffer_cur, size, FORMAT, WHAT);                                                                                                    \
         if ((unsigned)printed >= (unsigned)size) {                                                                                                             \
-            synctex_help_edit("Snprintf problem");                                                                                                             \
+            synctex_help_edit("snprintf problem");                                                                                                             \
             free(buffer);                                                                                                                                      \
             return -1;                                                                                                                                         \
         }                                                                                                                                                      \

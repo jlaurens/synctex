@@ -1242,10 +1242,12 @@ static synctex_bool_t synctex_reader_init_with_output_file(synctex_reader_p read
         reader->synctex = open.synctex;
         reader->file = open.file;
         /*  make a private copy of output */
-        if (NULL == (reader->output = (char *)_synctex_malloc(strlen(output) + 1))) {
-            _synctex_error("!  synctex_reader_init_with_output_file: malloc problem (1).");
-        } else {
-            strcpy(reader->output, output);
+        if (NULL == (reader->output = (char *)_synctex_malloc(strlen(output)+1))){
+            _synctex_error("!  synctex_reader_init_with_output_file: Memory problem (2), reader's output is not reliable.");
+        } else if (reader->output != strcpy(reader->output,output)) {
+            _synctex_free(reader->output);
+            reader->output = NULL;
+            _synctex_error("!  synctex_reader_init_with_output_file: Copy problem, reader's output is not reliable.");
         }
         reader->start = reader->end = reader->current = NULL;
         reader->min_size = SYNCTEX_BUFFER_MIN_SIZE;
