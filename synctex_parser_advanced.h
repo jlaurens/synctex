@@ -506,12 +506,6 @@ int synctex_node_child_count(synctex_node_p node);
  *   Available in `synctex_parser_advanced.h`.
  * @{
  */
-int synctex_node_box_h(synctex_node_p node);
-int synctex_node_box_v(synctex_node_p node);
-int synctex_node_box_width(synctex_node_p node);
-int synctex_node_box_height(synctex_node_p node);
-int synctex_node_box_depth(synctex_node_p node);
-
 int synctex_node_hbox_h(synctex_node_p node);
 int synctex_node_hbox_v(synctex_node_p node);
 int synctex_node_hbox_width(synctex_node_p node);

@@ -6859,6 +6859,10 @@ int synctex_scanner_y_offset(synctex_scanner_p scanner)
 }
 float synctex_scanner_magnification(synctex_scanner_p scanner)
 {
+    return synctex_scanner_unit(scanner);
+}
+float synctex_scanner_unit(synctex_scanner_p scanner)
+{
     return scanner ? scanner->unit : 1;
 }
 void synctex_scanner_display(synctex_scanner_p scanner)
@@ -7030,6 +7034,10 @@ synctex_node_p synctex_scanner_input_with_tag(synctex_scanner_p scanner, int tag
         input = __synctex_tree_sibling(input);
     }
     return input;
+}
+int synctex_scanner_get_data_version(synctex_scanner_p scanner)
+{
+    return NULL != scanner ? scanner->version : 0;
 }
 const char *synctex_scanner_get_output_fmt(synctex_scanner_p scanner)
 {

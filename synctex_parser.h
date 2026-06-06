@@ -99,12 +99,10 @@ typedef _synctex_scanner_s *synctex_scanner_p;
  *      If no synctex file is found in the same directory
  *      as the output file, then we try to find one in
  *      this build directory.
- *      It is the directory where all the auxiliary
- *      stuff is created. Sometimes, the synctex output
- *      file and the pdf, dvi or xdv files are not
- *      created in the same location. See MikTeX.
- *      This directory path can be NULL,
- *      it will be ignored then.
+ *      Sometimes, the synctex output file and the pdf,
+ *      dvi or xdv files are not created in the same location.
+ *      See MikTeX.
+ *      This directory path can be NULL, it will be ignored then.
  *      It can be either absolute or relative to the
  *      directory of the output pdf (dvi or xdv) file.
  *      Please note that this new argument is provided
@@ -478,6 +476,14 @@ const char *synctex_scanner_get_output(synctex_scanner_p scanner);
  */
 const char *synctex_scanner_get_synctex(synctex_scanner_p scanner);
 /**
+ * @brief Version of the synctex data
+ *
+ * From the top of the content of the synctex file.
+ * @param scanner
+ * @return int
+ */
+int synctex_scanner_get_data_version(synctex_scanner_p scanner);
+/**
  * @brief Format of the output
  *
  * From the content of the synctex file.
@@ -515,11 +521,19 @@ int synctex_scanner_y_offset(synctex_scanner_p scanner);
 /**
  * @brief Magnification
  *
- * 1000 default in TeX.
+ * Same as unit below. This is not the Magnification stored as SyncTeX data.
  * @param scanner
  * @return float
  */
 float synctex_scanner_magnification(synctex_scanner_p scanner);
+/**
+ * @brief Unit
+ *
+ * One.
+ * @param scanner
+ * @return float
+ */
+float synctex_scanner_unit(synctex_scanner_p scanner);
 
 typedef int(synctex_printer_f)(const char *, ...);
 
