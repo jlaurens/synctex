@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2017/dev) (preloaded format=pdftex 2017.3.9)  27 MAR 2017 13:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdftex 2025.10.12)  30 JUN 2026 09:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **formform.tex
-(./formform.tex [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pd
-ftex.map}] )</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/
+(./formform.tex [1{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pd
+ftex.map}] )</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmr10.pfb>
-Output written on formform.pdf (1 page, 12399 bytes).
+Output written on formform.pdf (1 page, 12538 bytes).
 PDF statistics:
  16 PDF objects out of 1000 (max. 8388607)
  9 compressed objects within 1 object stream

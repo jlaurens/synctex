@@ -1,0 +1,3 @@
+[submodule "cpp/subprojects/doctest"]
+	path = cpp/subprojects/doctest
+	url = https://github.com/doctest/doctest.git

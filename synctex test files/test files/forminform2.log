@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2017/dev) (preloaded format=pdftex 2017.3.9)  31 MAR 2017 21:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2027/dev) (preloaded format=pdftex 2026.7.1)  2 JUL 2026 11:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **forminform2.tex
 (./forminform2.tex
-Underfull \hbox (badness 10000) detected at line 4
+Underfull \hbox (badness 10000) detected at line 8
 \tenrm XX
 
 \hbox(6.83331+0.0)x15.25879
@@ -12,7 +12,7 @@ Underfull \hbox (badness 10000) detected at line 4
 .\tenrm X
 
 
-Underfull \hbox (badness 10000) detected at line 6
+Underfull \hbox (badness 10000) detected at line 10
 \tenrm YY
 
 \hbox(6.83331+0.0)x15.25879
@@ -20,19 +20,19 @@ Underfull \hbox (badness 10000) detected at line 6
 .\tenrm Y
 
 
-Underfull \vbox (badness 10000) detected at line 9
+Underfull \vbox (badness 10000) detected at line 19
 
 \vbox(15.25879+1.94444)x30.51758
 .\hbox(4.30554+1.94444)x30.51758, glue set 20.66342fill
 ..\mathon
-..\teni p
+..\teni q
+..\kern0.35878
 ..\mathoff
 ..\glue 0.0 plus 1.0fill
-..\mathon
 ..etc.
 
-
-Underfull \hbox (badness 10000) detected at line 11
+{/Volumes/Users/TL/2027-dev/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+Underfull \hbox (badness 10000) detected at line 21
 \tenrm XX
 
 \hbox(6.83331+0.0)x15.25879
@@ -40,17 +40,17 @@ Underfull \hbox (badness 10000) detected at line 11
 .\tenrm X
 
 
-Underfull \hbox (badness 10000) detected at line 13
+Underfull \hbox (badness 10000) detected at line 23
 \tenrm YY
 
 \hbox(6.83331+0.0)x15.25879
 .\tenrm Y
 .\tenrm Y
 
-[1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] )</us
-r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on forminform2.pdf (1 page, 17043 bytes).
+[1] )</Volumes/Users/TL/2027-dev/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+10.pfb></Volumes/Users/TL/2027-dev/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r10.pfb>
+Output written on forminform2.pdf (1 page, 17049 bytes).
 PDF statistics:
  20 PDF objects out of 1000 (max. 8388607)
  12 compressed objects within 1 object stream

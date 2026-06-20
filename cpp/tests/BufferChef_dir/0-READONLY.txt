@@ -1,0 +1,9 @@
+UTF8 DO NOT EDIT
+SyncTeX Version:1
+Input:1:/√olumes/ºsers/∂ocuments/æ/◊ery/¬ong/πath/µore/†han/„0/ºTF8/©haracters.tex
+Content:
+!2
+x3,4:5,6
+k7,8:9,10:11
+[12,13:14,15:16,17,18
+]

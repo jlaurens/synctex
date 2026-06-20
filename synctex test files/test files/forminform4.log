@@ -1,0 +1,2608 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2027/dev) (preloaded format=pdftex 2026.7.1)  4 JUL 2026 08:43
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**forminform4.tex
+(./forminform4.tex
+Underfull \hbox (badness 10000) detected at line 9
+$\teni <$\tenrm h0$\teni >$
+
+\hbox(6.94444+0.39098)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 0
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 11
+$\teni <$\tenrm h1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 13
+$\teni <$\tenrm h2$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 15
+$\teni <$\tenrm h3$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 17
+$\teni <$\tenrm /h3$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 18
+[] []
+
+\hbox(7.5+2.5)x65.93323
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 3
+..etc.
+.\glue 0.00188
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+{/Volumes/Users/TL/2027-dev/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+Underfull \hbox (badness 10000) detected at line 21
+$\teni <$\tenrm f3$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 23
+$\teni <$\tenrm /f3$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 24
+$\teni <$\tenrm /h2$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 25
+[][][][][]
+
+\hbox(7.5+2.5)x201.5686
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 2
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 3
+..etc.
+.\pdfrefxform(7.5+2.5)x65.93323
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 28
+$\teni <$\tenrm f2$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 30
+$\teni <$\tenrm /f2$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 31
+$\teni <$\tenrm /h1$\teni >$
+
+\hbox(7.5+2.5)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 32
+[][][][][]
+
+\hbox(7.5+2.5)x337.21924
+.\hbox(6.94444+0.39098)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 1
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 2
+..etc.
+.\pdfrefxform(7.5+2.5)x201.5686
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 35
+$\teni <$\tenrm f1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 37
+$\teni <$\tenrm /f1$\teni >$
+
+\hbox(7.5+2.5)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 38
+$\teni <$\tenrm /h0$\teni >$
+
+\hbox(7.5+2.5)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 39
+[][][][][]
+
+\hbox(7.5+2.5)x540.65094
+.\hbox(6.94444+0.39098)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 0
+..etc.
+.\hbox(6.94444+0.39098)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 1
+..etc.
+.\pdfrefxform(7.5+2.5)x337.21924
+.\hbox(7.5+2.5)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Overfull \hbox (85.06265pt too wide) in paragraph at lines 5--40
+\tenrm III:[] |
+
+\hbox(7.5+2.5)x469.75499
+.\tenrm I
+.\kern0.27779
+.\tenrm I
+.\kern0.27779
+.\tenrm I
+.etc.
+
+[1]
+Underfull \hbox (badness 10000) detected at line 44
+$\teni <$\tenrm h0$\teni >$
+
+\hbox(6.94444+0.39098)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 0
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 46
+$\teni <$\tenrm h1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 48
+$\teni <$\tenrm h2$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 50
+$\teni <$\tenrm h3$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 52
+$\teni <$\tenrm /h3$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 53
+[] []
+
+\hbox(7.5+2.5)x65.93323
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 3
+..etc.
+.\glue 0.00188
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 56
+$\teni <$\tenrm f3$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 58
+$\teni <$\tenrm /f3$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 59
+$\teni <$\tenrm /h2$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 60
+[][][][][]
+
+\hbox(7.5+2.5)x201.5686
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 2
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 3
+..etc.
+.\pdfrefxform(7.5+2.5)x65.93323
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 63
+$\teni <$\tenrm f2$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 65
+$\teni <$\tenrm /f2$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 66
+$\teni <$\tenrm /h1$\teni >$
+
+\hbox(7.5+2.5)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 67
+[][][][][]
+
+\hbox(7.5+2.5)x337.21924
+.\hbox(6.94444+0.39098)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 1
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 2
+..etc.
+.\pdfrefxform(7.5+2.5)x201.5686
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 70
+$\teni <$\tenrm f1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 72
+$\teni <$\tenrm /f1$\teni >$
+
+\hbox(7.5+2.5)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 73
+$\teni <$\tenrm /h0$\teni >$
+
+\hbox(7.5+2.5)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 74
+[][][][][]
+
+\hbox(7.5+2.5)x540.65094
+.\hbox(6.94444+0.39098)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 0
+..etc.
+.\hbox(6.94444+0.39098)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 1
+..etc.
+.\pdfrefxform(7.5+2.5)x337.21924
+.\hbox(7.5+2.5)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Overfull \hbox (83.95154pt too wide) in paragraph at lines 40--75
+\tenrm .II:[] |
+
+\hbox(7.5+2.5)x469.75499
+.\tenrm .
+.\tenrm I
+.\kern0.27779
+.\tenrm I
+.\tenrm :
+.etc.
+
+[2]
+Underfull \hbox (badness 10000) detected at line 79
+$\teni <$\tenrm h0$\teni >$
+
+\hbox(6.94444+0.39098)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 0
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 81
+$\teni <$\tenrm h1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 83
+$\teni <$\tenrm h2$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 85
+$\teni <$\tenrm h3$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 87
+$\teni <$\tenrm /h3$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 88
+[] []
+
+\hbox(7.5+2.5)x65.93323
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 3
+..etc.
+.\glue 0.00188
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 91
+$\teni <$\tenrm f3$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 93
+$\teni <$\tenrm /f3$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 94
+$\teni <$\tenrm /h2$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 95
+[][][][][]
+
+\hbox(7.5+2.5)x201.5686
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 2
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 3
+..etc.
+.\pdfrefxform(7.5+2.5)x65.93323
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 98
+$\teni <$\tenrm f2$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 100
+$\teni <$\tenrm /f2$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 101
+$\teni <$\tenrm /h1$\teni >$
+
+\hbox(7.5+2.5)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 102
+[][][][][]
+
+\hbox(7.5+2.5)x337.21924
+.\hbox(6.94444+0.39098)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 1
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 2
+..etc.
+.\pdfrefxform(7.5+2.5)x201.5686
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 105
+$\teni <$\tenrm f1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 107
+$\teni <$\tenrm /f1$\teni >$
+
+\hbox(7.5+2.5)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 108
+$\teni <$\tenrm /h0$\teni >$
+
+\hbox(7.5+2.5)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 109
+[][][][][]
+
+\hbox(7.5+2.5)x540.65094
+.\hbox(6.94444+0.39098)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 0
+..etc.
+.\hbox(6.94444+0.39098)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 1
+..etc.
+.\pdfrefxform(7.5+2.5)x337.21924
+.\hbox(7.5+2.5)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Overfull \hbox (83.67375pt too wide) in paragraph at lines 75--110
+\tenrm I.I:[] |
+
+\hbox(7.5+2.5)x469.75499
+.\tenrm I
+.\tenrm .
+.\tenrm I
+.\tenrm :
+.\hbox(7.5+2.5)x540.65094
+..\hbox(6.94444+0.39098)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm h
+...\tenrm 0
+...etc.
+..\hbox(6.94444+0.39098)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm f
+...\tenrm 1
+...etc.
+..\pdfrefxform(7.5+2.5)x337.21924
+..\hbox(7.5+2.5)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm f
+...etc.
+..\hbox(7.5+2.5)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm h
+...etc.
+.etc.
+
+[3]
+Underfull \hbox (badness 10000) detected at line 114
+$\teni <$\tenrm h0$\teni >$
+
+\hbox(6.94444+0.39098)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 0
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 116
+$\teni <$\tenrm h1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 118
+$\teni <$\tenrm h2$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 120
+$\teni <$\tenrm h3$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 122
+$\teni <$\tenrm /h3$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 123
+[] []
+
+\hbox(7.5+2.5)x65.93323
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 3
+..etc.
+.\glue 0.00188
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 126
+$\teni <$\tenrm f3$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 128
+$\teni <$\tenrm /f3$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 129
+$\teni <$\tenrm /h2$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 130
+[][][][][]
+
+\hbox(7.5+2.5)x201.5686
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 2
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 3
+..etc.
+.\pdfrefxform(7.5+2.5)x65.93323
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 133
+$\teni <$\tenrm f2$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 135
+$\teni <$\tenrm /f2$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 136
+$\teni <$\tenrm /h1$\teni >$
+
+\hbox(7.5+2.5)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 137
+[][][][][]
+
+\hbox(7.5+2.5)x337.21924
+.\hbox(6.94444+0.39098)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 1
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 2
+..etc.
+.\pdfrefxform(7.5+2.5)x201.5686
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 140
+$\teni <$\tenrm f1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 142
+$\teni <$\tenrm /f1$\teni >$
+
+\hbox(7.5+2.5)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 143
+$\teni <$\tenrm /h0$\teni >$
+
+\hbox(7.5+2.5)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 144
+[][][][][]
+
+\hbox(7.5+2.5)x540.65094
+.\hbox(6.94444+0.39098)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 0
+..etc.
+.\hbox(6.94444+0.39098)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 1
+..etc.
+.\pdfrefxform(7.5+2.5)x337.21924
+.\hbox(7.5+2.5)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Overfull \hbox (82.84042pt too wide) in paragraph at lines 110--145
+\tenrm ..I:[] |
+
+\hbox(7.5+2.5)x469.75499
+.\tenrm .
+.\tenrm .
+.\tenrm I
+.\tenrm :
+.\hbox(7.5+2.5)x540.65094
+..\hbox(6.94444+0.39098)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm h
+...\tenrm 0
+...etc.
+..\hbox(6.94444+0.39098)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm f
+...\tenrm 1
+...etc.
+..\pdfrefxform(7.5+2.5)x337.21924
+..\hbox(7.5+2.5)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm f
+...etc.
+..\hbox(7.5+2.5)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm h
+...etc.
+.etc.
+
+[4]
+Underfull \hbox (badness 10000) detected at line 149
+$\teni <$\tenrm h0$\teni >$
+
+\hbox(6.94444+0.39098)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 0
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 151
+$\teni <$\tenrm h1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 153
+$\teni <$\tenrm h2$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 155
+$\teni <$\tenrm h3$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 157
+$\teni <$\tenrm /h3$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 158
+[] []
+
+\hbox(7.5+2.5)x65.93323
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 3
+..etc.
+.\glue 0.00188
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 161
+$\teni <$\tenrm f3$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 163
+$\teni <$\tenrm /f3$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 164
+$\teni <$\tenrm /h2$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 165
+[][][][][]
+
+\hbox(7.5+2.5)x201.5686
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 2
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 3
+..etc.
+.\pdfrefxform(7.5+2.5)x65.93323
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 168
+$\teni <$\tenrm f2$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 170
+$\teni <$\tenrm /f2$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 171
+$\teni <$\tenrm /h1$\teni >$
+
+\hbox(7.5+2.5)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 172
+[][][][][]
+
+\hbox(7.5+2.5)x337.21924
+.\hbox(6.94444+0.39098)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 1
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 2
+..etc.
+.\pdfrefxform(7.5+2.5)x201.5686
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 175
+$\teni <$\tenrm f1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 177
+$\teni <$\tenrm /f1$\teni >$
+
+\hbox(7.5+2.5)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 178
+$\teni <$\tenrm /h0$\teni >$
+
+\hbox(7.5+2.5)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 179
+[][][][][]
+
+\hbox(7.5+2.5)x540.65094
+.\hbox(6.94444+0.39098)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 0
+..etc.
+.\hbox(6.94444+0.39098)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 1
+..etc.
+.\pdfrefxform(7.5+2.5)x337.21924
+.\hbox(7.5+2.5)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Overfull \hbox (83.95154pt too wide) in paragraph at lines 145--180
+\tenrm II.:[] |
+
+\hbox(7.5+2.5)x469.75499
+.\tenrm I
+.\kern0.27779
+.\tenrm I
+.\tenrm .
+.\tenrm :
+.etc.
+
+[5]
+Underfull \hbox (badness 10000) detected at line 184
+$\teni <$\tenrm h0$\teni >$
+
+\hbox(6.94444+0.39098)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 0
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 186
+$\teni <$\tenrm h1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 188
+$\teni <$\tenrm h2$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 190
+$\teni <$\tenrm h3$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 192
+$\teni <$\tenrm /h3$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 193
+[] []
+
+\hbox(7.5+2.5)x65.93323
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 3
+..etc.
+.\glue 0.00188
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 196
+$\teni <$\tenrm f3$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 198
+$\teni <$\tenrm /f3$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 199
+$\teni <$\tenrm /h2$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 200
+[][][][][]
+
+\hbox(7.5+2.5)x201.5686
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 2
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 3
+..etc.
+.\pdfrefxform(7.5+2.5)x65.93323
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 203
+$\teni <$\tenrm f2$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 205
+$\teni <$\tenrm /f2$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 206
+$\teni <$\tenrm /h1$\teni >$
+
+\hbox(7.5+2.5)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 207
+[][][][][]
+
+\hbox(7.5+2.5)x337.21924
+.\hbox(6.94444+0.39098)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 1
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 2
+..etc.
+.\pdfrefxform(7.5+2.5)x201.5686
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 210
+$\teni <$\tenrm f1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 212
+$\teni <$\tenrm /f1$\teni >$
+
+\hbox(7.5+2.5)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 213
+$\teni <$\tenrm /h0$\teni >$
+
+\hbox(7.5+2.5)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 214
+[][][][][]
+
+\hbox(7.5+2.5)x540.65094
+.\hbox(6.94444+0.39098)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 0
+..etc.
+.\hbox(6.94444+0.39098)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 1
+..etc.
+.\pdfrefxform(7.5+2.5)x337.21924
+.\hbox(7.5+2.5)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Overfull \hbox (82.84042pt too wide) in paragraph at lines 180--215
+\tenrm .I.:[] |
+
+\hbox(7.5+2.5)x469.75499
+.\tenrm .
+.\tenrm I
+.\tenrm .
+.\tenrm :
+.\hbox(7.5+2.5)x540.65094
+..\hbox(6.94444+0.39098)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm h
+...\tenrm 0
+...etc.
+..\hbox(6.94444+0.39098)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm f
+...\tenrm 1
+...etc.
+..\pdfrefxform(7.5+2.5)x337.21924
+..\hbox(7.5+2.5)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm f
+...etc.
+..\hbox(7.5+2.5)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm h
+...etc.
+.etc.
+
+[6]
+Underfull \hbox (badness 10000) detected at line 219
+$\teni <$\tenrm h0$\teni >$
+
+\hbox(6.94444+0.39098)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 0
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 221
+$\teni <$\tenrm h1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 223
+$\teni <$\tenrm h2$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 225
+$\teni <$\tenrm h3$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 227
+$\teni <$\tenrm /h3$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 228
+[] []
+
+\hbox(7.5+2.5)x65.93323
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 3
+..etc.
+.\glue 0.00188
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 231
+$\teni <$\tenrm f3$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 233
+$\teni <$\tenrm /f3$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 234
+$\teni <$\tenrm /h2$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 235
+[][][][][]
+
+\hbox(7.5+2.5)x201.5686
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 2
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 3
+..etc.
+.\pdfrefxform(7.5+2.5)x65.93323
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 238
+$\teni <$\tenrm f2$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 240
+$\teni <$\tenrm /f2$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 241
+$\teni <$\tenrm /h1$\teni >$
+
+\hbox(7.5+2.5)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 242
+[][][][][]
+
+\hbox(7.5+2.5)x337.21924
+.\hbox(6.94444+0.39098)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 1
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 2
+..etc.
+.\pdfrefxform(7.5+2.5)x201.5686
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 245
+$\teni <$\tenrm f1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 247
+$\teni <$\tenrm /f1$\teni >$
+
+\hbox(7.5+2.5)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 248
+$\teni <$\tenrm /h0$\teni >$
+
+\hbox(7.5+2.5)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 249
+[][][][][]
+
+\hbox(7.5+2.5)x540.65094
+.\hbox(6.94444+0.39098)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 0
+..etc.
+.\hbox(6.94444+0.39098)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 1
+..etc.
+.\pdfrefxform(7.5+2.5)x337.21924
+.\hbox(7.5+2.5)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Overfull \hbox (82.84042pt too wide) in paragraph at lines 215--250
+\tenrm I..:[] |
+
+\hbox(7.5+2.5)x469.75499
+.\tenrm I
+.\tenrm .
+.\tenrm .
+.\tenrm :
+.\hbox(7.5+2.5)x540.65094
+..\hbox(6.94444+0.39098)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm h
+...\tenrm 0
+...etc.
+..\hbox(6.94444+0.39098)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm f
+...\tenrm 1
+...etc.
+..\pdfrefxform(7.5+2.5)x337.21924
+..\hbox(7.5+2.5)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm f
+...etc.
+..\hbox(7.5+2.5)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm h
+...etc.
+.etc.
+
+[7]
+Underfull \hbox (badness 10000) detected at line 254
+$\teni <$\tenrm h0$\teni >$
+
+\hbox(6.94444+0.39098)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 0
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 256
+$\teni <$\tenrm h1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 258
+$\teni <$\tenrm h2$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 260
+$\teni <$\tenrm h3$\teni >$
+
+\hbox(6.94444+0.39098)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm h
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 262
+$\teni <$\tenrm /h3$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 263
+[] []
+
+\hbox(7.5+2.5)x65.93323
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 3
+..etc.
+.\glue 0.00188
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 266
+$\teni <$\tenrm f3$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 3
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 268
+$\teni <$\tenrm /f3$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 269
+$\teni <$\tenrm /h2$\teni >$
+
+\hbox(7.5+2.5)x32.0438
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 270
+[][][][][]
+
+\hbox(7.5+2.5)x201.5686
+.\hbox(6.94444+0.39098)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 2
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 3
+..etc.
+.\pdfrefxform(7.5+2.5)x65.93323
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.0438
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 273
+$\teni <$\tenrm f2$\teni >$
+
+\hbox(6.94444+0.39098)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 2
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 275
+$\teni <$\tenrm /f2$\teni >$
+
+\hbox(7.5+2.5)x32.04349
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 276
+$\teni <$\tenrm /h1$\teni >$
+
+\hbox(7.5+2.5)x32.04362
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 277
+[][][][][]
+
+\hbox(7.5+2.5)x337.21924
+.\hbox(6.94444+0.39098)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 1
+..etc.
+.\hbox(6.94444+0.39098)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 2
+..etc.
+.\pdfrefxform(7.5+2.5)x201.5686
+.\hbox(7.5+2.5)x32.04349
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04362
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Underfull \hbox (badness 10000) detected at line 280
+$\teni <$\tenrm f1$\teni >$
+
+\hbox(6.94444+0.39098)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm f
+.\tenrm 1
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 282
+$\teni <$\tenrm /f1$\teni >$
+
+\hbox(7.5+2.5)x32.04347
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm f
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 283
+$\teni <$\tenrm /h0$\teni >$
+
+\hbox(7.5+2.5)x32.04346
+.\mathon
+.\teni <
+.\mathoff
+.\tenrm /
+.\tenrm h
+.etc.
+
+
+Underfull \hbox (badness 10000) detected at line 284
+[][][][][]
+
+\hbox(7.5+2.5)x540.65094
+.\hbox(6.94444+0.39098)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm h
+..\tenrm 0
+..etc.
+.\hbox(6.94444+0.39098)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm f
+..\tenrm 1
+..etc.
+.\pdfrefxform(7.5+2.5)x337.21924
+.\hbox(7.5+2.5)x32.04347
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm f
+..etc.
+.\hbox(7.5+2.5)x32.04346
+..\mathon
+..\teni <
+..\mathoff
+..\tenrm /
+..\tenrm h
+..etc.
+
+
+Overfull \hbox (82.0071pt too wide) in paragraph at lines 250--285
+\tenrm ...:[] |
+
+\hbox(7.5+2.5)x469.75499
+.\tenrm .
+.\tenrm .
+.\tenrm .
+.\tenrm :
+.\hbox(7.5+2.5)x540.65094
+..\hbox(6.94444+0.39098)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm h
+...\tenrm 0
+...etc.
+..\hbox(6.94444+0.39098)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm f
+...\tenrm 1
+...etc.
+..\pdfrefxform(7.5+2.5)x337.21924
+..\hbox(7.5+2.5)x32.04347
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm f
+...etc.
+..\hbox(7.5+2.5)x32.04346
+...\mathon
+...\teni <
+...\mathoff
+...\tenrm /
+...\tenrm h
+...etc.
+.etc.
+
+[8] )</Volumes/Users/TL/2027-dev/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+10.pfb></Volumes/Users/TL/2027-dev/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r10.pfb>
+Output written on forminform4.pdf (8 pages, 30070 bytes).
+PDF statistics:
+ 87 PDF objects out of 1000 (max. 8388607)
+ 50 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 145 words of extra memory for PDF output out of 10000 (max. 10000000)
+

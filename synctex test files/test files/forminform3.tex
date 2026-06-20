@@ -1,49 +1,85 @@
 \synctex=-15
 \noindent
-\setbox1=\hbox to 2000000sp{$p$\hfill$q$}%
+% hbox -> XForm
+\setbox1=\hbox to 2000000sp{$hbox$\hfill$1$}%
 \pdfxform 1%
-\hbox to 1000000sp{XX}%
+\hbox to 1000000sp{1=}%
 \pdfrefxform\pdflastxform%
-\hbox to 1000000sp{YY}%
+\hbox to 1000000sp{=1}%
 \noindent \hrule height 200000sp
 \noindent\leavevmode
-\setbox2=\vbox to 1000000sp{\hbox to 2000000sp{$p$\hfill$q$}}%
+% vbox -> XForm
+\setbox2=\vbox to 1000000sp{\hbox to 2000000sp{$vbox$\hfill$2$}}%
 \pdfxform 2%
-\hbox to 1000000sp{XX}%
+\hbox to 1000000sp{2=}%
 \pdfrefxform\pdflastxform%
-\hbox to 1000000sp{YY}%
+\hbox to 1000000sp{=2}%
 \vfill\eject
+\noindent
 \leavevmode
-\hbox to 1000000sp{XX}%
-\pdfrefxform\pdflastxform%
-\hbox to 1000000sp{YY}%
-\vfill\eject
-\leavevmode
-\hbox to 1000000sp{%
-\setbox3=\hbox to 2000000sp{$q$\hfill$p$}%
+form in hbox%
+\par\noindent
+(\hbox to 4000000sp{%
+\setbox3=\hbox to 2000000sp{$hbox$\hfill$3$}%
 \pdfxform 3%
-\hbox to 1000000sp{XX}%
+$<$3%
 \pdfrefxform\pdflastxform%
-ZZ}%
+$>$3%
+})%
 \vfill\eject
+\noindent
 \leavevmode
-Text before
+form in form's hbox in hbox
 \par\noindent
-\hbox to 1000000sp{%
-\setbox4=\hbox to 2000000sp{$q$\hfill$q$}%
-\immediate\pdfxform 4%
-\hbox to 1000000sp{XX}%
-\pdfrefxform\pdflastxform%
-AA}%
-\par\noindent
-Text after
+\hbox to 23456789sp{(0\hfill%
+  \setbox1=\hbox to 4000000sp{(1%
+    \hfill%
+    \setbox2=\hbox to 2000000sp{(2%
+      \hfill%
+    )2}%
+    \pdfxform 2%
+    \pdfrefxform\pdflastxform%
+    \hfill%
+  )1}%
+  $<1>$\hfill%
+  \pdfxform 1%
+  \pdfrefxform\pdflastxform%
+  \hfill$</1>$%
+  \hfill)0}%
 
-sdf sdf sdf sdf sdf sdf sdf sdf 
-sdf sdf sdf sdf sdf sdf sdf sdf 
-sdf sdf sdf sdf sdf sdf sdf sdf 
-sdf sdf sdf sdf sdf sdf sdf sdf 
-sdf sdf sdf sdf sdf sdf sdf sdf 
-sdf sdf sdf sdf sdf sdf sdf sdf 
-sdf sdf sdf sdf sdf sdf sdf sdf 
-sdf sdf sdf sdf sdf sdf sdf sdf 
+%\hbox to 2000000sp{2b=}%
+%\pdfrefxform\pdflastxform%
+%\hbox to 2000000sp{=2b}%
+%\vfill\eject
+%\leavevmode
+%\hbox to 4500000sp{%
+%\setbox3=\hbox to 1500000sp{$hbox$\hfill$3$}%
+%\pdfxform 3%
+%\hbox to 2000000sp{3=}%
+%\pdfrefxform\pdflastxform%
+%=3}%
+%\vfill\eject
+%\leavevmode
+%Define the form inside a hbox
+%\par\noindent
+%\hbox to 6000000sp{%
+%  \setbox5<\hbox to 2000000sp{
+%    $hbox$%
+%    \hfill
+%    $5=$%
+%  }%
+%  \hbox to 2000000sp{4=}%
+%    \pdfrefxform\pdflastxform%
+%    \hbox to 2000000sp{=6}/%
+%  \hbox to 2000000sp{>5}/%  
+%  }%
+%  \immediate\pdfxform 5%
+%  \hbox to 2000000sp{5<}%
+%  \pdfrefxform\pdflastxform%
+%  \hbox to 2000000sp{>5}%
+%}/%
+%\par\noindent
+%Text after
+%
+%Define a form inside a hbox inside a form's hbox.
 \end

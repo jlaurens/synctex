@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Volumes/Users/GitHub/jlaurens/synctex/cpp/src/SyncTeXNode'
+relocations:     []
+...
