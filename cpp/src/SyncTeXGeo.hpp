@@ -157,12 +157,6 @@ public:
      *  If the argument is a pdf form reference, then the child is used and returned instead.
      *  Last revision: Mon Apr 24 07:05:27 UTC 2017
      */
-    // virtual int h_distance_to(const hv_s &hv) const {
-    //     return h_distance_to(box(), hv);
-    // }
-    // virtual int h_relative_to(const hv_s &hv) const {
-    //     return h_relative_to(box(), hv);
-    // }
     virtual int h_distance_to(const hv_s &hv) const {
         auto we = this->we();
         if (we.w < hv.h) {
@@ -223,8 +217,8 @@ public:
      */
     virtual bool contains(const hv_s &hv) const { return false; };
 
-        /**
-     * @brief Whether the receiver contains the hit point
+    /**
+     * @brief Whether the receiver contains the hit point, whatever horizontal coordinate.
      * 
      * The default implementation always returns false.
      * 
@@ -240,35 +234,3 @@ public:
 
 #endif // SYNCTEX_GEO_HPP
 
-#if 0
-Next does not belong here.
-    /**
-     * @brief Undocumented
-     * 
-     *  The returned proxy will be the child or a sibling of owning_proxy.
-     *  The returned proxy has no above, nor below node.
-     *  Used only by below and right methods
-     *  to create proxies on the fly.
-     *  If the target already has a computed right,
-     *  then the returned proxy has itself a right
-     *  pointing to that already computed right.
-     * 
-     * @param to_p the target
-     * @return 
-     */
-    virtual Node_p new_below_proxy_to(Node_p to_p) { return nullptr; };
-    
-    /**
-     * @brief Undocumented
-     * 
-     *  Given a target node, create a list of proxies.
-     *  The first proxy points to the target node,
-     *  its sibling points to the target's sibling and so on.
-     *  Returns the first created proxy, the last one and
-     *  an error status.
-     * 
-     * @param to_p 
-     * @return nnr_s 
-     */
-    virtual nnr_s new_below_proxies_to(Node_p to_p);
-#endif

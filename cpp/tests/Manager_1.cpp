@@ -26,8 +26,15 @@ TEST_CASE("POC") {
 TEST_CASE("0") {
     auto m_p = Manager::make_p("0", "", true);
     int i = 0;
-    m_p->parse(i);
+    CHECK_EQ(m_p->parse(i), Status::Done);
     CHECK_EQ(i, 0);
+    auto s_p = m_p->sheet_p(1);
+    CHECK(s_p); 
+    auto ans = m_p->edit(1,0,0);
+    CHECK(ans.empty());
+    SYNCTEX_COVERAGE_REQUIRE(Manager::edit);
+    // SYNCTEX_COVERAGE_REQUIRE(Manager::edit/s_p);
+    // SYNCTEX_COVERAGE_REQUIRE(Manager::edit/b_p);
 }
 
 TEST_SUITE_END();

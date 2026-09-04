@@ -105,6 +105,7 @@ protected:
         }
         return {nullptr, nullptr};
     }
+
     Bi_s closest_deep_below_v2(const hv_s &hv) const override;
     Bi_s eq_closest_below_v2(const hv_s &hv) const override;
 

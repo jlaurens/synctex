@@ -265,7 +265,7 @@ test_Tree_0 = executable(
   dependencies: [doctest_dep,],
 #  link_with: [synctexpplib,],
   install: false,
-  cpp_args : ['-DSYNCTEX_TEST'],
+  cpp_args : ['-DSYNCTEX_TEST', '-DSYNCTEX_COVERAGE'],
 )
 # Enable Meson's test runner
 test(
@@ -415,6 +415,7 @@ test_Input_0 = executable(
 #  link_with: [synctexpplib,],
   install: false,
   override_options: ['cpp_std=c++17'],
+  cpp_args : ['-DSYNCTEX_TEST', '-DSYNCTEX_COVERAGE'],
 )
 # Enable Meson's test runner
 test(
@@ -442,6 +443,7 @@ test_Form_0 = executable(
 #  link_with: [synctexpplib,],
   install: false,
   override_options: ['cpp_std=c++17'],
+  cpp_args : ['-DSYNCTEX_TEST', '-DSYNCTEX_COVERAGE'],
 )
 # Enable Meson's test runner
 test(
@@ -470,6 +472,7 @@ test_Reader_0 = executable(
 #  link_with: [synctexpplib,],
   install: false,
   override_options: ['cpp_std=c++17'],
+  cpp_args : ['-DSYNCTEX_TEST', '-DSYNCTEX_COVERAGE'],
 )
 # Enable Meson's test runner
 test(
@@ -486,6 +489,7 @@ test_Manager_0 = executable(
   'test_Manager_0',
   sources: [
     'Manager_0.cpp',
+    '../src/SyncTeXNode.cpp',
     '../src/SyncTeXManager.cpp',
     '../src/SyncTeXInput.cpp',
   ],
@@ -501,6 +505,7 @@ test_Manager_0 = executable(
 #  link_with: [synctexpplib,],
   install: false,
   override_options: ['cpp_std=c++17'],
+  cpp_args : ['-DSYNCTEX_TEST', '-DSYNCTEX_COVERAGE'],
 )
 # Enable Meson's test runner
 test(
@@ -533,6 +538,7 @@ test_Manager_1 = executable(
 #  link_with: [synctexpplib,],
   install: false,
   override_options: ['cpp_std=c++17'],
+  cpp_args : ['-DSYNCTEX_TEST', '-DSYNCTEX_COVERAGE'],
 )
 # Enable Meson's test runner
 test(
@@ -564,7 +570,7 @@ test_Proxy_0 = executable(
 #  link_with: [synctexpplib,],
   install: false,
   override_options: ['cpp_std=c++17'],
-  cpp_args : ['-DSYNCTEX_TEST'],
+  cpp_args : ['-DSYNCTEX_TEST', '-DSYNCTEX_COVERAGE'],
 )
 # Enable Meson's test runner
 test(
@@ -598,7 +604,7 @@ test_Parser_0 = executable(
 #  link_with: [synctexpplib,],
   install: false,
   override_options: ['cpp_std=c++17'],
-  cpp_args : ['-DSYNCTEX_TEST'],
+  cpp_args : ['-DSYNCTEX_TEST', '-DSYNCTEX_COVERAGE'],
 )
 # Enable Meson's test runner
 test(
@@ -632,7 +638,7 @@ test_Parser_1 = executable(
 #  link_with: [synctexpplib,],
   install: false,
   override_options: ['cpp_std=c++17'],
-  cpp_args : ['-DSYNCTEX_TEST'],
+  cpp_args : ['-DSYNCTEX_TEST', '-DSYNCTEX_COVERAGE'],
 )
 # Enable Meson's test runner
 test(

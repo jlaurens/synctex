@@ -88,6 +88,21 @@ class Parser
         Manager::I9on_p i_p,
         int &error_count
     );
+    /**
+     * @brief Parse the postamble section
+     * 
+     * The postamble contains the record count and possibly post scriptum data.
+     * 
+     * @param i_p A private manager implementation
+     * @param error_count The number of errors
+     * @return Status Done when everything went well
+     * @return Status EndOfData when the end of data has been reached
+     * @return Status Error when an error occurred
+     */
+    static Status parse_postamble(
+        Manager::I9on_p i_p,
+        int &error_count
+    );
     
     template<typename T>
     bool content_tlc_hv(int &error_count);

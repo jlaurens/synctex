@@ -31,7 +31,6 @@
 
 #ifndef SYNCTEX_COVERAGE
 #define SYNCTEX_COVERAGE(WHAT) true
-#define SYNCTEX_X_COVERAGE(WHAT) true
 #define SYNCTEX_R_COVERAGE(WHAT) true
 #define SYNCTEX_COVERAGE_PRINT(MSG) true
 #endif

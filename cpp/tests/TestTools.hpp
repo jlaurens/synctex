@@ -97,7 +97,9 @@ public:
     // Always returns true. Only stores `item` if recording is enabled
     // and the trimmed string is non-empty.
     static bool record(const std::string& item) {
+        std::cout << "******************* COVERAGE RECORD?" << std::endl;
         if (isEnabled()) {
+            std::cout << "******************* COVERAGE RECORD: " << item << std::endl;
             std::string trimmed = trim(item);
             if (!trimmed.empty()) {
                 stack().back().strings.push_back(trimmed);
@@ -109,7 +111,13 @@ public:
     // Always returns true. Only stores non-empty (after trim) items,
     // and only if recording is enabled.
     static bool record(const std::vector<std::string>& items) {
+        std::cout << "******************* COVERAGE RECORD?" << std::endl;
         if (isEnabled()) {
+            std::cout << "******************* COVERAGE RECORD:" << std::endl;
+            for (const auto& item : items) {
+                std::cout << item << ",";
+            }
+            std::cout << std::endl;
             auto& current = stack().back().strings;
             current.reserve(current.size() + items.size());
             for (const auto& item : items) {
@@ -123,6 +131,7 @@ public:
     }
 
     static void push() {
+        std::cout << "$$$$$$$$$$$$$$$ PUSH" << std::endl;
         bool inheritedEnabled = isEnabled();
         stack().push_back(Level{ {}, inheritedEnabled });
     }
@@ -145,19 +154,19 @@ public:
         if (sequence.empty()) {
             return true;
         }
-
-        std::vector<std::string> all = entries();
+        auto all = entries();
         std::size_t seqIdx = 0;
-
-        for (const auto& item : all) {
-            if (item == trim(sequence[seqIdx])) {
+        auto what = trim(sequence[seqIdx]);
+        for (const auto& item: all) {
+            if (item == what) {
                 ++seqIdx;
                 if (seqIdx == sequence.size()) {
+                    // all the sequence element were found
                     return true;
                 }
+                what = trim(sequence[seqIdx]);
             }
         }
-
         return false;
     }
 

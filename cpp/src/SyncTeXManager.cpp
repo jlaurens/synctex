@@ -109,54 +109,63 @@ Manager_p Manager::make_p(
 Status Manager::parse(int &error_count) {
     if (_i9on_p->_flags.has_parsed) return Status::Done;
     _i9on_p->_flags.has_parsed = 1;
-    if (Status::Done != _i9on_p->_reader_p->read_string(Prefix::VERSION)) {
+    auto r_p = _i9on_p->_reader_p;
+    if (!r_p) {
+        ++error_count;
+        return Status::ErrorLogical;
+    }
+    if (Status::Done != r_p->read_string(Prefix::VERSION)) {
         ++error_count;
         return Status::ErrorDataPreamble;
     }
     int i = 0;
-    if (Status::Done != _i9on_p->_reader_p->decode(i)) {
+    if (Status::Done != r_p->decode(i)) {
         ++error_count;
         return Status::ErrorDataPreamble;
     }
-    _i9on_p->_reader_p->require_endl();
+    r_p->require_endl();
     _i9on_p->_version = i;
     _i9on_p->read_input(i);
     #define SYNCTEX_PREAMBLE_READ(WHAT, WHERE)                          \
-    if (Status::Done != _i9on_p->_reader_p->read_string(Prefix::WHAT)) { \
+    if (Status::Done != r_p->read_string(Prefix::WHAT)) { \
         ++error_count;                                \
         return Status::ErrorDataPreamble;              \
     }                                                   \
-    if (Status::Done != _i9on_p->_reader_p->decode(i)) { \
+    if (Status::Done != r_p->decode(i)) { \
         ++error_count;                   \
         return Status::ErrorDataPreamble; \
     }                                      \
-    _i9on_p->_reader_p->require_endl();     \
+    r_p->require_endl();     \
     _i9on_p->WHERE = i
     SYNCTEX_PREAMBLE_READ(MAGNIFICATION, _pre_magnification);
     SYNCTEX_PREAMBLE_READ(UNIT, _pre_unit);
     SYNCTEX_PREAMBLE_READ(X_OFFSET, _pre_x_offset);
     SYNCTEX_PREAMBLE_READ(Y_OFFSET, _pre_y_offset);
-    if (Status::Done != _i9on_p->_reader_p->decode(i,'!')) {
+    if (Status::Done != r_p->decode(i,'!')) {
         ++error_count;
         return Status::ErrorDataPreamble;
     }
-    _i9on_p->_reader_p->require_endl();
-    if (Status::Done != _i9on_p->_reader_p->read_string(Prefix::CONTENT)) {
+    r_p->require_endl();
+    if (Status::Done != r_p->read_string(Prefix::CONTENT)) {
         ++error_count;
         return Status::ErrorDataContent;
     }
-    _i9on_p->_reader_p->require_endl();
-    if (Status::Done != _i9on_p->_reader_p->decode(i,'!')) {
+    r_p->require_endl();
+    if (Status::Done != r_p->decode(i,'!')) {
         ++error_count;
         return Status::ErrorDataContent;
     }
-    _i9on_p->_reader_p->require_endl();
+    r_p->require_endl();
+    // top level
     while (true) {
         auto status = Status::Done;
+        #undef SYNCTEX_READ
         #define SYNCTEX_READ(WHAT)  \
-            ((SYNCTEX_X_COVERAGE(WHAT)) && Status::Done == (status = _i9on_p->_reader_p->read_char(Prefix::WHAT)))
+            ((SYNCTEX_COVERAGE(WHAT)) && Status::Done == (status = r_p->read_char(Prefix::WHAT)))
+        #undef SYNCTEX_READ_ALT
         #define SYNCTEX_READ_ALT(WHAT)  \
-            (Status::Done == (status = _i9on_p->_reader_p->read_char(Prefix::WHAT)))
+            (Status::Done == (status = r_p->read_char(Prefix::WHAT)))
+
         if (SYNCTEX_READ(BEGIN_SHEET)) {
             if (Status::Done < (status = Parser::parse_sheet(_i9on_p, error_count))) {
                 return status;
@@ -166,31 +175,28 @@ Status Manager::parse(int &error_count) {
                 return status;
             }
         } else if (SYNCTEX_READ(ANCHOR)) {
-            if (Status::Done < _i9on_p->_reader_p->require_endl()) {
+            if (Status::Done < r_p->require_endl()) {
                 // std::cerr << "Missing anchor." << std::endl;
                 return Status::ErrorDataNoAnchor;
             }
         } else if (SYNCTEX_READ(COMMENT)) {
-            _i9on_p->_reader_p->require_endl();
+            r_p->require_endl();
         } else if (_i9on_p->read_input(error_count)) {
             ;
-        } else if (Status::Done == (status = _i9on_p->_reader_p->read_string("Postamble:"))) {
+        } else if (Status::Done == (status = r_p->read_string("Postamble:"))) {
             _i9on_p->_flags.postamble = 1;
-            return status;
-        } else if (Status::Done < (status = _i9on_p->_reader_p->skip_endl())) {
+            return Parser::parse_postamble(_i9on_p, error_count);
+        } else if (Status::Done < (status = r_p->skip_endl())) {
             // Coverage No file
             ++error_count;
             return status;
-        } else if (Status::Done < _i9on_p->_reader_p->expect(1)) { //At least 1 more character
+        } else if (Status::Done < r_p->expect(1)) { //At least 1 more character
             // std::cerr << "Incomplete synctex file, postamble missing." << std::endl;
             ++error_count;
             return Status::ErrorDataPostamble;
         }
     }
-    auto parser_p = Parser::make_p(_i9on_p);
-    auto status = parser_p->parse_content(error_count);
-    #warning Missingscan_postamble
-    return status;
+    return Status::ErrorLogical;
 }
 
 const fs::path Manager::output_directory() const {
@@ -262,6 +268,18 @@ Node_v Manager::edit(
     float h,
     float v
 ) {
+    std::cout << "********** Manager::edit BEFORE" << std::endl;
+    SYNCTEX_COVERAGE(Manager::edit);
+    std::cout << "********** Manager::edit AFFTER" << std::endl;
+    auto s_p = std::dynamic_pointer_cast<Sheet>(sheet_p(page));
+    if (s_p) {
+        SYNCTEX_COVERAGE(Manager::edit/s_p);
+        auto b_p = s_p->get_below_p();
+        if (b_p) {
+            SYNCTEX_COVERAGE(Manager::edit/b_p);
+            return Node_v();
+        }
+    }
     return Node_v();
 }
 

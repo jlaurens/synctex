@@ -64,7 +64,10 @@ class Proxy:
     int W() const override { return _target_p ? _target_p->W(): 0; }
     int H() const override { return _target_p ? _target_p->H(): 0; }
     int D() const override { return _target_p ? _target_p->D(): 0; }
-    
+
+    Below_p get_below_p()   const override { return _target_p ? _target_p->get_below_p(): nullptr; }
+    Below_p get_next_p()    const override { return _target_p ? _target_p->get_next_p():  nullptr; }
+
     // ni_s h_relative_to(const hv_s &hit) override;
     // ni_s v_relative_to(const hv_s &hit) override;
     // int distance(const hv_s &hit) override;

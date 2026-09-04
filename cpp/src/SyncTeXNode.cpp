@@ -74,7 +74,7 @@ we_s Node::we() const { return { w(), e() }; };
 ns_s Node::ns() const { return { n(), s() }; };
 
 tlc_s Node::tlc()   const { return {t(), l(), c()}; };
-hv_s Node::hv()   const { return {h(), v()}; };
+hv_s Node::hv()     const { return {h(), v()}; };
 tlc_hv_s Node::tlc_hv()   const { return {t(), l(), c(), h(), v()}; };
 tlc_hv_WHD_s Node::tlc_hv_WHD()   const { return {t(), l(), c(), h(), v(), W(), H(), D()}; };
 
@@ -91,13 +91,13 @@ Node_p Node::next_p() const {
   return p;
 }
 
-bool Node::isBox()     const { return false; }
-bool Node::isHBox()    const { return false; }
-bool Node::isVBox()    const { return false; }
+bool Node::isBox()      const { return false; }
+bool Node::isHBox()     const { return false; }
+bool Node::isVBox()     const { return false; }
 bool Node::is_below()   const { return false; }
 bool Node::is_above()   const { return false; }
-bool Node::isForm()    const { return false; }
-bool Node::isSheet()   const { return false; }
+bool Node::isForm()     const { return false; }
+bool Node::isSheet()    const { return false; }
 
 std::ostream & Node::log(std::ostream &o) const {
   return o << "⟨NONE⟩";

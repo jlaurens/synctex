@@ -58,16 +58,19 @@ Status Parser::parse_sheet(
     Manager::I9on_p i_p,
     int &error_count
 ) {
-    auto p = Parser::make_p(i_p);
+    auto r_p = i_p->_reader_p;
+    if (!r_p) {
+        ++error_count;
+        return Status::ErrorLogical;
+    }
+    Status status;
     int t = 0;
-    if (Status::Done < (p->_status = i_p->_reader_p->decode(t))) {
+    if (Status::Done < (status = r_p->decode(t))
+        || Status::Done < (status = r_p->require_endl())) {
         ++error_count;
-        return p->_status;
+        return status;
     }
-    if (Status::Done < (p->_status = i_p->_reader_p->require_endl())) {
-        ++error_count;
-        return p->_status;
-    }
+    auto p = Parser::make_p(i_p);
     p->_sheet_p = Sheet::make_p(t);
     p->_above_p = p->_sheet_p;
     i_p->_sheet_p_by_tag[t] = p->_sheet_p;
@@ -78,13 +81,15 @@ Status Parser::parse_form(
     Manager::I9on_p i_p,
     int &error_count
 ) {
+    auto r_p = i_p->_reader_p;
+    if (!r_p) {
+        ++error_count;
+        return Status::ErrorLogical;
+    }
     Status status;
     int t = 0;
-    if (Status::Done < (status = i_p->_reader_p->decode(t))) {
-        ++error_count;
-        return status;
-    }
-    if (Status::Done < i_p->_reader_p->require_endl()) {
+    if (Status::Done < (status = r_p->decode(t))
+        || Status::Done < r_p->require_endl()) {
         ++error_count;
         return Status::ErrorDataMissing;
     }
@@ -93,6 +98,50 @@ Status Parser::parse_form(
     p->_above_p = p->_form_p;
     i_p->_form_p_by_tag[t] = p->_form_p;
     return p->parse_content(error_count);
+}
+
+Status Parser::parse_postamble(
+    Manager::I9on_p i_p,
+    int &error_count
+) {
+    auto r_p = i_p->_reader_p;
+    if (!r_p) {
+        ++error_count;
+        return Status::ErrorLogical;
+    }
+    Status status;
+    
+    // Skip the end of line after "Postamble:"
+    if (Status::Done < (status = r_p->require_endl())) {
+        return status;
+    }
+    
+    // Look for the "Count:" record
+    while (true) {
+        if (Status::EndOfData < (status = r_p->read_string("Count:"))) {
+            return status; /*  forward the error */
+        } else if (Status::Done == status) {
+            break; /* Found Count: */
+        } else {
+            // Not found, skip this line and try again
+            if (Status::Done < (status = r_p->require_endl())) {
+                return Status::Done; /* The EndOfData is found */
+            }
+            continue;
+        }
+    }
+    
+    // Decode the count
+    if (Status::EndOfData < (status = r_p->decode(i_p->_count))) {
+        return status;
+    }
+    
+    // Require end of line after the count
+    if (Status::Done < (status = r_p->require_endl())) {
+        return Status::Done;
+    }
+    
+    return Status::Done;
 }
 
 // #define SYNCTEX_READ(WHAT)  \
@@ -311,6 +360,7 @@ Status Parser::parse_content(
         }
     }
 }
+#undef SYNCTEX_READ
 
 Status Parser::post_process_refs(int &error_count) {
     Status s = Status::Done;

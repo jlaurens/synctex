@@ -11,7 +11,7 @@
 #include <limits>
 #include <cstring>
 #include "SyncTeXBox.hpp"
-#include "SyncTeXNodeProxy.hpp"
+#include "SyncTeXProxy.hpp"
 
 namespace SyncTeXpp {
 
@@ -63,7 +63,7 @@ SYNCTEX_CPP_distance(VoidVBox)
 *     v   v
 */
 #define SYNCTEX_HPP_h_relative_to(CLS)    \
-ni_s CLS::h_relative_to(const hv_s &hit)  \
+int CLS::h_relative_to(const hv_s &hit)  \
 {                                                       \
     int d = std::numeric_limits<int>::max();            \
     int min, max, width;                                \
@@ -82,7 +82,7 @@ ni_s CLS::h_relative_to(const hv_s &hit)  \
         /*  regions 2+5+8, inside the box, except for vertical coordinates */ \
         d = 0;                                          \
     }                                                   \
-    return {shared_from_this(), d};                     \
+    return d;                     \
 }
 SYNCTEX_HPP_h_relative_to(VBox)
 SYNCTEX_HPP_h_relative_to(HBox)

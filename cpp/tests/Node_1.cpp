@@ -315,34 +315,3 @@ TEST_CASE("ONE L")  {
 
 
 TEST_SUITE_END();
-
-//     /**
-//      * @brief Undocumented
-//      * 
-//      *  The returned proxy will be the child or a sibling of owning_proxy.
-//      *  The returned proxy has no above, nor below node.
-//      *  Used only by below and right methods
-//      *  to create proxies on the fly.
-//      *  If the target already has a computed right,
-//      *  then the returned proxy has itself a right
-//      *  pointing to that already computed right.
-//      * 
-//      * @param to_p the target
-//      * @return 
-//      */
-//     virtual Node_p new_below_proxy_to(Node_p to_p) { return nullptr; };
-    
-//     /**
-//      * @brief Undocumented
-//      * 
-//      *  Given a target node, create a list of proxies.
-//      *  The first proxy points to the target node,
-//      *  its sibling points to the target's sibling and so on.
-//      *  Returns the first created proxy, the last one and
-//      *  an error status.
-//      * 
-//      * @param to_p 
-//      * @return nnr_s 
-//      */
-//     // virtual nnr_s new_below_proxies_to(Node_p to_p);
-// */

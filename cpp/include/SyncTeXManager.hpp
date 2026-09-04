@@ -99,7 +99,7 @@ class Manager:
     );
 
     private:
-    class I9on;
+    class I9on; // I9on -> Implementation
     using I9on_p = std::shared_ptr<I9on>;
     I9on_p _i9on_p;
 
