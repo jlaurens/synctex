@@ -390,3 +390,17 @@ test(
   'Parse decimal integers',
   test_parse_int_exe
 )
+
+test_display_query_exe = executable(
+  'test_display_query',
+  synctex_dir / 'test C' / 'test_display_query.c',
+  include_directories: [ synctex_inc ],
+  install: false,
+  link_with: [ synctex_lib ],
+  dependencies: [ zdep ]
+)
+test(
+  'Display query across source-line gaps',
+  test_display_query_exe,
+  args: [ meson.current_source_dir() / synctex_dir / 'test C' / 'display_query.pdf' ]
+)
