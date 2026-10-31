@@ -8281,6 +8281,9 @@ synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner, const
         if (line > max_line) {
             line = max_line;
         }
+#if !defined(__SYNCTEX_STRONG_DISPLAY_QUERY__)
+        int requested_line = line;
+#endif
         while (try_count--) {
             if (line <= max_line) {
                 /*  This loop will only be performed once for advanced viewers */
@@ -8344,6 +8347,35 @@ synctex_iterator_p synctex_iterator_new_display(synctex_scanner_p scanner, const
 #endif
             }
         }
+#if !defined(__SYNCTEX_STRONG_DISPLAY_QUERY__)
+        /* Long source-line gaps can exhaust the bounded search. Scan the
+         * index once, retaining the preference for following lines on ties. */
+        {
+            int nearest_line = -1;
+            long long nearest_distance = LLONG_MAX;
+            int i;
+            for (i = 0; i < scanner->number_of_lists; ++i) {
+                for (node = scanner->lists_of_friends[i]; node; node = _synctex_tree_friend(node)) {
+                    if (synctex_node_tag(node) == tag) {
+                        int candidate_line = synctex_node_line(node);
+                        long long distance = (long long)candidate_line - requested_line;
+                        if (distance < 0) {
+                            distance = -distance;
+                        }
+                        if (distance < nearest_distance || (distance == nearest_distance && candidate_line > nearest_line)) {
+                            nearest_line = candidate_line;
+                            nearest_distance = distance;
+                        }
+                    }
+                }
+            }
+            /* The retry is an exact lookup. Do not retry the same line if
+             * creating its result failed, e.g. because allocation failed. */
+            if (nearest_line >= 0 && nearest_line != requested_line) {
+                return synctex_iterator_new_display(scanner, name, nearest_line, column, page_hint);
+            }
+        }
+#endif
     }
     return NULL;
 }
